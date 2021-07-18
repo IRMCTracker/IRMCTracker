@@ -1,0 +1,83 @@
+import datetime
+from config import get
+import matplotlib.pyplot as plt
+from mcstatus import MinecraftServer
+
+class MCServer:
+    def __init__(self, server_name, server_address, server_real_address = None):
+        self.server_name = server_name
+        self.server_address = server_address
+        self.server_real_address = server_real_address
+    
+        self.server = self.lookup()
+        
+        self.status = self.get_status()
+
+    def lookup(self):
+        return MinecraftServer.lookup(self.server_address + ':25565')
+
+    def get_status(self):
+        try:
+            data = self.server.status()
+        except:
+            data = None
+        
+        return data
+    
+    def get_online_players(self):
+        return self.status.players.online if self.status != None else 0
+
+    def get_latency(self):
+        return self.status.latency if self.status != None else 0
+
+    def get_name(self):
+        return self.server_name
+
+class MCTracker:
+    def __init__(self):
+        self.servers_config = get('servers')
+        self.data = []
+        self.is_fetched = False
+
+    def fetch_all(self):        
+        for server in self.servers_config:
+            self.data.append(MCServer(server['name'], server['address']))
+        
+        self.is_fetched = True
+
+        return self.data
+
+    def sort_all(self):
+        if not self.is_fetched:
+            return print('You should exec MCTracker#fetch_all first!')
+        
+        self.data.sort(key=lambda x: x.get_online_players(), reverse=True)
+
+        return self.data
+
+
+    def separated_names_and_players(self):
+        names = []
+        players = []
+
+        for server in self.data:
+            names.append(server.get_name())
+            players.append(server.get_online_players())
+            
+        return {'names': names, 'players': players}
+
+    def draw_chart(self, output_file='chart.png'):
+        separated = self.separated_names_and_players()
+
+        names = separated['names']
+        players = separated['players']
+        colors = ['lime','green','darkgreen', 'gold', 'yellow', 'khaki', 'orangered', 'indianred', 'firebrick', 'firebrick']
+
+        fig = plt.figure(figsize=(13,7))
+        plt.bar(names, players, color=colors)
+        plt.title(f"Iranian MineCraft Servers - {datetime.datetime.now():%Y-%m-%d %I:%M:%S}")
+        plt.xlabel('Server Names', fontsize=8, labelpad=5)
+        plt.ylabel('Players Count', fontsize=8, labelpad=5)
+        plt.savefig('test.png')
+
+        return output_file
