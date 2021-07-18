@@ -36,6 +36,8 @@ class Tracker(commands.Cog):
                 embed.set_image(url="attachment://chart.png")
                 await hourly_channel.send(file=file, embed=embed)
 
+                os.remove('chart.png')
+
     @commands.command()
     async def test(self,ctx):
         
