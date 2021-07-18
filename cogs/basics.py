@@ -11,7 +11,7 @@ class Basics(commands.Cog):
         await ctx.send("Pong!")
 
     @commands.command(aliases=["h"])
-    async def help(ctx):
+    async def help(self, ctx):
         embed = discord.Embed(title="🥇 Live Stats category", description="Har 5 daghighe 3 server bartar ro ba tedad player ha neshoon mide", color=0x00D166)
         await ctx.send(embed=embed)
 
