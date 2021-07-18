@@ -5,6 +5,7 @@ from config import get
 
 
 bot = commands.Bot(command_prefix=get('bot.command_prefix'))
+bot.remove_command('help')
 
 @bot.event
 async def on_ready():
