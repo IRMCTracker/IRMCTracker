@@ -1,24 +1,49 @@
+import os
 from config import get
 from mcserver import MCTracker
+from datetime import datetime as dt
+import discord
 from discord.ext import commands, tasks
 
 class Tracker(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @tasks.loop(minutes=3)
+    @tasks.loop(minutes=1)
     async def tracker_tick(self):
-        tracker = MCTracker()
-        tracker.fetch_all()
-        sorted_servers = tracker.sort_all()
+        minute = dt.now().minute
+        if minute % 5 == 0 or minute == 0:
+            tracker = MCTracker()
+            tracker.fetch_all()
+            sorted_servers = tracker.sort_all()
 
-        top1vc = self.bot.get_channel(866289711050784788)
-        top2vc = self.bot.get_channel(866289915783544832)
-        top3vc = self.bot.get_channel(866290014274584606)
+            if minute % 5 == 0:
+                top1vc = self.bot.get_channel(866289711050784788)
+                top2vc = self.bot.get_channel(866289915783544832)
+                top3vc = self.bot.get_channel(866290014274584606)
 
-        await top1vc.edit(name=f"🥇 {sorted_servers[0].get_name()} [{sorted_servers[0].get_online_players()}]")
-        await top2vc.edit(name=f"🥈 {sorted_servers[1].get_name()} [{sorted_servers[1].get_online_players()}]")
-        await top3vc.edit(name=f"🥉 {sorted_servers[2].get_name()} [{sorted_servers[2].get_online_players()}]")
+                await top1vc.edit(name=f"🥇 {sorted_servers[0].get_name()} [{sorted_servers[0].get_online_players()}]")
+                await top2vc.edit(name=f"🥈 {sorted_servers[1].get_name()} [{sorted_servers[1].get_online_players()}]")
+                await top3vc.edit(name=f"🥉 {sorted_servers[2].get_name()} [{sorted_servers[2].get_online_players()}]")
+            if minute == 0:
+                tracker.draw_chart()
+                
+                hourly_channel = self.bot.get_channel(866288509269966878)
+
+                embed = discord.Embed(title="Hourly Track", description=f"🥇 **{sorted_servers[0].get_name()}** in the lead with **{sorted_servers[0].get_online_players()}** Players", color=0x00D166) #creates embed
+                embed.set_footer(text=f"IRMCTracker Bot - {dt.now():%Y-%m-%d %I:%M:%S}")
+                file = discord.File("chart.png", filename="chart.png")
+                embed.set_image(url="attachment://chart.png")
+                await hourly_channel.send(file=file, embed=embed)
+
+    @commands.command()
+    async def test(self,ctx):
+        
+        embed = discord.Embed(title="Hourly Track", description=f"🥇 **MadCraft** in the lead with **29** Players", color=0x00D166) #creates embed
+        embed.set_footer(text=f"IRMCTracker Bot - {dt.now():%Y-%m-%d %I:%M:%S}")
+        file = discord.File("chart.png", filename="chart.png")
+        embed.set_image(url="attachment://chart.png")
+        await ctx.send(file=file, embed=embed)
 
 def setup(client):
     client.add_cog(Tracker(client))

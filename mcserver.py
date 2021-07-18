@@ -78,6 +78,6 @@ class MCTracker:
         plt.title(f"Iranian MineCraft Servers - {datetime.datetime.now():%Y-%m-%d %I:%M:%S}")
         plt.xlabel('Server Names', fontsize=8, labelpad=5)
         plt.ylabel('Players Count', fontsize=8, labelpad=5)
-        plt.savefig('test.png')
+        plt.savefig(output_file)
 
         return output_file
