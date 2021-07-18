@@ -81,3 +81,16 @@ class MCTracker:
         plt.savefig(output_file)
 
         return output_file
+    
+    def zero_player_count(self):
+        count = 0
+        for server in self.data:
+            if server.get_online_players() == 0:
+                count += 1
+        return count
+
+    def all_player_count(self):
+        total = 0
+        for server in self.data:
+            total += server.get_online_players()
+        return total

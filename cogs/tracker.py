@@ -22,9 +22,15 @@ class Tracker(commands.Cog):
                 top2vc = self.bot.get_channel(866289915783544832)
                 top3vc = self.bot.get_channel(866290014274584606)
 
+                totalvc = self.bot.get_channel(866377410102296596)
+                zerovc = self.bot.get_channel(866377830089621504)
+
                 await top1vc.edit(name=f"🥇 {sorted_servers[0].get_name()} [{sorted_servers[0].get_online_players()}👥]")
                 await top2vc.edit(name=f"🥈 {sorted_servers[1].get_name()} [{sorted_servers[1].get_online_players()}👥]")
                 await top3vc.edit(name=f"🥉 {sorted_servers[2].get_name()} [{sorted_servers[2].get_online_players()}👥]")
+
+                await totalvc.edit(name=f"💎 All Players [{tracker.all_player_count()}👥]")
+                await zerovc.edit(name=f"📈 Empty Count [{tracker.zero_player_count()}🔨]")
             if minute == 0:
                 tracker.draw_chart()
                 
