@@ -17,12 +17,10 @@ class Tracker(commands.Cog):
 
     @tasks.loop(seconds=20, reconnect=True)
     async def tracker_activity_tick(self):
-        print('a')
         await self.update_activity()
     
     @tasks.loop(minutes=1)
     async def tracker_tick(self):
-        print('b')
         minute = dt.now().minute
 
 
@@ -87,7 +85,6 @@ class Tracker(commands.Cog):
     
 
     async def update_activity(self):
-        print('yas')
         await self.bot.wait_until_ready()
 
         if self.current_activity_count == 1:
@@ -97,14 +94,14 @@ class Tracker(commands.Cog):
                     )
                 )
             self.current_activity_count += 1
-        if self.current_activity_count == 2:
+        elif self.current_activity_count == 2:
             await self.bot.change_presence(
                     activity=discord.Activity(
                         type=discord.ActivityType.watching, name=f"🥈 {self.sorted_servers[1].get_name()} [{self.sorted_servers[1].get_online_players()}👥"
                     )
                 )
             self.current_activity_count += 1
-        if self.current_activity_count == 3:
+        elif self.current_activity_count == 3:
             await self.bot.change_presence(
                     activity=discord.Activity(
                         type=discord.ActivityType.watching, name=f"🥉 {self.sorted_servers[2].get_name()} [{self.sorted_servers[2].get_online_players()}👥]"
