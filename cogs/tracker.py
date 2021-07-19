@@ -23,7 +23,6 @@ class Tracker(commands.Cog):
     async def tracker_tick(self):
         minute = dt.now().minute
 
-
         if minute % 5 == 0 or minute == 0:
             tracker = MCTracker()
             tracker.fetch_all()
@@ -85,8 +84,6 @@ class Tracker(commands.Cog):
     
 
     async def update_activity(self):
-        await self.bot.wait_until_ready()
-
         if self.current_activity_count == 1:
             await self.bot.change_presence(
                     activity=discord.Activity(
