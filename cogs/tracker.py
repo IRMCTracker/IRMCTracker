@@ -51,13 +51,27 @@ class Tracker(commands.Cog):
                 os.remove('chart.png')
 
     @commands.command()
-    async def test(self,ctx):
-        
-        embed = discord.Embed(title="Hourly Track", description=f"🥇 **MadCraft** in the lead with **29** Players", color=0x00D166) #creates embed
+    async def sendhourly(self,ctx):
+        if ctx.author.id != 296565827115941889:
+            return
+            
+        tracker = MCTracker()
+        tracker.fetch_all()
+        sorted_servers = tracker.sort_all()
+
+        tracker.draw_chart()
+                
+        hourly_channel = self.bot.get_channel(866288509269966878)
+
+        embed = discord.Embed(title="Hourly Track", description=f"🥇 **{sorted_servers[0].get_name()}** in the lead with **{sorted_servers[0].get_online_players()}** Players", color=0x00D166) #creates embed
         embed.set_footer(text=f"IRMCTracker Bot - {dt.now():%Y-%m-%d %I:%M:%S}")
         file = discord.File("chart.png", filename="chart.png")
         embed.set_image(url="attachment://chart.png")
-        await ctx.send(file=file, embed=embed)
+        await hourly_channel.send(file=file, embed=embed)
+
+        os.remove('chart.png')
+    
+
 
 def setup(client):
     client.add_cog(Tracker(client))
