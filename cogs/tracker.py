@@ -17,12 +17,13 @@ class Tracker(commands.Cog):
 
     @tasks.loop(seconds=20, reconnect=True)
     async def tracker_activity_tick(self):
+        print('b')
         await self.update_activity()
     
     @tasks.loop(minutes=1)
     async def tracker_tick(self):
         minute = dt.now().minute
-
+        print('a')
         if minute % 5 == 0 or minute == 0:
             tracker = MCTracker()
             tracker.fetch_all()
