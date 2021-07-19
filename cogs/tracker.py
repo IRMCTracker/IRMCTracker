@@ -17,10 +17,12 @@ class Tracker(commands.Cog):
 
     @tasks.loop(seconds=30.0)
     async def tracker_activity_tick(self):
+        print('a')
         await self.update_activity()
     
     @tasks.loop(minutes=1)
     async def tracker_tick(self):
+        print('b')
         minute = dt.now().minute
 
 
