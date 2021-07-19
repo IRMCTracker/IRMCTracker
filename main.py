@@ -13,7 +13,7 @@ async def on_ready():
 
     await bot.change_presence(
         activity=discord.Activity(
-            type=discord.ActivityType.watching, name=str(get('bot.activity')).replace("%count%", len(get('servers')))
+            type=discord.ActivityType.watching, name=str(get('bot.activity')).replace("%count%", str(len(get('servers'))))
         )
     )
 
