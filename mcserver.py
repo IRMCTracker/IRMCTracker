@@ -71,7 +71,7 @@ class MCTracker:
 
         names = separated['names']
         players = separated['players']
-        colors = ['lime','green','darkgreen', 'gold', 'yellow', 'khaki', 'orangered', 'indianred', 'firebrick', 'firebrick']
+        colors = ['lime','green','green','darkgreen','darkgreen', 'gold', 'yellow', 'khaki', 'orangered', 'indianred', 'firebrick', 'firebrick']
 
         fig = plt.figure(figsize=(13,7))
         plt.bar(names, players, color=colors)
