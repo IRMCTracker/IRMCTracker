@@ -11,7 +11,11 @@ bot.remove_command('help')
 async def on_ready():
     print('\nWe\'re up n running {0.user}'.format(bot))
 
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=get('bot.activity')))
+    await bot.change_presence(
+        activity=discord.Activity(
+            type=discord.ActivityType.watching, name=str(get('bot.activity')).replace("%count%", len(get('servers')))
+        )
+    )
 
     tracker = bot.get_cog('Tracker')
     await tracker.tracker_tick.start()
