@@ -61,7 +61,8 @@ class MCTracker:
         players = []
 
         for server in self.data:
-            names.append(server.get_name())
+            name = server.get_name()
+            names.append((name[:8] + '..') if len(name) > 8 else name)
             players.append(server.get_online_players())
             
         return {'names': names, 'players': players}
