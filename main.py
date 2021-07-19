@@ -19,6 +19,7 @@ async def on_ready():
 
     tracker = bot.get_cog('Tracker')
     await tracker.tracker_tick.start()
+    await tracker.tracker_activity_tick.start()
 
 
 @bot.command()
