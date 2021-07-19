@@ -73,7 +73,7 @@ class MCTracker:
         players = separated['players']
         colors = ['lime','lime','green','green','darkgreen','darkgreen', 'gold', 'yellow', 'khaki', 'orangered', 'indianred', 'firebrick', 'firebrick']
 
-        fig = plt.figure(figsize=(14,7))
+        fig = plt.figure(figsize=(18,8))
         plt.bar(names, players, color=colors)
         plt.title(f"Iranian MineCraft Servers - {datetime.datetime.now():%Y-%m-%d %I:%M:%S}")
         plt.xlabel('Server Names', fontsize=8, labelpad=5)
