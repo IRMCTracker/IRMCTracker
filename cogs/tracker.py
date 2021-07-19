@@ -97,7 +97,7 @@ class Tracker(commands.Cog):
         elif self.current_activity_count == 2:
             await self.bot.change_presence(
                     activity=discord.Activity(
-                        type=discord.ActivityType.watching, name=f"🥈 {self.sorted_servers[1].get_name()} [{self.sorted_servers[1].get_online_players()}👥"
+                        type=discord.ActivityType.watching, name=f"🥈 {self.sorted_servers[1].get_name()} [{self.sorted_servers[1].get_online_players()}👥]"
                     )
                 )
             self.current_activity_count += 1
