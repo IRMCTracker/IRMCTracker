@@ -15,7 +15,7 @@ class Tracker(commands.Cog):
         self.sorted_servers = tracker.sort_all()
 
 
-    @tasks.loop(seconds=30.0)
+    @tasks.loop(seconds=20, reconnect=True)
     async def tracker_activity_tick(self):
         print('a')
         await self.update_activity()
