@@ -15,7 +15,7 @@ class Tracker(commands.Cog):
         self.sorted_servers = tracker.sort_all()
 
 
-    @tasks.loop(seconds=15)
+    @tasks.loop(seconds=30.0)
     async def tracker_activity_tick(self):
         await self.update_activity()
     
@@ -85,6 +85,9 @@ class Tracker(commands.Cog):
     
 
     async def update_activity(self):
+        print('yas')
+        await self.bot.wait_until_ready()
+
         if self.current_activity_count == 1:
             await self.bot.change_presence(
                     activity=discord.Activity(
