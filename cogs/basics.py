@@ -28,6 +28,10 @@ class Basics(commands.Cog):
     async def add(self, ctx):
         embed = discord.Embed(title="➕・add-your-server", description="Baraye ezafe kardan server khodetoon be @Alijk#2951 dm bedid", color=0x00D166)
         await ctx.send(embed=embed)
+    
+    @commands.Cog.listener()
+    async def on_join(self, member):
+        member.add_roles(self.bot.get_role(Config.Roles.DEFAULT))
         
 def setup(bot):
     bot.add_cog(Basics(bot))
