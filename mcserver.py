@@ -39,7 +39,9 @@ class MCTracker:
         self.data = []
         self.is_fetched = False
 
-    def fetch_all(self):        
+    def fetch_all(self):  
+        self.data.clear()
+
         for server in self.servers_config:
             self.data.append(MCServer(server['name'], server['address']))
         

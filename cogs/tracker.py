@@ -10,10 +10,9 @@ class Tracker(commands.Cog):
         self.bot = bot
         self.current_activity_count = 1
 
-        tracker = MCTracker()
-        tracker.fetch_all()
-        self.sorted_servers = tracker.sort_all()
-
+        self.tracker = MCTracker()
+        self.tracker.fetch_all()
+        self.sorted_servers = self.tracker.sort_all()
 
     @tasks.loop(seconds=20, reconnect=True)
     async def tracker_activity_tick(self):
@@ -23,10 +22,15 @@ class Tracker(commands.Cog):
     async def tracker_tick(self):
         minute = dt.now().minute
 
+        await self.bot.change_presence(
+            activity=discord.Activity(
+                type=discord.ActivityType.watching, name=f"**{self.tracker.all_player_count()}** players in **{str(len(get('servers')))}** servers"
+            )
+        )
+
         if minute % 5 == 0 or minute == 0:
-            tracker = MCTracker()
-            tracker.fetch_all()
-            self.sorted_servers = tracker.sort_all()
+            self.tracker.fetch_all()
+            self.sorted_servers = self.tracker.sort_all()
 
             if minute % 5 == 0:
                 top1vc = self.bot.get_channel(866289711050784788)
@@ -46,11 +50,11 @@ class Tracker(commands.Cog):
                 await top5vc.edit(name=f"🥉 {self.sorted_servers[4].get_name()} [{self.sorted_servers[4].get_online_players()}👥]")
                 await top6vc.edit(name=f"🥉 {self.sorted_servers[5].get_name()} [{self.sorted_servers[5].get_online_players()}👥]")
 
-                await totalvc.edit(name=f"💎 All Players [{tracker.all_player_count()}👥]")
-                await zerovc.edit(name=f"📈 Empty Count [{tracker.zero_player_count()}🔨]")
+                await totalvc.edit(name=f"💎 All Players [{self.tracker.all_player_count()}👥]")
+                await zerovc.edit(name=f"📈 Empty Count [{self.tracker.zero_player_count()}🔨]")
             if minute == 0:
-                tracker.draw_chart()
-                
+                self.tracker.draw_chart()
+
                 hourly_channel = self.bot.get_channel(866288509269966878)
 
                 embed = discord.Embed(title="Hourly Track", description=f"🥇 **{self.sorted_servers[0].get_name()}** in the lead with **{self.sorted_servers[0].get_online_players()}** Players", color=0x00D166) #creates embed
@@ -66,15 +70,14 @@ class Tracker(commands.Cog):
         if ctx.author.id != 296565827115941889:
             return
 
-        tracker = MCTracker()
-        tracker.fetch_all()
-        sorted_servers = tracker.sort_all()
+        self.tracker.fetch_all()
+        self.sorted_servers = self.tracker.sort_all()
 
-        tracker.draw_chart()
+        self.tracker.draw_chart()
                 
         hourly_channel = self.bot.get_channel(866288509269966878)
 
-        embed = discord.Embed(title="Hourly Track", description=f"🥇 **{sorted_servers[0].get_name()}** in the lead with **{sorted_servers[0].get_online_players()}** Players", color=0x00D166) #creates embed
+        embed = discord.Embed(title="Hourly Track", description=f"🥇 **{self.sorted_servers[0].get_name()}** in the lead with **{self.sorted_servers[0].get_online_players()}** Players", color=0x00D166) #creates embed
         embed.set_footer(text=f"IRMCTracker Bot - {dt.now():%Y-%m-%d %I:%M:%S}")
         file = discord.File("chart.png", filename="chart.png")
         embed.set_image(url="attachment://chart.png")
@@ -111,9 +114,8 @@ class Tracker(commands.Cog):
         if ctx.author.id != 296565827115941889:
             return
             
-        tracker = MCTracker()
-        tracker.fetch_all()
-        sorted_servers = tracker.sort_all()
+        self.tracker.fetch_all()
+        self.sorted_servers = self.tracker.sort_all()
 
         top1vc = self.bot.get_channel(866289711050784788)
         top2vc = self.bot.get_channel(866289915783544832)
@@ -125,15 +127,15 @@ class Tracker(commands.Cog):
         totalvc = self.bot.get_channel(866377410102296596)
         zerovc = self.bot.get_channel(866377830089621504)
 
-        await top1vc.edit(name=f"🥇 {sorted_servers[0].get_name()} [{sorted_servers[0].get_online_players()}👥]")
-        await top2vc.edit(name=f"🥇 {sorted_servers[1].get_name()} [{sorted_servers[1].get_online_players()}👥]")
-        await top3vc.edit(name=f"🥈 {sorted_servers[2].get_name()} [{sorted_servers[2].get_online_players()}👥]")
-        await top4vc.edit(name=f"🥈 {sorted_servers[3].get_name()} [{sorted_servers[3].get_online_players()}👥]")
-        await top5vc.edit(name=f"🥉 {sorted_servers[4].get_name()} [{sorted_servers[4].get_online_players()}👥]")
-        await top6vc.edit(name=f"🥉 {sorted_servers[5].get_name()} [{sorted_servers[5].get_online_players()}👥]")
+        await top1vc.edit(name=f"🥇 {self.sorted_servers[0].get_name()} [{self.sorted_servers[0].get_online_players()}👥]")
+        await top2vc.edit(name=f"🥇 {self.sorted_servers[1].get_name()} [{self.sorted_servers[1].get_online_players()}👥]")
+        await top3vc.edit(name=f"🥈 {self.sorted_servers[2].get_name()} [{self.sorted_servers[2].get_online_players()}👥]")
+        await top4vc.edit(name=f"🥈 {self.sorted_servers[3].get_name()} [{self.sorted_servers[3].get_online_players()}👥]")
+        await top5vc.edit(name=f"🥉 {self.sorted_servers[4].get_name()} [{self.sorted_servers[4].get_online_players()}👥]")
+        await top6vc.edit(name=f"🥉 {self.sorted_servers[5].get_name()} [{self.sorted_servers[5].get_online_players()}👥]")
 
-        await totalvc.edit(name=f"💎 All Players [{tracker.all_player_count()}👥]")
-        await zerovc.edit(name=f"📈 Empty Count [{tracker.zero_player_count()}🔨]")
+        await totalvc.edit(name=f"💎 All Players [{self.tracker.all_player_count()}👥]")
+        await zerovc.edit(name=f"📈 Empty Count [{self.tracker.zero_player_count()}🔨]")
     
 def setup(client):
     client.add_cog(Tracker(client))
