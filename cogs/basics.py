@@ -31,7 +31,7 @@ class Basics(commands.Cog):
     
     @commands.Cog.listener()
     async def on_join(self, member):
-        member.add_roles(self.bot.get_role(Config.Roles.DEFAULT))
+        await member.add_roles(self.bot.get_role(Config.Roles.DEFAULT))
         
 def setup(bot):
     bot.add_cog(Basics(bot))
