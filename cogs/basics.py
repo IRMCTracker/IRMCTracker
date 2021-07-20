@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-
+from config import Config
 
 class Basics(commands.Cog):
     def __init__(self, bot):
@@ -28,6 +28,6 @@ class Basics(commands.Cog):
     async def add(self, ctx):
         embed = discord.Embed(title="➕・add-your-server", description="Baraye ezafe kardan server khodetoon be @Alijk#2951 dm bedid", color=0x00D166)
         await ctx.send(embed=embed)
-
+        
 def setup(bot):
     bot.add_cog(Basics(bot))

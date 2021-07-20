@@ -1,22 +1,19 @@
 import os
 import discord
 from discord.ext import commands
-from config import get
+from config import Config, get
 
 
-bot = commands.Bot(command_prefix=get('bot.command_prefix'))
+intents = discord.Intents().all()
+bot = commands.Bot(command_prefix=Config.Bot.PREFIX, intents=intents)
 bot.remove_command('help')
 
 @bot.event
 async def on_ready():
     print('\nWe\'re up n running {0.user}'.format(bot))
 
-    tracker_cog = bot.get_cog('Tracker')
-
-    task = await tracker_cog.tracker_tick.start()
-
-    # await bot.get_cog('Tracker').tracker_activity_tick.start()
-
+    # tracker_cog = bot.get_cog('Tracker')
+    # await tracker_cog.tracker_tick.start()
 
 @bot.command()
 async def load(ctx, extension):
@@ -50,5 +47,5 @@ for filename in os.listdir('./cogs'):
         print(f"\n- Loaded {filename}")
 
 
-bot.run(get('bot.token'))
+bot.run(Config.Bot.TOKEN)
 
