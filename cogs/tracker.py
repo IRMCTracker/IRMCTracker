@@ -22,12 +22,6 @@ class Tracker(commands.Cog):
     async def tracker_tick(self):
         minute = dt.now().minute
 
-        await self.bot.change_presence(
-            activity=discord.Activity(
-                type=discord.ActivityType.watching, name=f"{self.tracker.all_player_count()} players in {str(len(get('servers')))} servers"
-            )
-        )
-
         if minute % 5 == 0 or minute == 0:
             self.tracker.fetch_all()
             self.sorted_servers = self.tracker.sort_all()
@@ -65,6 +59,12 @@ class Tracker(commands.Cog):
 
                 os.remove('chart.png')
 
+        await self.bot.change_presence(
+            activity=discord.Activity(
+                type=discord.ActivityType.watching, name=f"{self.tracker.all_player_count()} players in {str(len(get('servers')))} servers"
+            )
+        )
+        
     @commands.command()
     async def sendhourly(self,ctx):
         if ctx.author.id != 296565827115941889:
