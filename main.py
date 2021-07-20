@@ -11,9 +11,9 @@ bot.remove_command('help')
 async def on_ready():
     print('\nWe\'re up n running {0.user}'.format(bot))
 
-    tracker_cog = await bot.get_cog('Tracker')
+    tracker_cog = bot.get_cog('Tracker')
 
-    task = tracker_cog.tracker_tick.start()
+    task = await tracker_cog.tracker_tick.start()
 
     # await bot.get_cog('Tracker').tracker_activity_tick.start()
 
