@@ -36,6 +36,8 @@ class Config:
         ALL = get('channels.total-vc')
         EMPTY = get('channels.zero-vc')
         HOURLY = get('channels.text-hourly')
+        
+        ADMIN = get('channels.admin')
 
     class Roles:
         DEFAULT = get('roles.default')

@@ -24,10 +24,17 @@ class Basics(commands.Cog):
     async def add(self, ctx):
         embed = discord.Embed(title="➕・add-your-server", description="Baraye ezafe kardan server khodetoon be @Alijk#2951 dm bedid", color=0x00D166)
         await ctx.send(embed=embed)
-    
+        
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        embed = discord.Embed(title=str(member) + ' summoned', color=0x00D166)
         await member.add_roles(member.guild.get_role(Config.Roles.DEFAULT))
+        await self.bot.get_channel(Config.Channels.ADMIN).send(embed=embed)
         
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        embed = discord.Embed(title=str(member) + ' did rm -rf /', color=0xA62019)
+        await self.bot.get_channel(Config.Channels.ADMIN).send(embed=embed)
+
 def setup(bot):
     bot.add_cog(Basics(bot))
