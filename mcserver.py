@@ -1,5 +1,5 @@
 import datetime
-from config import get
+from config import Config
 import matplotlib.pyplot as plt
 from mcstatus import MinecraftServer
 
@@ -35,7 +35,7 @@ class MCServer:
 
 class MCTracker:
     def __init__(self):
-        self.servers_config = get('servers')
+        self.servers_config = Config.SERVERS
         self.data = []
         self.is_fetched = False
 
