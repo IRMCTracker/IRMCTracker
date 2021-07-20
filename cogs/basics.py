@@ -5,10 +5,6 @@ from config import Config
 class Basics(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
-    @commands.command()
-    async def ping(ctx):
-        await ctx.send("Pong!")
 
     @commands.command(aliases=["h"])
     async def help(self, ctx):
