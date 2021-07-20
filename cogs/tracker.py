@@ -53,7 +53,7 @@ class Tracker(Cog):
         file = discord.File("chart.png", filename="chart.png")
         embed.set_image(url="attachment://chart.png")
 
-        await self.bot.get_channel(Config.Channels.Hourly).send(
+        await self.bot.get_channel(Config.Channels.HOURLY).send(
             file=file, embed=embed
         )
 
@@ -63,22 +63,22 @@ class Tracker(Cog):
         self.sorted_servers = self.tracker.fetch_and_sort()
 
         await self.bot.get_channel(Config.Channels.VC_1).edit(
-            name=f"🥇 {self.sorted_servers[0].get_name()} [{self.sorted_servers[0].get_online_players()}👥]"
+            name=f"🥇 {self.sorted_servers[0].get_name(True)} [{self.sorted_servers[0].get_online_players()}👥]"
         )
         await self.bot.get_channel(Config.Channels.VC_2).edit(
-            name=f"🥇 {self.sorted_servers[1].get_name()} [{self.sorted_servers[1].get_online_players()}👥]"
+            name=f"🥇 {self.sorted_servers[1].get_name(True)} [{self.sorted_servers[1].get_online_players()}👥]"
         )
         await self.bot.get_channel(Config.Channels.VC_3).edit(
-            name=f"🥈 {self.sorted_servers[2].get_name()} [{self.sorted_servers[2].get_online_players()}👥]"
+            name=f"🥈 {self.sorted_servers[2].get_name(True)} [{self.sorted_servers[2].get_online_players()}👥]"
         )
         await self.bot.get_channel(Config.Channels.VC_4).edit(
-            name=f"🥈 {self.sorted_servers[3].get_name()} [{self.sorted_servers[3].get_online_players()}👥]"
+            name=f"🥈 {self.sorted_servers[3].get_name(True)} [{self.sorted_servers[3].get_online_players()}👥]"
         )
         await self.bot.get_channel(Config.Channels.VC_5).edit(
-            name=f"🥉 {self.sorted_servers[4].get_name()} [{self.sorted_servers[4].get_online_players()}👥]"
+            name=f"🥉 {self.sorted_servers[4].get_name(True)} [{self.sorted_servers[4].get_online_players()}👥]"
         )
         await self.bot.get_channel(Config.Channels.VC_6).edit(
-            name=f"🥉 {self.sorted_servers[5].get_name()} [{self.sorted_servers[5].get_online_players()}👥]"
+            name=f"🥉 {self.sorted_servers[5].get_name(True)} [{self.sorted_servers[5].get_online_players()}👥]"
         )
 
         await self.bot.get_channel(Config.Channels.ALL).edit(

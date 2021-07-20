@@ -30,8 +30,12 @@ class MCServer:
     def get_latency(self):
         return self.status.latency if self.status != None else 0
 
-    def get_name(self):
-        return self.server_name
+    def get_name(self, shortified=False):
+        name = self.server_name
+
+        if shortified:
+            return (name[:10] + '..') if len(name) > 10 else name
+        return name
 
 class MCTracker:
     def __init__(self):

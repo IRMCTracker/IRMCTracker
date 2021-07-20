@@ -22,14 +22,16 @@ class Config:
     class Bot:
         TOKEN = get('bot.token')
         PREFIX = get('bot.prefix')
+        TOKEN_DEBUG = get('bot.debug.token')
+        PREFIX_DEBUG = get('bot.debug.prefix')
     
     class Channels:
         VC_1 = get('channels.top.vc-1')
-        VC_1 = get('channels.top.vc-2')
-        VC_1 = get('channels.top.vc-3')
-        VC_1 = get('channels.top.vc-4')
-        VC_1 = get('channels.top.vc-5')
-        VC_1 = get('channels.top.vc-6')
+        VC_2 = get('channels.top.vc-2')
+        VC_3 = get('channels.top.vc-3')
+        VC_4 = get('channels.top.vc-4')
+        VC_5 = get('channels.top.vc-5')
+        VC_6 = get('channels.top.vc-6')
         
         ALL = get('channels.total-vc')
         EMPTY = get('channels.zero-vc')
@@ -37,6 +39,6 @@ class Config:
 
     class Roles:
         DEFAULT = get('roles.default')
-        
+
     SERVERS = get('servers')
     
