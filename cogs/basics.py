@@ -30,8 +30,7 @@ class Basics(commands.Cog):
         await ctx.send(embed=embed)
     
     @commands.Cog.listener()
-    async def on_join(self, member):
-        print(self.bot.get_role(Config.Roles.DEFAULT))
+    async def on_member_join(self, member):
         await member.add_roles(self.bot.get_role(Config.Roles.DEFAULT))
         
 def setup(bot):
