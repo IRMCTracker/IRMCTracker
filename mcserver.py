@@ -58,6 +58,10 @@ class MCTracker:
         return self.data
 
 
+    def fetch_and_sort(self):
+        self.fetch_all()
+        return self.sort_all()
+
     def separated_names_and_players(self):
         names = []
         players = []
