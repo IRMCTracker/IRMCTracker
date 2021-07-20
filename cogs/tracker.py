@@ -24,7 +24,7 @@ class Tracker(commands.Cog):
 
         await self.bot.change_presence(
             activity=discord.Activity(
-                type=discord.ActivityType.watching, name=f"**{self.tracker.all_player_count()}** players in **{str(len(get('servers')))}** servers"
+                type=discord.ActivityType.watching, name=f"{self.tracker.all_player_count()} players in {str(len(get('servers')))} servers"
             )
         )
 
