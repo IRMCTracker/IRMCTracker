@@ -18,13 +18,7 @@ def get(full_path: str):
     return cfg
 
 
-class Config:
-    class Bot:
-        TOKEN = get('bot.token')
-        PREFIX = get('bot.prefix')
-        TOKEN_DEBUG = get('bot.debug.token')
-        PREFIX_DEBUG = get('bot.debug.prefix')
-    
+class Config:    
     class Channels:
         VC_1 = get('channels.top.vc-1')
         VC_2 = get('channels.top.vc-2')
