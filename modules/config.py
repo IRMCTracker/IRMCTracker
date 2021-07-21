@@ -2,7 +2,7 @@ import enum
 import confuse
 
 config = confuse.Configuration('IRMCTracker', __name__)
-config.set_file('config/config.yml')
+config.set_file('../config/config.yml')
 
 def get_config():
     return config.get()
