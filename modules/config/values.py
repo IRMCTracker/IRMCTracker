@@ -1,5 +1,6 @@
 from os import getenv
 from modules.config import get
+from dotenv import load_dotenv
 
 class Config:   
     class Channels:
@@ -22,6 +23,7 @@ class Config:
     SERVERS = get('servers')
 
 class Env:
+    load_dotenv()
     DEBUG = bool(getenv('DEBUG'))
-    TOKEN = getenv('TOKEN_DEBUG') if DEBUG else getenv('TOKEN')
-    PREFIX = getenv('PREFIX_DEBUG') if DEBUG else getenv('PREFIX')
+    TOKEN = getenv('DEBUG_TOKEN') if DEBUG else getenv('TOKEN')
+    PREFIX = getenv('DEBUG_PREFIX') if DEBUG else getenv('PREFIX')

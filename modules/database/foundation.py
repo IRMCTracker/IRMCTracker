@@ -4,20 +4,29 @@ db_file = "data/database.db"
 
 class DB:
     @staticmethod
-    def sql_execute(query, args=()):
-        queries = [query] if type(query) == str else query
+    def sql_execute(query: str, *, placeholders={} ,args=()):
+        placeholders['%timestamp%'] = str(time.time())
 
+        for placeholder in placeholders:
+            query = query.replace('%' + placeholder + '%', str(placeholders[placeholder]))
+        
+        print(query)
+        with sqlite3.connect(db_file) as conn:
+            c = conn.cursor()
+            try:
+                c.execute(query, args)
+                return c.lastrowid
+
+            except EnvironmentError as e:
+                print(e)
+                return False
+        
+    @classmethod
+    def sql_execute_many(cls, queries, *, args=()):
+        result = []
         for query in queries:
-            query = query.replace("%timestamp%", str(time.time()))
-
-            with sqlite3.connect(db_file) as conn:
-                c = conn.cursor()
-                try:
-                    c.execute(query, args)
-                    return c.lastrowid
-                except EnvironmentError as e:
-                    print(e)
-                    return False
+            result.append(cls.sql_execute(query, args=args))
+        return result
 
     @staticmethod
     def sql_fetch(query, last=False):
@@ -56,7 +65,8 @@ class DB:
     @classmethod
     def execute(cls, func):
         def decorator(*args, **kwargs):
-            return cls.sql_execute(func(*args,**kwargs))
+            res = func(*args,**kwargs)
+            return cls.sql_execute(res) if type(res) == str else cls.sql_execute_many(res)
         decorator.query = func
         return decorator
 

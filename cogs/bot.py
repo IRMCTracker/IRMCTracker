@@ -1,15 +1,17 @@
-from discord.ext.commands import command, Cog, has_role
+from modules.config import Env
 
+from discord.ext.commands import command, Cog, has_role
 
 class Bot(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @Cog.listener
+    @Cog.listener()
     async def on_ready(self):
         print('\nWe\'re up n running {0.user}'.format(self.bot))
 
-        await self.bot.get_cog('Tracker').tracker_tick.start()
+        if not Env.DEBUG:
+            await self.bot.get_cog('Tracker').tracker_tick.start()
 
     @command()
     @has_role('root')

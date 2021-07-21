@@ -1,7 +1,7 @@
 import os
 from datetime import datetime as dt
 
-from modules.config import Config
+from modules.config import Config, Env
 from modules.mcserver import MCTracker
 
 from discord.ext import tasks
@@ -12,7 +12,9 @@ class Tracker(Cog):
     def __init__(self, bot):
         self.bot = bot
         self.tracker = MCTracker()
-        self.sorted_servers = self.tracker.fetch_and_sort()
+
+        if not Env.DEBUG:
+            self.sorted_servers = self.tracker.fetch_and_sort()
     
     @tasks.loop(minutes=1)
     async def tracker_tick(self):

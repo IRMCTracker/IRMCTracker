@@ -8,3 +8,21 @@ CREATE_SERVERS_TABLE = """
         `latest_version`  VARCHAR(200) NOT NULL,
         `discord`         VARCHAR(60) NOT NULL
     )"""
+
+INSERT_SERVER = """
+    INSERT INTO `servers`(
+        name,
+        current_players,
+        top_players, 
+        latest_version,
+        discord
+    ) 
+    VALUES 
+    (
+        '%name%',
+        %current_players%,
+        %top_players%, 
+        '%latest_version%',
+        '%discord%'
+    )
+"""
