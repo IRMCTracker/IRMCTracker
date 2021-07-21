@@ -1,6 +1,8 @@
 from .foundation import DB
-from .queries import CREATE_TABLES
+from .queries import CREATE_SERVERS_TABLE
 
 @DB.execute
 def create_tables():
-    return CREATE_TABLES
+    return [
+        CREATE_SERVERS_TABLE
+    ]

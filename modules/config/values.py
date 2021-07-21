@@ -1,22 +1,7 @@
-from confuse import Configuration
+from os import getenv
+from modules.config import get
 
-config = Configuration('IRMCTracker', __name__)
-config.set_file('data/config.yml')
-
-def get_config():
-    return config.get()
-
-def path_to_array(string):
-    return string.split('.')
-
-def get(full_path: str):
-    cfg = get_config()
-    for path in path_to_array(full_path):
-        cfg = cfg[path]
-
-    return cfg
-
-class Config:    
+class Config:   
     class Channels:
         VC_1 = get('channels.top.vc-1')
         VC_2 = get('channels.top.vc-2')
@@ -35,4 +20,8 @@ class Config:
         DEFAULT = get('roles.default')
 
     SERVERS = get('servers')
-    
+
+class Env:
+    DEBUG = bool(getenv('DEBUG'))
+    TOKEN = getenv('TOKEN_DEBUG') if DEBUG else getenv('TOKEN')
+    PREFIX = getenv('PREFIX_DEBUG') if DEBUG else getenv('PREFIX')

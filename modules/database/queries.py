@@ -1,4 +1,4 @@
-CREATE_TABLES = """
+CREATE_SERVERS_TABLE = """
     CREATE TABLE IF NOT EXISTS `servers`
     (
         `id`              INT(25) PRIMARY KEY,

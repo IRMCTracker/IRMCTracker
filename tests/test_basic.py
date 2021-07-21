@@ -1,3 +1,4 @@
-from modules.database import trackerdb
+import os
+from modules.database import create_tables
 
-trackerdb.create_tables()
+print(os.getenv('TOKEN'))

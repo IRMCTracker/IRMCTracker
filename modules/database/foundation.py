@@ -5,16 +5,19 @@ db_file = "data/database.db"
 class DB:
     @staticmethod
     def sql_execute(query, args=()):
-        query = str(query).replace("%timestamp%", str(time.time()))
+        queries = [query] if type(query) == str else query
 
-        with sqlite3.connect(db_file) as conn:
-            c = conn.cursor()
-            try:
-                c.execute(query, args)
-                return c.lastrowid
-            except EnvironmentError as e:
-                print(e)
-                return False
+        for query in queries:
+            query = query.replace("%timestamp%", str(time.time()))
+
+            with sqlite3.connect(db_file) as conn:
+                c = conn.cursor()
+                try:
+                    c.execute(query, args)
+                    return c.lastrowid
+                except EnvironmentError as e:
+                    print(e)
+                    return False
 
     @staticmethod
     def sql_fetch(query, last=False):
@@ -56,7 +59,6 @@ class DB:
             return cls.sql_execute(func(*args,**kwargs))
         decorator.query = func
         return decorator
-
 
     @classmethod
     def fetch(cls, func):
