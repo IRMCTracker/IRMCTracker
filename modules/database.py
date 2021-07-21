@@ -1,7 +1,5 @@
-from os import lstat
 import sqlite3
 import time
-import pickle
 
 db_file = "database.db"
 
