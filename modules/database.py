@@ -1,7 +1,6 @@
-import sqlite3
-import time
+import time, sqlite3
 
-db_file = "database.db"
+db_file = "data/database.db"
 
 
 class DB:

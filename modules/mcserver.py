@@ -1,6 +1,10 @@
 import datetime
-from config import Config
+
+from modules.config import Config
+from modules.database import DB
+
 import matplotlib.pyplot as plt
+
 from mcstatus import MinecraftServer
 
 class MCServer:
@@ -37,16 +41,20 @@ class MCServer:
             return (name[:10] + '..') if len(name) > 10 else name
         return name
 
-class MCTracker:
+class MCTracker(DB):
     def __init__(self):
-        self.servers_config = Config.SERVERS
+        self.all_servers = Config.SERVERS
         self.data = []
         self.is_fetched = False
+
+    @DB.fetch
+    def get_servers(self):
+        return 'SELECT * FROM `servers`'
 
     def fetch_all(self):  
         self.data.clear()
 
-        for server in self.servers_config:
+        for server in self.all_servers:
             self.data.append(MCServer(server['name'], server['address']))
         
         self.is_fetched = True
