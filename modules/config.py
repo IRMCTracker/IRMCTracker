@@ -1,7 +1,7 @@
 from confuse import Configuration
 
 config = Configuration('IRMCTracker', __name__)
-config.set_file('../config/config.yml')
+config.set_file('data/config.yml')
 
 def get_config():
     return config.get()

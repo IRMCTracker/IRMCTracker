@@ -2,7 +2,6 @@ import time, sqlite3
 
 db_file = "data/database.db"
 
-
 class DB:
     @staticmethod
     def sql_execute(query, args=()):

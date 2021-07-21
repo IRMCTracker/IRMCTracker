@@ -47,8 +47,9 @@ class MCTracker(DB):
         self.data = []
         self.is_fetched = False
 
+    @staticmethod
     @DB.fetch
-    def get_servers(self):
+    def get_servers():
         return 'SELECT * FROM `servers`'
 
     def fetch_all(self):  

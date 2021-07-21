@@ -1,3 +1,3 @@
-from modules.mcserver import MCTracker
+from modules.database import trackerdb
 
-print(MCTracker.get_servers())
+trackerdb.create_tables()
