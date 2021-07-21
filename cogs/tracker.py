@@ -1,9 +1,11 @@
 import os
-import discord
-from config import Config
-from mcserver import MCTracker
 from datetime import datetime as dt
+
+from modules.config import Config
+from modules.mcserver import MCTracker
+
 from discord.ext import tasks
+from discord import File, Embed, Activity, ActivityType
 from discord.ext.commands import Cog, command, has_role
 
 class Tracker(Cog):
@@ -39,8 +41,8 @@ class Tracker(Cog):
 
     async def update_activity(self):
         await self.bot.change_presence(
-            activity=discord.Activity(
-                type=discord.ActivityType.watching,
+            activity=Activity(
+                type=ActivityType.watching,
                 name=f"{self.tracker.all_player_count()} players in {str(len(Config.SERVERS))} servers"
             )
         )
@@ -48,9 +50,9 @@ class Tracker(Cog):
     async def send_hourly(self):
         self.tracker.draw_chart()
 
-        embed = discord.Embed(title="Hourly Track", description=f"🥇 **{self.sorted_servers[0].get_name()}** in the lead with **{self.sorted_servers[0].get_online_players()}** Players", color=0x00D166) #creates embed
+        embed = Embed(title="Hourly Track", description=f"🥇 **{self.sorted_servers[0].get_name()}** in the lead with **{self.sorted_servers[0].get_online_players()}** Players", color=0x00D166) #creates embed
         embed.set_footer(text=f"IRMCTracker Bot - {dt.now():%Y-%m-%d %I:%M:%S}")
-        file = discord.File("chart.png", filename="chart.png")
+        file = File("chart.png", filename="chart.png")
         embed.set_image(url="attachment://chart.png")
 
         await self.bot.get_channel(Config.Channels.HOURLY).send(

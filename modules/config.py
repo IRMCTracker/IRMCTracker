@@ -1,7 +1,6 @@
-import enum
-import confuse
+from confuse import Configuration
 
-config = confuse.Configuration('IRMCTracker', __name__)
+config = Configuration('IRMCTracker', __name__)
 config.set_file('../config/config.yml')
 
 def get_config():
@@ -16,7 +15,6 @@ def get(full_path: str):
         cfg = cfg[path]
 
     return cfg
-
 
 class Config:    
     class Channels:
