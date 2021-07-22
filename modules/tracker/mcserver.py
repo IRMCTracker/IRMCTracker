@@ -1,4 +1,9 @@
+import base64
+from os.path import isfile
 from mcstatus import MinecraftServer
+
+from modules.database import get_server
+from modules.utils import random_string
 
 class MCServer:
     def __init__(self, server_name, server_address, server_real_address = None):
@@ -8,18 +13,18 @@ class MCServer:
     
         self.server = self.lookup()
         
-        self.status = self.get_status()
+        self.fetch_status()
 
     def lookup(self):
         return MinecraftServer.lookup(self.server_address + ':25565')
-
-    def get_status(self):
+    
+    def fetch_status(self):
         try:
-            data = self.server.status()
+            self.status = self.server.status()
         except:
-            data = None
+            self.status = None
         
-        return data
+        return self.status
     
     def get_online_players(self):
         return self.status.players.online if self.status != None else 0
@@ -27,10 +32,29 @@ class MCServer:
     def get_latency(self):
         return self.status.latency if self.status != None else 0
 
+    def get_version(self):
+        return self.status.version.name if self.status != None else None
+
     def get_name(self, shortified=False):
         name = self.server_name
 
         if shortified:
             return (name[:10] + '..') if len(name) > 10 else name
         return name
+
+    def get_favicon_path(self):
+        if self.status:
+            data = str(self.status.favicon).replace('data:image/png;base64,', '')
+            imgdata = base64.b64decode(data)
+            filename = 'storage/cache/' + random_string() + '.png'
+
+            with open(filename, 'wb') as f:
+                    f.write(imgdata)
+
+            return filename
+        else:
+            return None
+
+    def fetch_server_from_db(self):
+        return get_server(self.get_name())
 

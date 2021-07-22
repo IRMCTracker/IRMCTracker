@@ -19,10 +19,11 @@ class Tracker(Cog):
     @tasks.loop(minutes=1)
     async def tracker_tick(self):
         minute = dt.now().minute
+        
+        self.sorted_servers = self.tracker.fetch_and_sort()
+        self.tracker.update_servers_in_database()
 
         if minute % 5 == 0 or minute == 0:
-            self.sorted_servers = self.tracker.fetch_and_sort()
-
             if minute % 5 == 0:
                 await self.update_channels()
             if minute == 0:
@@ -33,7 +34,6 @@ class Tracker(Cog):
     @command(has_role='root')
     @has_role('root')
     async def sendhourly(self,ctx):
-        self.sorted_servers = self.tracker.fetch_and_sort()
         await self.send_hourly()
 
     @command()

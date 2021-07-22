@@ -6,6 +6,8 @@ class DB:
     @staticmethod
     def sql_execute(query: str, *, placeholders={} ,args=()):
         query = replace_placeholders(query, placeholders)
+
+        print(query)
         
         with sqlite3.connect(Env.DB_PATH) as conn:
             c = conn.cursor()
@@ -25,8 +27,10 @@ class DB:
         return result
 
     @staticmethod
-    def sql_fetch(query, *, last=False, placeholders):
+    def sql_fetch(query, *, last=False, placeholders={}):
         query = replace_placeholders(query, placeholders)
+
+        print(query)
         
         with sqlite3.connect(Env.DB_PATH) as conn:
             conn.row_factory = sqlite3.Row

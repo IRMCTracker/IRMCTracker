@@ -1,7 +1,7 @@
 import datetime
 
 from modules.config import Config
-from modules.database import DB
+from modules.database import DB, update_server, get_server, get_all_servers
 
 import matplotlib.pyplot as plt
 
@@ -9,7 +9,7 @@ from .mcserver import MCServer
 
 class MCTracker(DB):
     def __init__(self):
-        self.all_servers = Config.SERVERS
+        self.all_servers = get_all_servers()
         self.data = []
         self.is_fetched = False
 
@@ -40,6 +40,18 @@ class MCTracker(DB):
     def fetch_and_sort(self):
         self.fetch_all()
         return self.sort_all()
+    
+    def update_servers_in_database(self):
+        for server in self.data:
+            db = server.fetch_server_from_db()
+
+            current_players = server.get_online_players()
+            top_record = db['top_players']
+
+            if current_players > top_record:
+                top_record = current_players
+
+            update_server(server.get_name(), current_players, top_record, server.get_version(), server.get_latency(), server.get_favicon_path())
 
     def separated_names_and_players(self):
         names = []
