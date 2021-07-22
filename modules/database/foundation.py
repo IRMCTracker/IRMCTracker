@@ -1,13 +1,11 @@
 import time, sqlite3
 from modules.config import Env
+from modules.utils import replace_placeholders
 
 class DB:
     @staticmethod
     def sql_execute(query: str, *, placeholders={} ,args=()):
-        placeholders['%timestamp%'] = str(time.time())
-
-        for placeholder in placeholders:
-            query = query.replace('%' + placeholder + '%', str(placeholders[placeholder]))
+        query = replace_placeholders(query, placeholders)
         
         with sqlite3.connect(Env.DB_PATH) as conn:
             c = conn.cursor()
@@ -27,7 +25,9 @@ class DB:
         return result
 
     @staticmethod
-    def sql_fetch(query, last=False):
+    def sql_fetch(query, *, last=False, placeholders):
+        query = replace_placeholders(query, placeholders)
+        
         with sqlite3.connect(Env.DB_PATH) as conn:
             conn.row_factory = sqlite3.Row
 

@@ -1,6 +1,5 @@
 from os import getenv
 from modules.config import get
-from dotenv import load_dotenv
 
 class Config:   
     class Channels:

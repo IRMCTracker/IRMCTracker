@@ -13,7 +13,7 @@ class Track(Cog):
     async def track(self, ctx, server=None):
         if server == None:
             return await ctx.send(embed=Embed(title='Dastoor vared shode motabar nist.', 
-                                        description='Estefade dorost: ```-track [servername] | Ex. -track madcraft```',
+                                        description='Estefade dorost: ```-track [servername]\nMesal: -track madcraft```',
                                         color=0xF44336))
         
         servers_alike = get_servers_like(server)

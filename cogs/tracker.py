@@ -2,7 +2,7 @@ import os
 from datetime import datetime as dt
 
 from modules.config import Config, Env
-from modules.mcserver import MCTracker
+from modules.tracker import MCTracker
 
 from discord.ext import tasks
 from discord import File, Embed, Activity, ActivityType
