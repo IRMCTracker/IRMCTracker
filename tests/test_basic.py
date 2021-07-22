@@ -4,6 +4,7 @@ from modules.config import Config
 
 from mcstatus import MinecraftServer
 from modules.tracker import MCTracker
+from modules.utils import get_logger
 
 
 # Database Seeder
@@ -11,8 +12,6 @@ from modules.tracker import MCTracker
 # for server in Config.SERVERS:
 #     insert_server(server['name'], server['address'])
 
-tracker = MCTracker()
+# get_logger('Debug').debug('Hi Test Message')
 
-tracker.fetch_and_sort()
-
-tracker.update_servers_in_database()
+get_logger().debug('Test Message')

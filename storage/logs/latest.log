@@ -1,0 +1,14 @@
+2021-07-22 14:23:51,543 - IRMCTracker - WARNING - 
+    CREATE TABLE IF NOT EXISTS `servers`
+    (
+        `id`              INTEGER PRIMARY KEY AUTOINCREMENT,
+        `name`            VARCHAR(50) NOT NULL UNIQUE,
+        `address`         VARCHAR(50) NOT NULL UNIQUE,
+        `current_players` INT(5) DEFAULT 0,
+        `top_players`     INT(5) DEFAULT 0,
+        `latest_version`  VARCHAR(200),
+        `latest_latency`  INT(5) DEFAULT 0,
+        `favicon`         VARCHAR(255),
+        `discord`         VARCHAR(60)
+    )
+2021-07-22 14:23:52,351 - IRMCTracker - DEBUG - SELECT * FROM `servers`

@@ -1,13 +1,17 @@
-import time, sqlite3
+import sqlite3
+import logging
+
+from os import getenv
 from modules.config import Env
-from modules.utils import replace_placeholders
+from modules.utils import replace_placeholders, get_logger
 
 class DB:
     @staticmethod
     def sql_execute(query: str, *, placeholders={} ,args=()):
         query = replace_placeholders(query, placeholders)
 
-        print(query)
+        if getenv('LOG_SQL'):
+            get_logger().debug(query)
         
         with sqlite3.connect(Env.DB_PATH) as conn:
             c = conn.cursor()
@@ -30,7 +34,8 @@ class DB:
     def sql_fetch(query, *, last=False, placeholders={}):
         query = replace_placeholders(query, placeholders)
 
-        print(query)
+        if getenv('LOG_SQL'):
+            get_logger().debug(query)
         
         with sqlite3.connect(Env.DB_PATH) as conn:
             conn.row_factory = sqlite3.Row
@@ -51,6 +56,9 @@ class DB:
 
     @staticmethod
     def sql_fetch_value(query):
+        if getenv('LOG_SQL'):
+            get_logger().debug(query)
+
         with sqlite3.connect(Env.DB_PATH) as conn:
             c = conn.cursor()
 
