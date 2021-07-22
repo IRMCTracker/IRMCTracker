@@ -28,5 +28,5 @@ INSERT_SERVER = """
 """
 
 SELECT_SERVER_WITH_NAME = """
-    SELECT * FROM `servers` WHERE name LIKE %name%
+    SELECT * FROM `servers` WHERE name LIKE '%name%'
 """
