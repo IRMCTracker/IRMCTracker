@@ -1,8 +1,9 @@
 from dotenv import load_dotenv
-from .constants import *
+
+load_dotenv('storage/data/.env')
+
+from .yml import *
 from .functions import *
-
-load_dotenv('data/.env')
-
 from .values import *
+
 

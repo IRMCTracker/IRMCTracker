@@ -1,5 +1,3 @@
-import os
-import inspect
 from modules.database import insert_server, get_servers
 from modules.config import Env
 

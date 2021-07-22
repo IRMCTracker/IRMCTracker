@@ -26,3 +26,7 @@ INSERT_SERVER = """
         '%discord%'
     )
 """
+
+SELECT_SERVER_WITH_NAME = """
+    SELECT * FROM `servers` WHERE name LIKE %name%
+"""

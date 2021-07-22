@@ -1,6 +1,5 @@
 import time, sqlite3
-
-db_file = "data/database.db"
+from modules.config import Env
 
 class DB:
     @staticmethod
@@ -10,8 +9,7 @@ class DB:
         for placeholder in placeholders:
             query = query.replace('%' + placeholder + '%', str(placeholders[placeholder]))
         
-        print(query)
-        with sqlite3.connect(db_file) as conn:
+        with sqlite3.connect(Env.DB_PATH) as conn:
             c = conn.cursor()
             try:
                 c.execute(query, args)
@@ -30,7 +28,7 @@ class DB:
 
     @staticmethod
     def sql_fetch(query, last=False):
-        with sqlite3.connect(db_file) as conn:
+        with sqlite3.connect(Env.DB_PATH) as conn:
             conn.row_factory = sqlite3.Row
 
             c = conn.cursor()
@@ -49,7 +47,7 @@ class DB:
 
     @staticmethod
     def sql_fetch_value(query):
-        with sqlite3.connect(db_file) as conn:
+        with sqlite3.connect(Env.DB_PATH) as conn:
             c = conn.cursor()
 
             c.execute(query)

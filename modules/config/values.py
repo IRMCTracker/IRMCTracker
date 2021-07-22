@@ -23,7 +23,9 @@ class Config:
     SERVERS = get('servers')
 
 class Env:
-    load_dotenv()
     DEBUG = bool(getenv('DEBUG'))
     TOKEN = getenv('DEBUG_TOKEN') if DEBUG else getenv('TOKEN')
     PREFIX = getenv('DEBUG_PREFIX') if DEBUG else getenv('PREFIX')
+    
+    DB_PATH = getenv('DB_PATH')
+    CONFIG_PATH = getenv('CONFIG_PATH')

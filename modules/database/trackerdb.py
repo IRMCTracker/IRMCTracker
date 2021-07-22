@@ -1,5 +1,7 @@
 from .foundation import DB
-from .queries import CREATE_SERVERS_TABLE, INSERT_SERVER
+from .queries import CREATE_SERVERS_TABLE, \
+                     INSERT_SERVER, \
+                     SELECT_SERVER_WITH_NAME
 
 @DB.execute
 def create_tables():
@@ -14,6 +16,11 @@ def insert_server(name, current_players, top_players, latest_version, discord):
         'top_players': top_players,
         'latest_version': latest_version,
         'discord': discord
+    })
+
+def get_servers_like(name):
+    return DB.sql_fetch(SELECT_SERVER_WITH_NAME, placeholders={
+        'name': name
     })
 
 @DB.fetch
