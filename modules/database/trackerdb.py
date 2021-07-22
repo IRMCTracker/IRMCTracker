@@ -11,7 +11,7 @@ def create_tables():
         CREATE_SERVERS_TABLE
     ]
 
-def insert_server(name, address, current_players=0, top_players=0, latest_version='null', latest_latency=0, favicon='null', discord='null'):
+def insert_server(name, address, current_players=0, top_players=0, latest_version='null', latest_latency=0, favicon_path='null', motd_path='null', info_path='null', discord='null'):
     return DB.sql_execute(INSERT_SERVER, placeholders={
         'name': name,
         'address': address,
@@ -19,7 +19,9 @@ def insert_server(name, address, current_players=0, top_players=0, latest_versio
         'top_players': top_players,
         'latest_version': latest_version,
         'latest_latency': latest_latency,
-        'favicon': favicon,
+        'favicon_path': favicon_path,
+        'motd_path': motd_path,
+        'info_path': info_path,
         'discord': discord
     })
 
@@ -29,9 +31,9 @@ def get_servers_like(name):
     })
 
 
-def update_server(name, current_players=0, top_players=0, latest_version='null', latest_latency=0, favicon='null', discord='null'):
+def update_server(name, current_players=0, top_players=0, latest_version='null', latest_latency=0, favicon_path='null', motd_path='null', info_path='null', discord='null'):
     latest_version = 'null' if latest_version == None else latest_version
-    favicon = 'null' if favicon == None else favicon
+    favicon_path = 'null' if favicon_path == None else favicon_path
 
     return DB.sql_execute(UPDATE_SERVER_WITH_NAME, placeholders={
         'name': name,
@@ -39,7 +41,9 @@ def update_server(name, current_players=0, top_players=0, latest_version='null',
         'top_players': top_players,
         'latest_version': latest_version,
         'latest_latency': latest_latency,
-        'favicon': favicon,
+        'favicon_path': favicon_path,
+        'motd_path': motd_path,
+        'info_path': info_path,
         'discord': discord
     })
 

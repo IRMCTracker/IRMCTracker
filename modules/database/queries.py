@@ -8,7 +8,9 @@ CREATE_SERVERS_TABLE = """
         `top_players`     INT(5) DEFAULT 0,
         `latest_version`  VARCHAR(200),
         `latest_latency`  INT(5) DEFAULT 0,
-        `favicon`         VARCHAR(255),
+        `favicon_path`    VARCHAR(255),
+        `motd_path`       VARCHAR(255),
+        `info_path`       VARCHAR(255),
         `discord`         VARCHAR(60)
     )"""
 
@@ -20,7 +22,9 @@ INSERT_SERVER = """
         top_players, 
         latest_version,
         latest_latency,
-        favicon,
+        favicon_path,
+        motd_path,
+        info_path,
         discord
     ) 
     VALUES 
@@ -31,7 +35,9 @@ INSERT_SERVER = """
         %top_players%, 
         '%latest_version%',
         '%latest_latency%',
-        '%favicon%',
+        '%favicon_path%',
+        '%motd_path%',
+        '%info_path%',
         '%discord%'
     )
 """
@@ -46,7 +52,9 @@ UPDATE_SERVER_WITH_NAME = """
         top_players = %top_players%, 
         latest_version = '%latest_version%',
         latest_latency = '%latest_latency%',
-        favicon = '%favicon%',
+        favicon_path = '%favicon_path%',
+        motd_path = '%motd_path%',
+        info_path = '%info_path%',
         discord = %discord%
     WHERE name = '%name%'
 """

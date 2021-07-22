@@ -5,6 +5,8 @@ from mcstatus import MinecraftServer
 from modules.database import get_server
 from modules.utils import random_string
 
+from modules.tracker.meta import ServerMeta
+
 class MCServer:
     def __init__(self, server_name, server_address, server_real_address = None):
         self.server_name = server_name
@@ -46,7 +48,7 @@ class MCServer:
         if self.status:
             data = str(self.status.favicon).replace('data:image/png;base64,', '')
             imgdata = base64.b64decode(data)
-            filename = 'storage/cache/' + random_string() + '.png'
+            filename = 'storage/cache/fav-' + random_string() + '.png'
 
             with open(filename, 'wb') as f:
                     f.write(imgdata)
@@ -58,3 +60,5 @@ class MCServer:
     def fetch_server_from_db(self):
         return get_server(self.get_name())
 
+    def get_meta(self):
+        return ServerMeta(self.server_address)

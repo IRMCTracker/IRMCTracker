@@ -1,0 +1,1525 @@
+2021-07-22 14:31:35,020 - IRMCTracker Debug - DEBUG - 
+    CREATE TABLE IF NOT EXISTS `servers`
+    (
+        `id`              INTEGER PRIMARY KEY AUTOINCREMENT,
+        `name`            VARCHAR(50) NOT NULL UNIQUE,
+        `address`         VARCHAR(50) NOT NULL UNIQUE,
+        `current_players` INT(5) DEFAULT 0,
+        `top_players`     INT(5) DEFAULT 0,
+        `latest_version`  VARCHAR(200),
+        `latest_latency`  INT(5) DEFAULT 0,
+        `favicon`         VARCHAR(255),
+        `discord`         VARCHAR(60)
+    )
+2021-07-22 14:31:35,972 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 19:13:00,856 - IRMCTracker Debug - DEBUG - 
+    CREATE TABLE IF NOT EXISTS `servers`
+    (
+        `id`              INTEGER PRIMARY KEY AUTOINCREMENT,
+        `name`            VARCHAR(50) NOT NULL UNIQUE,
+        `address`         VARCHAR(50) NOT NULL UNIQUE,
+        `current_players` INT(5) DEFAULT 0,
+        `top_players`     INT(5) DEFAULT 0,
+        `latest_version`  VARCHAR(200),
+        `latest_latency`  INT(5) DEFAULT 0,
+        `favicon_path`    VARCHAR(255),
+        `motd_path`       VARCHAR(255),
+        `info_path`       VARCHAR(255),
+        `discord`         VARCHAR(60)
+    )
+2021-07-22 19:13:56,240 - IRMCTracker Debug - DEBUG - 
+    CREATE TABLE IF NOT EXISTS `servers`
+    (
+        `id`              INTEGER PRIMARY KEY AUTOINCREMENT,
+        `name`            VARCHAR(50) NOT NULL UNIQUE,
+        `address`         VARCHAR(50) NOT NULL UNIQUE,
+        `current_players` INT(5) DEFAULT 0,
+        `top_players`     INT(5) DEFAULT 0,
+        `latest_version`  VARCHAR(200),
+        `latest_latency`  INT(5) DEFAULT 0,
+        `favicon_path`    VARCHAR(255),
+        `motd_path`       VARCHAR(255),
+        `info_path`       VARCHAR(255),
+        `discord`         VARCHAR(60)
+    )
+2021-07-22 19:13:56,241 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 19:14:07,017 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MadCraft'
+
+2021-07-22 19:14:44,729 - IRMCTracker Debug - DEBUG - 
+    CREATE TABLE IF NOT EXISTS `servers`
+    (
+        `id`              INTEGER PRIMARY KEY AUTOINCREMENT,
+        `name`            VARCHAR(50) NOT NULL UNIQUE,
+        `address`         VARCHAR(50) NOT NULL UNIQUE,
+        `current_players` INT(5) DEFAULT 0,
+        `top_players`     INT(5) DEFAULT 0,
+        `latest_version`  VARCHAR(200),
+        `latest_latency`  INT(5) DEFAULT 0,
+        `favicon_path`    VARCHAR(255),
+        `motd_path`       VARCHAR(255),
+        `info_path`       VARCHAR(255),
+        `discord`         VARCHAR(60)
+    )
+2021-07-22 19:14:44,729 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 19:14:49,777 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MadCraft'
+
+2021-07-22 19:15:05,113 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 130,
+        top_players = 183, 
+        latest_version = 'FlameCord 1.8.x-1.17.x',
+        latest_latency = '19.041',
+        favicon_path = 'storage/cache/O9ISYED8K1X6C2VL.png',
+        motd_path = 'storage/cache/EUB05PQAKZW3QZDF.png',
+        info_path = 'None',
+        discord = null
+    WHERE name = 'MadCraft'
+
+2021-07-22 19:15:05,172 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'JigsawMC'
+
+2021-07-22 19:15:21,784 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'IRCraft'
+
+2021-07-22 19:15:37,136 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 45,
+        top_players = 45, 
+        latest_version = '§c1.9-1.17',
+        latest_latency = '100.022',
+        favicon_path = 'storage/cache/GW509JF77HQJ66RN.png',
+        motd_path = 'storage/cache/H29BSCYJVQCGDUV4.png',
+        info_path = 'None',
+        discord = null
+    WHERE name = 'IRCraft'
+
+2021-07-22 19:15:37,192 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DragonNetwork'
+
+2021-07-22 19:15:52,160 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 39,
+        top_players = 39, 
+        latest_version = 'Aegis',
+        latest_latency = '17.984',
+        favicon_path = 'storage/cache/EKRZ5062YCKDLHA0.png',
+        motd_path = 'storage/cache/G6HVIV2DMQ10DV0C.png',
+        info_path = 'None',
+        discord = null
+    WHERE name = 'DragonNetwork'
+
+2021-07-22 19:15:52,215 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'QPixel'
+
+2021-07-22 19:16:07,996 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 38,
+        top_players = 47, 
+        latest_version = '§7v2.1.1 §8- §d[ §b38 §d]',
+        latest_latency = '18.004',
+        favicon_path = 'storage/cache/E212I7R4AZXBLUWU.png',
+        motd_path = 'None',
+        info_path = 'storage/cache/M017E9DR5HQFGDPT.png',
+        discord = null
+    WHERE name = 'QPixel'
+
+2021-07-22 19:16:08,051 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'GoldCraft'
+
+2021-07-22 19:16:24,847 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 32,
+        top_players = 32, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '18.039',
+        favicon_path = 'storage/cache/L60QJL7A8EP2SO1C.png',
+        motd_path = 'None',
+        info_path = 'storage/cache/NFEJJPKQ2LUTOZ6G.png',
+        discord = null
+    WHERE name = 'GoldCraft'
+
+2021-07-22 19:16:24,891 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'CastleCraft'
+
+2021-07-22 19:16:40,736 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 22,
+        top_players = 48, 
+        latest_version = 'CastleCraft',
+        latest_latency = '17.999',
+        favicon_path = 'storage/cache/X3A0NU1G12XATQKX.png',
+        motd_path = 'None',
+        info_path = 'None',
+        discord = null
+    WHERE name = 'CastleCraft'
+
+2021-07-22 19:16:40,794 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'AricoGames'
+
+2021-07-22 19:16:55,941 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 22,
+        top_players = 32, 
+        latest_version = 'AricoGames 1.8.8 - 1.16.5 / 1.17~',
+        latest_latency = '19.993',
+        favicon_path = 'storage/cache/287DBXX7R7ONMWEU.png',
+        motd_path = 'None',
+        info_path = 'None',
+        discord = null
+    WHERE name = 'AricoGames'
+
+2021-07-22 19:16:56,000 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'VoidPixel'
+
+2021-07-22 19:17:11,934 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 22,
+        top_players = 22, 
+        latest_version = 'Waterfall 1.8.x - 1.17x',
+        latest_latency = '19.048',
+        favicon_path = 'storage/cache/MDN1J0OBAK2W7NZ6.png',
+        motd_path = 'None',
+        info_path = 'storage/cache/DW5IRNZ1ZRU1XG9U.png',
+        discord = null
+    WHERE name = 'VoidPixel'
+
+2021-07-22 19:17:11,990 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TehranGaming'
+
+2021-07-22 19:17:26,318 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 4,
+        top_players = 4, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '16.978',
+        favicon_path = 'storage/cache/2H6H9UMAXLQP1SLK.png',
+        motd_path = 'storage/cache/12KC2XL14MY7YHXR.png',
+        info_path = 'None',
+        discord = null
+    WHERE name = 'TehranGaming'
+
+2021-07-22 19:17:26,371 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TrexMine'
+
+2021-07-22 19:17:39,360 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 3,
+        top_players = 4, 
+        latest_version = 'Waterfall 1.7.x-1.17.1',
+        latest_latency = '104.04',
+        favicon_path = 'storage/cache/RHJNDI4JARBV3ZEH.png',
+        motd_path = 'storage/cache/TM8TQVH0GHT7FMKO.png',
+        info_path = 'None',
+        discord = null
+    WHERE name = 'TrexMine'
+
+2021-07-22 19:17:39,411 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DarkPixel'
+
+2021-07-22 19:17:56,269 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 2,
+        top_players = 2, 
+        latest_version = 'Version 1.16.4-1.16.5',
+        latest_latency = '20.003',
+        favicon_path = 'storage/cache/EC07PCL6BTSTDK40.png',
+        motd_path = 'None',
+        info_path = 'storage/cache/119TMULP652P8RYX.png',
+        discord = null
+    WHERE name = 'DarkPixel'
+
+2021-07-22 19:17:56,327 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'EOG'
+
+2021-07-22 19:18:12,321 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.16.x',
+        latest_latency = '17.968',
+        favicon_path = 'storage/cache/NUTIL0MM8XIJZHBL.png',
+        motd_path = 'None',
+        info_path = 'None',
+        discord = null
+    WHERE name = 'EOG'
+
+2021-07-22 19:18:12,372 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MCGO'
+
+2021-07-22 19:18:27,398 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.17.x',
+        latest_latency = '28.02',
+        favicon_path = 'storage/cache/9UMQ12536G0MH1K5.png',
+        motd_path = 'storage/cache/7CFL16OTZF2UBMAE.png',
+        info_path = 'None',
+        discord = null
+    WHERE name = 'MCGO'
+
+2021-07-22 19:18:27,460 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'UltraNetwork'
+
+2021-07-22 19:18:45,268 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.17.x',
+        latest_latency = '18.009',
+        favicon_path = 'storage/cache/UPG99J9TFN6YOBW0.png',
+        motd_path = 'None',
+        info_path = 'None',
+        discord = null
+    WHERE name = 'UltraNetwork'
+
+2021-07-22 19:43:06,271 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 19:43:34,327 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'storage/cache/FUFTCZWS1EQ6QU5Y.png',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MadCraft'
+
+2021-07-22 19:43:53,291 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'storage/cache/UJX42UW6HYXF69W4.png',
+        discord = null
+    WHERE name = 'JigsawMC'
+
+2021-07-22 19:44:10,936 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'IRCraft'
+
+2021-07-22 19:44:27,943 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'QPixel'
+
+2021-07-22 19:44:43,989 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DragonNetwork'
+
+2021-07-22 19:45:00,033 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'GoldCraft'
+
+2021-07-22 19:45:16,939 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'AricoGames'
+
+2021-07-22 19:45:33,156 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'CastleCraft'
+
+2021-07-22 19:45:50,160 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'VoidPixel'
+
+2021-07-22 19:46:06,677 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TrexMine'
+
+2021-07-22 19:46:22,813 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DarkPixel'
+
+2021-07-22 19:46:39,999 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'UltraNetwork'
+
+2021-07-22 19:46:56,530 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TehranGaming'
+
+2021-07-22 19:47:13,069 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'EOG'
+
+2021-07-22 19:47:29,363 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'null',
+        latest_latency = '0',
+        favicon_path = 'null',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MCGO'
+
+2021-07-22 19:54:30,569 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 19:54:40,227 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MadCraft'
+
+2021-07-22 19:54:59,696 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 166,
+        top_players = 166, 
+        latest_version = 'FlameCord 1.8.x-1.17.x',
+        latest_latency = '30.953',
+        favicon_path = 'storage/cache/Q3T2ZPWPU60P6OOD.png',
+        motd_path = 'storage/cache/W0UP6T6EHBDZT0OE.png',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MadCraft'
+
+2021-07-22 19:54:59,817 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'JigsawMC'
+
+2021-07-22 19:55:16,617 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'IRCraft'
+
+2021-07-22 19:55:33,053 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 44,
+        top_players = 44, 
+        latest_version = '§c1.9-1.17',
+        latest_latency = '104.008',
+        favicon_path = 'storage/cache/YH7PRWJOBCHVTKUN.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'IRCraft'
+
+2021-07-22 19:55:33,112 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'QPixel'
+
+2021-07-22 19:55:49,461 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 38,
+        top_players = 38, 
+        latest_version = '§7v2.1.1 §8- §d[ §b39 §d]',
+        latest_latency = '19.032',
+        favicon_path = 'storage/cache/9U806BX3XNNXVRBF.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'QPixel'
+
+2021-07-22 19:55:49,530 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DragonNetwork'
+
+2021-07-22 19:56:06,098 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 35,
+        top_players = 35, 
+        latest_version = 'Aegis',
+        latest_latency = '18.045',
+        favicon_path = 'storage/cache/CETZGJJU2X2UNCUM.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DragonNetwork'
+
+2021-07-22 19:56:06,172 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'GoldCraft'
+
+2021-07-22 19:56:22,500 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 33,
+        top_players = 33, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '18.035',
+        favicon_path = 'storage/cache/125DP54PKMPLT375.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'GoldCraft'
+
+2021-07-22 19:56:22,559 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'AricoGames'
+
+2021-07-22 19:56:39,674 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 25,
+        top_players = 25, 
+        latest_version = 'AricoGames 1.8.8 - 1.16.5 / 1.17~',
+        latest_latency = '18.982',
+        favicon_path = 'storage/cache/OGH5Q7QX7MW13BGV.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'AricoGames'
+
+2021-07-22 19:56:39,729 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'VoidPixel'
+
+2021-07-22 19:56:56,422 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 18,
+        top_players = 18, 
+        latest_version = 'Waterfall 1.8.x - 1.17x',
+        latest_latency = '18.938',
+        favicon_path = 'storage/cache/ET1H2KXT5NU4YC19.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'VoidPixel'
+
+2021-07-22 19:56:56,483 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'CastleCraft'
+
+2021-07-22 19:57:13,617 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 17,
+        top_players = 17, 
+        latest_version = 'CastleCraft',
+        latest_latency = '17.045',
+        favicon_path = 'storage/cache/NQOFGBJYVZU9CGZR.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'CastleCraft'
+
+2021-07-22 19:57:13,679 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TrexMine'
+
+2021-07-22 19:57:31,716 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 4,
+        top_players = 4, 
+        latest_version = 'Waterfall 1.7.x-1.17.1',
+        latest_latency = '105.018',
+        favicon_path = 'storage/cache/XMV4EXKG1UQ2PW4Y.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TrexMine'
+
+2021-07-22 19:57:31,773 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DarkPixel'
+
+2021-07-22 19:57:47,857 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 2,
+        top_players = 2, 
+        latest_version = 'Version 1.16.4-1.16.5',
+        latest_latency = '19.961',
+        favicon_path = 'storage/cache/NY5BLIU8C8WI44IJ.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DarkPixel'
+
+2021-07-22 19:57:47,924 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TehranGaming'
+
+2021-07-22 19:58:04,787 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 1,
+        top_players = 1, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '17.959',
+        favicon_path = 'storage/cache/3IFOR2SI9UXA68FT.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TehranGaming'
+
+2021-07-22 19:58:04,846 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'EOG'
+
+2021-07-22 19:58:21,450 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.16.x',
+        latest_latency = '18.035',
+        favicon_path = 'storage/cache/MVAL8PU5QTAU6PE3.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'EOG'
+
+2021-07-22 19:58:21,508 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MCGO'
+
+2021-07-22 19:58:38,592 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.17.x',
+        latest_latency = '28.962',
+        favicon_path = 'storage/cache/6SKBL2VZBTMZ1ZY2.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MCGO'
+
+2021-07-22 19:58:38,649 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'UltraNetwork'
+
+2021-07-22 19:58:56,431 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.17.x',
+        latest_latency = '18.006',
+        favicon_path = 'storage/cache/I9K6NQTSYVBALAB6.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'UltraNetwork'
+
+2021-07-22 20:07:26,113 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 20:07:35,040 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MadCraft'
+
+2021-07-22 20:07:43,495 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 160,
+        top_players = 166, 
+        latest_version = 'FlameCord 1.8.x-1.17.x',
+        latest_latency = '25.962',
+        favicon_path = 'storage/cache/5A5RCQWN98HB4667.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MadCraft'
+
+2021-07-22 20:07:43,555 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'JigsawMC'
+
+2021-07-22 20:07:52,022 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'IRCraft'
+
+2021-07-22 20:08:00,961 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 43,
+        top_players = 44, 
+        latest_version = '§c1.9-1.17',
+        latest_latency = '100.042',
+        favicon_path = 'storage/cache/ZTB7458WBJCJY9TR.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'IRCraft'
+
+2021-07-22 20:08:01,021 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'QPixel'
+
+2021-07-22 20:08:09,394 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 40,
+        top_players = 40, 
+        latest_version = '§7v2.1.1 §8- §d[ §b42 §d]',
+        latest_latency = '19.025',
+        favicon_path = 'storage/cache/6X3MYKQJE7GNOZLQ.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'QPixel'
+
+2021-07-22 20:08:09,455 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DragonNetwork'
+
+2021-07-22 20:08:17,978 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 39,
+        top_players = 39, 
+        latest_version = 'Aegis',
+        latest_latency = '17.993',
+        favicon_path = 'storage/cache/7I8MSNSRKAC0215V.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DragonNetwork'
+
+2021-07-22 20:08:18,031 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'GoldCraft'
+
+2021-07-22 20:08:26,788 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 35,
+        top_players = 35, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '17.999',
+        favicon_path = 'storage/cache/TVDROUB03TY3MQPJ.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'GoldCraft'
+
+2021-07-22 20:08:26,858 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'AricoGames'
+
+2021-07-22 20:08:35,120 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 31,
+        top_players = 31, 
+        latest_version = 'AricoGames 1.8.8 - 1.16.5 / 1.17~',
+        latest_latency = '18.0',
+        favicon_path = 'storage/cache/M2559MZBIC7S6UOH.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'AricoGames'
+
+2021-07-22 20:08:35,182 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'CastleCraft'
+
+2021-07-22 20:08:43,301 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 23,
+        top_players = 23, 
+        latest_version = 'CastleCraft',
+        latest_latency = '18.037',
+        favicon_path = 'storage/cache/4DIXFKF088RBS633.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'CastleCraft'
+
+2021-07-22 20:08:43,360 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'VoidPixel'
+
+2021-07-22 20:08:51,884 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 15,
+        top_players = 18, 
+        latest_version = 'Waterfall 1.8.x - 1.17x',
+        latest_latency = '17.997',
+        favicon_path = 'storage/cache/LKQY4ZSWJZFI56VN.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'VoidPixel'
+
+2021-07-22 20:08:51,943 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TrexMine'
+
+2021-07-22 20:09:00,184 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 4,
+        top_players = 4, 
+        latest_version = 'Waterfall 1.7.x-1.17.1',
+        latest_latency = '103.994',
+        favicon_path = 'storage/cache/GLYETQ7VTR1716CU.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TrexMine'
+
+2021-07-22 20:09:00,255 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TehranGaming'
+
+2021-07-22 20:09:08,177 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 1,
+        top_players = 1, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '16.949',
+        favicon_path = 'storage/cache/FAGHIHX6YDSYN5HP.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TehranGaming'
+
+2021-07-22 20:09:08,230 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'EOG'
+
+2021-07-22 20:09:16,789 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.16.x',
+        latest_latency = '18.057',
+        favicon_path = 'storage/cache/ON4K5J0Z7ORV62QB.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'EOG'
+
+2021-07-22 20:09:16,846 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DarkPixel'
+
+2021-07-22 20:09:25,425 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 2, 
+        latest_version = 'Version 1.16.4-1.16.5',
+        latest_latency = '20.993',
+        favicon_path = 'storage/cache/2H6WHBOJ7JAI9TWW.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DarkPixel'
+
+2021-07-22 20:09:25,482 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MCGO'
+
+2021-07-22 20:09:34,081 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.17.x',
+        latest_latency = '30.99',
+        favicon_path = 'storage/cache/TB8FKGP0C6XJF1L9.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MCGO'
+
+2021-07-22 20:09:34,148 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'UltraNetwork'
+
+2021-07-22 20:09:42,318 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.17.x',
+        latest_latency = '17.043',
+        favicon_path = 'storage/cache/3KNR3BPT2970RAS0.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'UltraNetwork'
+
+2021-07-22 20:16:12,158 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 20:16:19,576 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MadCraft'
+
+2021-07-22 20:16:27,882 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:16:27,883 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 157,
+        top_players = 166, 
+        latest_version = 'FlameCord 1.8.x-1.17.x',
+        latest_latency = '17.966',
+        favicon_path = 'storage/cache/XTUGUCBHOZ504YPP.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MadCraft'
+
+2021-07-22 20:16:27,951 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'JigsawMC'
+
+2021-07-22 20:16:36,559 - IRMCTracker Debug - DEBUG - storage/cache/H3ZWUMUY7X67MSUC.png
+2021-07-22 20:16:36,629 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'QPixel'
+
+2021-07-22 20:16:44,897 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:16:44,898 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 43,
+        top_players = 43, 
+        latest_version = '§7v2.1.1 §8- §d[ §b44 §d]',
+        latest_latency = '18.021',
+        favicon_path = 'storage/cache/TGZQHLQQ0V0EUIZ8.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'QPixel'
+
+2021-07-22 20:16:44,957 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'IRCraft'
+
+2021-07-22 20:16:52,256 - IRMCTracker Debug - DEBUG - storage/cache/QD0UQ29DUC8CIS0Y.png
+2021-07-22 20:16:52,256 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 39,
+        top_players = 44, 
+        latest_version = '§c1.9-1.17',
+        latest_latency = '99.972',
+        favicon_path = 'storage/cache/YPSGAHGR100B0HSU.png',
+        motd_path = 'storage/cache/QD0UQ29DUC8CIS0Y.png',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'IRCraft'
+
+2021-07-22 20:16:52,312 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DragonNetwork'
+
+2021-07-22 20:17:01,397 - IRMCTracker Debug - DEBUG - storage/cache/CBFTEAX9PPP3KZQ3.png
+2021-07-22 20:17:01,398 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 38,
+        top_players = 39, 
+        latest_version = 'Aegis',
+        latest_latency = '18.037',
+        favicon_path = 'storage/cache/S1BH5BPSI6VYE6R5.png',
+        motd_path = 'storage/cache/CBFTEAX9PPP3KZQ3.png',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DragonNetwork'
+
+2021-07-22 20:17:01,536 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'GoldCraft'
+
+2021-07-22 20:17:09,681 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:17:09,682 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 32,
+        top_players = 35, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '18.006',
+        favicon_path = 'storage/cache/XGLPVI5YAIV9IK06.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'GoldCraft'
+
+2021-07-22 20:17:09,748 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'AricoGames'
+
+2021-07-22 20:17:18,440 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:17:18,440 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 31,
+        top_players = 31, 
+        latest_version = 'AricoGames 1.8.8 - 1.16.5 / 1.17~',
+        latest_latency = '19.0',
+        favicon_path = 'storage/cache/FGUBOE2YR04HVQXP.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'AricoGames'
+
+2021-07-22 20:17:18,514 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'CastleCraft'
+
+2021-07-22 20:17:26,856 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:17:26,857 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 19,
+        top_players = 23, 
+        latest_version = 'CastleCraft',
+        latest_latency = '18.977',
+        favicon_path = 'storage/cache/OLKLEIGVQEB8S55R.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'CastleCraft'
+
+2021-07-22 20:17:26,912 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'VoidPixel'
+
+2021-07-22 20:17:35,247 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:17:35,248 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 12,
+        top_players = 18, 
+        latest_version = 'Waterfall 1.8.x - 1.17x',
+        latest_latency = '18.037',
+        favicon_path = 'storage/cache/JU6PF5L7X4DDU5XV.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'VoidPixel'
+
+2021-07-22 20:17:35,303 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TrexMine'
+
+2021-07-22 20:17:43,558 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:17:43,559 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 4,
+        top_players = 4, 
+        latest_version = 'Waterfall 1.7.x-1.17.1',
+        latest_latency = '105.029',
+        favicon_path = 'storage/cache/CK18G3UZQXW9SKE9.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TrexMine'
+
+2021-07-22 20:17:43,620 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DarkPixel'
+
+2021-07-22 20:17:52,288 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:17:52,289 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 1,
+        top_players = 2, 
+        latest_version = 'Version 1.16.4-1.16.5',
+        latest_latency = '20.034',
+        favicon_path = 'storage/cache/VHHLUQFE7EX8ZGTV.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DarkPixel'
+
+2021-07-22 20:17:52,343 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TehranGaming'
+
+2021-07-22 20:18:00,560 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:18:00,560 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 1,
+        top_players = 1, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '17.003',
+        favicon_path = 'storage/cache/G1DOF6HBKTVODKWV.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TehranGaming'
+
+2021-07-22 20:18:00,618 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'EOG'
+
+2021-07-22 20:18:08,771 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:18:08,772 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.16.x',
+        latest_latency = '18.008',
+        favicon_path = 'storage/cache/HJP3R8SHW2JAU0TZ.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'EOG'
+
+2021-07-22 20:18:08,826 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MCGO'
+
+2021-07-22 20:18:17,903 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:18:17,903 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.17.x',
+        latest_latency = '25.999',
+        favicon_path = 'storage/cache/SEYYHR7Y59LH6T3P.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MCGO'
+
+2021-07-22 20:18:17,975 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'UltraNetwork'
+
+2021-07-22 20:18:26,094 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:18:26,095 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.17.x',
+        latest_latency = '17.991',
+        favicon_path = 'storage/cache/1FTVAX9W0U1Y8ITN.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'UltraNetwork'
+
+2021-07-22 20:32:13,732 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 20:32:20,466 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MadCraft'
+
+2021-07-22 20:32:28,718 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:32:28,719 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 154,
+        top_players = 166, 
+        latest_version = 'FlameCord 1.8.x-1.17.x',
+        latest_latency = '18.988',
+        favicon_path = 'storage/cache/fav-SAR14WW2B8WAGQ2D.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MadCraft'
+
+2021-07-22 20:32:28,775 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'JigsawMC'
+
+2021-07-22 20:32:37,540 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:32:37,622 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'IRCraft'
+
+2021-07-22 20:32:46,921 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:32:46,921 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 42,
+        top_players = 44, 
+        latest_version = '§c1.9-1.17',
+        latest_latency = '100.997',
+        favicon_path = 'storage/cache/fav-OADP9KQVZGHR96X2.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'IRCraft'
+
+2021-07-22 20:32:46,995 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'QPixel'
+
+2021-07-22 20:32:55,246 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:32:55,247 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 39,
+        top_players = 43, 
+        latest_version = '§7v2.1.1 §8- §d[ §b40 §d]',
+        latest_latency = '19.003',
+        favicon_path = 'storage/cache/fav-KW9P8XL33ATXFQ6M.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'QPixel'
+
+2021-07-22 20:32:55,308 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'AricoGames'
+
+2021-07-22 20:33:03,560 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:33:03,561 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 38,
+        top_players = 38, 
+        latest_version = 'AricoGames 1.8.8 - 1.16.5 / 1.17~',
+        latest_latency = '18.039',
+        favicon_path = 'storage/cache/fav-Z8B0QK9EGRAJLFR1.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'AricoGames'
+
+2021-07-22 20:33:03,616 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DragonNetwork'
+
+2021-07-22 20:33:11,613 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:33:11,614 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 33,
+        top_players = 39, 
+        latest_version = 'Aegis',
+        latest_latency = '17.996',
+        favicon_path = 'storage/cache/fav-EXGY9GZGLCGRHG5P.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DragonNetwork'
+
+2021-07-22 20:33:11,688 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'GoldCraft'
+
+2021-07-22 20:33:19,913 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:33:19,913 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 29,
+        top_players = 35, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '18.99',
+        favicon_path = 'storage/cache/fav-EHAVHFOA90ASV9MM.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'GoldCraft'
+
+2021-07-22 20:33:19,964 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'CastleCraft'
+
+2021-07-22 20:33:28,033 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:33:28,034 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 15,
+        top_players = 23, 
+        latest_version = 'CastleCraft',
+        latest_latency = '18.027',
+        favicon_path = 'storage/cache/fav-34M9BKII2NF28HFS.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'CastleCraft'
+
+2021-07-22 20:33:28,095 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'VoidPixel'
+
+2021-07-22 20:33:36,026 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:33:36,027 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 15,
+        top_players = 18, 
+        latest_version = 'Waterfall 1.8.x - 1.17x',
+        latest_latency = '18.022',
+        favicon_path = 'storage/cache/fav-QJ4WK8LNFO1YOEIU.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'VoidPixel'
+
+2021-07-22 20:33:36,083 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TrexMine'
+
+2021-07-22 20:33:44,219 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:33:44,219 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 3,
+        top_players = 4, 
+        latest_version = 'Waterfall 1.7.x-1.17.1',
+        latest_latency = '105.029',
+        favicon_path = 'storage/cache/fav-LIAK8MEOTE7D9QTS.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TrexMine'
+
+2021-07-22 20:33:44,279 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DarkPixel'
+
+2021-07-22 20:50:19,520 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 20:50:28,256 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MadCraft'
+
+2021-07-22 20:50:36,872 - IRMCTracker Debug - DEBUG - storage/cache/motd-VZKE63Y3PK3EDHRO.png
+2021-07-22 20:50:36,872 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 140,
+        top_players = 166, 
+        latest_version = 'FlameCord 1.8.x-1.17.x',
+        latest_latency = '17.998',
+        favicon_path = 'storage/cache/fav-BKD1K03JAORBNK2S.png',
+        motd_path = 'storage/cache/motd-VZKE63Y3PK3EDHRO.png',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MadCraft'
+
+2021-07-22 20:50:36,939 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'JigsawMC'
+
+2021-07-22 20:50:44,954 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:50:45,027 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'IRCraft'
+
+2021-07-22 20:50:55,052 - IRMCTracker Debug - DEBUG - storage/cache/motd-EZZ1S5YGKPK4T2RT.png
+2021-07-22 20:50:55,052 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 41,
+        top_players = 44, 
+        latest_version = '§c1.9-1.17',
+        latest_latency = '101.003',
+        favicon_path = 'storage/cache/fav-7ZNEUJ8Q6H3FF7V9.png',
+        motd_path = 'storage/cache/motd-EZZ1S5YGKPK4T2RT.png',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'IRCraft'
+
+2021-07-22 20:50:55,112 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'QPixel'
+
+2021-07-22 20:51:03,817 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:51:03,818 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 40,
+        top_players = 43, 
+        latest_version = '§7v2.1.1 §8- §d[ §b41 §d]',
+        latest_latency = '18.018',
+        favicon_path = 'storage/cache/fav-20B1XMC7YRQ30R14.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'QPixel'
+
+2021-07-22 20:51:03,879 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'AricoGames'
+
+2021-07-22 20:51:12,640 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:51:12,641 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 35,
+        top_players = 38, 
+        latest_version = 'AricoGames 1.8.8 - 1.16.5 / 1.17~',
+        latest_latency = '18.009',
+        favicon_path = 'storage/cache/fav-CW4TOBG62MRILU4T.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'AricoGames'
+
+2021-07-22 20:51:12,704 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'GoldCraft'
+
+2021-07-22 20:51:20,790 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:51:20,791 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 33,
+        top_players = 35, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '18.999',
+        favicon_path = 'storage/cache/fav-PA72GCNWT523XIHW.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'GoldCraft'
+
+2021-07-22 20:51:20,863 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DragonNetwork'
+
+2021-07-22 20:51:28,823 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:51:28,824 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 32,
+        top_players = 39, 
+        latest_version = 'Aegis',
+        latest_latency = '18.072',
+        favicon_path = 'storage/cache/fav-P8PP3SK4OTGVZLT2.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DragonNetwork'
+
+2021-07-22 20:51:28,884 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'CastleCraft'
+
+2021-07-22 20:51:37,041 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:51:37,042 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 21,
+        top_players = 23, 
+        latest_version = 'CastleCraft',
+        latest_latency = '17.989',
+        favicon_path = 'storage/cache/fav-REM2XVQFWWLP78NI.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'CastleCraft'
+
+2021-07-22 20:51:37,101 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'VoidPixel'
+
+2021-07-22 20:51:45,120 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:51:45,120 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 17,
+        top_players = 18, 
+        latest_version = 'Waterfall 1.8.x - 1.17x',
+        latest_latency = '18.024',
+        favicon_path = 'storage/cache/fav-VJ1MWARU658NHSU8.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'VoidPixel'
+
+2021-07-22 20:51:45,181 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TrexMine'
+
+2021-07-22 20:51:53,872 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:51:53,873 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 4,
+        top_players = 4, 
+        latest_version = 'Waterfall 1.7.x-1.17.1',
+        latest_latency = '104.047',
+        favicon_path = 'storage/cache/fav-IGOEQ5R83EHE16D6.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TrexMine'
+
+2021-07-22 20:51:53,931 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'DarkPixel'
+
+2021-07-22 20:52:02,290 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:52:02,291 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 1,
+        top_players = 2, 
+        latest_version = 'Version 1.16.4-1.16.5',
+        latest_latency = '20.041',
+        favicon_path = 'storage/cache/fav-54V2BPHI7YT0X6TX.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'DarkPixel'
+
+2021-07-22 20:52:02,348 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'EOG'
+
+2021-07-22 20:52:10,443 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:52:10,443 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.16.x',
+        latest_latency = '17.979',
+        favicon_path = 'storage/cache/fav-C3UU7UIENYI9DB3P.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'EOG'
+
+2021-07-22 20:52:10,507 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'MCGO'
+
+2021-07-22 20:52:18,650 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:52:18,650 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.17.x',
+        latest_latency = '26.005',
+        favicon_path = 'storage/cache/fav-PLIWKQ1VKRYZ3NMK.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'MCGO'
+
+2021-07-22 20:52:18,707 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'UltraNetwork'
+
+2021-07-22 20:52:26,940 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:52:26,941 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 0, 
+        latest_version = 'BungeeCord 1.8.x-1.17.x',
+        latest_latency = '18.026',
+        favicon_path = 'storage/cache/fav-FEBBXZBLLEKDN5LH.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'UltraNetwork'
+
+2021-07-22 20:52:26,999 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name = 'TehranGaming'
+
+2021-07-22 20:52:35,516 - IRMCTracker Debug - DEBUG - null
+2021-07-22 20:52:35,517 - IRMCTracker Debug - DEBUG - 
+    UPDATE `servers`
+    SET current_players = 0,
+        top_players = 1, 
+        latest_version = 'Waterfall 1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x',
+        latest_latency = '18.012',
+        favicon_path = 'storage/cache/fav-Y0BSD1MVN45MUZ1S.png',
+        motd_path = 'null',
+        info_path = 'null',
+        discord = null
+    WHERE name = 'TehranGaming'
+
+2021-07-22 21:04:07,236 - IRMCTracker Debug - DEBUG - 
+    CREATE TABLE IF NOT EXISTS `servers`
+    (
+        `id`              INTEGER PRIMARY KEY AUTOINCREMENT,
+        `name`            VARCHAR(50) NOT NULL UNIQUE,
+        `address`         VARCHAR(50) NOT NULL UNIQUE,
+        `current_players` INT(5) DEFAULT 0,
+        `top_players`     INT(5) DEFAULT 0,
+        `latest_version`  VARCHAR(200),
+        `latest_latency`  INT(5) DEFAULT 0,
+        `favicon_path`    VARCHAR(255),
+        `motd_path`       VARCHAR(255),
+        `info_path`       VARCHAR(255),
+        `discord`         VARCHAR(60)
+    )
+2021-07-22 21:04:07,408 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 21:04:55,569 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name LIKE 'm%'
+
+2021-07-22 21:04:57,895 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name LIKE 'madcraft%'
+
+2021-07-22 21:06:26,684 - IRMCTracker Debug - DEBUG - 
+    SELECT * FROM `servers` WHERE name LIKE 'mcgo%'
+
+2021-07-22 21:12:57,474 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 21:13:53,807 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 21:17:01,244 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`
+2021-07-22 21:17:14,084 - IRMCTracker Debug - DEBUG - SELECT * FROM `servers`

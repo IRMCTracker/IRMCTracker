@@ -18,9 +18,7 @@ class Config:
 
     class Roles:
         DEFAULT = get('roles.default')
-
-    SERVERS = get('servers')
-
+        
 class Env:
     DEBUG = bool(getenv('DEBUG'))
     TOKEN = getenv('DEBUG_TOKEN') if DEBUG else getenv('TOKEN')

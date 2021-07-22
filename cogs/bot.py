@@ -1,6 +1,7 @@
 from modules.config import Env
 
 from discord.ext.commands import command, Cog, has_role
+from modules.utils import get_logger
 
 class Bot(Cog):
     def __init__(self, bot):
@@ -8,7 +9,7 @@ class Bot(Cog):
 
     @Cog.listener()
     async def on_ready(self):
-        print('\nWe\'re up n running {0.user}'.format(self.bot))
+        get_logger().info(f"Booted and running on user: {self.bot.user}")
 
         if not Env.DEBUG:
             await self.bot.get_cog('Tracker').tracker_tick.start()
@@ -37,6 +38,7 @@ class Bot(Cog):
     @command()
     @has_role('root')
     async def shutdown(self, ctx):
+        get_logger().info('Shutting down ...')
         await ctx.bot.logout()
 
 def setup(bot):
