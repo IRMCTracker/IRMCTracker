@@ -1,5 +1,7 @@
 from os import getenv
 from modules.config import get
+from dotenv import load_dotenv
+from distutils.util import strtobool
 
 class Config:   
     class Channels:
@@ -20,7 +22,11 @@ class Config:
         DEFAULT = get('roles.default')
         
 class Env:
-    DEBUG = bool(getenv('DEBUG'))
+    load_dotenv('storage/data/.env')
+    
+    DEBUG = bool(strtobool(getenv('DEBUG')))
+    LOG_SQL = bool(strtobool(getenv('LOG_SQL')))
+
     TOKEN = getenv('DEBUG_TOKEN') if DEBUG else getenv('TOKEN')
     PREFIX = getenv('DEBUG_PREFIX') if DEBUG else getenv('PREFIX')
     

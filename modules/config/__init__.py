@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 
-load_dotenv('storage/data/.env')
+load_dotenv('storage/data/.env', override=True, verbose=True)
 
 from .yml import *
 from .functions import *

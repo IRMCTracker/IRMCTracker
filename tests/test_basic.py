@@ -5,7 +5,7 @@ import datetime
 
 create_tables()
 
-t = MCTracker()
-t.fetch_and_sort()
+# t = MCTracker()
+# t.fetch_and_sort()
 
-print(t.draw_chart())
+# print(t.draw_chart())

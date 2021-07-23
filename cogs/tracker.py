@@ -2,6 +2,7 @@ import os
 from datetime import datetime as dt
 
 from modules.config import Config, Env
+from modules.database import get_all_servers
 from modules.tracker import MCTracker
 
 from discord.ext import tasks
@@ -45,7 +46,7 @@ class Tracker(Cog):
         await self.bot.change_presence(
             activity=Activity(
                 type=ActivityType.watching,
-                name=f"{self.tracker.all_player_count()} players in {str(len(Config.SERVERS))} servers"
+                name=f"{self.tracker.all_player_count()} players in {str(len(get_all_servers()))} servers"
             )
         )
 
