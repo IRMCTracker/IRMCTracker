@@ -37,6 +37,12 @@ class Tracker(Cog):
     async def sendhourly(self,ctx):
         await self.send_hourly()
 
+    @command(has_role='root')
+    @has_role('root')
+    async def updatedb(self,ctx):
+        self.sorted_servers = self.tracker.fetch_and_sort()
+        self.tracker.update_servers_in_database()
+
     @command()
     @has_role('root')
     async def updatechannels(self,ctx):

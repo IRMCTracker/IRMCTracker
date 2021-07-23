@@ -11,7 +11,7 @@ class ServerMeta:
         chrome = webdriver.Chrome(options=options)
 
         self.address = address
-        chrome.get('https://mcsrvstat.us/server/{}'.format(self.address))
+        chrome.get('http://localhost/RenderMOTD/?motd={}'.format(self.address))
 
         try: 
             self.motd_el = chrome.find_element_by_xpath('/html/body/div/div[2]/table/tbody/tr[1]/td[2]/span')

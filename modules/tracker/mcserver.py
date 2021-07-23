@@ -1,9 +1,14 @@
+import re
+
 import base64
 from os.path import isfile
 from mcstatus import MinecraftServer
 
+from selenium import webdriver
+from selenium.webdriver import ChromeOptions
+
 from modules.database import get_server
-from modules.utils import random_string
+from modules.utils import random_string, get_debug_logger
 
 from modules.tracker.meta import ServerMeta
 
@@ -30,12 +35,19 @@ class MCServer:
     
     def get_online_players(self):
         return self.status.players.online if self.status != None else 0
+    
+    def get_max_players(self):
+        return self.status.players.max if self.status != None else 0
 
     def get_latency(self):
         return self.status.latency if self.status != None else 0
 
     def get_version(self):
-        return self.status.version.name if self.status != None else None
+        if self.status != None:
+            return re.sub(r'§[A-Za-z1-9]', '', self.status.version.name)
+        return None
+            
+
 
     def get_name(self, shortified=False):
         name = self.server_name
@@ -43,12 +55,15 @@ class MCServer:
         if shortified:
             return (name[:10] + '..') if len(name) > 10 else name
         return name
+    
+    def get_favicon_base64(self):
+        return self.status.favicon if self.status != None else None
 
     def get_favicon_path(self):
         if self.status:
             data = str(self.status.favicon).replace('data:image/png;base64,', '')
             imgdata = base64.b64decode(data)
-            filename = 'storage/cache/fav-' + random_string() + '.png'
+            filename = f"storage/cache/fav-{self.get_name()}.png"
 
             with open(filename, 'wb') as f:
                     f.write(imgdata)
@@ -59,6 +74,49 @@ class MCServer:
 
     def fetch_server_from_db(self):
         return get_server(self.get_name())
+
+    def get_description(self) -> str:
+        return self.status.description if self.status != None else None
+
+    def get_motd(self):
+        if self.status == None:
+            return None
+            
+        options = ChromeOptions()
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        options.add_argument('--headless')
+        options.add_argument('--profile-directory=Default') 
+        chrome = webdriver.Chrome(options=options)
+        
+        description = str(self.get_description()).replace('\n', '%newline%')
+        url = 'https://devship.ir/RenderMOTD/index.php?name={}&current={}&max={}&motd={}'.format(self.get_name(), self.get_online_players(), self.get_max_players(), description)
+        
+        chrome.get(url)
+
+        motd_el = chrome.find_element_by_id('server')
+        location = motd_el.location
+        size = motd_el.size
+        
+        png = chrome.get_screenshot_as_png()
+
+        chrome.quit()
+
+        from PIL import Image
+        from io import BytesIO
+
+        file_path = 'storage/cache/motd-{}'.format(self.get_name() + '.png')
+        
+        im = Image.open(BytesIO(png))
+
+        left = location['x']
+        top = location['y']
+        right = location['x'] + size['width']
+        bottom = location['y'] + size['height']
+
+        im = im.crop((left, top, right, bottom))
+        im.save(file_path)
+
+        return file_path
 
     def get_meta(self):
         return ServerMeta(self.server_address)

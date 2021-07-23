@@ -27,7 +27,7 @@ def add_handler(name, path, stream_level, file_level, logger_level):
 
 
 def add_main_logger_handler():
-    return add_handler('IRMCTracker','storage/logs/latest.log', logging.ERROR,logging.INFO, logging.INFO)
+    return add_handler('IRMCTracker','storage/logs/latest.log', logging.INFO,logging.INFO, logging.INFO)
 
 def add_debug_logger_handler():
     return add_handler('IRMCTracker Debug','storage/logs/debug.log', logging.DEBUG,logging.DEBUG, logging.DEBUG)

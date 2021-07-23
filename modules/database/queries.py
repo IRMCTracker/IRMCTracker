@@ -55,7 +55,7 @@ UPDATE_SERVER_WITH_NAME = """
         favicon_path = '%favicon_path%',
         motd_path = '%motd_path%',
         info_path = '%info_path%',
-        discord = %discord%
+        discord = '%discord%'
     WHERE name = '%name%'
 """
 

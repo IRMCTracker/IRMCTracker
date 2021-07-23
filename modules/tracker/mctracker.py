@@ -4,7 +4,6 @@ from numpy import logical_xor
 
 from modules.config import Config
 from modules.database import DB, update_server, get_server, get_all_servers
-
 import matplotlib.pyplot as plt
 
 from .mcserver import MCServer
@@ -59,18 +58,15 @@ class MCTracker(DB):
                 top_record, 
                 server.get_version(), 
                 server.get_latency(), 
-                server.get_favicon_path(), 
+                server.get_favicon_path(),
             )
 
-    def update_servers_database_meta(self):
+    def update_servers_motd(self):
         for server in self.data:
             update_server(
-                name=server.get_name(),
-                favicon_path=server.get_favicon_path(), 
-                motd_path=server.get_meta().get_motd_path(),
-                # server.get_meta().get_info_path()
+                server.get_name(),
+                motd_path=server.get_motd()
             )
-
 
     def separated_names_and_players(self):
         names = []
