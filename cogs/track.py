@@ -10,7 +10,7 @@ class Track(Cog):
         self.bot = bot
     
     @command(aliases=['allservers'])
-    @cooldown(5, 60, BucketType.user)
+    @cooldown(6, 60, BucketType.user)
     async def servers(self, ctx):
         servers = get_all_servers()
         banner = File('storage/static/banner.png', filename='banner.png')
@@ -25,7 +25,7 @@ class Track(Cog):
         await ctx.send(file=banner, embed=embed)
 
     @command(aliases=['status','stats'])
-    @cooldown(2, 60, BucketType.user)
+    @cooldown(6, 60, BucketType.user)
     async def track(self, ctx, server=None):
         if server == None:
             return await ctx.send(embed=Embed(title='Dastoor vared shode motabar nist.', 
@@ -70,7 +70,7 @@ class Track(Cog):
     async def track_error(self, ctx, error):
         if isinstance(error, CommandOnCooldown):
             embed = Embed(title="Slow it Down!",
-                    description=f"Shoma dar har daghighe faghat **2bar** emkan estefade az dastoor track ro darid.\nBaraye estefade mojadad **{error.retry_after:.0f}** sanie sabr konid.",
+                    description=f"Shoma dar har daghighe faghat **6bar** emkan estefade az dastoor track ro darid.\nBaraye estefade mojadad **{error.retry_after:.0f}** sanie sabr konid.",
                     color=0xF44336)
             await ctx.send(embed=embed)
         

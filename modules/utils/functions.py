@@ -15,3 +15,9 @@ def random_string(len=16):
 
 def get_beautified_dt():
     return f"{dt.now():%Y-%m-%d %I:%M:%S}"
+
+def prefer_not_null(a, b):
+    if a not in [None, 'null']:
+        return a
+    return b
+    

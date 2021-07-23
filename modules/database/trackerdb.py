@@ -5,6 +5,8 @@ from .queries import CREATE_SERVERS_TABLE, \
                      UPDATE_SERVER_WITH_NAME, \
                      SELECT_SERVER_WITH_NAME
 
+from modules.utils import prefer_not_null
+
 @DB.execute
 def create_tables():
     return [
@@ -31,21 +33,20 @@ def get_servers_like(name):
     })
 
 
-def update_server(name, current_players=0, top_players=0, latest_version='null', latest_latency=0, favicon_path='null', motd_path='null', info_path='null', discord='null'):
-    latest_version = 'null' if latest_version == None else latest_version
-    favicon_path = 'null' if favicon_path == None else favicon_path
-
+def update_server(name, current_players=None, top_players=None, latest_version=None, latest_latency=None, favicon_path=None, motd_path=None, info_path=None, discord=None):
+    server = get_server(get_server(name))
+    
     return DB.sql_execute(UPDATE_SERVER_WITH_NAME, placeholders={
         'name': name,
-        'current_players': current_players,
-        'top_players': top_players,
-        'latest_version': latest_version,
-        'latest_latency': latest_latency,
-        'favicon_path': favicon_path,
-        'motd_path': motd_path,
-        'info_path': info_path,
-        'discord': discord
+        'current_players': prefer_not_null(current_players, server['current_players']),
+        'top_players': prefer_not_null(top_players, server['top_players']),
+        'latest_version': prefer_not_null(latest_version, server['latest_version']),
+        'latest_latency': prefer_not_null(latest_latency, server['latest_latency']),
+        'favicon_path': prefer_not_null(favicon_path, server['favicon_path']),
+        'motd_path': prefer_not_null(motd_path, server['motd_path']),
+        'info_path': prefer_not_null(info_path, server['info_path']),
     })
+
 
 def get_server(name):
     return DB.sql_fetch(SELECT_SERVER_WITH_NAME, last=True, placeholders={
