@@ -4,5 +4,6 @@ __pycache__/
 .vscode/
 venv/
 
-storage/log
+storage/logs
 storage/cache
+storage/logs

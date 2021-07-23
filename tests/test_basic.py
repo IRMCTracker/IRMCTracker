@@ -1,9 +1,11 @@
 from modules.database import create_tables
 from modules.tracker import MCTracker
+import matplotlib.pyplot as plt
+import datetime
 
 create_tables()
 
 t = MCTracker()
 t.fetch_and_sort()
 
-t.update_servers_in_database()
+print(t.draw_chart())

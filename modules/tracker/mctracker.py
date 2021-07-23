@@ -1,5 +1,7 @@
 import datetime
 
+from numpy import logical_xor
+
 from modules.config import Config
 from modules.database import DB, update_server, get_server, get_all_servers
 
@@ -116,11 +118,21 @@ class MCTracker(DB):
             'firebrick'
         ]
 
-        fig = plt.figure(figsize=(17,8))
-        plt.bar(names, players, color=colors)
+        fig, ax = plt.subplots(figsize=(17,8))
+
+        ax.bar(names, players, color=colors)
         plt.title(f"Iranian MineCraft Servers - {datetime.datetime.now():%Y-%m-%d %I:%M:%S}")
         plt.xlabel('Server Names', fontsize=8, labelpad=5)
         plt.ylabel('Players Count', fontsize=8, labelpad=5)
+
+        for index,data in enumerate(players):
+            x = index - 0.11
+            if len(str(data)) == 3:
+                x = index - 0.2
+
+            plt.text(x=x , y =data+1 , s=f"{data}" , fontdict=dict(fontsize=12))
+
+
         plt.savefig(output_file)
 
         return output_file
