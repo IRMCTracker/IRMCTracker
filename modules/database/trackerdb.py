@@ -34,7 +34,7 @@ def get_servers_like(name):
 
 
 def update_server(name, current_players=None, top_players=None, latest_version=None, latest_latency=None, favicon_path=None, motd_path=None, info_path=None, discord=None):
-    server = get_server(get_server(name))
+    server = get_server(name)
     
     return DB.sql_execute(UPDATE_SERVER_WITH_NAME, placeholders={
         'name': name,
@@ -45,6 +45,7 @@ def update_server(name, current_players=None, top_players=None, latest_version=N
         'favicon_path': prefer_not_null(favicon_path, server['favicon_path']),
         'motd_path': prefer_not_null(motd_path, server['motd_path']),
         'info_path': prefer_not_null(info_path, server['info_path']),
+        'discord': prefer_not_null(discord, server['discord'] if server['discord'] else 'null')
     })
 
 

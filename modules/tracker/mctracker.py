@@ -64,22 +64,10 @@ class MCTracker(DB):
 
     def update_servers_database_meta(self):
         for server in self.data:
-            db = server.fetch_server_from_db()
-
-            current_players = server.get_online_players()
-            top_record = db['top_players']
-
-            if current_players > top_record:
-                top_record = current_players
-
             update_server(
-                server.get_name(),
-                current_players, 
-                top_record, 
-                server.get_version(), 
-                server.get_latency(), 
-                server.get_favicon_path(), 
-                server.get_meta().get_motd_path(),
+                name=server.get_name(),
+                favicon_path=server.get_favicon_path(), 
+                motd_path=server.get_meta().get_motd_path(),
                 # server.get_meta().get_info_path()
             )
 
