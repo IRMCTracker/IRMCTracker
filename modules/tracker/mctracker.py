@@ -100,25 +100,31 @@ class MCTracker(DB):
 
         names = separated['names']
         players = separated['players']
-        colors = [
-            'lime',
-            'lime',
-            'green',
-            'green',
-            'darkgreen',
-            'darkgreen', 
-            'gold', 
-            'yellow',
-            'yellow', 
-            'khaki', 
-            'orangered', 
-            'indianred', 
-            'indianred', 
-            'firebrick', 
-            'firebrick'
-        ]
 
-        fig, ax = plt.subplots(figsize=(15,8))
+        colors = []
+        for player_count in players:
+            if player_count > 120:
+                color = 'lime'
+            elif 120 > player_count > 80:
+                color = 'green'
+            elif 80 > player_count > 60:
+                color = 'darkgreen'
+            elif 60 > player_count > 50:
+                color = 'gold'
+            elif 50 > player_count > 40:
+                color = 'yellow'
+            elif 40 > player_count > 30:
+                color = 'khaki'
+            elif 30 > player_count > 20:
+                color = 'orangered'
+            elif 20 > player_count > 10:
+                color = 'indianred'
+            elif 10 > player_count:
+                color = 'firebrick'
+            
+            colors.append(color)
+
+        fig, ax = plt.subplots(figsize=(17,8))
 
         ax.bar(names, players, color=colors)
         plt.title(f"Iranian MineCraft Servers - {datetime.datetime.now():%Y-%m-%d %I:%M:%S}")
