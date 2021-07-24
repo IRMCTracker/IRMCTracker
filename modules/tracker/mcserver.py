@@ -6,6 +6,7 @@ from mcstatus import MinecraftServer
 
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
+from six.moves.urllib.parse import urlencode
 
 from modules.database import get_server
 from modules.utils import random_string, get_debug_logger
@@ -89,8 +90,17 @@ class MCServer:
         chrome = webdriver.Chrome(options=options)
         
         description = str(self.get_description()).replace('\n', '%newline%')
-        url = 'https://devship.ir/RenderMOTD/index.php?name={}&current={}&max={}&motd={}'.format(self.get_name(), self.get_online_players(), self.get_max_players(), description)
+
+        params = {
+            'name': self.get_name(),
+            'current': self.get_online_players(),
+            'max': self.get_max_players(),
+            'motd': description
+        }
+        params_encoded = urlencode(params)
         
+        url = 'https://devship.ir/RenderMOTD/index.php?' + params_encoded
+
         chrome.get(url)
 
         motd_el = chrome.find_element_by_id('server')
