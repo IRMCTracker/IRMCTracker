@@ -81,7 +81,7 @@ class Track(Cog):
             embed = Embed(title="Slow it Down!",
                     description=f"Shoma dar har daghighe faghat **6bar** emkan estefade az dastoor track ro darid.\nBaraye estefade mojadad **{error.retry_after:.0f}** sanie sabr konid.",
                     color=0xF44336)
-            await ctx.send(ctx.author.mention(), embed=embed)
+            await ctx.send(ctx.author.mention, embed=embed)
         
 
 def setup(bot):
