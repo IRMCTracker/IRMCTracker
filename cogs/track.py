@@ -63,6 +63,10 @@ class Track(Cog):
             embed.set_author(name=f"💎 {server['name']}")
 
             favicon = File(server['favicon_path'], filename="image.png")
+
+            # TODO REMOVE THIS LINE
+            server['motd_path'] = 'storage/static/banner.png'
+            
             motd = File(server['motd_path'], filename="motd.png")
             embed.set_thumbnail(url="attachment://image.png")
 
