@@ -82,50 +82,57 @@ class MCServer:
     def get_motd(self):
         if self.status == None:
             return None
+        
+        try:
+            options = ChromeOptions()
+            options.add_experimental_option('excludeSwitches', ['enable-logging'])
+            options.add_argument('--headless')
+            options.add_argument('--profile-directory=Default') 
+            chrome = webdriver.Chrome(options=options)
             
-        options = ChromeOptions()
-        options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        options.add_argument('--headless')
-        options.add_argument('--profile-directory=Default') 
-        chrome = webdriver.Chrome(options=options)
-        
-        description = str(self.get_description()).replace('\n', '%newline%')
+            description = str(self.get_description()).replace('\n', '%newline%')
 
-        params = {
-            'name': self.get_name(),
-            'current': self.get_online_players(),
-            'max': self.get_max_players(),
-            'motd': description
-        }
-        params_encoded = urlencode(params)
-        
-        url = 'https://devship.ir/RenderMOTD/index.php?' + params_encoded
+            params = {
+                'name': self.get_name(),
+                'current': self.get_online_players(),
+                'max': self.get_max_players(),
+                'motd': description
+            }
+            params_encoded = urlencode(params)
+            
+            url = 'https://devship.ir/RenderMOTD/index.php?' + params_encoded
 
-        chrome.get(url)
+            chrome.get(url)
 
-        motd_el = chrome.find_element_by_id('server')
-        location = motd_el.location
-        size = motd_el.size
-        
-        png = chrome.get_screenshot_as_png()
+            motd_el = chrome.find_element_by_id('server')
+            location = motd_el.location
+            size = motd_el.size
+            
+            png = chrome.get_screenshot_as_png()
 
-        chrome.quit()
+            chrome.quit()
+        except:
+            print('Exception at MCServer#get_motd({}) selenium '.format(self.get_name()))
+            return None
+        try:
+            from PIL import Image
+            from io import BytesIO
 
-        from PIL import Image
-        from io import BytesIO
+            file_path = 'storage/cache/motd-{}'.format(self.get_name() + '.png')
+            
+            im = Image.open(BytesIO(png))
 
-        file_path = 'storage/cache/motd-{}'.format(self.get_name() + '.png')
-        
-        im = Image.open(BytesIO(png))
+            left = location['x']
+            top = location['y']
+            right = location['x'] + size['width']
+            bottom = location['y'] + size['height']
 
-        left = location['x']
-        top = location['y']
-        right = location['x'] + size['width']
-        bottom = location['y'] + size['height']
-
-        im = im.crop((left, top, right, bottom))
-        im.save(file_path)
-
+            im = im.crop((left, top, right, bottom))
+            im.save(file_path)
+        except:
+            print('Exception at MCServer#get_motd({}) PIL '.format(self.get_name()))
+            return None
+            
         return file_path
 
     def get_meta(self):
