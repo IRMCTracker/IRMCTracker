@@ -25,6 +25,13 @@ def add_handler(name, path, stream_level, file_level, logger_level):
 
     return logger
 
+def add_discord_logger_handler():
+    logger = logging.getLogger('discord')
+    logger.setLevel(logging.DEBUG)
+    handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+    handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+    logger.addHandler(handler)
+
 
 def add_main_logger_handler():
     return add_handler('IRMCTracker','storage/logs/latest.log', logging.INFO,logging.INFO, logging.INFO)
