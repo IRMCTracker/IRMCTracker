@@ -8,9 +8,7 @@ class Admin(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["updatediscord"])
-    async def setdiscord(ctx, name, discord):
-        await ctx.send(name)
-        await ctx.send(discord)
+    async def setdiscord(self, ctx, name, discord):
         update_server(name, discord=discord)
         await ctx.send(f"Server **{name}** discord set to {discord}")
 

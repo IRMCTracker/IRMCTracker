@@ -35,7 +35,6 @@ def get_servers_like(name):
 
 def update_server(name, current_players=None, top_players=None, latest_version=None, latest_latency=None, favicon_path=None, motd_path=None, info_path=None, discord=None):
     server = get_server(name)
-    print(server)
     
     return DB.sql_execute(UPDATE_SERVER_WITH_NAME, placeholders={
         'name': name,
