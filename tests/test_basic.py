@@ -10,7 +10,7 @@ from mcstatus import MinecraftServer
 
 create_tables()
 
-s = MCServer('MadCraft', 'hub.madcraft.ir')
+s = MCServer('TrexMine', 'play.trexmine.com')
 print(s.get_motd())
 
 exit()

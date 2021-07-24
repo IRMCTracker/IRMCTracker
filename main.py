@@ -23,7 +23,7 @@ def update_servers_tick():
 
         tracker.update_servers_motd()
 
-        sleep(70)
+        asyncio.sleep(60)
         
 def run_discord_bot():
     bot = Bot(command_prefix=Env.PREFIX, intents=Intents().all(), help_command=None)
