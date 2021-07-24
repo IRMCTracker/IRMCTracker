@@ -60,5 +60,5 @@ UPDATE_SERVER_WITH_NAME = """
 """
 
 SELECT_SERVER_WITH_NAME = """
-    SELECT * FROM `servers` WHERE LOWER(name) LIKE LOWER('%name%')
+    SELECT * FROM `servers` WHERE name = '%name%'
 """
