@@ -6,13 +6,15 @@ from modules.utils import get_logger
 class Bot(Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.task_run = False
 
     @Cog.listener()
     async def on_ready(self):
         get_logger().info(f"Booted and running on user: {self.bot.user}")
 
-        if not Env.DEBUG:
+        if not Env.DEBUG and not self.task_run:
             await self.bot.get_cog('Tracker').tracker_tick.start()
+            self.task_run = True
 
     @command()
     @has_role('root')
