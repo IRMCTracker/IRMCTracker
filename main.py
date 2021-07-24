@@ -25,6 +25,17 @@ def update_servers_tick():
 
         sleep(50)
         
+def run_discord_bot():
+    asyncio.set_event_loop(asyncio.new_event_loop())
+
+    bot = Bot(command_prefix=Env.PREFIX, intents=Intents().all(), help_command=None)
+
+    for filename in listdir('./cogs'):
+        if filename.endswith('.py'):
+            bot.load_extension(f'cogs.{filename[:-3]}')
+            print(f"\n- Loaded {filename}")
+
+    bot.run(Env.TOKEN)
 
 if __name__ == "__main__":
     args = sys.argv[1:]
@@ -35,16 +46,9 @@ if __name__ == "__main__":
     if args[0] == 'run':
         create_tables()
 
-        bot = Bot(command_prefix=Env.PREFIX, intents=Intents().all(), help_command=None)
-
-        for filename in listdir('./cogs'):
-            if filename.endswith('.py'):
-                bot.load_extension(f'cogs.{filename[:-3]}')
-                print(f"\n- Loaded {filename}")
-
         Thread(target=update_servers_tick, daemon=True).start()
+        Thread(target=run_discord_bot, daemon=True).start()
 
-        bot.run(Env.TOKEN)
 
     elif args[0] == 'test':
         from tests.test_basic import *
