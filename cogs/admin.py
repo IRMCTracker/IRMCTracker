@@ -1,0 +1,16 @@
+import discord
+from discord.ext import commands
+
+from modules.database import update_server
+
+class Admin(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(aliases=["updatediscord"])
+    async def setdiscord(ctx, name, discord):
+        update_server(name=name, discord=discord)
+        await ctx.send(f"Server **{name}** discord set to {discord}")
+
+def setup(bot):
+    bot.add_cog(Admin(bot))
