@@ -23,7 +23,7 @@ class MCTracker():
 
         return self.mcservers
     
-    def update_servers_database(self):
+    def update_servers_database(self, update_motd=False):
         for server in self.mcservers:
             db = server.fetch_server_from_db()
 
@@ -42,6 +42,12 @@ class MCTracker():
                 server.get_favicon_path(),
             )
 
+            if update_motd:
+                update_server(
+                    server.get_name(),
+                    motd_path=server.get_motd()
+                )
+
     def update_task(self):
         asyncio.set_event_loop(asyncio.new_event_loop())
 
@@ -49,14 +55,7 @@ class MCTracker():
 
         self.update_servers_database()
 
-        asyncio.sleep(60)
-
-    def update_servers_motd(self):
-        for server in self.mcservers:
-            update_server(
-                server.get_name(),
-                motd_path=server.get_motd()
-            )
+        asyncio.sleep(60)            
 
     def draw_chart(self, output_file='chart.png'):
         names = DB.sql_fetch('SELECT name FROM servers')
