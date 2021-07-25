@@ -1,12 +1,16 @@
 import logging
 
-def add_handler(name, path, stream_level, file_level, logger_level):
+def add_handler(name, filename, stream_level, file_level, logger_level):
     # Create a custom logger
     logger = logging.getLogger(name)
 
     # Create handlers
     c_handler = logging.StreamHandler()
-    f_handler = logging.FileHandler(path)
+    
+    # Getting the storage logs path
+    log_path = 'storage/logs/' + filename
+
+    f_handler = logging.FileHandler(filename=log_path, encoding='utf-8', mode='w')
     c_handler.setLevel(stream_level)
     f_handler.setLevel(file_level)
 
@@ -22,23 +26,17 @@ def add_handler(name, path, stream_level, file_level, logger_level):
     # Add handlers to the logger
     logger.addHandler(c_handler)
     logger.addHandler(f_handler)
-
+    
     return logger
 
 def add_discord_logger_handler():
-    logger = logging.getLogger('discord')
-    logger.setLevel(logging.DEBUG)
-    handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-    handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-    logger.info('Discord Logger Handler Added')
-    logger.addHandler(handler)
-
+    return add_handler('discord', 'discord.log', logging.WARN, logging.DEBUG, logging.DEBUG)
 
 def add_main_logger_handler():
-    return add_handler('IRMCTracker','storage/logs/latest.log', logging.INFO,logging.INFO, logging.INFO)
+    return add_handler('IRMCTracker','latest.log', logging.INFO,logging.INFO, logging.INFO)
 
 def add_debug_logger_handler():
-    return add_handler('IRMCTracker Debug','storage/logs/debug.log', logging.DEBUG,logging.DEBUG, logging.DEBUG)
+    return add_handler('IRMCTracker Debug','debug.log', logging.DEBUG,logging.DEBUG, logging.DEBUG)
 
 def get_logger():
     return logging.getLogger('IRMCTracker')

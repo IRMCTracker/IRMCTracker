@@ -8,4 +8,5 @@ add_main_logger_handler()
 add_debug_logger_handler()
 
 if Env.LOG_DEBUG_DISCORD:
-    add_discord_logger_handler()
+    logger = add_discord_logger_handler()
+    logger.info('Discord Debug logger handler added')
