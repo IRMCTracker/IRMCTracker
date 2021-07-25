@@ -6,15 +6,15 @@ from modules.utils import get_logger
 class Bot(Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.task_run = False
 
     @Cog.listener()
     async def on_ready(self):
         get_logger().info(f"Booted and running on user: {self.bot.user}")
 
-        if not Env.DEBUG and not self.task_run:
+        try:
             await self.bot.get_cog('Tracker').tracker_tick.start()
-            self.task_run = True
+        except:
+            get_logger().error('Failed to start Tracker#tracker_tick task')
 
     @command()
     @has_role('root')
@@ -33,10 +33,9 @@ class Bot(Cog):
     @command()
     @has_role('root')
     async def reload(self, ctx, extension):
-        self.bot.unload_extension(f'cogs.{extension}')
-        self.bot.load_extension(f'cogs.{extension}')
-        await ctx.send(f':white_check_mark: All done! Reloaded **{extension}**')
-
+        self.unload(ctx, extension)
+        self.load(ctx, extension)
+        
     @command()
     @has_role('root')
     async def shutdown(self, ctx):
