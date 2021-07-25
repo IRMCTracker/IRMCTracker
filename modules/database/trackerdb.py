@@ -66,9 +66,13 @@ def get_all_servers():
 def get_all_servers_sorted():
     return SELECT_ALL_SERVERS_ORDERED
 
-@DB.fetch_value
+
 def zero_player_servers_count():
-    return SELECT_ZERO_PLAYER_COUNT
+    result = DB.sql_fetch(SELECT_ZERO_PLAYER_COUNT)
+    print(result)
+    print(dir(result))
+
+    return 4
 
 @DB.fetch_value
 def all_players_count():

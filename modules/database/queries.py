@@ -76,5 +76,5 @@ SELECT_PLAYERS_COUNT = """
 """
 
 SELECT_ZERO_PLAYER_COUNT = """
-    SELECT COUNT(current_players) FROM `servers` WHERE current_players = 0
+    SELECT COUNT(current_players) FROM `servers` WHERE current_players = 0 AS zero_count
 """
