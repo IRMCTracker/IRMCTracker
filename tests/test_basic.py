@@ -1,28 +1,11 @@
-from modules.tracker import MCServer
-from modules.database import create_tables
-from modules.tracker import MCTracker
-import matplotlib.pyplot as plt
-import datetime
-import json
-from selenium import webdriver
-import hashlib
-from mcstatus import MinecraftServer
+from modules.database import create_tables, DB
 
 create_tables()
 
-s = MCServer('TrexMine', 'play.trexmine.com')
-print(s.get_motd())
+names = [server['name'] for server in DB.sql_fetch('SELECT name FROM servers')]
+players = [server['current_players'] for server in DB.sql_fetch('SELECT current_players FROM servers')]
+print(names)
+print(players)
 
-exit()
-
-
-# https://minecraft.tools/en/css/img/motd-img.png - default minecraft server image png
-# s = MinecraftServer('hub.madcraft.ir')
-# print(s.status().favicon)
-# t = MCTracker()
-# t.fetch_and_sort()
-
-
-# print(t.draw_chart())
 
 
