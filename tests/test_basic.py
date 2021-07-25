@@ -1,9 +1,12 @@
-from modules.database import create_tables, DB
+from modules.database import create_tables, get_all_servers_sorted
 
 create_tables()
 
-names = [server['name'] for server in DB.sql_fetch('SELECT name FROM servers')]
-players = [server['current_players'] for server in DB.sql_fetch('SELECT current_players FROM servers')]
+servers = get_all_servers_sorted()
+
+names = [server['name'] for server in servers]
+players = [server['current_players'] for server in servers]
+
 print(names)
 print(players)
 

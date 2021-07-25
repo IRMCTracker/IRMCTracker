@@ -58,8 +58,8 @@ class MCTracker():
         asyncio.sleep(60)            
 
     def draw_chart(self, output_file='chart.png'):
-        names = [server['name'] for server in DB.sql_fetch('SELECT name FROM servers')]
-        players = [server['current_players'] for server in DB.sql_fetch('SELECT current_players FROM servers')]
+        names = [server['name'] for server in self.all_servers]
+        players = [server['current_players'] for server in self.all_servers]
 
         colors = []
         for player_count in players:
