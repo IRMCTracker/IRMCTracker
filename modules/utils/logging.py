@@ -30,6 +30,7 @@ def add_discord_logger_handler():
     logger.setLevel(logging.DEBUG)
     handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
     handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+    logger.info('Discord Logger Handler Added')
     logger.addHandler(handler)
 
 
