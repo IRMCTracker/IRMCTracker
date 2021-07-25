@@ -59,7 +59,7 @@ class MCTracker():
         asyncio.sleep(60)            
 
     def draw_chart(self, output_file='chart.png'):
-        names = [shortified(server['name'], 10) for server in self.all_servers]
+        names = [shortified(server['name'], 6) for server in self.all_servers]
         players = [server['current_players'] for server in self.all_servers]
 
         colors = []
