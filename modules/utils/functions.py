@@ -21,3 +21,5 @@ def prefer_not_null(a, b):
         return a
     return b
     
+def shortified(string, max_len=6):
+    return (string[:max_len] + '..') if len(string) > max_len else string

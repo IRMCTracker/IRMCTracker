@@ -62,3 +62,19 @@ UPDATE_SERVER_WITH_NAME = """
 SELECT_SERVER_WITH_NAME = """
     SELECT * FROM `servers` WHERE name = '%name%'
 """
+
+SELECT_ALL_SERVERS = """
+    SELECT * FROM `servers`
+"""
+
+SELECT_ALL_SERVERS_ORDERED = """
+    SELECT * FROM `servers` ORDER BY current_players DESC
+"""
+
+SELECT_PLAYERS_COUNT = """
+    SELECT SUM(current_players) AS all_count FROM `servers`
+"""
+
+SELECT_ZERO_PLAYER_COUNT = """
+    SELECT COUNT(current_players) FROM `servers` WHERE current_players = 0
+"""

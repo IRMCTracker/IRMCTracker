@@ -1,49 +1,30 @@
+import asyncio
 import datetime
 
-from numpy import logical_xor
+from modules.database.trackerdb import *
 
-from modules.config import Config
-from modules.database import DB, update_server, get_server, get_all_servers
 import matplotlib.pyplot as plt
 
 from .mcserver import MCServer
 
-class MCTracker(DB):
+class MCTracker():
     def __init__(self):
-        self.all_servers = get_all_servers()
-        self.data = []
+        self.all_servers = get_all_servers_sorted()
+        self.mcservers = []
         self.is_fetched = False
 
-    @staticmethod
-    @DB.fetch
-    def get_servers():
-        return 'SELECT * FROM `servers`'
-
-    def fetch_all(self):  
-        self.data.clear()
+    def fetch_servers(self):  
+        self.mcservers.clear()
 
         for server in self.all_servers:
-            self.data.append(MCServer(server['name'], server['address']))
+            self.mcservers.append(MCServer(server['name'], server['address']))
         
         self.is_fetched = True
 
-        return self.data
-
-    def sort_all(self):
-        if not self.is_fetched:
-            return print('You should exec MCTracker#fetch_all first!')
-        
-        self.data.sort(key=lambda x: x.get_online_players(), reverse=True)
-
-        return self.data
-
-
-    def fetch_and_sort(self):
-        self.fetch_all()
-        return self.sort_all()
+        return self.mcservers
     
-    def update_servers_in_database(self):
-        for server in self.data:
+    def update_servers_database(self):
+        for server in self.mcservers:
             db = server.fetch_server_from_db()
 
             current_players = server.get_online_players()
@@ -61,29 +42,25 @@ class MCTracker(DB):
                 server.get_favicon_path(),
             )
 
+    def update_task(self):
+        asyncio.set_event_loop(asyncio.new_event_loop())
+
+        self.fetch_servers()
+
+        self.update_servers_database()
+
+        asyncio.sleep(60)
+
     def update_servers_motd(self):
-        for server in self.data:
+        for server in self.mcservers:
             update_server(
                 server.get_name(),
                 motd_path=server.get_motd()
             )
 
-    def separated_names_and_players(self):
-        names = []
-        players = []
-
-        for server in self.data:
-            name = server.get_name()
-            names.append((name[:8] + '..') if len(name) > 8 else name)
-            players.append(server.get_online_players())
-            
-        return {'names': names, 'players': players}
-
     def draw_chart(self, output_file='chart.png'):
-        separated = self.separated_names_and_players()
-
-        names = separated['names']
-        players = separated['players']
+        names = DB.sql_fetch('SELECT name FROM servers')
+        players = DB.sql_fetch('SELECT current_players FROM servers')
 
         colors = []
         for player_count in players:
@@ -119,23 +96,8 @@ class MCTracker(DB):
             x = index - 0.11
             if len(str(data)) == 3:
                 x = index - 0.2
-
             plt.text(x=x , y =data+1 , s=f"{data}" , fontdict=dict(fontsize=12))
-
 
         plt.savefig(output_file)
 
         return output_file
-    
-    def zero_player_count(self):
-        count = 0
-        for server in self.data:
-            if server.get_online_players() == 0:
-                count += 1
-        return count
-
-    def all_player_count(self):
-        total = 0
-        for server in self.data:
-            total += server.get_online_players()
-        return total

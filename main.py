@@ -44,8 +44,8 @@ if __name__ == "__main__":
     if args[0] == 'run':
         create_tables()
 
-        # Thread(target=update_servers_tick, daemon=True).start()
-        # Thread(target=run_discord_bot, daemon=True).start()
+        Thread(target=MCTracker().update_task, daemon=True).start()
+        
         run_discord_bot()
 
 

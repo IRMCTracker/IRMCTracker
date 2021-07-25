@@ -3,7 +3,11 @@ from .queries import CREATE_SERVERS_TABLE, \
                      INSERT_SERVER, \
                      SELECT_SERVER_ALIKE_WITH_NAME, \
                      UPDATE_SERVER_WITH_NAME, \
-                     SELECT_SERVER_WITH_NAME
+                     SELECT_SERVER_WITH_NAME, \
+                     SELECT_ALL_SERVERS, \
+                     SELECT_ALL_SERVERS_ORDERED, \
+                     SELECT_PLAYERS_COUNT, \
+                     SELECT_ZERO_PLAYER_COUNT
 
 from modules.utils import prefer_not_null
 
@@ -56,4 +60,16 @@ def get_server(name):
 
 @DB.fetch
 def get_all_servers():
-    return 'SELECT * FROM `servers`'
+    return SELECT_ALL_SERVERS
+
+@DB.fetch
+def get_all_servers_sorted():
+    return SELECT_ALL_SERVERS_ORDERED
+
+@DB.fetch_value
+def zero_player_servers_count():
+    return SELECT_ZERO_PLAYER_COUNT
+
+@DB.fetch_value
+def all_players_count():
+    return SELECT_PLAYERS_COUNT
