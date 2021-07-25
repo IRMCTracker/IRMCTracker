@@ -74,6 +74,9 @@ def zero_player_servers_count():
 
     return 4
 
-@DB.fetch_value
+
 def all_players_count():
+    result = DB.sql_fetch(SELECT_PLAYERS_COUNT)
+    print(result)
+    print(dir(result))
     return SELECT_PLAYERS_COUNT
