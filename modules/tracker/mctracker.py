@@ -51,12 +51,12 @@ class MCTracker():
 
     def update_task(self):
         asyncio.set_event_loop(asyncio.new_event_loop())
+        while True:
+            self.fetch_servers()
 
-        self.fetch_servers()
+            self.update_servers_database()
 
-        self.update_servers_database()
-
-        asyncio.sleep(60)            
+            asyncio.sleep(60)            
 
     def draw_chart(self, output_file='chart.png'):
         names = [shortified(server['name'], 6) for server in self.all_servers]
