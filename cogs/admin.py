@@ -2,6 +2,7 @@ from discord import Embed
 from discord.ext.commands import Cog, command, has_role
 
 from modules.database import update_server
+from modules.tracker import MCTracker
 from modules.utils import get_beautified_dt
 
 class Admin(Cog):
@@ -71,6 +72,22 @@ class Admin(Cog):
         embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/866594343551500308/868239327715549184/guidelines.png')
         embed.set_footer(text=f"IRMCTracker", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
         await channel.send(embed=embed)
+
+
+    @command(has_role='root')
+    @has_role('root')
+    async def sendhourly(self,ctx):
+        await self.bot.get_cog('Tracker').send_chart()
+
+    @command(has_role='root')
+    @has_role('root')
+    async def updatedb(self,ctx):
+        MCTracker().update_servers_database()
+
+    @command()
+    @has_role('root')
+    async def updatechannels(self,ctx):
+        await self.bot.get_cog('Tracker').update_channels()
 
 def setup(bot):
     bot.add_cog(Admin(bot))
