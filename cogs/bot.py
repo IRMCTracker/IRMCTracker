@@ -4,6 +4,9 @@ from discord.ext.commands import command, Cog, has_role
 from modules.utils import get_logger
 
 class Bot(Cog):
+    """Low end bot management commands/events
+    """
+    
     def __init__(self, bot):
         self.bot = bot
 

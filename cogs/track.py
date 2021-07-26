@@ -8,12 +8,23 @@ from modules.database import get_servers_like
 from modules.utils import get_beautified_dt
 
 class Track(Cog):
+    """Track commands cog
+
+    All the tracker commands for public users
+
+    TODO:
+        - Add a command for fetching custom domain/ip addresses
+    """
+
     def __init__(self, bot):
         self.bot = bot
     
     @command(aliases=['allservers'])
     @cooldown(6, 60, BucketType.user)
     async def servers(self, ctx):
+        """Sending all the sorted servers in an embed
+        """
+
         servers = get_all_servers_sorted()
         banner = File('storage/static/banner.png', filename='banner.png')
         embed = Embed(title="📡 Servers List | لیست سرور ها", description='', color=0x673AB7)
@@ -24,11 +35,14 @@ class Track(Cog):
 
         embed.set_footer(text='Tracked at ' +   get_beautified_dt())
 
-        await ctx.send(file=banner, embed=embed)
+        await ctx.send(ctx.author.mention, file=banner, embed=embed)
 
-    @command(aliases=['status','stats'])
+    @command(aliases=['status','stats', 'server'])
     @cooldown(6, 60, BucketType.user)
     async def track(self, ctx, server=None):
+        """Track command for getting information about servers
+        """
+
         mention_msg = ctx.author.mention
 
         if server == None:
