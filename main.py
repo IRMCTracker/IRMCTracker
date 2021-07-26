@@ -13,6 +13,14 @@ from threading import Thread
 
         
 def run_discord_bot():
+    """ Running discord bot
+
+    Notes:
+        - help_command is None so that we can introduce the command later
+        - Having intents.all() makes it possible to do mass actions with members
+        - Will load every single cog in ~/cogs/ directory and run the bot    
+    """ 
+    
     bot = Bot(command_prefix=Env.PREFIX, intents=Intents().all(), help_command=None)
 
     for filename in listdir('./cogs'):
@@ -29,8 +37,10 @@ if __name__ == "__main__":
         sys.exit("You have not entered any args.\nAvailable args: [run , test, db]")
 
     if args[0] == 'run':
+        # Creating the database tables (and the actual database file if doesnt exist)
         create_tables()
 
+        # Running the database update task in another thread so that it doesnt interfere with the actual bot 
         Thread(target=MCTracker().update_task, daemon=True).start()
         
         run_discord_bot()
