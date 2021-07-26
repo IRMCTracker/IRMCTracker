@@ -6,6 +6,12 @@ A discord bot  for tracking Iranian Minecraft servers and showing the statistics
 
 Installation needs a valid installation of **Python > 3.6**
 
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install *requirments.txt*
+
+```bash
+pip install -r requirments.txt
+```
+
 ### Before running the bot
 Copy _storage/config/.env.sample_ to to _storage/config/.env_ and update tokens/prefixes etc as desired
 
@@ -13,12 +19,6 @@ Copy _storage/config/.env.sample_ to to _storage/config/.env_ and update tokens/
 1. Add servers to tracker database (No need to restart after that, bot will fetch the newly added servers):
   - Directly using database management softwares
   - Through commands (~/cog/admin.py)
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install *requirments.txt*
-
-```bash
-pip install -r requirments.txt
-```
 
 ## Usage
 
