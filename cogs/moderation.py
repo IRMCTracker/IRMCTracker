@@ -4,6 +4,11 @@ from discord.ext.commands import command, Cog
 from modules.utils import has_link, has_discord_link, message_has_mentions
 
 class Moderation(Cog):
+    """Simple moderation handlers for tracker bot
+
+    TODO:
+        - Anti flood spam implementation
+    """
     def __init__(self, bot):
         self.bot = bot
 

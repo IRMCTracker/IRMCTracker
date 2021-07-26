@@ -8,6 +8,7 @@ class Basics(Cog):
 
     All the basic 'INFO' , 'FAQ', etc commands of the tracker bot
     """
+    
     def __init__(self, bot):
         self.bot = bot
 
