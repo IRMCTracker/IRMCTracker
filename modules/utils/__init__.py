@@ -1,3 +1,7 @@
+"""Utils Module
+
+Methods that are used widely over the project
+"""
 from .functions import *
 from .logging import *
 from .validations import *
