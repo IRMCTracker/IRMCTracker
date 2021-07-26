@@ -1,4 +1,3 @@
-from modules.utils.logging import get_logger
 import sys
 from os import listdir
 
@@ -6,8 +5,9 @@ from discord import Intents
 from discord.ext.commands import Bot
 
 from modules.config import Env
-from modules.database import create_tables
+from modules.utils import get_logger
 from modules.tracker import MCTracker
+from modules.database import create_tables
 
 from threading import Thread
 

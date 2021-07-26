@@ -19,7 +19,7 @@ pip install -r requirments.txt
 python main.py run
 
 # Fetching all servers and updating them in database
-python main.py db:fresh
+python main.py db:update
 
 # Running tests/test_basic.py for testing purposes
 python main.py test
