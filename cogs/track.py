@@ -67,7 +67,7 @@ class Track(Cog):
             server = servers_alike[0]
             discord = server['discord'] if server['discord'] != 'null' else 'Not Set'
 
-            if server['favicon_path'] == 'null' or not exists(server['favicon_path']):
+            if server['favicon_path'] == 'null' or not exists(server['favicon_path']) or server['latest_latency'] == 0:
                 embed = Embed(title=f"🔴 {server['name']}", description='Server morede nazar shoma dar hale hazer offline hast : (', color=0xc62828)
                 return await ctx.send(mention_msg, embed=embed)
             if server['motd_path'] == 'null' or not exists(server['motd_path']):
