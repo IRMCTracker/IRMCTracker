@@ -1,7 +1,7 @@
 from discord import Embed
 from discord.ext.commands import Cog, command, has_role
 
-from modules.database import update_server
+from modules.database import update_server, insert_server
 from modules.tracker import MCTracker
 from modules.utils import get_beautified_dt
 
@@ -14,16 +14,25 @@ class Admin(Cog):
     def __init__(self, bot):
         self.bot = bot
 
+
+    @command(aliases=["newserver"])
+    @has_role('root')
+    async def addserver(self, ctx, name, address):
+        insert_server(name, address=address)
+        await ctx.send(f"Server **{name}** with address **{address}** added to database")
+
     @command(aliases=["updatediscord"])
+    @has_role('root')
     async def setdiscord(self, ctx, name, discord):
-        """Changing the default(null) discord of a server in database
-        
-        TODO:
-            - Will produce error if the desired server doesnt exist
-            - Need to move all admin commands to this cog
-        """
         update_server(name, discord=discord)
         await ctx.send(f"Server **{name}** discord set to {discord}")
+
+    @command(aliases=["updateaddress"])
+    @has_role('root')
+    async def setaddress(self, ctx, name, address):
+        update_server(name, address=address)
+        await ctx.send(f"Server **{name}** address set to **{address}**")
+
 
     @command()
     @has_role('root')
@@ -88,6 +97,7 @@ class Admin(Cog):
     @has_role('root')
     async def updatechannels(self,ctx):
         await self.bot.get_cog('Tracker').update_channels()
+
 
 def setup(bot):
     bot.add_cog(Admin(bot))

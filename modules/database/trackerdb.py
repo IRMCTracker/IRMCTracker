@@ -37,12 +37,13 @@ def get_servers_like(name):
     })
 
 
-def update_server(name, current_players=None, top_players=None, latest_version=None, latest_latency=None, favicon_path=None, motd_path=None, info_path=None, discord=None):
+def update_server(name, current_players=None, address=None, top_players=None, latest_version=None, latest_latency=None, favicon_path=None, motd_path=None, info_path=None, discord=None):
     server = get_server(name)
     
     return DB.sql_execute(UPDATE_SERVER_WITH_NAME, placeholders={
         'name': name,
         'current_players': prefer_not_null(current_players, server['current_players']),
+        'address': prefer_not_null(address, server['address']),
         'top_players': prefer_not_null(top_players, server['top_players']),
         'latest_version': prefer_not_null(latest_version, server['latest_version']),
         'latest_latency': prefer_not_null(latest_latency, server['latest_latency']),
