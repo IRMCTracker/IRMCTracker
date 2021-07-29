@@ -1,5 +1,6 @@
 # Temp IRMCTracker files
-storage/cache
+storage/cache/
+storage/data/database.db
 storage/logs/
 
 # IDE generated
