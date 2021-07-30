@@ -41,7 +41,15 @@ class Basics(Cog):
         """
         embed = Embed(title="➕・add-your-server", description="Baraye ezafe kardan server khodetoon be @Alijk#2951 dm bedid", color=0x00D166)
         await ctx.send(embed=embed)
-        
+    
+
+    @command()
+    async def github(self, ctx):
+        description = """You can find the project at [[IRMCTracker Github Repo]](https://github.com/Alijkaz/IRMCTracker)
+        If you're a Python developer and you are interested in our project don't hesitate and start contributing the project :P"""
+        embed = Embed(title="💻 Github [We're Open Source!]", description=description, color=0x3698cf)
+        await ctx.send(embed=embed)
+
     @Cog.listener()
     async def on_member_join(self, member):
         """Adds default role to member and sends notification in admin channel
