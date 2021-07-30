@@ -35,17 +35,17 @@ class MCTracker():
                 top_record = current_players
 
             update_server(
-                server.get_name(),
-                current_players, 
-                top_record, 
-                server.get_version(), 
-                server.get_latency(), 
-                server.get_favicon_path(),
+                name=server.get_name(),
+                current_players=current_players, 
+                top_players=top_record, 
+                latest_version=server.get_version(), 
+                latest_latency=server.get_latency(), 
+                favicon_path=server.get_favicon_path(),
             )
 
             if update_motd:
                 update_server(
-                    server.get_name(),
+                    name=server.get_name(),
                     motd_path=server.get_motd()
                 )
 
