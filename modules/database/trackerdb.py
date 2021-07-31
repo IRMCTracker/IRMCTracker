@@ -7,7 +7,8 @@ from .queries import CREATE_SERVERS_TABLE, \
                      SELECT_ALL_SERVERS, \
                      SELECT_ALL_SERVERS_ORDERED, \
                      SELECT_PLAYERS_COUNT, \
-                     SELECT_ZERO_PLAYER_COUNT
+                     SELECT_ZERO_PLAYER_COUNT, \
+                     REMOVE_SERVER
 
 from modules.utils import prefer_not_null
 
@@ -16,6 +17,13 @@ def create_tables():
     return [
         CREATE_SERVERS_TABLE
     ]
+
+
+def remove_serverr(name):
+    return DB.sql_fetch(REMOVE_SERVER, placeholders={
+        'name': name
+    })
+
 
 def insert_server(name, address, current_players=0, top_players=0, latest_version='null', latest_latency=0, favicon_path='null', motd_path='null', info_path='null', discord='null'):
     return DB.sql_execute(INSERT_SERVER, placeholders={

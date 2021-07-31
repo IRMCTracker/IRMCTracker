@@ -21,6 +21,13 @@ class Admin(Cog):
         insert_server(name, address=address)
         await ctx.send(f"Server **{name}** with address **{address}** added to database")
 
+    @command(aliases=["rmserver"])
+    @has_role('root')
+    async def removeserver(self, ctx, name):
+        insert_server(name)
+        await ctx.send(f"Removed server **{name}**")
+
+
     @command(aliases=["updatediscord"])
     @has_role('root')
     async def setdiscord(self, ctx, name, discord):

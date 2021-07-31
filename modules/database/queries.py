@@ -78,3 +78,7 @@ SELECT_PLAYERS_COUNT = """
 SELECT_ZERO_PLAYER_COUNT = """
     SELECT COUNT(current_players) AS zero_count FROM `servers` WHERE current_players = 0
 """
+
+REMOVE_SERVER = """
+    DELETE FROM `servers` WHERE name = '%name%'  
+"""
