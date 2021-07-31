@@ -19,7 +19,7 @@ def create_tables():
     ]
 
 
-def remove_serverr(name):
+def remove_server(name):
     return DB.sql_fetch(REMOVE_SERVER, placeholders={
         'name': name
     })

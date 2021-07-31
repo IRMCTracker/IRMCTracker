@@ -1,7 +1,7 @@
 from discord import Embed
 from discord.ext.commands import Cog, command, has_role
 
-from modules.database import update_server, insert_server
+from modules.database import update_server, insert_server, remove_server
 from modules.tracker import MCTracker
 from modules.utils import get_beautified_dt
 
@@ -24,7 +24,7 @@ class Admin(Cog):
     @command(aliases=["rmserver"])
     @has_role('root')
     async def removeserver(self, ctx, name):
-        insert_server(name)
+        remove_server(name)
         await ctx.send(f"Removed server **{name}**")
 
 
