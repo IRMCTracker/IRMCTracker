@@ -13,7 +13,7 @@ pip install -r requirments.txt
 ```
 
 ### Before running the bot
-Copy `storage/config/.env.sample` to `storage/config/.env` and update tokens/prefixes etc as desired
+Copy `storage/data/.env.sample` to `storage/data/.env` and update tokens/prefixes etc as desired
 
 ### After running the bot
 1. Add servers to tracker database (No need to restart after that, bot will fetch the newly added servers):
