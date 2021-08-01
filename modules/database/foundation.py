@@ -8,6 +8,7 @@ class DB:
     def sql_execute(query: str, *, placeholders={} ,args=()):
         query = replace_placeholders(query, placeholders)
         query.replace('§','')
+        
         if Env.LOG_SQL:
             get_debug_logger().debug(query)
         

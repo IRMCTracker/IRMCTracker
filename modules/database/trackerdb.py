@@ -1,16 +1,17 @@
 from .foundation import DB
 from .queries import CREATE_SERVERS_TABLE, \
-                     INSERT_SERVER, \
-                     SELECT_SERVER_ALIKE_WITH_NAME, \
-                     UPDATE_SERVER_WITH_NAME, \
-                     SELECT_SERVER_WITH_NAME, \
-                     SELECT_ALL_SERVERS, \
-                     SELECT_ALL_SERVERS_ORDERED, \
-                     SELECT_PLAYERS_COUNT, \
-                     SELECT_ZERO_PLAYER_COUNT, \
-                     REMOVE_SERVER
+    INSERT_SERVER, \
+    SELECT_SERVER_ALIKE_WITH_NAME, \
+    UPDATE_SERVER_WITH_NAME, \
+    SELECT_SERVER_WITH_NAME, \
+    SELECT_ALL_SERVERS, \
+    SELECT_ALL_SERVERS_ORDERED, \
+    SELECT_PLAYERS_COUNT, \
+    SELECT_ZERO_PLAYER_COUNT, \
+    REMOVE_SERVER
 
 from modules.utils import prefer_not_null
+
 
 @DB.execute
 def create_tables():
@@ -39,6 +40,7 @@ def insert_server(name, address, current_players=0, top_players=0, latest_versio
         'discord': discord
     })
 
+
 def get_servers_like(name):
     return DB.sql_fetch(SELECT_SERVER_ALIKE_WITH_NAME, placeholders={
         'name': name
@@ -47,7 +49,7 @@ def get_servers_like(name):
 
 def update_server(name, current_players=None, address=None, top_players=None, latest_version=None, latest_latency=None, favicon_path=None, motd_path=None, info_path=None, discord=None):
     server = get_server(name)
-    
+
     return DB.sql_execute(UPDATE_SERVER_WITH_NAME, placeholders={
         'name': name,
         'current_players': prefer_not_null(current_players, server['current_players']),
@@ -67,9 +69,11 @@ def get_server(name):
         'name': name
     })
 
+
 @DB.fetch
 def get_all_servers():
     return SELECT_ALL_SERVERS
+
 
 @DB.fetch
 def get_all_servers_sorted():

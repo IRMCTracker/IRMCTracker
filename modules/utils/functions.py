@@ -1,25 +1,39 @@
 from time import time
-import random, string
+import random
+import string
 from datetime import datetime as dt
+
+
+def clear_injections(string: str):
+    string.replace("'", "")
+    # other injection clearing methods...
+
+    return string
+
 
 def replace_placeholders(string, placeholders):
     placeholders['%timestamp%'] = str(time())
 
     for placeholder in placeholders:
-        string = string.replace('%' + placeholder + '%', str(placeholders[placeholder]))
-    
+        string = string.replace('%' + placeholder + '%',
+                                clear_injections(str(placeholders[placeholder])))
+
     return string
+
 
 def random_string(len=16):
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(len))
 
+
 def get_beautified_dt():
     return f"{dt.now():%Y-%m-%d %I:%M:%S}"
+
 
 def prefer_not_null(a, b):
     if a not in [None, 'null']:
         return a
     return b
-    
+
+
 def shortified(string, max_len=6):
     return (string[:max_len] + '..') if len(string) > max_len else string
