@@ -90,6 +90,17 @@ class Track(Cog):
             embed.add_field(name="🔗 Discord", value=discord, inline=False)
             embed.add_field(name="📌 Version", value=server['latest_version'], inline=True)
             embed.add_field(name="📡 Latency", value=f"{str(server['latest_latency'])} ms", inline=True)
+            #I don't check if it exists because it already exists in tempdata and injected in main loop before anyone execute any command
+            if not self.bot.tempdata[server["address"]]["lastDowntime"] is None:
+                final = datetime.now() - self.bot.tempdata[server["address"]]["lastDowntime"]
+                final = final.total_seconds()
+                thevalue = None
+                if final >= 3600:
+                    thevalue = f"Aprx {round(final/3600)} hour(s)"
+                else:
+                    thevalue = f"Aprx {round(final/60)} minute(s)"
+
+                embed.add_field(name="\U0001f559 Uptime", value=thevalue, inline=True)
             embed.set_image(url="attachment://motd.png")
             await ctx.send(mention_msg, files=[favicon, motd], embed=embed)
         
