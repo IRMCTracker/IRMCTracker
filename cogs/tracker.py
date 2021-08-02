@@ -104,7 +104,7 @@ class Tracker(Cog):
         )  
 
     async def is_online(self, server):
-        if server['favicon_path'] == 'null' or not exists(server['favicon_path']) or server['latest_latency'] == 0:
+        if server['latest_latency'] == 0:
             return False
         return True
 
@@ -114,7 +114,7 @@ class Tracker(Cog):
         for server in servers:
             is_online = await self.is_online(server)
             if not server["address"] in self.bot.tempdata:
-                #then the bot is restarted and no need to alert
+                # Then the bot is restarted and no need to alert
                 self.bot.tempdata[f"{server['address']}"] = {"isOnline": is_online, "lastUptime": dt.now() if is_online else None, "lastDowntime": None}
             else:
                 previous_is_online = self.bot.tempdata[f"{server['address']}"]["isOnline"]
@@ -130,11 +130,11 @@ class Tracker(Cog):
                     if previous_is_online is True:
                         last_downtime = self.bot.tempdata[f"{server['address']}"]["lastDowntime"]
                         embed = Embed(
-                            title=f"Server {server['name']} offline shod!",
-                            description=f"\U0001f6a8 Server {server['name']} lahazati pish az dastres kharej shod.",
+                            title=f"\U0001f6a8 Server {server['name']} offline shod!",
+                            description=f"Server {server['name']} lahazati pish az dastres kharej shod.",
                             color=0xff5757
                         )
-                        # TODO: embed.set_thumbnail (Better if we add server picture as thumbnail)
+
                         if last_downtime:
                             final = dt.now() - last_downtime
                             final = final.total_seconds()
@@ -145,8 +145,6 @@ class Tracker(Cog):
                                 thevalue = f"Aprx {round(final/60)} minute(s)"
                             embed.add_field(name="\U0001f550 Uptime time:", value=thevalue)
 
-
-                        embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}")
                         await alert_channel.send(embed=embed)
                         self.bot.tempdata[f"{server['address']}"]["lastDowntime"] = dt.now()
                         self.bot.tempdata[f"{server['address']}"]["isOnline"] = False
@@ -157,8 +155,7 @@ class Tracker(Cog):
                             description=f"\U0001f6a8 Server {server['name']} lahazati pish online shod.",
                             color=0x00D166
                         )
-                        #embed.set_thumbnail (Better if we add server picture as thumbnail) --- LATER
-                        embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}")
+
                         if lastUptime:
                             final = dt.now() - lastUptime
                             final = final.total_seconds()
@@ -168,7 +165,15 @@ class Tracker(Cog):
                             else:
                                 thevalue = f"Aprx {round(final/60)} minute(s)"
                             embed.add_field(name="\U0001f550 Downtime time:", value=thevalue)
-                        await alert_channel.send(embed=embed)
+                        
+                        favicon = None
+                        if server['favicon_path']:
+                            favicon = File(server['favicon_path'], filename="fav.png")
+                            embed.set_thumbnail(url="attachment://fav.png")
+
+                        embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/296565827115941889/f6c762a29a13c63b1d16e4b970a80c17.webp?size=128')
+
+                        await alert_channel.send(File=favicon,embed=embed)
                         self.bot.tempdata[f"{server['address']}"]["lastUptime"] = dt.now()
                         self.bot.tempdata[f"{server['address']}"]["isOnline"] = True
 
