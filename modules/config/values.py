@@ -18,6 +18,8 @@ class Config:
         
         ADMIN = get('channels.admin')
 
+        ALERTS = get('channels.alerts')
+
     class Roles:
         DEFAULT = get('roles.default')
         

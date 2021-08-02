@@ -19,10 +19,11 @@ def run_discord_bot():
         - help_command is None so that we can introduce the command later
         - Having intents.all() makes it possible to do mass actions with members
         - Will load every single cog in ~/cogs/ directory and run the bot    
-    """
-
+    """ 
+    
     bot = Bot(command_prefix=Env.PREFIX,
               intents=Intents().all(), help_command=None)
+    bot.tempdata = {}
 
     for filename in listdir('./cogs'):
         if filename.endswith('.py'):

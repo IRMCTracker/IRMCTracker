@@ -1,6 +1,6 @@
 import os
 from datetime import datetime as dt
-
+from os.path import exists
 from modules.config import Config
 from modules.tracker import MCTracker, get_all_servers_sorted, all_players_count, zero_player_servers_count
 from modules.utils import shortified, get_beautified_dt
@@ -28,6 +28,9 @@ class Tracker(Cog):
         minute = dt.now().minute
 
         self.servers = get_all_servers_sorted()
+
+        # Registering update and downtime events of a server in tempdata
+        await self.register_uptime(self.servers)
 
         # Every five minutes or hour
         if minute % 5 == 0 or minute == 0:
@@ -99,6 +102,86 @@ class Tracker(Cog):
         await self.bot.get_channel(Config.Channels.EMPTY).edit(
             name=f"📈 Empty Count [{zero_player_servers_count()}🔨]"
         )  
+
+    async def is_online(self, server):
+        if server['latest_latency'] == 0:
+            return False
+        return True
+
+    async def register_uptime(self, servers):            
+        #setting the timestamp, depending on the latest latency, we can measure uptime and downtime of a server
+        #if the downtime of a server is more than a month, then we can assume that the server is shutdown and we can remove it from the list #I'll do it later yoyoyoyo
+        for server in servers:
+            is_online = await self.is_online(server)
+            if not server["address"] in self.bot.tempdata:
+                # Then the bot is restarted and no need to alert
+                self.bot.tempdata[f"{server['address']}"] = {"isOnline": is_online, "lastUptime": dt.now() if is_online else None, "lastDowntime": None}
+            else:
+                server_tempdata = self.bot.tempdata[f"{server['address']}"]
+                previous_is_online = server_tempdata["isOnline"]
+                if is_online == previous_is_online:
+                    if is_online:
+                        server_tempdata["lastUptime"] = dt.now()
+                    else:
+                        server_tempdata["lastDowntime"] = dt.now()
+                    
+                else:
+                    # Alert channel
+                    alert_channel = self.bot.get_channel(Config.Channels.ALERTS)
+                    if previous_is_online is True:
+                        last_downtime = server_tempdata["lastDowntime"]
+                        embed = Embed(
+                            title=f"\U0001f6a8 Server {server['name']} offline shod!",
+                            description=f"Server {server['name']} lahazati pish az dastres kharej shod.",
+                            color=0xff5757
+                        )
+
+                        if last_downtime:
+                            final = dt.now() - last_downtime
+                            final = final.total_seconds()
+                            the_value = None
+                            if final >= 3600:
+                                the_value = f"Aprx {round(final/3600)} hour(s)"
+                            else:
+                                the_value = f"Aprx {round(final/60)} minute(s)"
+                            embed.add_field(name="\U0001f550 Uptime time:", value=the_value)
+
+                        server_tempdata["lastDowntime"] = dt.now()
+                        server_tempdata["isOnline"] = False
+                    else:
+                        last_uptime = server_tempdata["lastUptime"]
+                        embed = Embed(
+                            title=f"Server {server['name']} online shod!",
+                            description=f"\U0001f6a8 Server {server['name']} lahazati pish online shod.",
+                            color=0x00D166
+                        )
+
+                        if last_uptime:
+                            final = dt.now() - last_uptime
+                            final = final.total_seconds()
+                            the_value = None
+                            if final >= 3600:
+                                the_value = f"Aprx {round(final/3600)} hour(s)"
+                            else:
+                                the_value = f"Aprx {round(final/60)} minute(s)"
+                            embed.add_field(name="\U0001f550 Downtime time:", value=the_value)
+                        
+                        server_tempdata["lastUptime"] = dt.now()
+                        server_tempdata["isOnline"] = True
+
+                    self.bot.tempdata[f"{server['address']}"] = server_tempdata
+
+                    favicon = None
+                    if server['favicon_path']:
+                        favicon = File(server['favicon_path'], filename="fav.png")
+                        embed.set_thumbnail(url="attachment://fav.png")
+
+                    embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/296565827115941889/f6c762a29a13c63b1d16e4b970a80c17.webp?size=128')
+
+                    await alert_channel.send(file=favicon,embed=embed)
+
+    
+
 
 def setup(client):
     client.add_cog(Tracker(client))

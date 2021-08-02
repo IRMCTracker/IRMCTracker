@@ -1,8 +1,6 @@
 from cogs.tracker import Tracker
-from typing import List
 from discord.ext.commands.context import Context
 from discord.ext.commands.errors import ExtensionAlreadyLoaded, ExtensionFailed, ExtensionNotFound, ExtensionNotLoaded, NoEntryPointError
-from modules.config import Env
 
 from discord.ext.commands import command, Cog, has_role, Bot as _bot
 from modules.utils import get_logger
