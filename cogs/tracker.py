@@ -117,18 +117,19 @@ class Tracker(Cog):
                 # Then the bot is restarted and no need to alert
                 self.bot.tempdata[f"{server['address']}"] = {"isOnline": is_online, "lastUptime": dt.now() if is_online else None, "lastDowntime": None}
             else:
-                previous_is_online = self.bot.tempdata[f"{server['address']}"]["isOnline"]
+                server_tempdata = self.bot.tempdata[f"{server['address']}"]
+                previous_is_online = server_tempdata["isOnline"]
                 if is_online == previous_is_online:
                     if is_online:
-                        self.bot.tempdata[f"{server['address']}"]["lastUptime"] = dt.now()
+                        server_tempdata["lastUptime"] = dt.now()
                     else:
-                        self.bot.tempdata[f"{server['address']}"]["lastDowntime"] = dt.now()
+                        server_tempdata["lastDowntime"] = dt.now()
                     
                 else:
                     # Alert channel
                     alert_channel = self.bot.get_channel(Config.Channels.ALERTS)
                     if previous_is_online is True:
-                        last_downtime = self.bot.tempdata[f"{server['address']}"]["lastDowntime"]
+                        last_downtime = server_tempdata["lastDowntime"]
                         embed = Embed(
                             title=f"\U0001f6a8 Server {server['name']} offline shod!",
                             description=f"Server {server['name']} lahazati pish az dastres kharej shod.",
@@ -138,47 +139,46 @@ class Tracker(Cog):
                         if last_downtime:
                             final = dt.now() - last_downtime
                             final = final.total_seconds()
-                            thevalue = None
+                            the_value = None
                             if final >= 3600:
-                                thevalue = f"Aprx {round(final/3600)} hour(s)"
+                                the_value = f"Aprx {round(final/3600)} hour(s)"
                             else:
-                                thevalue = f"Aprx {round(final/60)} minute(s)"
-                            embed.add_field(name="\U0001f550 Uptime time:", value=thevalue)
+                                the_value = f"Aprx {round(final/60)} minute(s)"
+                            embed.add_field(name="\U0001f550 Uptime time:", value=the_value)
 
-                        await alert_channel.send(embed=embed)
-                        self.bot.tempdata[f"{server['address']}"]["lastDowntime"] = dt.now()
-                        self.bot.tempdata[f"{server['address']}"]["isOnline"] = False
+                        server_tempdata["lastDowntime"] = dt.now()
+                        server_tempdata["isOnline"] = False
                     else:
-                        lastUptime = self.bot.tempdata[f"{server['address']}"]["lastUptime"]
+                        last_uptime = server_tempdata["lastUptime"]
                         embed = Embed(
                             title=f"Server {server['name']} online shod!",
                             description=f"\U0001f6a8 Server {server['name']} lahazati pish online shod.",
                             color=0x00D166
                         )
 
-                        if lastUptime:
-                            final = dt.now() - lastUptime
+                        if last_uptime:
+                            final = dt.now() - last_uptime
                             final = final.total_seconds()
-                            thevalue = None
+                            the_value = None
                             if final >= 3600:
-                                thevalue = f"Aprx {round(final/3600)} hour(s)"
+                                the_value = f"Aprx {round(final/3600)} hour(s)"
                             else:
-                                thevalue = f"Aprx {round(final/60)} minute(s)"
-                            embed.add_field(name="\U0001f550 Downtime time:", value=thevalue)
+                                the_value = f"Aprx {round(final/60)} minute(s)"
+                            embed.add_field(name="\U0001f550 Downtime time:", value=the_value)
                         
-                        favicon = None
-                        if server['favicon_path']:
-                            favicon = File(server['favicon_path'], filename="fav.png")
-                            embed.set_thumbnail(url="attachment://fav.png")
+                        server_tempdata["lastUptime"] = dt.now()
+                        server_tempdata["isOnline"] = True
 
-                        embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/296565827115941889/f6c762a29a13c63b1d16e4b970a80c17.webp?size=128')
+                    self.bot.tempdata[f"{server['address']}"] = server_tempdata
 
-                        await alert_channel.send(File=favicon,embed=embed)
-                        self.bot.tempdata[f"{server['address']}"]["lastUptime"] = dt.now()
-                        self.bot.tempdata[f"{server['address']}"]["isOnline"] = True
+                    favicon = None
+                    if server['favicon_path']:
+                        favicon = File(server['favicon_path'], filename="fav.png")
+                        embed.set_thumbnail(url="attachment://fav.png")
 
+                    embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/296565827115941889/f6c762a29a13c63b1d16e4b970a80c17.webp?size=128')
 
-
+                    await alert_channel.send(file=favicon,embed=embed)
 
     
 
