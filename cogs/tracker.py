@@ -126,7 +126,7 @@ class Tracker(Cog):
                     
                 else:
                     # Alert channel
-                    alert_channel = self.bot.get_channel(871497375171096637)
+                    alert_channel = self.bot.get_channel(Config.Channels.ALERTS)
                     if previous_is_online is True:
                         last_downtime = self.bot.tempdata[f"{server['address']}"]["lastDowntime"]
                         embed = Embed(
