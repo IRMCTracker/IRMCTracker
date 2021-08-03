@@ -24,7 +24,6 @@ def run_discord_bot():
     bot = Bot(command_prefix=Env.PREFIX,
               intents=Intents().all(), help_command=None)
     bot.tempdata = {}
-    bot.db = database.connect()
 
     for filename in listdir('./cogs'):
         if filename.endswith('.py'):
@@ -33,9 +32,12 @@ def run_discord_bot():
 
     bot.run(Env.TOKEN)
 
+    return bot
+
 
 if __name__ == "__main__":
     args = sys.argv[1:]
+    db = database.connect()
 
     if len(args) == 0:
         sys.exit(
@@ -48,7 +50,9 @@ if __name__ == "__main__":
         # Running the database update task in another thread so that it doesnt interfere with the actual bot
         Thread(target=MCTracker().update_task, daemon=True).start()
 
-        run_discord_bot()
+        bot = run_discord_bot()
+
+        bot.db = db
 
     elif args[0] == 'test':
         from tests.test_basic import *

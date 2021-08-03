@@ -1,4 +1,5 @@
 from modules.database import Server, database
+
 from modules.utils import prefer_not_null
 
 def create_tables():
@@ -23,10 +24,6 @@ def insert_server(name, address, current_players=0, top_players=0, latest_versio
         'discord': discord
     })
 
-def get_servers_like(name):
-    return DB.sql_fetch(SELECT_SERVER_ALIKE_WITH_NAME, placeholders={
-        'name': name
-    })
 
 
 def update_server(name, current_players=None, address=None, top_players=None, latest_version=None, latest_latency=None, favicon_path=None, motd_path=None, info_path=None, discord=None):
@@ -45,14 +42,20 @@ def update_server(name, current_players=None, address=None, top_players=None, la
         'discord': prefer_not_null(discord, server['discord'] if server['discord'] else 'null')
     })
 
-
 def get_server(name):
-    return DB.sql_fetch(SELECT_SERVER_WITH_NAME, last=True, placeholders={
-        'name': name
-    })
+    try:
+        return Server.get(Server.name == name)
+    except:
+        return None
+
+def get_servers_like(name):
+    try:
+        return Server.get(Server.name.contains(name))
+    except:
+        return None
 
 def get_servers():
-    return SELECT_ALL_SERVERS
+    return Server.select()
 
 def zero_player_servers_count():
     result = DB.sql_fetch(SELECT_ZERO_PLAYER_COUNT, last=True)
