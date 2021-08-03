@@ -7,7 +7,7 @@ from discord.ext.commands import Bot
 from modules.config import Env
 from modules.utils import get_logger
 from modules.tracker import MCTracker
-from modules.database import create_tables
+from modules.database.foundation import database
 
 from threading import Thread
 
@@ -24,6 +24,7 @@ def run_discord_bot():
     bot = Bot(command_prefix=Env.PREFIX,
               intents=Intents().all(), help_command=None)
     bot.tempdata = {}
+    bot.db = database.connect()
 
     for filename in listdir('./cogs'):
         if filename.endswith('.py'):
