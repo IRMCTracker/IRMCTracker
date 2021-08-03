@@ -116,6 +116,8 @@ class Tracker(Cog):
         #the chance of getting 0 latency is much higher
         for server in servers:
             is_online = await self.is_online(server)
+            embed = None
+            
             if not server["address"] in self.bot.tempdata:
                 # Then the bot is restarted and no need to alert
                 self.bot.tempdata[f"{server['address']}"] = {"isOnline": is_online, "lastUptime": dt.now() if is_online else None, "lastDowntime": None, "strike": 0}
@@ -180,7 +182,7 @@ class Tracker(Cog):
 
                     self.bot.tempdata[f"{server['address']}"] = server_tempdata
 
-                    if embed:
+                    if embed != None:
                         favicon = None
                         if server['favicon_path']:
                             favicon = File(server['favicon_path'], filename="fav.png")
