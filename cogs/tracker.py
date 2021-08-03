@@ -180,14 +180,15 @@ class Tracker(Cog):
 
                     self.bot.tempdata[f"{server['address']}"] = server_tempdata
 
-                    favicon = None
-                    if server['favicon_path']:
-                        favicon = File(server['favicon_path'], filename="fav.png")
-                        embed.set_thumbnail(url="attachment://fav.png")
+                    if embed:
+                        favicon = None
+                        if server['favicon_path']:
+                            favicon = File(server['favicon_path'], filename="fav.png")
+                            embed.set_thumbnail(url="attachment://fav.png")
 
-                    embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
+                        embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
 
-                    await alert_channel.send(file=favicon,embed=embed)
+                        await alert_channel.send(file=favicon,embed=embed)
 
     
 
