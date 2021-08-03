@@ -7,7 +7,7 @@ from discord.ext.commands import Bot
 from modules.config import Env
 from modules.utils import get_logger
 from modules.tracker import MCTracker
-from modules.database.foundation import database
+from modules.database import create_tables, database
 
 from threading import Thread
 
