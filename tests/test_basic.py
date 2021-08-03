@@ -8,11 +8,7 @@ from modules.database import *
 
 create_tables()
 
-for server in get_servers():
-    print(server.name + ' | ' + str(server.current_players) + ' | ' + str(server.top_players))
-
-
-print(zero_player_servers_count())
+print(all_players_count())
 
 for server in get_servers():
     print(server.name + ' | ' + str(server.current_players) + ' | ' + str(server.top_players))

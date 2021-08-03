@@ -2,8 +2,8 @@
 
 Handling all the database side operations"""
 
-from .models import *
 from .foundation import *
+from .models import *
 from .trackerdb import *
 
 

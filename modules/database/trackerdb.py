@@ -1,7 +1,7 @@
-from logging import info
 from modules.database import Server, database
-
 from modules.utils import prefer_not_null
+
+from peewee import fn
 
 def create_tables():
     database.create_tables([Server])
@@ -60,5 +60,5 @@ def zero_player_servers_count():
 
 
 def all_players_count():
-    result = DB.sql_fetch(SELECT_PLAYERS_COUNT, last=True)
-    return result['all_count']
+    return Server.select(fn.SUM(Server.current_players)).scalar()
+    
