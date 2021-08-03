@@ -23,15 +23,15 @@ def insert_server(name, address, current_players=0, top_players=0, latest_versio
 def update_server(name, current_players=None, address=None, top_players=None, latest_version=None, latest_latency=None, favicon_path=None, motd_path=None, info_path=None, discord=None):
     server = get_server(name)
     
-    server.current_players = prefer_not_null(current_players, server['current_players']),
-    server.address = prefer_not_null(address, server['address']),
-    server.top_players = prefer_not_null(top_players, server['top_players']),
-    server.latest_version = prefer_not_null(latest_version, server['latest_version']),
-    server.latest_latency = prefer_not_null(latest_latency, server['latest_latency']),
-    server.favicon_path = prefer_not_null(favicon_path, server['favicon_path']),
-    server.motd_path = prefer_not_null(motd_path, server['motd_path']),
-    server.info_path = prefer_not_null(info_path, server['info_path']),
-    server.discord = prefer_not_null(discord, server['discord'] if server['discord'] else 'null')
+    server.current_players = prefer_not_null(current_players, server.current_players),
+    server.address = prefer_not_null(address, server.address),
+    server.top_players = prefer_not_null(top_players, server.top_players),
+    server.latest_version = prefer_not_null(latest_version, server.latest_version),
+    server.latest_latency = prefer_not_null(latest_latency, server.latest_latency),
+    server.favicon_path = prefer_not_null(favicon_path, server.favicon_path),
+    server.motd_path = prefer_not_null(motd_path, server.motd_path),
+    server.info_path = prefer_not_null(info_path, server.info_path),
+    server.discord = prefer_not_null(discord, prefer_not_null(discord, 'null'))
 
     return server.save()
 

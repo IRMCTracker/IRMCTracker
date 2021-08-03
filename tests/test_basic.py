@@ -8,9 +8,9 @@ from modules.database import *
 
 create_tables()
 
-print(remove_server(name='GharchCraft'))
+print(update_server('MadCraft', 1580))
 for server in get_servers():
-    print(server.name)
+    print(server.name + ' | ' + server.current_players)
 
 
 
