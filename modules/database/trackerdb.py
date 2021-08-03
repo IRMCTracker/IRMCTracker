@@ -55,7 +55,7 @@ def get_servers():
     return Server.select()
 
 def zero_player_servers_count():
-    result = Server.select().where(current_players = 0)
+    result = Server.select().where(Server.current_players == 0)
     return len(result)
 
 
