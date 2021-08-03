@@ -111,17 +111,22 @@ class Tracker(Cog):
     async def register_uptime(self, servers):            
         #setting the timestamp, depending on the latest latency, we can measure uptime and downtime of a server
         #if the downtime of a server is more than a month, then we can assume that the server is shutdown and we can remove it from the list #I'll do it later yoyoyoyo
+        #new logic: tracker may or may not ping the server correctly and it sometimes happens that the tracker won't have a clear response from the server duo to anything... 
+        #so we add a new tempdata variable called "strike", if the strike reaches "3", then we can assume that the serer IS OFFLINE. We only do this for offline events because
+        #the chance of getting 0 latency is much higher
         for server in servers:
             is_online = await self.is_online(server)
             if not server["address"] in self.bot.tempdata:
                 # Then the bot is restarted and no need to alert
-                self.bot.tempdata[f"{server['address']}"] = {"isOnline": is_online, "lastUptime": dt.now() if is_online else None, "lastDowntime": None}
+                self.bot.tempdata[f"{server['address']}"] = {"isOnline": is_online, "lastUptime": dt.now() if is_online else None, "lastDowntime": None, "strike": 0}
             else:
                 server_tempdata = self.bot.tempdata[f"{server['address']}"]
                 previous_is_online = server_tempdata["isOnline"]
                 if is_online == previous_is_online:
                     if is_online:
                         server_tempdata["lastUptime"] = dt.now()
+                        #Now if the new ping latency is not "0", then we can clear the strikes here
+                        self.bot.tempdata[server['address']]['strike'] = 0
                     else:
                         server_tempdata["lastDowntime"] = dt.now()
                     
@@ -129,25 +134,29 @@ class Tracker(Cog):
                     # Alert channel
                     alert_channel = self.bot.get_channel(Config.Channels.ALERTS)
                     if previous_is_online is True:
-                        last_downtime = server_tempdata["lastDowntime"]
-                        embed = Embed(
-                            title=f"\U0001f6a8 Server {server['name']} offline shod!",
-                            description=f"Server {server['name']} lahazati pish az dastres kharej shod.",
-                            color=0xff5757
-                        )
+                        strikevalue = self.bot.tempdata[server['address']]['strike']
+                        self.bot.tempdata[server['address']]['strike'] = strikevalue + 1
+                        if strikevalue == 3:
+                            last_downtime = server_tempdata["lastDowntime"]
+                            embed = Embed(
+                                title=f"\U0001f6a8 Server {server['name']} offline shod!",
+                                description=f"Server {server['name']} lahazati pish az dastres kharej shod.",
+                                color=0xff5757
+                            )
 
-                        if last_downtime:
-                            final = dt.now() - last_downtime
-                            final = final.total_seconds()
-                            the_value = None
-                            if final >= 3600:
-                                the_value = f"Aprx {round(final/3600)} hour(s)"
-                            else:
-                                the_value = f"Aprx {round(final/60)} minute(s)"
-                            embed.add_field(name="\U0001f550 Uptime time:", value=the_value)
+                            if last_downtime:
+                                final = dt.now() - last_downtime
+                                final = final.total_seconds()
+                                the_value = None
+                                if final >= 3600:
+                                    the_value = f"Aprx {round(final/3600)} hour(s)"
+                                else:
+                                    the_value = f"Aprx {round(final/60)} minute(s)"
+                                embed.add_field(name="\U0001f550 Uptime time:", value=the_value)
 
-                        server_tempdata["lastDowntime"] = dt.now()
-                        server_tempdata["isOnline"] = False
+                            server_tempdata["lastDowntime"] = dt.now()
+                            server_tempdata["isOnline"] = False
+                            self.bot.tempdata[server['address']]['strike'] = 0
                     else:
                         last_uptime = server_tempdata["lastUptime"]
                         embed = Embed(
