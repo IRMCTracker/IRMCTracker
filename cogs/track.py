@@ -71,7 +71,7 @@ class Track(Cog):
             favicon = File(server.favicon_path, filename="image.png")
 
             # TODO REMOVE THIS LINE (forcing motd to default banner)
-            server.motd_paths = 'storage/static/banner.png'
+            server.motd_path = 'storage/static/banner.png'
             
             motd = File(server.motd_path, filename="motd.png")
             embed.set_thumbnail(url="attachment://image.png")
