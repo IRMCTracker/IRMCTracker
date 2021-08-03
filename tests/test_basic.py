@@ -8,9 +8,14 @@ from modules.database import *
 
 create_tables()
 
-print(update_server('MadCraft', 1580))
 for server in get_servers():
-    print(server.name + ' | ' + server.current_players)
+    print(server.name + ' | ' + str(server.current_players) + ' | ' + str(server.top_players))
+
+
+print(update_server('MadCraft', current_players=1580))
+
+for server in get_servers():
+    print(server.name + ' | ' + str(server.current_players) + ' | ' + str(server.top_players))
 
 
 
