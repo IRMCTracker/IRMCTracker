@@ -3,8 +3,8 @@ from os.path import exists
 from discord import Embed, File
 from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 from datetime import datetime
-from modules.tracker import MCServer, get_all_servers_sorted
-from modules.database import get_servers_like
+from modules.tracker import get_servers
+from modules.database import get_server_like
 from modules.utils import get_beautified_dt
 
 class Track(Cog):
@@ -25,11 +25,11 @@ class Track(Cog):
         """Sending all the sorted servers in an embed
         """
 
-        servers = get_all_servers_sorted()
+        servers = get_servers()
         banner = File('storage/static/banner.png', filename='banner.png')
         embed = Embed(title="📡 Servers List | لیست سرور ها", description='', color=0x673AB7)
         for server in servers:
-            embed.add_field(name=server['name'], value=f"👥 {server['current_players']}", inline=True)
+            embed.add_field(name=server.name, value=f"👥 {server.current_players}", inline=True)
 
         embed.set_image(url='attachment://banner.png')
 
@@ -50,49 +50,41 @@ class Track(Cog):
                                         description='Estefade dorost: ```.track [servername]\nMesal: .track madcraft```',
                                         color=0xF44336))
 
-        servers_alike = get_servers_like(server)
+        server = get_server_like(server)
 
-        if len(servers_alike) == 0:
+        if server == None:
             return await ctx.send(mention_msg, embed=Embed(title='Server vared shode vojood nadarad!',
                                         description='Ba dastoor zir tamami server haro bebinid ```.servers```',
                                         color=0xF44336))
-        elif len(servers_alike) > 1:
-            alike_names = []
-            [alike_names.append(server['name']) for server in servers_alike]
+        else:
+            discord = server.discord if server.discord != 'null' else 'Not Set'
 
-            return await ctx.send(mention_msg, embed=Embed(title='Server morede nazar peida nashod!',
-                                        description='Shayad manzooretoon yeki az in hast: **' + ' | '.join(alike_names) + '**',
-                                        color=0xcddc39))
-        elif len(servers_alike) == 1:
-            server = servers_alike[0]
-            discord = server['discord'] if server['discord'] != 'null' else 'Not Set'
-
-            if server['latest_latency'] == 0:
-                embed = Embed(title=f"🔴 {server['name']}", description='Server morede nazar shoma dar hale hazer offline hast : (', color=0xc62828)
+            if server.latest_latency == 0:
+                embed = Embed(title=f"🔴 {server.discord}", description='Server morede nazar shoma dar hale hazer offline hast : (', color=0xc62828)
                 return await ctx.send(mention_msg, embed=embed)
-            if server['motd_path'] == 'null' or not exists(server['motd_path']):
-                server['motd_path'] = 'storage/static/banner.png'
+            if server.motd_path == 'null' or not exists(server.motd_path):
+                server.motd_path = 'storage/static/banner.png'
             
             embed=Embed(title="", color=0x1bd027)
-            embed.set_author(name=f"💎 {server['name']}")
+            embed.set_author(name=f"💎 {server.name}")
 
-            favicon = File(server['favicon_path'], filename="image.png")
+            favicon = File(server.favicon_path, filename="image.png")
 
             # TODO REMOVE THIS LINE (forcing motd to default banner)
-            server['motd_path'] = 'storage/static/banner.png'
+            server.motd_path = 'storage/static/banner.png'
             
-            motd = File(server['motd_path'], filename="motd.png")
+            motd = File(server.motd_path, filename="motd.png")
             embed.set_thumbnail(url="attachment://image.png")
 
-            embed.add_field(name="🌐 Address", value=server['address'], inline=False)
-            embed.add_field(name="👥 Online Players", value=server['current_players'], inline=True)
-            embed.add_field(name="🥇 Top Players Record", value=server['top_players'], inline=True)
+            embed.add_field(name="🌐 Address", value=server.address, inline=False)
+            embed.add_field(name="👥 Online Players", value=server.current_players, inline=True)
+            embed.add_field(name="🥇 Top Players Record", value=server.top_players, inline=True)
             embed.add_field(name="🔗 Discord", value=discord, inline=False)
-            embed.add_field(name="📌 Version", value=server['latest_version'], inline=True)
-            embed.add_field(name="📡 Latency", value=f"{str(server['latest_latency'])} ms", inline=True)
+            embed.add_field(name="📌 Version", value=server.latest_version, inline=True)
+            embed.add_field(name="📡 Latency", value=f"{str(server.latest_latency)} ms", inline=True)
             #I don't check if it exists because it already exists in tempdata and injected in main loop before anyone execute any command
-            if not self.bot.tempdata[server["address"]]["lastDowntime"] is None:
-                final = datetime.now() - self.bot.tempdata[server["address"]]["lastDowntime"]
+            if not self.bot.tempdata[server.address]["lastDowntime"] is None:
+                final = datetime.now() - self.bot.tempdata[server.address]["lastDowntime"]
                 final = final.total_seconds()
                 thevalue = None
                 if final >= 3600:

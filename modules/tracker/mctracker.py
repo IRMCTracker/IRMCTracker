@@ -10,7 +10,7 @@ from .mcserver import MCServer
 
 class MCTracker():
     def __init__(self):
-        self.all_servers = get_all_servers_sorted()
+        self.all_servers = get_servers()
         self.mcservers = []
         self.is_fetched = False
 
@@ -18,7 +18,7 @@ class MCTracker():
         self.mcservers.clear()
 
         for server in self.all_servers:
-            self.mcservers.append(MCServer(server['name'], server['address']))
+            self.mcservers.append(MCServer(server.name, server.address))
         
         self.is_fetched = True
 
@@ -29,7 +29,7 @@ class MCTracker():
             db = server.fetch_server_from_db()
 
             current_players = server.get_online_players()
-            top_record = db['top_players']
+            top_record = db.top_players
 
             if current_players > top_record:
                 top_record = current_players
@@ -59,8 +59,8 @@ class MCTracker():
             asyncio.sleep(60)            
 
     def draw_chart(self, output_file='chart.png'):
-        names = [shortified(server['name'], 6) for server in self.all_servers]
-        players = [server['current_players'] for server in self.all_servers]
+        names = [shortified(server.name, 6) for server in self.all_servers]
+        players = [server.current_players for server in self.all_servers]
 
         colors = []
         for player_count in players:

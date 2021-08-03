@@ -7,7 +7,7 @@ from discord.ext.commands import Bot
 from modules.config import Env
 from modules.utils import get_logger
 from modules.tracker import MCTracker
-from modules.database import create_tables
+from modules.database import create_tables, database
 
 from threading import Thread
 
@@ -32,9 +32,12 @@ def run_discord_bot():
 
     bot.run(Env.TOKEN)
 
+    return bot
+
 
 if __name__ == "__main__":
     args = sys.argv[1:]
+    db = database.connect()
 
     if len(args) == 0:
         sys.exit(
@@ -47,7 +50,9 @@ if __name__ == "__main__":
         # Running the database update task in another thread so that it doesnt interfere with the actual bot
         Thread(target=MCTracker().update_task, daemon=True).start()
 
-        run_discord_bot()
+        bot = run_discord_bot()
+
+        bot.db = db
 
     elif args[0] == 'test':
         from tests.test_basic import *
