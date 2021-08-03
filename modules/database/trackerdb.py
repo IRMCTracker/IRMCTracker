@@ -10,7 +10,6 @@ def remove_server(name):
     server = Server.get(Server.name == name)
     return server.delete_instance()
 
-
 def insert_server(name, address, current_players=0, top_players=0, latest_version='null', latest_latency=0,
                     favicon_path='null', motd_path='null', info_path='null', discord='null'):
     server = Server(name=name, address=address, current_players=current_players,

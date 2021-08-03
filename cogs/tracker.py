@@ -1,13 +1,12 @@
 import os
 from datetime import datetime as dt
-from os.path import exists
 from modules.config import Config
-from modules.tracker import MCTracker, get_all_servers_sorted, all_players_count, zero_player_servers_count
+from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count
 from modules.utils import shortified, get_beautified_dt
 
 from discord.ext import tasks
 from discord import File, Embed, Activity, ActivityType
-from discord.ext.commands import Cog, command, has_role
+from discord.ext.commands import Cog
 
 class Tracker(Cog):
     """Doing all the automated tracking->discord tasks
@@ -16,7 +15,7 @@ class Tracker(Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.servers = get_all_servers_sorted()
+        self.servers = get_servers()
     
     @tasks.loop(minutes=1)
     async def tracker_tick(self):
@@ -27,7 +26,7 @@ class Tracker(Cog):
 
         minute = dt.now().minute
 
-        self.servers = get_all_servers_sorted()
+        self.servers = get_servers()
 
         # Registering update and downtime events of a server in tempdata
         await self.register_uptime(self.servers)
