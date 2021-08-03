@@ -51,7 +51,7 @@ def get_server_like(name):
         return None
 
 def get_servers():
-    return Server.select()
+    return Server.select().order_by(Server.current_players)
 
 def zero_player_servers_count():
     result = Server.select().where(Server.current_players == 0)
