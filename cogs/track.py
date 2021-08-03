@@ -4,7 +4,7 @@ from discord import Embed, File
 from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 from datetime import datetime
 from modules.tracker import get_servers
-from modules.database import get_servers_like
+from modules.database import get_server_like
 from modules.utils import get_beautified_dt
 
 class Track(Cog):
@@ -50,21 +50,13 @@ class Track(Cog):
                                         description='Estefade dorost: ```.track [servername]\nMesal: .track madcraft```',
                                         color=0xF44336))
 
-        servers_alike = get_servers_like(server)
+        server = get_server_like(server)
 
-        if len(servers_alike) == 0:
+        if server == None:
             return await ctx.send(mention_msg, embed=Embed(title='Server vared shode vojood nadarad!',
                                         description='Ba dastoor zir tamami server haro bebinid ```.servers```',
                                         color=0xF44336))
-        elif len(servers_alike) > 1:
-            alike_names = []
-            [alike_names.append(server.name) for server in servers_alike]
-
-            return await ctx.send(mention_msg, embed=Embed(title='Server morede nazar peida nashod!',
-                                        description='Shayad manzooretoon yeki az in hast: **' + ' | '.join(alike_names) + '**',
-                                        color=0xcddc39))
-        elif len(servers_alike) == 1:
-            server = servers_alike[0]
+        else:
             discord = server.discord if server.discord != 'null' else 'Not Set'
 
             if server.latest_latency == 0:
