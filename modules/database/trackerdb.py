@@ -45,7 +45,7 @@ def get_server(name):
     except:
         return None
 
-def get_servers_like(name):
+def get_server_like(name):
     try:
         return Server.get(Server.name.contains(name))
     except:
@@ -55,8 +55,8 @@ def get_servers():
     return Server.select()
 
 def zero_player_servers_count():
-    result = DB.sql_fetch(SELECT_ZERO_PLAYER_COUNT, last=True)
-    return result['zero_count']
+    result = Server.select().where(current_players = 0)
+    return len(result)
 
 
 def all_players_count():

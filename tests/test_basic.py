@@ -12,7 +12,7 @@ for server in get_servers():
     print(server.name + ' | ' + str(server.current_players) + ' | ' + str(server.top_players))
 
 
-print(update_server('MadCraft', current_players=1580))
+print(zero_player_servers_count())
 
 for server in get_servers():
     print(server.name + ' | ' + str(server.current_players) + ' | ' + str(server.top_players))
