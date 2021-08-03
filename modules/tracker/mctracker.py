@@ -29,7 +29,7 @@ class MCTracker():
             db = server.fetch_server_from_db()
 
             current_players = server.get_online_players()
-            top_record = db['top_players']
+            top_record = db.top_players
 
             if current_players > top_record:
                 top_record = current_players
