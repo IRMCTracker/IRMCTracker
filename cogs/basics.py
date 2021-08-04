@@ -20,7 +20,7 @@ class Basics(Cog):
             - Needs update
             - Receive help messages from config
         """
-        embed = Embed(title="🥇・Live Stats category", description="Har 5 daghighe 3 server bartar ro ba tedad player ha neshoon mide", color=0x00D166)
+        embed = Embed(title="🥇・Live Stats category", description="Har 5 daghighe 6 server bartar ro ba tedad player ha neshoon mide", color=0x00D166)
         await ctx.send(embed=embed)
 
         embed = Embed(title="💎・All Players", description="Har 5 daghighe majmoo tedad player server haye irani ro neshoon mide", color=0x00D166)
@@ -30,6 +30,9 @@ class Basics(Cog):
         await ctx.send(embed=embed)
 
         embed = Embed(title="⏰・hourly-tracker", description="Har 1 saat chart tedad player server haye irani ro ersal mikone", color=0x00D166)
+        await ctx.send(embed=embed)
+
+        embed = Embed(title="🤖・commands", description="Mitoonid ba dastoor .track [name] etelaat serveri ke mikhaid ro begirid", color=0x00D166)
         await ctx.send(embed=embed)
 
     @command()
