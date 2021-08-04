@@ -46,7 +46,7 @@ def get_server(name):
 
 def get_server_like(name):
     try:
-        return Server.get(Server.name.contains(name))
+        return Server.get(Server.name.startswith(name))
     except:
         return None
 
