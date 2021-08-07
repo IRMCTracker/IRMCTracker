@@ -60,7 +60,7 @@ class Track(Cog):
             discord = server.discord if server.discord != 'null' else 'Not Set'
 
             if server.latest_latency == 0:
-                embed = Embed(title=f"🔴 {server.discord}", description='Server morede nazar shoma dar hale hazer offline hast : (', color=0xc62828)
+                embed = Embed(title=f"🔴 {server.name}", description='Server morede nazar shoma dar hale hazer offline hast : (', color=0xc62828)
                 return await ctx.send(mention_msg, embed=embed)
             if server.motd_path == 'null' or not exists(server.motd_path):
                 server.motd_path = 'storage/static/banner.png'
