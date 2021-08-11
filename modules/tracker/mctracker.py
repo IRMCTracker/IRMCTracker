@@ -49,14 +49,13 @@ class MCTracker():
                     motd_path=server.get_motd()
                 )
 
-    def update_task(self):
-        asyncio.set_event_loop(asyncio.new_event_loop())
+    async def update_task(self):
         while True:
             self.fetch_servers()
-
+            print('test')
             self.update_servers_database()
 
-            asyncio.sleep(60)            
+            await asyncio.sleep(60)            
 
     def draw_chart(self, output_file='chart.png'):
         names = [shortified(server.name, 6) for server in self.all_servers]
