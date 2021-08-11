@@ -52,7 +52,7 @@ class MCTracker():
     async def update_task(self):
         while True:
             self.fetch_servers()
-            print('test')
+
             self.update_servers_database()
 
             await asyncio.sleep(60)            
