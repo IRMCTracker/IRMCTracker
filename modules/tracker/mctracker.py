@@ -55,7 +55,7 @@ class MCTracker():
 
             self.update_servers_database()
 
-            await asyncio.sleep(60)            
+            await asyncio.sleep(180)            
 
     def draw_chart(self, output_file='chart.png'):
         names = [shortified(server.name, 6) for server in self.all_servers]
