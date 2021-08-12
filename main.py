@@ -49,7 +49,7 @@ if __name__ == "__main__":
         create_tables()
 
         # Running the database update task in another thread so that it doesnt interfere with the actual bot
-        asyncio.get_event_loop().create_task(MCTracker().update_task())
+        thread = Thread(target = MCTracker().update_task, daemon=True).start()
 
         bot = run_discord_bot()
 

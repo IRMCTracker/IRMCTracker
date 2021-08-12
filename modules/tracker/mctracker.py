@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+from time import sleep
 
 from modules.database.trackerdb import *
 from modules.utils import shortified
@@ -48,14 +49,14 @@ class MCTracker():
                     name=server.get_name(),
                     motd_path=server.get_motd()
                 )
-
-    async def update_task(self):
+    
+    def update_task(self):
         while True:
             self.fetch_servers()
 
             self.update_servers_database()
 
-            await asyncio.sleep(180)            
+            sleep(180)      
 
     def draw_chart(self, output_file='chart.png'):
         names = [shortified(server.name, 6) for server in self.all_servers]
