@@ -35,6 +35,9 @@ class Basics(Cog):
         embed = Embed(title="🤖・commands", description="Mitoonid ba dastoor .track [name] etelaat serveri ke mikhaid ro begirid", color=0x00D166)
         await ctx.send(embed=embed)
 
+        embed = Embed(title="🔴・alerts [BETA]", description="Az offline / online shodan har server irani ba khabar shid!", color=0x00D166)
+        await ctx.send(embed=embed)
+
     @command()
     async def add(self, ctx):
         """Simply sends 'how to add my server' message 
