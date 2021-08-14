@@ -111,6 +111,13 @@ class Admin(Cog):
     async def updatechannels(self,ctx):
         await self.bot.get_cog('Tracker').update_channels()
 
+    @command(pass_context = True)
+    @has_role('root')
+    async def clear(self, ctx, number: int):
+        mgs = []
+        async for x in self.bot.logs_from(ctx.message.channel, limit = number):
+            mgs.append(x)
+        await self.bot.delete_messages(mgs)
 
 def setup(bot):
     bot.add_cog(Admin(bot))
