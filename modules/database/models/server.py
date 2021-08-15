@@ -10,9 +10,9 @@ class Server(BaseModel):
     info_path = LongTextField(null=True)
     motd_path = LongTextField( null=True)
     latest_version = CharField(255, null=True)
-    latest_latency = IntegerField(constraints=[SQL("DEFAULT 0")], null=True)
-    current_players = IntegerField(constraints=[SQL("DEFAULT 0")], null=True)
-    top_players = IntegerField(constraints=[SQL("DEFAULT 0")], null=True)
+    latest_latency = IntegerField(null=True, default=0)
+    current_players = IntegerField(null=True, default=0)
+    top_players = IntegerField(null=True, default=0)
 
     class Meta:
         table_name = 'servers'

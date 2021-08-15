@@ -7,9 +7,9 @@ Can be directly executed via running 'python main.py test' command
 from peewee import DoesNotExist
 from modules.database import *
 from modules.utils import UsernameToUUID
+from modules.tracker import MCTracker
 create_tables()
 
-# 3 server bartar bar asas tedad vote
-
-u = UsernameToUUID('Alijkgfdgdfgdf')
-print(u.get_uuid() == '')
+tracker = MCTracker()
+tracker.fetch_servers()
+tracker.update_servers_database()
