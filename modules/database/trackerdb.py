@@ -1,7 +1,12 @@
-from modules.database import Server, database
+from modules.database import Server, Vote, database
 from modules.utils import prefer_not_null
 
 from peewee import fn
+
+tables = [Server, Vote]
+
+def create_tables():
+    database.create_tables(tables)
 
 def remove_server(name):
     server = Server.get(Server.name == name)
