@@ -61,7 +61,7 @@ class Vote(Cog):
             labels = [option.label for option in inter.select_menu.selected_options]
             values = [option.value for option in inter.select_menu.selected_options]
             
-            await inter.reply(f"✅ {inter.author.mention} نظر شما ثبت شد", delete_after=3)
+            await inter.reply(f"✅ {inter.author} نظر شما ثبت شد", delete_after=3)
 
             VoteDB.insert(
                 user_id = inter.author.id,

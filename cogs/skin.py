@@ -1,6 +1,6 @@
 from discord import Embed
 
-from discord.ext import Cog, command
+from discord.ext.commands import Cog, command
 
 from modules.utils import UsernameToUUID
 
@@ -18,7 +18,7 @@ class Skin(Cog):
         if not username:
             embed = Embed(title="🤔 Khob alan donbale che skini hasti dabsh?", 
                             description="Usage: .skin [name] | .skin Alijk", 
-                            color=0xFF000000)
+                            color=0xFF0000)
             return await ctx.send(embed=embed)
         
         uuid = UsernameToUUID(username).t_uuid()
@@ -26,7 +26,7 @@ class Skin(Cog):
         # Check if username is valid and exists
         if uuid == '':
             embed = Embed(title=f"🤨 Nemidoonam {username} kie?!", 
-                            color=0xFF000000)
+                            color=0xFF0000)
             return await ctx.send(embed=embed)
         
         embed = Embed(title=f"💎 Skin of {username}", color=0x00BCD4)
@@ -41,7 +41,7 @@ class Skin(Cog):
         if not username:
             embed = Embed(title="🤔 Khob alan donbale kale ki hasti dabsh?", 
                             description="Usage: .head [name] | .head Alijk", 
-                            color=0xFF000000)
+                            color=0xFF0000)
             return await ctx.send(embed=embed)
         
         uuid = UsernameToUUID(username).t_uuid()
@@ -49,7 +49,7 @@ class Skin(Cog):
         # Check if username is valid and exists
         if uuid == '':
             embed = Embed(title=f"🤨 Nemidoonam {username} kie?!", 
-                            color=0xFF000000)
+                            color=0xFF0000)
             return await ctx.send(embed=embed)
         
         embed = Embed(title=f"💎 Head of {username}", color=0x00BCD4)
