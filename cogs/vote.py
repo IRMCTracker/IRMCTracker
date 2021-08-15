@@ -1,4 +1,5 @@
-from modules.database import get_servers
+from peewee import DoesNotExist
+from modules.database import Server, get_servers
 from modules.database import Vote as VoteDB
 
 from discord import Embed
@@ -73,7 +74,44 @@ class Vote(Cog):
         else:
             await ctx.send('Voting is not started yet!')
 
+    @voting.command(aliases=['results', 'r'])
+    @has_role('root')
+    async def result(self, ctx):
+        servers = get_servers()
+        
+        #Looping through all server in database so that 
+        # we can count and sort based on votes
+        for server in servers:
+            # Gonna check if server has any votes,
+            # if it has, we count & store them
+            try:
+                # Try to count server votes
+                server.votes_count = len(server.votes)
+            # Excepts when server doesnt have any votes so we set it to 0
+            except DoesNotExist:
+                server.votes_count = 0
 
+        # Sorting servers based on votes_count (that we created in loop above)
+        servers_sorted = sorted(servers, key=lambda x: x.votes_count, reverse=True)
 
+        embed = Embed(title="💎 3 سرور برتر ایران",
+                        description="3 سرور برتر ایرانی بر اساس نظرسنجی ترکر", 
+                        color=0xFF9800)
+
+        embed.add_field(name=f"🥇 مقام اول: {servers_sorted[0].name}",
+                            value=f"تعداد رای: {str(servers_sorted[0].votes_count)} نفر",
+                            inline=False)
+
+        embed.add_field(name=f"🥈 مقام دوم: {servers_sorted[1].name}",
+                            value=f"تعداد رای: {str(servers_sorted[1].votes_count)} نفر",
+                            inline=False)
+
+        embed.add_field(name=f"🥉 مقام سوم: {servers_sorted[2].name}",
+                            value=f"تعداد رای: {str(servers_sorted[2].votes_count)} نفر",
+                            inline=False)
+
+        await ctx.send(embed=embed)
+
+        
 def setup(client):
     client.add_cog(Vote(client))

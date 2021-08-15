@@ -4,14 +4,23 @@
 Can be directly executed via running 'python main.py test' command
 """
 
+from peewee import DoesNotExist
 from modules.database import *
-servers = get_servers()
 
 create_tables()
 
-print(servers[0].name)
+# 3 server bartar bar asas tedad vote
+
+servers = get_servers()
+
 for server in servers:
-    print(server.name + ' | ' + str(server.current_players) + ' | ' + str(server.top_players))
+    try:
+        server.votes_count = len(server.votes)
+    # Excepts when server doesnt have any votes so we set it to 0
+    except DoesNotExist:
+        server.votes_count = 0
 
-
-
+    
+servers_sorted = sorted(servers, key=lambda x: x.votes_count, reverse=True)
+for server in servers_sorted:
+    print(server.name, server.votes_count)
