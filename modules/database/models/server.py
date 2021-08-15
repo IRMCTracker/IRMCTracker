@@ -1,6 +1,7 @@
 from modules.database.basemodel import *
 
 class Server(BaseModel):
+    id = PrimaryKeyField()
     name = CharField(unique=True)
     address = CharField(unique=True)
     discord = CharField(null=True)
