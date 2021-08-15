@@ -5,6 +5,7 @@ Methods that are used widely over the project
 from .functions import *
 from .logging import *
 from .validations import *
+from .username_to_uuid import *
 
 from modules.config import Env
 
