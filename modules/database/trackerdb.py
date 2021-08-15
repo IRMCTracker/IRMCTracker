@@ -3,9 +3,6 @@ from modules.utils import prefer_not_null
 
 from peewee import fn
 
-def create_tables():
-    database.create_tables([Server])
-
 def remove_server(name):
     server = Server.get(Server.name == name)
     return server.delete_instance()
