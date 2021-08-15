@@ -5,6 +5,7 @@ from discord.ext.commands.errors import ExtensionAlreadyLoaded, ExtensionFailed,
 from discord.ext.commands import command, Cog, has_role, Bot as _bot
 from modules.utils import get_logger
 
+from dislash import InteractionClient
 
 class Bot(Cog):
     """Low end bot management commands/events
@@ -16,6 +17,8 @@ class Bot(Cog):
     @Cog.listener()
     async def on_ready(self):
         get_logger().info(f"Booted and running on user: {self.bot.user}")
+
+        self.bot.slash = InteractionClient(self.bot)
 
         try:
             tracker:Tracker = self.bot.get_cog('Tracker')
@@ -31,7 +34,7 @@ class Bot(Cog):
             if ".py" in extension:
                 extension.replace(".py", "")
         except:
-            ctx.send(":warning: Please provide an extension name")
+            await ctx.send(":warning: Please provide an extension name")
         try:
             self.bot.load_extension(f'cogs.{extension}')
         except ExtensionNotFound:
@@ -60,7 +63,7 @@ class Bot(Cog):
         except:
             ctx.send(":warning: Please provide an extension name")
         try:
-            self.bot.unload_extension(f'cogs.{extension}')
+            await self.bot.unload_extension(f'cogs.{extension}')
         except ExtensionNotFound:
             await ctx.send(f":warning: Extension **{extension}** doesn't exist!")
         except ExtensionNotLoaded:
@@ -81,7 +84,7 @@ class Bot(Cog):
             if ".py" in extension:
                 extension.replace(".py", "")
         except:
-            ctx.send(":warning: Please provide an extension name")
+            await ctx.send(":warning: Please provide an extension name")
         try:
             self.bot.reload_extension(extension)
         except ExtensionNotFound:
