@@ -1,4 +1,4 @@
-from modules.tracker import *
+from modules.database import *
 
 from discord import Embed
 from discord.ext.commands import Cog, command, has_role
@@ -47,7 +47,12 @@ class Vote(Cog):
 
             labels = [option.label for option in inter.select_menu.selected_options]
             
-            await inter.reply(f"{inter.author} Options: {', '.join(labels)}")
+            await inter.reply(f"✅ {inter.author.mention} نظر شما ثبت شد", delete_after=4)
+
+            Vote.replace(
+                user_id = inter.author.id,
+                vote = labels[0]
+            )
 
 
     @command()
