@@ -14,10 +14,15 @@ class Vote(Cog):
     def __init__(self, bot):
         self.bot = bot
         self.bot.is_voting_enabled = False
-
-    @command()
+    
+    @group(invoke_without_command=True, aliases=['vt'])
     @has_role('root')
-    async def startvote(self, ctx):
+    async def voting(self, ctx):
+        await ctx.send('No arguments detected')
+
+    @voting.command()
+    @has_role('root')
+    async def start(self, ctx):
         VoteDB.raw('DELETE FROM votes')
 
         servers = get_servers()
@@ -59,14 +64,15 @@ class Vote(Cog):
             ).on_conflict('replace').execute()
 
 
-    @command()
+    @voting.command()
     @has_role('root')
-    async def stopvote(self, ctx):
+    async def stop(self, ctx):
         if self.bot.is_voting_enabled:
             embed = Embed(title="⭕ Stopped Voting", description="I'm no longer listening to votes", color=0xD32F2F)
             await ctx.send(embed=embed)
         else:
             await ctx.send('Voting is not started yet!')
+
 
 
 def setup(client):
