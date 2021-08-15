@@ -5,7 +5,7 @@ from discord.ext.commands.errors import ExtensionAlreadyLoaded, ExtensionFailed,
 from discord.ext.commands import command, Cog, has_role, Bot as _bot
 from modules.utils import get_logger
 
-from dislash import InteractionClient
+# from dislash import InteractionClient
 
 class Bot(Cog):
     """Low end bot management commands/events
@@ -18,7 +18,7 @@ class Bot(Cog):
     async def on_ready(self):
         get_logger().info(f"Booted and running on user: {self.bot.user}")
 
-        self.bot.slash = InteractionClient(self.bot)
+        # self.bot.slash = InteractionClient(self.bot)
 
         try:
             tracker:Tracker = self.bot.get_cog('Tracker')

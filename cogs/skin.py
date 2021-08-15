@@ -21,7 +21,7 @@ class Skin(Cog):
                             color=0xFF0000)
             return await ctx.send(embed=embed)
         
-        uuid = UsernameToUUID(username).t_uuid()
+        uuid = UsernameToUUID(username).get_uuid()
 
         # Check if username is valid and exists
         if uuid == '':
@@ -44,7 +44,7 @@ class Skin(Cog):
                             color=0xFF0000)
             return await ctx.send(embed=embed)
         
-        uuid = UsernameToUUID(username).t_uuid()
+        uuid = UsernameToUUID(username).get_uuid()
 
         # Check if username is valid and exists
         if uuid == '':
