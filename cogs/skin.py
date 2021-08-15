@@ -53,7 +53,7 @@ class Skin(Cog):
             return await ctx.send(embed=embed)
         
         embed = Embed(title=f"💎 Head of {username}", color=0x00BCD4)
-        embed.set_image(url=self.BODY_BASE_URL + uuid + self.GET_ARGS)
+        embed.set_image(url=self.HEAD_BASE_URL + uuid + self.GET_ARGS)
 
         await ctx.send(embed=embed)
 
