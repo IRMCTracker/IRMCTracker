@@ -36,4 +36,8 @@ class Env:
     DB_PATH = getenv('DB_PATH')
     CONFIG_PATH = getenv('CONFIG_PATH')
 
-    
+    MYSQL_USER = getenv('MYSQL_USER')
+    MYSQL_PASSWORD = getenv('MYSQL_PASSWORD')
+    MYSQL_DATABASE = getenv('MYSQL_DATABASE')
+    MYSQL_HOST = getenv('MYSQL_HOST')
+    MYSQL_PORT = int(getenv('MYSQL_PORT'))
