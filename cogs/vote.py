@@ -25,9 +25,13 @@ class Vote(Cog):
 
     @voting.command()
     @has_role('root')
-    async def start(self, ctx):
+    async def clear(self, ctx):
         VoteDB.raw('DELETE FROM votes').execute()
-
+        await ctx.send('Cleared vote table')
+        
+    @voting.command()
+    @has_role('root')
+    async def start(self, ctx):
         servers = get_servers()
 
         options = []
