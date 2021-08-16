@@ -28,7 +28,7 @@ class Vote(Cog):
     async def clear(self, ctx):
         VoteDB.raw('DELETE FROM votes').execute()
         await ctx.send('Cleared vote table')
-        
+
     @voting.command()
     @has_role('root')
     async def start(self, ctx):
@@ -66,7 +66,7 @@ class Vote(Cog):
             values = [option.value for option in inter.select_menu.selected_options]
             
             await inter.reply(f"✅ {inter.author.mention} نظر شما ثبت شد", delete_after=3)
-
+            
             VoteDB.insert(
                 user_id = inter.author.id,
                 server_id= values[0]
