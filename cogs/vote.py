@@ -106,17 +106,20 @@ class Vote(Cog):
                         description="سه سرور برتر ایرانی بر اساس نظرسنجی از کاربران", 
                         color=0x536DFE)
 
-        embed.add_field(name=f"🥇 {servers_sorted[0].name}",
-                            value=f"✌ {str(servers_sorted[0].votes_count)} Votes",
-                            inline=False)
+        stacks = round(len(servers_sorted) / 3)
+        
+        i = 1
+        prefix = '🥇'
+        for server in servers_sorted:
+            if stacks * 2 >= i > stacks:
+                prefix = '🥈'
+            elif stacks * 3 >= i > stacks * 2:
+                prefix = '🥉'
 
-        embed.add_field(name=f"🥈 {servers_sorted[1].name}",
-                            value=f"✌ {str(servers_sorted[1].votes_count)} Votes",
-                            inline=False)
-
-        embed.add_field(name=f"🥉 {servers_sorted[2].name}",
-                            value=f"✌ {str(servers_sorted[2].votes_count)} Votes",
-                            inline=False)
+            embed.add_field(name=f"{prefix} {server.name}",
+                                value=f"✌ {str(server.votes_count)} Votes",
+                                inline=False)
+            i += 1
 
         embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/533248248685789196/876398664254361620/vote.png')
         embed.set_footer(text=f"IRMCTracker - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
