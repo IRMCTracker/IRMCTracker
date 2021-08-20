@@ -86,6 +86,7 @@ class Vote(Cog):
     @has_role('root')
     async def result(self, ctx):
         servers = get_servers()
+        all_votes_count = 0
         
         #Looping through all server in database so that 
         # we can count and sort based on votes
@@ -95,6 +96,8 @@ class Vote(Cog):
             try:
                 # Try to count server votes
                 server.votes_count = len(server.votes)
+                # Add count to all count
+                all_votes_count += server.votes_count
             # Excepts when server doesnt have any votes so we set it to 0
             except DoesNotExist:
                 server.votes_count = 0
@@ -103,7 +106,7 @@ class Vote(Cog):
         servers_sorted = sorted(servers, key=lambda x: x.votes_count, reverse=True)
 
         embed = Embed(title="💎 Top Servers | برترین سرور های ایرانی",
-                        description="سه سرور برتر ایرانی بر اساس نظرسنجی از کاربران", 
+                        description=f"سه سرور برتر ایرانی بر اساس نظرسنجی از کاربران\n\n💻 مجموع رای ها:  {all_votes_count} رای", 
                         color=0x536DFE)
 
         stacks = round(len(servers_sorted) / 3)
