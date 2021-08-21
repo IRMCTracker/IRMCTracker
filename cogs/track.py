@@ -28,12 +28,16 @@ class Track(Cog):
         servers = get_servers()
         banner = File('storage/static/banner.png', filename='banner.png')
         embed = Embed(title="📡 Servers List | لیست سرور ها", description='', color=0x673AB7)
-        for server in servers:
-            prefix = '🟢'
-            if server.latest_latency == 0:
-                prefix = '🔴'
 
-            embed.add_field(name=f"{prefix} {server.name}", value=f"👥 {server.current_players}", inline=True)
+        offline_servers = []
+        for server in servers:
+            if server.latest_latency == 0:
+                offline_servers.append(server)
+            else:
+                embed.add_field(name=f"🟢 {server.name}", value=f"👥 {server.current_players}", inline=True)
+
+        for server in offline_servers:
+            embed.add_field(name=f"🔴 {server.name}", value=f"👥 -", inline=True)
 
         embed.set_image(url='attachment://banner.png')
 
