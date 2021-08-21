@@ -29,7 +29,11 @@ class Track(Cog):
         banner = File('storage/static/banner.png', filename='banner.png')
         embed = Embed(title="📡 Servers List | لیست سرور ها", description='', color=0x673AB7)
         for server in servers:
-            embed.add_field(name=server.name, value=f"👥 {server.current_players}", inline=True)
+            prefix = '🟢'
+            if server.latest_latency == 0:
+                prefix = '🔴'
+
+            embed.add_field(name=f"{prefix} {server.name}", value=f"👥 {server.current_players}", inline=True)
 
         embed.set_image(url='attachment://banner.png')
 
