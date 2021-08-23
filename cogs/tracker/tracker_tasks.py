@@ -82,37 +82,32 @@ class TrackerTasks(Cog):
         i = 0
         for channel_id in Config.Channels.TOP_CHANNELS:
             channel = self.bot.get_channel(channel_id)
-            message = await channel.history(limit=1).flatten()[0]
+            messages = await channel.history(limit=1).flatten()
 
             server = self.servers[i]
 
             discord = server.discord if server.discord != 'null' else 'Not Set'
-            telegram = server.telegram if server.telegram != 'null' else 'Not Set'
+            telegram = server.telegram if server.telegram != None else 'Not Set'
 
             uptime = timestamp_ago(server.up_from)
 
             embed=Embed(title="", color=0x1bd027)
             embed.set_author(name=f"💎 {server.name}")
 
-            favicon = File(server.favicon_path, filename="image.png")
-
-            server.motd_path = 'storage/static/banner.png'
-            motd = File(server.motd_path, filename="motd.png")
-            embed.set_thumbnail(url="attachment://image.png")
 
             embed.add_field(name="🌐 Address ►", value=server.address, inline=False)
             embed.add_field(name="👥 Online Players ►", value=server.current_players, inline=True)
             embed.add_field(name="🥇 Top Players Record ►", value=server.top_players, inline=True)
             embed.add_field(name='📈 Uptime ►',
-                description=uptime, 
+                value=uptime, 
                 inline=False)
             embed.add_field(name="📌 Version ►", value=server.latest_version, inline=True)
             embed.add_field(name="📡 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
             embed.add_field(name="🔗 Discord ►", value=discord, inline=False)
             embed.add_field(name="🔗 Telegram ►", value=telegram, inline=False)
 
-            embed.set_image(url="attachment://motd.png")
-            await message.edit(content=None, files=[favicon, motd], embed=embed)
+            embed.set_image(url="https://cdn.discordapp.com/attachments/879304683590676482/879338350488748102/motd.png")
+            await messages[0].edit(content=None, embed=embed)
 
             
             i += 1

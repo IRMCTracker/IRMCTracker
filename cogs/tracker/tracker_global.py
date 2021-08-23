@@ -66,7 +66,7 @@ class TrackerGlobal(Cog):
                                         color=0xF44336))
         else:
             discord = server.discord if server.discord != 'null' else 'Not Set'
-            telegram = server.telegram if server.telegram != 'null' else 'Not Set'
+            telegram = server.telegram if server.telegram != None else 'Not Set'
 
             uptime = timestamp_ago(server.up_from)
 
@@ -91,7 +91,7 @@ class TrackerGlobal(Cog):
             embed.add_field(name="👥 Online Players ►", value=server.current_players, inline=True)
             embed.add_field(name="🥇 Top Players Record ►", value=server.top_players, inline=True)
             embed.add_field(name='📈 Uptime ►',
-                description=uptime, 
+                value=uptime, 
                 inline=False)
             embed.add_field(name="📌 Version ►", value=server.latest_version, inline=True)
             embed.add_field(name="📡 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
