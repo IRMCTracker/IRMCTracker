@@ -33,6 +33,12 @@ class Admin(Cog):
         update_server(name, discord=discord)
         await ctx.send(f"Server **{name}** discord set to {discord}")
 
+    @command(aliases=["updatetg", "settg"])
+    @has_role('root')
+    async def settelegram(self, ctx, name, telegram):
+        update_server(name, discord=telegram)
+        await ctx.send(f"Server **{name}** telegram set to {telegram}")
+
     @command(aliases=["settopplayer"])
     @has_role('root')
     async def settopplayers(self, ctx, name, top_players):

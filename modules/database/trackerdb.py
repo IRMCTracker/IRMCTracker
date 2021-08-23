@@ -23,7 +23,7 @@ def insert_server(name, address, current_players=0, top_players=0, latest_versio
 
 
 def update_server(name, current_players=None, address=None, top_players=None, latest_version=None, latest_latency=None, 
-                    favicon_path=None, motd_path=None, info_path=None, discord=None):
+                    favicon_path=None, motd_path=None, info_path=None, discord=None, telegram=None):
     old_server = get_server(name=name)
     
     server = Server.update(
@@ -35,7 +35,8 @@ def update_server(name, current_players=None, address=None, top_players=None, la
         favicon_path = prefer_not_null(favicon_path, old_server.favicon_path),
         motd_path = prefer_not_null(motd_path, old_server.motd_path),
         info_path = prefer_not_null(info_path, old_server.info_path),
-        discord = prefer_not_null(discord, old_server.discord)
+        discord = prefer_not_null(discord, old_server.discord),
+        telegram = prefer_not_null(telegram, old_server.telegram)
     ).where(Server.name == name)
     
     return server.execute()
