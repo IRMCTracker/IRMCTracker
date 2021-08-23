@@ -1,4 +1,4 @@
-from cogs.tracker import Tracker
+from cogs.tracker.tracker_tasks import TrackerTasks
 from discord.ext.commands.context import Context
 from discord.ext.commands.errors import ExtensionAlreadyLoaded, ExtensionFailed, ExtensionNotFound, ExtensionNotLoaded, NoEntryPointError
 
@@ -21,7 +21,7 @@ class Bot(Cog):
         self.bot.slash = SlashClient(self.bot)
 
         try:
-            tracker:Tracker = self.bot.get_cog('Tracker')
+            tracker:TrackerTasks = self.bot.get_cog('TrackerTasks')
             await tracker.tracker_tick.start()
         except:
             get_logger().error('Failed to start Tracker#tracker_tick task')
