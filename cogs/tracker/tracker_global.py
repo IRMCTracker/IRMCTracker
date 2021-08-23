@@ -7,7 +7,7 @@ from modules.tracker import get_servers
 from modules.database import get_server_like
 from modules.utils import get_beautified_dt
 
-class Track(Cog):
+class TrackerGlobal(Cog):
     """Track commands cog
 
     All the tracker commands for public users
@@ -114,4 +114,4 @@ class Track(Cog):
         
 
 def setup(bot):
-    bot.add_cog(Track(bot))
+    bot.add_cog(TrackerGlobal(bot))
