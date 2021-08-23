@@ -61,8 +61,9 @@ if __name__ == "__main__":
         # Creating the database tables (and the actual database file if doesnt exist)
         create_tables()
 
-        # Running the database update task in another thread so that it doesnt interfere with the actual bot
-        thread = Thread(target = MCTracker().update_task, daemon=True).start()
+        if not Env.DEBUG:
+            # Running the database update task in another thread so that it doesnt interfere with the actual bot
+            thread = Thread(target = MCTracker().update_task, daemon=True).start()
 
         bot = run_discord_bot()
 
