@@ -1,6 +1,6 @@
 import sys
 import asyncio
-from os import listdir
+import os
 
 from discord import Intents
 from discord.ext.commands import Bot
@@ -24,12 +24,24 @@ def run_discord_bot():
     
     bot = Bot(command_prefix=Env.PREFIX,
               intents=Intents().all(), help_command=None)
-    bot.tempdata = {}
+              
+    loaded_extensions = {}
 
-    for filename in listdir('./cogs'):
-        if filename.endswith('.py'):
-            bot.load_extension(f'cogs.{filename[:-3]}')
-            print(f"\n- Loaded {filename}")
+    """Loading all the py files below 'cogs/*' as extensions
+    """
+    for path, subdirs, files in os.walk('cogs/'):
+        for name in files:
+            if name.endswith('.py'):
+                filename = os.path.join(path, name).replace('/', '.').replace('\\', '.')[:-3]
+                cog_name = name[:-3].split('.')[-1]
+                
+                loaded_extensions[cog_name] = filename
+
+                bot.load_extension(filename)
+
+                print(f"\n- Loaded {filename}")
+
+    bot.loaded_extensions = loaded_extensions
 
     bot.run(Env.TOKEN)
 
@@ -48,8 +60,9 @@ if __name__ == "__main__":
         # Creating the database tables (and the actual database file if doesnt exist)
         create_tables()
 
-        # Running the database update task in another thread so that it doesnt interfere with the actual bot
-        thread = Thread(target = MCTracker().update_task, daemon=True).start()
+        if not Env.DEBUG:
+            # Running the database update task in another thread so that it doesnt interfere with the actual bot
+            thread = Thread(target = MCTracker().update_task, daemon=True).start()
 
         bot = run_discord_bot()
 

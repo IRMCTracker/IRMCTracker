@@ -1,5 +1,6 @@
 from time import time
 import random, string
+import timeago
 from datetime import datetime as dt
 
 def replace_placeholders(string, placeholders):
@@ -21,5 +22,14 @@ def prefer_not_null(a, b):
         return a
     return b
     
-def shortified(string, max_len=6):
+def shortified(string, max_len=6) -> str:
     return (string[:max_len] + '..') if len(string) > max_len else string
+
+def ago(date, locale='fa_IR'):
+    return timeago.format(date, locale=locale)
+
+def timestamp_ago(timestamp, locale='fa_IR'):
+    return ago(dt.fromtimestamp(timestamp), locale)
+
+def capitalize_address(address):
+    return '.'.join([x.capitalize() for x in address.split('.')])

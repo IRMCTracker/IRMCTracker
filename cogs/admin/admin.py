@@ -14,7 +14,6 @@ class Admin(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
     @command(aliases=["newserver"])
     @has_role('root')
     async def addserver(self, ctx, name, address):
@@ -33,6 +32,12 @@ class Admin(Cog):
     async def setdiscord(self, ctx, name, discord):
         update_server(name, discord=discord)
         await ctx.send(f"Server **{name}** discord set to {discord}")
+
+    @command(aliases=["updatetg", "settg"])
+    @has_role('root')
+    async def settelegram(self, ctx, name, telegram):
+        update_server(name, discord=telegram)
+        await ctx.send(f"Server **{name}** telegram set to {telegram}")
 
     @command(aliases=["settopplayer"])
     @has_role('root')
@@ -99,7 +104,7 @@ class Admin(Cog):
     @command(has_role='root')
     @has_role('root')
     async def sendhourly(self,ctx):
-        await self.bot.get_cog('Tracker').send_chart()
+        await self.bot.get_cog('TrackerTasks').send_chart()
 
     @command(has_role='root')
     @has_role('root')
@@ -109,7 +114,17 @@ class Admin(Cog):
     @command()
     @has_role('root')
     async def updatechannels(self,ctx):
-        await self.bot.get_cog('Tracker').update_channels()
+        await self.bot.get_cog('TrackerTasks').update_channels()
+
+    @command()
+    @has_role('root')
+    async def updatetoptext(self,ctx):
+        await self.bot.get_cog('TrackerTasks').update_top_text()
+
+    @command()
+    @has_role('root')
+    async def updaterecordstext(self,ctx):
+        await self.bot.get_cog('TrackerTasks').update_records_text()
 
     @command(pass_context = True)
     @has_role('root')
