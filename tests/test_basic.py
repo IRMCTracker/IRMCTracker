@@ -11,6 +11,3 @@ from modules.tracker import MCTracker
 create_tables()
 
 madcraft = get_server('MadCraft')
-eog = get_server('EOG')
-
-print(timestamp_ago(madcraft.up_from))

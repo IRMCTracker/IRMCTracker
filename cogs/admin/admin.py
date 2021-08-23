@@ -110,6 +110,11 @@ class Admin(Cog):
     async def updatechannels(self,ctx):
         await self.bot.get_cog('TrackerTasks').update_channels()
 
+    @command()
+    @has_role('root')
+    async def updatetoptext(self,ctx):
+        await self.bot.get_cog('TrackerTasks').update_top_text()
+
     @command(pass_context = True)
     @has_role('root')
     async def clear(self, ctx, number: int):
