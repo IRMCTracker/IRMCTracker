@@ -6,6 +6,7 @@ class Server(BaseModel):
     name = CharField(150, unique=True)
     address = CharField(150, unique=True)
     discord = CharField(150, null=True)
+    telegram = CharField(150, null=True)
     favicon_path = LongTextField(null=True)
     info_path = LongTextField(null=True)
     motd_path = LongTextField( null=True)
