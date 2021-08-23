@@ -14,7 +14,6 @@ class Admin(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
     @command(aliases=["newserver"])
     @has_role('root')
     async def addserver(self, ctx, name, address):

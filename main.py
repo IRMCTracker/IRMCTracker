@@ -24,8 +24,7 @@ def run_discord_bot():
     
     bot = Bot(command_prefix=Env.PREFIX,
               intents=Intents().all(), help_command=None)
-    bot.tempdata = {}
-
+              
     loaded_extensions = {}
 
     """Loading all the py files below 'cogs/*' as extensions

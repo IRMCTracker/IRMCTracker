@@ -1,12 +1,12 @@
 import os
 
-import time
+from time import time
 
 from datetime import datetime as dt
 
 from modules.config import Config
 from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count
-from modules.utils import shortified, get_beautified_dt
+from modules.utils import *
 
 from discord.ext import tasks
 from discord import File, Embed, Activity, ActivityType
@@ -118,7 +118,7 @@ class TrackerTasks(Cog):
         for server in servers:
             is_online = self.is_online(server)
             up_from_timestamp = server.up_from
-            current_timestamp = time.time()
+            current_timestamp = round(time())
 
             embed = None
             

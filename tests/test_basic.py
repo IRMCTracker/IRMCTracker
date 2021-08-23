@@ -12,6 +12,3 @@ create_tables()
 
 madcraft = get_server('MadCraft')
 eog = get_server('EOG')
-
-print(madcraft.up_from)
-print(eog.up_from)

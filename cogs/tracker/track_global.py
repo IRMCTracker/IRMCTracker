@@ -18,7 +18,7 @@ class Track(Cog):
 
     def __init__(self, bot):
         self.bot = bot
-    
+
     @command(aliases=['allservers'])
     @cooldown(6, 60, BucketType.user)
     async def servers(self, ctx):
