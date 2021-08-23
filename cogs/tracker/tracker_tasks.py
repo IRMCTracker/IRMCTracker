@@ -171,7 +171,7 @@ class TrackerTasks(Cog):
                 players = '-'
 
             await channel.edit(
-                name=f"{prefix}︲{text2art(name, 'monospace')}「{players}👥」"
+                name=f"{prefix}・{text2art(name, 'monospace')}「{players}👥」"
             )
             i += 1
 
