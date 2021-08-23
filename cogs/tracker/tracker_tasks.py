@@ -79,7 +79,9 @@ class TrackerTasks(Cog):
         """
 
         i = 0
-        for channel in Config.Channels.TOP_CHANNELS:
+        for channel_id in Config.Channels.TOP_CHANNELS:
+            channel = self.bot.get_channel(channel_id)
+            
             server = self.servers[i]
             players = server.current_players
             prefix = '🥇'
