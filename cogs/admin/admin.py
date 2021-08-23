@@ -98,7 +98,7 @@ class Admin(Cog):
     @command(has_role='root')
     @has_role('root')
     async def sendhourly(self,ctx):
-        await self.bot.get_cog('Tracker').send_chart()
+        await self.bot.get_cog('TrackerTasks').send_chart()
 
     @command(has_role='root')
     @has_role('root')
@@ -108,7 +108,7 @@ class Admin(Cog):
     @command()
     @has_role('root')
     async def updatechannels(self,ctx):
-        await self.bot.get_cog('Tracker').update_channels()
+        await self.bot.get_cog('TrackerTasks').update_channels()
 
     @command(pass_context = True)
     @has_role('root')
