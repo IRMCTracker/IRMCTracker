@@ -98,6 +98,14 @@ class TrackerGlobal(Cog):
             embed.add_field(name="🔗 Discord ►", value=discord, inline=False)
             embed.add_field(name="🔗 Telegram ►", value=telegram, inline=False)
 
+            if server.channel_id != 0:
+                server_channel = self.bot.get_channel(server.channel_id).mention
+                embed.add_field(
+                    name="📢 Channel ►",
+                    value=server_channel,
+                    inline=False
+                )
+
             embed.set_image(url="attachment://motd.png")
             await ctx.send(mention_msg, files=[favicon, motd], embed=embed)
         

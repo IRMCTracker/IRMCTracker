@@ -15,6 +15,7 @@ class Server(BaseModel):
     current_players = IntegerField(null=True, default=0)
     top_players = IntegerField(null=True, default=0)
     up_from = BigIntegerField(default=0)
+    channel_id = BigIntegerField(default=0)
 
     class Meta:
         table_name = 'servers'

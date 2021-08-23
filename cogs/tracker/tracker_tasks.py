@@ -84,7 +84,8 @@ class TrackerTasks(Cog):
         messages = await channel.history(limit=1).flatten()
 
         embed = Embed(title="💎 Top Records | رکورد سرور های ایرانی",
-                        color=0xd5ce0b)
+                        description="لیست بالا ترین رکورد سرور های ایرانی بر اساس تعداد پلیر",
+                        color=0x4CAF50)
 
         i = 0
         for server in get_servers_by_record():
@@ -98,15 +99,17 @@ class TrackerTasks(Cog):
                 prefix = '🏅'
 
             embed.add_field(
-                name=f"{prefix} • {text2art(server.name, 'monospace')} • {prefix}", 
+                name=f"{prefix} • {text2art(server.name, 'monospace')}", 
                 value=f"「 {server.top_players}👥 𝙿𝚕𝚊𝚢𝚎𝚛𝚜 」", 
                 inline=False
             )
 
+            i += 1
+
+        embed.set_image(url="https://cdn.discordapp.com/attachments/879304683590676482/879338350488748102/motd.png")
 
         await messages[0].edit(content=None, embed=embed)
 
-        i += 1
 
         
 
@@ -173,13 +176,17 @@ class TrackerTasks(Cog):
             await channel.edit(
                 name=f"{prefix}・{text2art(name, 'monospace')}「{players}👥」"
             )
+
+            server.channel_id = channel_id
+            server.save()
+
             i += 1
 
         await self.bot.get_channel(Config.Channels.ALL).edit(
-            name=f"💎 All Players 「{all_players_count()}👥」"
+            name=f"💎・𝙰𝚕𝚕「{all_players_count()}👥」"
         )
         await self.bot.get_channel(Config.Channels.EMPTY).edit(
-            name=f"📈 Empty Count 「{zero_player_servers_count()}🔨」"
+            name=f"📈・𝙴𝚖𝚙𝚝𝚢「{zero_player_servers_count()}🔨」"
         )  
 
     def is_online(self, server):
