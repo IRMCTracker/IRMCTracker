@@ -30,3 +30,6 @@ def ago(date, locale='fa_IR'):
 
 def timestamp_ago(timestamp, locale='fa_IR'):
     return ago(dt.fromtimestamp(timestamp), locale)
+
+def capitalize_address(address):
+    return '.'.join([x.capitalize() for x in address.split('.')])

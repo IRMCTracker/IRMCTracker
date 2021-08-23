@@ -10,4 +10,7 @@ from modules.utils import *
 from modules.tracker import MCTracker
 create_tables()
 
-madcraft = get_server('MadCraft')
+t = 'hub.madcraft.ir'
+
+parts = [x.capitalize() for x in t.split('.')]
+print('.'.join(parts))

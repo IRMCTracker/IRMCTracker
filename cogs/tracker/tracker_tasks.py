@@ -131,7 +131,7 @@ class TrackerTasks(Cog):
             embed.set_author(name=f"💎 {server.name}")
 
 
-            embed.add_field(name="🌐 Address ►", value=server.address, inline=False)
+            embed.add_field(name="🌐 Address ►", value=capitalize_address(server.address), inline=False)
             embed.add_field(name="👥 Online Players ►", value=server.current_players, inline=True)
             embed.add_field(name="🥇 Top Players Record ►", value=server.top_players, inline=True)
             embed.add_field(name='📈 Uptime ►',
