@@ -30,11 +30,23 @@ class TrackerGlobal(Cog):
         embed = Embed(title="📡 Servers List | لیست سرور ها", description='', color=0x673AB7)
 
         offline_servers = []
+        i = 0
         for server in servers:
+            if i == 0:
+                prefix = '🥇'
+            elif i == 1:
+                prefix = '🥈'
+            elif i == 2:
+                prefix = '🥉'
+            else:
+                prefix = '🏅'
+
             if server.latest_latency == 0:
                 offline_servers.append(server)
             else:
-                embed.add_field(name=f"🟢 {server.name}", value=f"👥 {server.current_players}", inline=True)
+                embed.add_field(name=f"{prefix} {server.name}", value=f"👥 {server.current_players}", inline=True)
+
+            i += 1
 
         for server in offline_servers:
             embed.add_field(name=f"🔴 {server.name}", value=f"👥 -", inline=True)

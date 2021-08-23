@@ -1,5 +1,6 @@
 # Temp IRMCTracker files
 storage/cache/
+storage/data/config.yml
 storage/data/database.db
 storage/logs/
 
