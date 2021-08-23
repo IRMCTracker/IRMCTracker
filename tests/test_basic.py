@@ -10,6 +10,8 @@ from modules.utils import UsernameToUUID
 from modules.tracker import MCTracker
 create_tables()
 
-tracker = MCTracker()
-tracker.fetch_servers()
-tracker.update_servers_database()
+madcraft = get_server('MadCraft')
+eog = get_server('EOG')
+
+print(madcraft.up_from)
+print(eog.up_from)
