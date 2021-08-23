@@ -1,6 +1,6 @@
 import sys
 import asyncio
-from os import listdir
+import os
 
 from discord import Intents
 from discord.ext.commands import Bot
@@ -26,10 +26,23 @@ def run_discord_bot():
               intents=Intents().all(), help_command=None)
     bot.tempdata = {}
 
-    for filename in listdir('./cogs'):
-        if filename.endswith('.py'):
-            bot.load_extension(f'cogs.{filename[:-3]}')
-            print(f"\n- Loaded {filename}")
+    loaded_extensions = {}
+
+    """Loading all the py files below 'cogs/*' as extensions
+    """
+    for path, subdirs, files in os.walk('cogs/'):
+        for name in files:
+            if name.endswith('.py'):
+                filename = os.path.join(path, name).replace('/', '.').replace('\\', '.')[:-3]
+                cog_name = name[:-3].split('.')[-1]
+                
+                loaded_extensions[cog_name] = filename
+
+                bot.load_extension(filename)
+
+                print(f"\n- Loaded {filename}")
+
+    bot.loaded_extensions = loaded_extensions
 
     bot.run(Env.TOKEN)
 
