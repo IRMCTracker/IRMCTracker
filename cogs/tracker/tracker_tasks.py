@@ -140,7 +140,7 @@ class TrackerTasks(Cog):
                         description=f"Server {server.name} lahazati pish az dastres kharej shod.",
                         color=0xff5757
                     )
-                server.up_from = 0
+                    server.up_from = 0
             
             server.save()
 

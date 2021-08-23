@@ -87,16 +87,16 @@ class TrackerGlobal(Cog):
             motd = File(server.motd_path, filename="motd.png")
             embed.set_thumbnail(url="attachment://image.png")
 
-            embed.add_field(name="🌐 Address", value=server.address, inline=False)
-            embed.add_field(name="👥 Online Players", value=server.current_players, inline=True)
-            embed.add_field(name="🥇 Top Players Record", value=server.top_players, inline=True)
-            embed.add_field(name='📈 Uptime',
+            embed.add_field(name="🌐 Address ►", value=server.address, inline=False)
+            embed.add_field(name="👥 Online Players ►", value=server.current_players, inline=True)
+            embed.add_field(name="🥇 Top Players Record ►", value=server.top_players, inline=True)
+            embed.add_field(name='📈 Uptime ►',
                 description=uptime, 
                 inline=False)
-            embed.add_field(name="📌 Version", value=server.latest_version, inline=True)
-            embed.add_field(name="📡 Latency", value=f"{str(server.latest_latency)} ms", inline=True)
-            embed.add_field(name="🔗 Discord", value=discord, inline=False)
-            embed.add_field(name="🔗 Telegram", value=telegram, inline=False)
+            embed.add_field(name="📌 Version ►", value=server.latest_version, inline=True)
+            embed.add_field(name="📡 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
+            embed.add_field(name="🔗 Discord ►", value=discord, inline=False)
+            embed.add_field(name="🔗 Telegram ►", value=telegram, inline=False)
 
             embed.set_image(url="attachment://motd.png")
             await ctx.send(mention_msg, files=[favicon, motd], embed=embed)
