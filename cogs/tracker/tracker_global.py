@@ -5,7 +5,7 @@ from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCo
 from datetime import datetime
 from modules.tracker import get_servers
 from modules.database import get_server_like
-from modules.utils import get_beautified_dt
+from modules.utils import *
 
 class TrackerGlobal(Cog):
     """Track commands cog
@@ -66,6 +66,9 @@ class TrackerGlobal(Cog):
                                         color=0xF44336))
         else:
             discord = server.discord if server.discord != 'null' else 'Not Set'
+            telegram = server.telegram if server.telegram != 'null' else 'Not Set'
+
+            uptime = timestamp_ago(server.up_from)
 
             if server.latest_latency == 0:
                 embed = Embed(title=f"🔴 {server.name}", description='Server morede nazar shoma dar hale hazer offline hast : (', color=0xc62828)
@@ -87,20 +90,14 @@ class TrackerGlobal(Cog):
             embed.add_field(name="🌐 Address", value=server.address, inline=False)
             embed.add_field(name="👥 Online Players", value=server.current_players, inline=True)
             embed.add_field(name="🥇 Top Players Record", value=server.top_players, inline=True)
-            embed.add_field(name="🔗 Discord", value=discord, inline=False)
+            embed.add_field(name='📈 Uptime',
+                description=uptime, 
+                inline=False)
             embed.add_field(name="📌 Version", value=server.latest_version, inline=True)
             embed.add_field(name="📡 Latency", value=f"{str(server.latest_latency)} ms", inline=True)
-            #I don't check if it exists because it already exists in tempdata and injected in main loop before anyone execute any command
-            if not self.bot.tempdata[server.address]["lastDowntime"] is None:
-                final = datetime.now() - self.bot.tempdata[server.address]["lastDowntime"]
-                final = final.total_seconds()
-                thevalue = None
-                if final >= 3600:
-                    thevalue = f"Aprx {round(final/3600)} hour(s)"
-                else:
-                    thevalue = f"Aprx {round(final/60)} minute(s)"
+            embed.add_field(name="🔗 Discord", value=discord, inline=False)
+            embed.add_field(name="🔗 Telegram", value=telegram, inline=False)
 
-                embed.add_field(name="\U0001f559 Uptime", value=thevalue, inline=True)
             embed.set_image(url="attachment://motd.png")
             await ctx.send(mention_msg, files=[favicon, motd], embed=embed)
         
