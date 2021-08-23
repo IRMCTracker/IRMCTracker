@@ -14,6 +14,7 @@ class Server(BaseModel):
     latest_latency = IntegerField(null=True, default=0)
     current_players = IntegerField(null=True, default=0)
     top_players = IntegerField(null=True, default=0)
+    up_from = TimestampField(default=0)
 
     class Meta:
         table_name = 'servers'
