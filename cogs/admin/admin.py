@@ -115,6 +115,11 @@ class Admin(Cog):
     async def updatetoptext(self,ctx):
         await self.bot.get_cog('TrackerTasks').update_top_text()
 
+    @command()
+    @has_role('root')
+    async def updaterecordstext(self,ctx):
+        await self.bot.get_cog('TrackerTasks').update_records_text()
+
     @command(pass_context = True)
     @has_role('root')
     async def clear(self, ctx, number: int):

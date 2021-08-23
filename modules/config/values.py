@@ -6,6 +6,7 @@ from distutils.util import strtobool
 class Config:   
     class Channels:
         TOP_CHANNELS = get('channels.top')
+        RECORD_CHANNEL = get('channels.record')
         
         ALL = get('channels.total-vc')
         EMPTY = get('channels.zero-vc')

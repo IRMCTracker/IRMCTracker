@@ -5,7 +5,7 @@ from time import time
 from datetime import datetime as dt
 
 from modules.config import Config
-from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count
+from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count, get_servers_by_record
 from modules.utils import *
 
 from discord.ext import tasks
@@ -44,6 +44,7 @@ class TrackerTasks(Cog):
             # Every five minutes
             if minute % 5 == 0:
                 await self.update_channels()
+                await self.update_records_text()
             # Every hour
             if minute == 0:
                 await self.send_chart()
@@ -77,6 +78,38 @@ class TrackerTasks(Cog):
         )
 
         os.remove('chart.png')
+
+    async def update_records_text(self):
+        channel = self.bot.get_channel(Config.Channels.RECORD_CHANNEL)
+        messages = await channel.history(limit=1).flatten()
+
+        embed = Embed(title="💎 Top Records | رکورد سرور های ایرانی",
+                        color=0xd5ce0b)
+
+        i = 0
+        for server in get_servers_by_record():
+            if i == 0:
+                prefix = '🥇'
+            elif i == 1:
+                prefix = '🥈'
+            elif i == 2:
+                prefix = '🥉'
+            else:
+                prefix = '🏅'
+
+            embed.add_field(
+                name=f"{prefix} • {text2art(server.name, 'monospace')} • {prefix}", 
+                value=f"「 {server.top_players}👥 𝙿𝚕𝚊𝚢𝚎𝚛𝚜 」", 
+                inline=False
+            )
+
+
+        await messages[0].edit(content=None, embed=embed)
+
+        i += 1
+
+        
+
 
     async def update_top_text(self):
         i = 0
