@@ -2,7 +2,6 @@ from os.path import exists
 
 from discord import Embed, File
 from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
-from datetime import datetime
 from modules.tracker import get_servers
 from modules.database import get_server_like
 from modules.utils import *
