@@ -53,7 +53,7 @@ class Profile(Cog):
             player_db.save()
 
         random_color = randint(0, 0xffffff)
-        
+
         embed = Embed(
             title=f"{self.bot.emoji('steve_dab')} ⌠・Player Profile {username.capitalize()}・⌡", 
             color=random_color
@@ -75,14 +75,15 @@ class Profile(Cog):
             url=player.get_head_image()
         )
 
-        hypixel_embed = Embed(
-            title=f"{self.bot.emoji('steve_dab')} ⌠・Hypixel Profile {username.capitalize()}・⌡", 
-            color=random_color
-        )
-
-        hypixel_embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/879323399749533716/879750805266243634/hypixel.jpg')
 
         if hypixel_player:
+            hypixel_embed = Embed(
+                title=f"{self.bot.emoji('steve_dab')} ⌠・Hypixel Profile {username.capitalize()}・⌡", 
+                color=random_color
+            )
+
+            hypixel_embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/879323399749533716/879750805266243634/hypixel.jpg')
+
             hypixel_embed.add_field(
                 name=f"{self.bot.emoji('first')} Avalin vorud be hypixel",
                 value=timestamp_ago(hypixel_player['player']['firstLogin'] / 1000),
@@ -164,6 +165,9 @@ class Profile(Cog):
             )
 
         await ctx.send(embed=embed)
-        await ctx.send(embed=hypixel_embed)
+
+        if hypixel_player:
+            await ctx.send(embed=hypixel_embed)
+
 def setup(bot):
     bot.add_cog(Profile(bot))
