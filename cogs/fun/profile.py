@@ -10,6 +10,8 @@ from modules.utils import *
 
 from random import randint
 
+import math
+
 import json
 
 class Profile(Cog):
@@ -51,6 +53,10 @@ class Profile(Cog):
                 minecraft_data=json.dumps(player.get_player_data()),
             )
             player_db.save()
+        
+        network_experience = hypixel_player["player"]["networkExp"]
+        network_level = (math.sqrt((2 * network_experience) + 30625) / 50) - 2.5
+        network_level = round(network_level, 2)
 
         random_color = randint(0, 0xffffff)
 
@@ -62,15 +68,15 @@ class Profile(Cog):
         usernames = ' | '.join(player.get_other_usernames())
         if len(player.get_other_usernames()) == 0:
             usernames = 'Az aval hamin user ro dashte'
-            
+
         embed.add_field(
-            name=f"{self.bot.emoji('history')} Username Haye Ghabli",
+            name=f"{self.bot.emoji('history')} • Username Haye Ghabli",
             value=usernames,
             inline=True
         )
 
         embed.add_field(
-            name="📅 Zaman Sakhte Shodan",
+            name="📅 • Zaman Sakhte Shodan",
             value=player.get_created_ago(),
             inline=True
         )
@@ -89,13 +95,19 @@ class Profile(Cog):
             hypixel_embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/879323399749533716/879750805266243634/hypixel.jpg')
 
             hypixel_embed.add_field(
-                name=f"{self.bot.emoji('first')} Avalin vorud be hypixel",
+                name=f"{self.bot.emoji('level')} • Level",
+                value=network_level,
+                inline=False
+            )
+
+            hypixel_embed.add_field(
+                name=f"{self.bot.emoji('first')} • Avalin vorud be hypixel",
                 value=timestamp_ago(hypixel_player['player']['firstLogin'] / 1000),
                 inline=True
             )
             
             hypixel_embed.add_field(
-                name="⭕ Akharin vorud be hypixel",
+                name="⭕ • Akharin vorud be hypixel",
                 value=timestamp_ago(hypixel_player['player']['lastLogin'] / 1000),
                 inline=True
             )
@@ -106,7 +118,7 @@ class Profile(Cog):
                 last_game = 'Not Shown'
 
             hypixel_embed.add_field(
-                name=f"{self.bot.emoji('play')} Akharin Gamemode",
+                name=f"{self.bot.emoji('play')} • Akharin Gamemode",
                 value=str(last_game).lower().capitalize(),
                 inline=False
             )
@@ -117,7 +129,7 @@ class Profile(Cog):
                 bedwars_level = 0
 
             hypixel_embed.add_field(
-                name=f"{self.bot.emoji('up_new')} Bedwars Level",
+                name=f"{self.bot.emoji('up_new')} • Bedwars Level",
                 value=bedwars_level,
                 inline=True
             )
@@ -128,7 +140,7 @@ class Profile(Cog):
                 bedwars_win = 0
 
             hypixel_embed.add_field(
-                name="🔪 Bedwars Wins",
+                name="🔪 • Bedwars Wins",
                 value=bedwars_win,
                 inline=True
             )
@@ -139,7 +151,7 @@ class Profile(Cog):
                 mc_version = 'Not Shown'
 
             hypixel_embed.add_field(
-                name=f"{self.bot.emoji('alert')} Version",
+                name=f"{self.bot.emoji('alert')} • Version",
                 value=mc_version,
                 inline=False
             )
@@ -150,7 +162,7 @@ class Profile(Cog):
                 is_online = False
 
             hypixel_embed.add_field(
-                name=f"{self.bot.emoji('steve_think')} Alan dar Hypixel",
+                name=f"{self.bot.emoji('steve_think')} • Halat {username} dar Hypixel",
                 value=f"Online" if is_online else f"Offline",
                 inline=True
             )
