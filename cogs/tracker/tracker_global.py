@@ -66,19 +66,22 @@ class TrackerGlobal(Cog):
         mention_msg = ctx.author.mention
 
         if server == None:
-            return await ctx.send(mention_msg, embed=Embed(title='Dastoor vared shode motabar nist.', 
+            return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Dastoor vared shode motabar nist.", 
                                         description='Estefade dorost: ```.track [servername]\nMesal: .track madcraft```',
                                         color=0xF44336))
 
         server = get_server_like(server)
 
         if server == None:
-            return await ctx.send(mention_msg, embed=Embed(title='Server vared shode vojood nadarad!',
+            return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Server vared shode vojood nadarad!",
                                         description='Ba dastoor zir tamami server haro bebinid ```.servers```',
                                         color=0xF44336))
         else:
-            discord = server.discord if server.discord != 'null' else 'Not Set'
-            telegram = server.telegram if server.telegram != None else 'Not Set'
+            discord = f"[Discord Link]({server.discord})" if server.discord != 'null' else 'Not Set'
+            telegram = f"[{server.telegram}](https://t.me/{server.telegram})" if server.telegram != 'null' else 'Not Set'
+            instagram = f"[IG {server.instagram}](https://instagram.com/{server.instagram})" if server.instagram != 'null' else 'Not Set'
+            shop = f"[{server.shop}]({server.shop})" if server.shop != 'null' else 'Not Set'
+            website = f"[{server.website}]({server.website})" if server.website != 'null' else 'Not Set'
 
             uptime = timestamp_ago(server.up_from)
 
@@ -99,25 +102,36 @@ class TrackerGlobal(Cog):
             motd = File(server.motd_path, filename="motd.png")
             embed.set_thumbnail(url="attachment://image.png")
 
-            embed.add_field(name="🌐 Address ►", value=capitalize_address(server.address), inline=False)
-            embed.add_field(name="👥 Online Players ►", value=server.current_players, inline=True)
-            embed.add_field(name="🥇 Top Players Record ►", value=server.top_players, inline=True)
-            embed.add_field(name='📈 Uptime ►',
+            embed.add_field(name="「🌐」 Address ►", value=capitalize_address(server.address), inline=False)
+            embed.add_field(name="「👥」 Online Players ►", value=server.current_players, inline=True)
+            embed.add_field(name="「🥇」 Top Players Record ►", value=server.top_players, inline=True)
+            embed.add_field(
+                name='「📈」 Uptime ►',
                 value=uptime, 
-                inline=False)
-            embed.add_field(name="📌 Version ►", value=server.latest_version, inline=True)
-            embed.add_field(name="📡 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
+                inline=False
+            )
+            embed.add_field(name="「📌」 Version ►", value=server.latest_version, inline=True)
+            embed.add_field(name="「📡」 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
             
             if server.channel_id != 0:
                 server_channel = self.bot.get_channel(server.channel_id).mention
                 embed.add_field(
-                    name="📢 Channel ►",
+                    name="「📢」 Channel ►",
                     value=server_channel,
                     inline=False
                 )
 
-            embed.add_field(name="🔗 Discord ►", value=discord, inline=True)
-            embed.add_field(name="🔗 Telegram ►", value=telegram, inline=True)
+            embed.add_field(
+                name=f"「{self.bot.emoji('People')}」 Socials ►", 
+                value=f"""
+                    {self.bot.emoji('discord')} ➣ {discord}\n
+                    {self.bot.emoji('telegram')} ➣ {telegram}\n
+                    {self.bot.emoji('instagram')} ➣ {instagram}\n
+                    {self.bot.emoji('website')} ➣ {website}\n
+                    {self.bot.emoji('shop')} ➣ {shop}\n
+                """, 
+                inline=False
+            )
 
 
 
