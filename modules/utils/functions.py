@@ -1,3 +1,5 @@
+import discord
+
 from time import time
 import random, string
 import timeago
@@ -25,11 +27,19 @@ def prefer_not_null(a, b):
 def shortified(string, max_len=6) -> str:
     return (string[:max_len] + '..') if len(string) > max_len else string
 
-def ago(date, locale='fa_IR'):
+def ago(date, locale='en_US'):
     return timeago.format(date, locale=locale)
 
-def timestamp_ago(timestamp, locale='fa_IR'):
+def timestamp_ago(timestamp, locale='en_US'):
     return ago(dt.fromtimestamp(timestamp), locale)
 
 def capitalize_address(address):
     return '.'.join([x.capitalize() for x in address.split('.')])
+
+
+class Emojis:
+    def __init__(self, emojis):
+        self.emojis = emojis
+
+    def get_emoji(self, name):
+        return discord.utils.get(self.emojis, name=name)

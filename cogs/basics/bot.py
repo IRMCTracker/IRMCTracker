@@ -3,7 +3,7 @@ from discord.ext.commands.context import Context
 from discord.ext.commands.errors import ExtensionAlreadyLoaded, ExtensionFailed, ExtensionNotFound, ExtensionNotLoaded, NoEntryPointError
 
 from discord.ext.commands import command, Cog, has_role, Bot as _bot
-from modules.utils import get_logger
+from modules.utils import get_logger, Emojis
 
 from dislash import SlashClient
 
@@ -19,12 +19,14 @@ class Bot(Cog):
         get_logger().info(f"Booted and running on user: {self.bot.user}")
 
         self.bot.slash = SlashClient(self.bot)
+        self.bot.emoji = Emojis(self.bot.emojis).get_emoji
 
         try:
             tracker:TrackerTasks = self.bot.get_cog('TrackerTasks')
             await tracker.tracker_tick.start()
         except:
             get_logger().error('Failed to start Tracker#tracker_tick task')
+        
 
     @command()
     @has_role('root')

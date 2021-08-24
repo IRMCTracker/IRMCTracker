@@ -1,9 +1,9 @@
-from modules.database import Server, Vote, database
+from modules.database import Server, Vote, Player, database
 from modules.utils import prefer_not_null
 
 from peewee import fn
 
-tables = [Server, Vote]
+tables = [Server, Vote, Player]
 
 def create_tables():
     database.create_tables(tables)

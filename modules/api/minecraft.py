@@ -12,9 +12,10 @@ class Player:
         self.HEAD_BASE_URL = 'https://crafatar.com/renders/head/'
         self.GET_ARGS = '?size=512&default=MHF_Steve&overlay'
 
-        self.uuid = self.get_player_data()['uuid']
-
-        
+        try:
+            self.uuid = self.get_player_data()['uuid']
+        except KeyError:
+            self.uuid = ''
 
     def is_valid(self):
         return True if self.uuid != '' else False
@@ -45,4 +46,9 @@ class Player:
         return self.get_player_data()['created_at']
     
     def get_created_ago(self):
+        if not self.get_created_at():
+            return 'Not Shown'
         return ago(self.get_created_at())
+    
+    def get_uuid(self):
+        return self.uuid

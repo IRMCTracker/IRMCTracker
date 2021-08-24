@@ -7,6 +7,7 @@ class HypixelPlayer:
     def __init__(self, username) -> None:
         self.username = username
         self.uuid = UsernameToUUID(username).get_uuid()
+        
 
     def is_valid(self):
         return True if self.uuid != '' else False
@@ -29,14 +30,12 @@ class HypixelPlayer:
             }
         ).json()['session']
 
-    def get_status(self):
-        return self._fetch_status()
-
     def get_player(self):
         self.data = self._fetch_player()
         try:
             if not self.data['player'] or self.data['success'] == False:
                 return None
+            self.data['status'] = self._fetch_status()
             return self.data
         except KeyError:
             return None
