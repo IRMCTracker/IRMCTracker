@@ -122,8 +122,18 @@ class TrackerTasks(Cog):
 
             server = self.servers[i]
 
-            discord = server.discord if server.discord != 'null' else 'Not Set'
-            telegram = server.telegram if server.telegram != None else 'Not Set'
+            socials = []
+
+            if server.discord and server.discord != 'null':
+                socials.append(f"{self.bot.emoji('discord')} **➣** [Discord Link]({server.discord})")
+            if server.telegram and server.telegram != 'null':
+                socials.append(f"{self.bot.emoji('telegram')} **➣** [{server.telegram}](https://t.me/{str(server.telegram).replace('@','')})")
+            if server.instagram and server.instagram != 'null':
+                socials.append(f"{self.bot.emoji('instagram')} **➣** [@{server.instagram}](https://instagram.com/{server.instagram})")
+            if server.shop and server.shop != 'null':
+                socials.append(f"{self.bot.emoji('shop')} **➣** [{server.shop}]({server.shop})")
+            if server.website and server.website != 'null':
+                socials.append(f"{self.bot.emoji('web')} **➣** [{server.website}]({server.website})")
 
             uptime = timestamp_ago(server.up_from)
 
@@ -131,16 +141,26 @@ class TrackerTasks(Cog):
             embed.set_author(name=f"💎 {server.name}")
 
 
-            embed.add_field(name="🌐 Address ►", value=capitalize_address(server.address), inline=False)
-            embed.add_field(name="👥 Online Players ►", value=server.current_players, inline=True)
-            embed.add_field(name="🥇 Top Players Record ►", value=server.top_players, inline=True)
-            embed.add_field(name='📈 Uptime ►',
+            embed.add_field(name="「🌐」 Address ►", value=capitalize_address(server.address), inline=False)
+            embed.add_field(name="「👥」 Online Players ►", value=server.current_players, inline=True)
+            embed.add_field(name="「🥇」 Top Players Record ►", value=server.top_players, inline=True)
+            embed.add_field(
+                name='「📈」 Uptime ►',
                 value=uptime, 
-                inline=False)
-            embed.add_field(name="📌 Version ►", value=server.latest_version, inline=True)
-            embed.add_field(name="📡 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
-            embed.add_field(name="🔗 Discord ►", value=discord, inline=False)
-            embed.add_field(name="🔗 Telegram ►", value=telegram, inline=False)
+                inline=False
+            )
+            embed.add_field(name="「📌」 Version ►", value=server.latest_version, inline=True)
+            embed.add_field(name="「📡」 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
+
+            socials_message = '\n'.join(socials)
+            if len(socials) == 0:
+                socials_message = 'No Socials Set'
+
+            embed.add_field(
+                name=f"「{self.bot.emoji('people')}」 Socials ►", 
+                value=socials_message, 
+                inline=False
+            )
 
             embed.set_image(url="https://cdn.discordapp.com/attachments/879304683590676482/879338350488748102/motd.png")
             await messages[0].edit(content=None, embed=embed)

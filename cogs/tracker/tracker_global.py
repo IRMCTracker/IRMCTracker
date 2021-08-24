@@ -58,7 +58,7 @@ class TrackerGlobal(Cog):
         await ctx.send(ctx.author.mention, file=banner, embed=embed)
 
     @command(aliases=['status','stats', 'server'])
-    @cooldown(6, 60, BucketType.user)
+    # @cooldown(6, 60, BucketType.user)
     async def track(self, ctx, server=None):
         """Track command for getting information about servers
         """
@@ -77,11 +77,18 @@ class TrackerGlobal(Cog):
                                         description='Ba dastoor zir tamami server haro bebinid ```.servers```',
                                         color=0xF44336))
         else:
-            discord = f"[Discord Link]({server.discord})" if server.discord != 'null' else 'Not Set'
-            telegram = f"[{server.telegram}](https://t.me/{server.telegram})" if server.telegram != 'null' else 'Not Set'
-            instagram = f"[IG {server.instagram}](https://instagram.com/{server.instagram})" if server.instagram != 'null' else 'Not Set'
-            shop = f"[{server.shop}]({server.shop})" if server.shop != 'null' else 'Not Set'
-            website = f"[{server.website}]({server.website})" if server.website != 'null' else 'Not Set'
+            socials = []
+
+            if server.discord and server.discord != 'null':
+                socials.append(f"{self.bot.emoji('discord')} **➣** [Discord Link]({server.discord})")
+            if server.telegram and server.telegram != 'null':
+                socials.append(f"{self.bot.emoji('telegram')} **➣** [{server.telegram}](https://t.me/{str(server.telegram).replace('@','')})")
+            if server.instagram and server.instagram != 'null':
+                socials.append(f"{self.bot.emoji('instagram')} **➣** [@{server.instagram}](https://instagram.com/{server.instagram})")
+            if server.shop and server.shop != 'null':
+                socials.append(f"{self.bot.emoji('shop')} **➣** [{server.shop}]({server.shop})")
+            if server.website and server.website != 'null':
+                socials.append(f"{self.bot.emoji('web')} **➣** [{server.website}]({server.website})")
 
             uptime = timestamp_ago(server.up_from)
 
@@ -121,15 +128,13 @@ class TrackerGlobal(Cog):
                     inline=False
                 )
 
+            socials_message = '\n'.join(socials)
+            if len(socials) == 0:
+                socials_message = 'No Socials Set'
+
             embed.add_field(
-                name=f"「{self.bot.emoji('People')}」 Socials ►", 
-                value=f"""
-                    {self.bot.emoji('discord')} ➣ {discord}\n
-                    {self.bot.emoji('telegram')} ➣ {telegram}\n
-                    {self.bot.emoji('instagram')} ➣ {instagram}\n
-                    {self.bot.emoji('website')} ➣ {website}\n
-                    {self.bot.emoji('shop')} ➣ {shop}\n
-                """, 
+                name=f"「{self.bot.emoji('people')}」 Socials ►", 
+                value=socials_message, 
                 inline=False
             )
 
