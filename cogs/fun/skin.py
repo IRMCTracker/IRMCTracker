@@ -2,8 +2,7 @@ from discord import Embed
 
 from discord.ext.commands import Cog, command
 
-from modules.utils import UsernameToUUID
-
+from modules.api import Player
 
 class Skin(Cog):
     def __init__(self, bot):
@@ -21,16 +20,16 @@ class Skin(Cog):
                             color=0xFF0000)
             return await ctx.send(embed=embed)
         
-        uuid = UsernameToUUID(username).get_uuid()
+        player = Player(username)
 
         # Check if username is valid and exists
-        if uuid == '':
+        if not player.is_valid():
             embed = Embed(title=f"🤨 Nemidoonam {username} kie?!", 
                             color=0xFF0000)
             return await ctx.send(embed=embed)
         
         embed = Embed(title=f"💎 Skin of {username}", color=0x00BCD4)
-        embed.set_image(url=self.BODY_BASE_URL + uuid + self.GET_ARGS)
+        embed.set_image(url=player.get_body_image())
 
         await ctx.send(embed=embed)
         
@@ -44,16 +43,16 @@ class Skin(Cog):
                             color=0xFF0000)
             return await ctx.send(embed=embed)
         
-        uuid = UsernameToUUID(username).get_uuid()
+        player = Player(username)
 
         # Check if username is valid and exists
-        if uuid == '':
+        if not player.is_valid():
             embed = Embed(title=f"🤨 Nemidoonam {username} kie?!", 
                             color=0xFF0000)
             return await ctx.send(embed=embed)
         
         embed = Embed(title=f"💎 Head of {username}", color=0x00BCD4)
-        embed.set_image(url=self.HEAD_BASE_URL + uuid + self.GET_ARGS)
+        embed.set_image(url=player.get_head_image())
 
         await ctx.send(embed=embed)
 

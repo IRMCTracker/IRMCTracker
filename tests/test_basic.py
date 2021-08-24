@@ -8,9 +8,8 @@ from peewee import DoesNotExist
 from modules.database import *
 from modules.utils import *
 from modules.tracker import MCTracker
+from modules.api.hypixel import HypixelPlayer
 create_tables()
 
-t = 'hub.madcraft.ir'
-
-up = -1629793000
-print(timestamp_ago(abs(up)))
+p = HypixelPlayer('Alijk')
+print(p.get_status())

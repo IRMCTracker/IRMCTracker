@@ -1,11 +1,42 @@
+import requests
+
+from modules.config import Env
 from modules.utils import *
 
-class Hypixel:
-    def __init__(self, username=None, uuid=None) -> None:
-        if username:
-            self.uuid = UsernameToUUID(username).get_uuid()
-        elif uuid:
-            self.uuid = uuid
-    
+class HypixelPlayer:
+    def __init__(self, username) -> None:
+        self.username = username
+        self.uuid = UsernameToUUID(username).get_uuid()
+
     def is_valid(self):
         return True if self.uuid != '' else False
+    
+    def _fetch_player(self):
+        return requests.get(
+            url = "https://api.hypixel.net/player",
+            params = {
+                "key": Env.HYPIXEL_KEY,
+                "name": self.username
+            }
+        ).json()
+    
+    def _fetch_status(self):
+        return requests.get(
+            url = "https://api.hypixel.net/status",
+            params = {
+                "key": Env.HYPIXEL_KEY,
+                "uuid": self.uuid
+            }
+        ).json()['session']
+
+    def get_status(self):
+        return self._fetch_status()
+
+    def get_player(self):
+        self.data = self._fetch_player()
+        try:
+            if not self.data['player'] or self.data['success'] == False:
+                return None
+            return self.data
+        except KeyError:
+            return None

@@ -37,3 +37,5 @@ class Env:
     MYSQL_DATABASE = getenv('MYSQL_DATABASE')
     MYSQL_HOST = getenv('MYSQL_HOST')
     MYSQL_PORT = int(getenv('MYSQL_PORT'))
+
+    HYPIXEL_KEY = getenv('HYPIXEL_KEY')
