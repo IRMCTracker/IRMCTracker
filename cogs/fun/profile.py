@@ -59,9 +59,13 @@ class Profile(Cog):
             color=random_color
         )
 
+        usernames = ' | '.join(player.get_other_usernames())
+        if len(player.get_other_usernames()) == 0:
+            usernames = 'Az aval hamin user ro dashte'
+            
         embed.add_field(
             name=f"{self.bot.emoji('history')} Username Haye Ghabli",
-            value=' | '.join(player.get_other_usernames()),
+            value=usernames,
             inline=True
         )
 
