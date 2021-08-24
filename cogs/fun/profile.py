@@ -17,8 +17,8 @@ class Profile(Cog):
     async def profile(self, ctx, username:str = None):
         # Check if username is specified in the command
         if not username:
-            embed = Embed(title="🤔 Khob alan donbale kale ki hasti dabsh?", 
-                            description="Usage: .head [name] | .head Alijk", 
+            embed = Embed(title="🤔 Khob alan donbale etelaat ki hasti dabsh?", 
+                            description="Usage: .profile [username] | .profile Alijk", 
                             color=0xFF0000)
             return await ctx.send(embed=embed)
         
@@ -36,6 +36,18 @@ class Profile(Cog):
         embed = Embed(
             title=f"👤 Profile {username.capitalize()}", 
             color=randint(0, 0xffffff)
+        )
+
+        embed.add_field(
+            name="🛑 Username History",
+            value=' | '.join(player.get_other_usernames()),
+            inline=True
+        )
+
+        embed.add_field(
+            name="💌 Created At",
+            value=player.get_created_ago(),
+            inline=True
         )
 
         embed.set_thumbnail(
@@ -56,13 +68,13 @@ class Profile(Cog):
         if hypixel_player:
             embed.add_field(
                 name="➕ Hypixel First Join",
-                value=timestamp_ago(hypixel_player['player']['firstLogin']),
+                value=timestamp_ago(hypixel_player['player']['firstLogin'] / 1000),
                 inline=True
             )
             
             embed.add_field(
                 name="⭕ Hypixel Last Played",
-                value=timestamp_ago(hypixel_player['player']['lastLogin']),
+                value=timestamp_ago(hypixel_player['player']['lastLogin'] / 1000),
                 inline=True
             )
 

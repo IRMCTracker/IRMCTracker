@@ -12,4 +12,4 @@ from modules.api.hypixel import HypixelPlayer
 create_tables()
 
 p = HypixelPlayer('Alijk')
-print(p.get_status())
+print(p._fetch_player())
