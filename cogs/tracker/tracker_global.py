@@ -83,7 +83,7 @@ class TrackerGlobal(Cog):
             uptime = timestamp_ago(server.up_from)
 
             if server.latest_latency == 0:
-                embed = Embed(title=f"🔴 {server.name}", description='Server morede nazar shoma dar hale hazer offline hast : (', color=0xc62828)
+                embed = Embed(title=f"🔴 {server.name}", description=f"Server morede nazar shoma dar hale hazer offline hast : (\n\n⏰ Downtime: {timestamp_ago(abs(server.up_from))}", color=0xc62828)
                 return await ctx.send(mention_msg, embed=embed)
             if server.motd_path == 'null' or not exists(server.motd_path):
                 server.motd_path = 'storage/static/banner.png'

@@ -12,5 +12,5 @@ create_tables()
 
 t = 'hub.madcraft.ir'
 
-parts = [x.capitalize() for x in t.split('.')]
-print('.'.join(parts))
+up = -1629793000
+print(timestamp_ago(abs(up)))

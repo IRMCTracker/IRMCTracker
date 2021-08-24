@@ -200,7 +200,7 @@ class TrackerTasks(Cog):
         We have up_from field in database that changes to the timestamp that
         server starts to answer our requests so that we can calculate the time
         the server has been online
-        Will set up_from field to 0 if server is offline in the latest check
+        Will set up_from field to a negative timestamp if server is offline in the latest check
         """        
         alert_channel = self.bot.get_channel(Config.Channels.ALERTS)
 
@@ -212,11 +212,11 @@ class TrackerTasks(Cog):
             embed = None
             
             # Means server is offline from last check in database
-            if up_from_timestamp == 0:
+            if up_from_timestamp < 0:
                 if is_online:
                     embed = Embed(
                         title=f"Server {server.name} online shod!",
-                        description=f"\U0001f6a8 Server {server.name} lahazati pish online shod.",
+                        description=f"\U0001f6a8 Server {server.name} lahazati pish online shod.\n\n⏰ Downtime: " + timestamp_ago(abs(server.up_from)),
                         color=0x00D166
                     )
                     server.up_from = current_timestamp
@@ -226,10 +226,10 @@ class TrackerTasks(Cog):
                 if not is_online:
                     embed = Embed(
                         title=f"❌ Server {server.name} offline shod!",
-                        description=f"Server {server.name} lahazati pish az dastres kharej shod.",
+                        description=f"Server {server.name} lahazati pish az dastres kharej shod.\n\n⏰ Uptime: " + timestamp_ago(server.up_from),
                         color=0xff5757
                     )
-                    server.up_from = 0
+                    server.up_from = -abs(current_timestamp)
             
             server.save()
 
