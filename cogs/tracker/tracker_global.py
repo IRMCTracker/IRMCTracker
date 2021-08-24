@@ -58,7 +58,7 @@ class TrackerGlobal(Cog):
         await ctx.send(ctx.author.mention, file=banner, embed=embed)
 
     @command(aliases=['status','stats', 'server'])
-    # @cooldown(6, 60, BucketType.user)
+    @cooldown(6, 60, BucketType.user)
     async def track(self, ctx, server=None):
         """Track command for getting information about servers
         """
