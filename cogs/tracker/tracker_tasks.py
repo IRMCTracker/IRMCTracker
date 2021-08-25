@@ -99,8 +99,8 @@ class TrackerTasks(Cog):
                 prefix = '🏅'
 
             embed.add_field(
-                name=f"{prefix} • {text2art(server.name, 'monospace')}", 
-                value=f"「 {server.top_players}👥 𝙿𝚕𝚊𝚢𝚎𝚛𝚜 」", 
+                name=f"{prefix} • {str(server.name).capitalize()}", 
+                value=f"「 {server.top_players}👥 Players 」", 
                 inline=False
             )
 
@@ -176,7 +176,7 @@ class TrackerTasks(Cog):
             channel = self.bot.get_channel(channel_id)
             
             server = self.servers[i]
-            name = shortified(server.name, 6).capitalize()
+            name = shortified(server.name, 9).capitalize()
 
             players = server.current_players
             
@@ -194,7 +194,7 @@ class TrackerTasks(Cog):
                 players = '-'
 
             await channel.edit(
-                name=f"{prefix}・{text2art(name, 'monospace')}「{players}👥」"
+                name=f"{prefix}・{name}「{players}👥」"
             )
 
             server.channel_id = channel_id
@@ -203,10 +203,10 @@ class TrackerTasks(Cog):
             i += 1
 
         await self.bot.get_channel(Config.Channels.ALL).edit(
-            name=f"💎・𝙰𝚕𝚕「{all_players_count()}👥」"
+            name=f"💎・All「{all_players_count()}👥」"
         )
         await self.bot.get_channel(Config.Channels.EMPTY).edit(
-            name=f"📈・𝙴𝚖𝚙𝚝𝚢「{zero_player_servers_count()}🔨」"
+            name=f"📈・Empty「{zero_player_servers_count()}🔨」"
         )  
 
     def is_online(self, server):
