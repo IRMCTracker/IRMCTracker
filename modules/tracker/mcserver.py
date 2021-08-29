@@ -16,10 +16,9 @@ from modules.tracker.meta import ServerMeta
 import dns.resolver
 
 class MCServer:
-    def __init__(self, server_name, server_address, server_real_address = None):
+    def __init__(self, server_name, server_address):
         self.server_name = server_name
         self.server_address = server_address
-        self.server_real_address = server_real_address
     
         self.server = self.lookup()
         
