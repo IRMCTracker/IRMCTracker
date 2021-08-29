@@ -13,6 +13,8 @@ from modules.utils import random_string, get_debug_logger
 
 from modules.tracker.meta import ServerMeta
 
+import dns.resolver
+
 class MCServer:
     def __init__(self, server_name, server_address, server_real_address = None):
         self.server_name = server_name
@@ -24,8 +26,23 @@ class MCServer:
         self.fetch_status()
 
     def lookup(self):
-        return MinecraftServer.lookup(self.server_address + ':25565')
+        return MinecraftServer.lookup(self._check_srv(self.server_address))
     
+    def _check_srv(self, domain):
+        try:
+            srvInfo = {}
+            srv_records=dns.resolver.query('_minecraft._tcp.'+domain, 'SRV')
+            for srv in srv_records:
+                srvInfo['weight']   = srv.weight
+                srvInfo['host']     = str(srv.target).rstrip('.')
+                srvInfo['priority'] = srv.priority
+                srvInfo['port']     = srv.port
+            address = '{}:{}'.format(srvInfo['host'], srvInfo['port'])
+        except dns.resolver.NXDOMAIN:
+            address = domain
+        
+        return address
+        
     def fetch_status(self):
         try:
             self.status = self.server.status()

@@ -13,16 +13,22 @@ from modules.api import Player as PlayerAPI
 from modules.database import Player as PlayerDB
 create_tables()
 
-player_db = PlayerDB.get(PlayerDB.username == 'Diamond_Ali')
-hypixel_player = json.loads(player_db.hypixel_data)
-print(hypixel_player)
-hypixel_status = hypixel_player['status']
+import dns.resolver
 
-exit()
-import json
-get = PlayerDB.get(PlayerDB.username == 'Alijk')
-hdata = str(get.hypixel_data).replace("'",'"')
-print(hdata)
-mcdata = get.minecraft_data
-print(type(json.loads(hdata)))
+domain='play.comixcraft.ir'
+
+try:
+    srvInfo = {}
+    srv_records=dns.resolver.query('_minecraft._tcp.'+domain, 'SRV')
+    for srv in srv_records:
+        srvInfo['weight']   = srv.weight
+        srvInfo['host']     = str(srv.target).rstrip('.')
+        srvInfo['priority'] = srv.priority
+        srvInfo['port']     = srv.port
+    address = '{}:{}'.format(srvInfo['host'], srvInfo['port'])
+except dns.resolver.NXDOMAIN:
+    address = domain
+
+print(address)
+
 
