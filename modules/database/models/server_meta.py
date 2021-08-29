@@ -43,4 +43,16 @@ def add(server, key: str, value: str) -> bool:
 
     return True
 
+def update(server, key: str, value: str) -> bool:
+    if not exists(server, key):
+        return False
 
+    ServerMeta.update(
+        server_id = server,
+        key = key,
+        value = value
+    ).where(
+        (ServerMeta.server_id == server) & (ServerMeta.key == key)
+    ).execute()
+    
+    return True
