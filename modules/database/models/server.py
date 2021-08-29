@@ -1,4 +1,3 @@
-from typing import Text
 from modules.database.basemodel import *
 
 class Server(BaseModel):
@@ -16,6 +15,7 @@ class Server(BaseModel):
     latest_version = CharField(255, null=True)
     latest_latency = IntegerField(null=True, default=0)
     current_players = IntegerField(null=True, default=0)
+    max_players = IntegerField(null=True, default=0)
     top_players = IntegerField(null=True, default=0)
     up_from = BigIntegerField(default=0)
     channel_id = BigIntegerField(default=0)
