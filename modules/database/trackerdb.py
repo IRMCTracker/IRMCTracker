@@ -1,3 +1,4 @@
+from discord.ext.commands.errors import PartialEmojiConversionFailure
 from modules.database import Server, Vote, Player, database, ServerMeta
 from modules.utils import prefer_not_null
 
@@ -23,11 +24,12 @@ def insert_server(name, address, current_players=0, top_players=0, latest_versio
 
 
 def update_server(name, current_players=None, address=None, top_players=None, latest_version=None, latest_latency=None, 
-                    favicon_path=None, motd_path=None, info_path=None, discord=None, telegram=None):
+                    favicon_path=None, motd_path=None, info_path=None, discord=None, telegram=None, max_players=None):
     old_server = get_server(name=name)
     
     server = Server.update(
         current_players = prefer_not_null(current_players, old_server.current_players),
+        max_players = prefer_not_null(max_players, old_server.max_players),
         address = prefer_not_null(address, old_server.address),
         top_players = prefer_not_null(top_players, old_server.top_players),
         latest_version = prefer_not_null(latest_version, old_server.latest_version),
