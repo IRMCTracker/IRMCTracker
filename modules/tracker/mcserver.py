@@ -38,11 +38,11 @@ class MCServer:
                 srvInfo['priority'] = srv.priority
                 srvInfo['port']     = srv.port
             address = '{}:{}'.format(srvInfo['host'], srvInfo['port'])
-        except dns.resolver.NXDOMAIN:
+        except:
             address = domain
         
         return address
-        
+
     def fetch_status(self):
         try:
             self.status = self.server.status()
