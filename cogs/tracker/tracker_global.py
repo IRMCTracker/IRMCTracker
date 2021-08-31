@@ -110,7 +110,7 @@ class TrackerGlobal(Cog):
             embed.set_thumbnail(url="attachment://image.png")
 
             embed.add_field(name="「🌐」 Address ►", value=capitalize_address(server.address), inline=False)
-            embed.add_field(name="「👥」 Online Players ►", value="{}/{}".format(str(server.current_players), str(server.max_players)), inline=True)
+            embed.add_field(name="「👥」 Online Players ►", value="{} **/** {}".format(str(server.current_players), str(server.max_players)), inline=True)
             embed.add_field(name="「🥇」 Top Players Record ►", value=get_highest_players(server), inline=True)
             embed.add_field(
                 name='「📈」 Uptime ►',
