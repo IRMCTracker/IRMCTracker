@@ -31,6 +31,7 @@ class MCTracker():
             current_players = server.get_online_players()
             max_players = server.get_max_players()
             top_record = db.top_players
+            latency = server.get_latency()
 
             if current_players > top_record:
                 top_record = current_players
@@ -41,9 +42,12 @@ class MCTracker():
                 max_players=max_players,
                 top_players=top_record, 
                 latest_version=server.get_version(), 
-                latest_latency=server.get_latency(), 
+                latest_latency=latency, 
                 favicon_path=server.get_favicon_path(),
             )
+
+            # Add track record to database
+            Records.add_or_replace(db, current_players, latency)
 
             if update_motd:
                 update_server(
