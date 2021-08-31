@@ -37,7 +37,7 @@ class Admin(Cog):
             if server == None:
                 return await ctx.send('Server vared shode motabar nist')
 
-            server_meta.replace(server, social, value)
+            server_meta.add(server, social, value)
             await ctx.send(f"Server **{server_name}** {social} set shod be {value}")
         else:
             await ctx.send('Social vared shode nadorost ast.')

@@ -31,15 +31,12 @@ def exists(server, key) -> bool:
         return True
     return False
 
-def add(server, key: str, value: str) -> bool:
-    if exists(server, key):
-        return False
-    
-    ServerMeta(
+def add(server, key: str, value: str) -> bool:    
+    ServerMeta.replace(
         server_id = server,
         key = key,
         value = value
-    ).save()
+    ).execute()
 
     return True
 
