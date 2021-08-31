@@ -4,6 +4,7 @@ from discord import Embed, File
 from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 from modules.tracker import get_servers
 from modules.database import get_server_like
+from modules.database.models.server_meta import get as get_meta
 from modules.utils import *
 
 class TrackerGlobal(Cog):
@@ -78,16 +79,16 @@ class TrackerGlobal(Cog):
         else:
             socials = []
 
-            if server.discord and server.discord != 'null':
-                socials.append(f"{self.bot.emoji('discord')} **➣** [Discord Link]({server.discord})")
-            if server.telegram and server.telegram != 'null':
-                socials.append(f"{self.bot.emoji('telegram')} **➣** [{server.telegram}](https://t.me/{str(server.telegram).replace('@','')})")
-            if server.instagram and server.instagram != 'null':
-                socials.append(f"{self.bot.emoji('instagram')} **➣** [@{server.instagram}](https://instagram.com/{server.instagram})")
-            if server.shop and server.shop != 'null':
-                socials.append(f"{self.bot.emoji('shop')} **➣** [{server.shop}]({server.shop})")
-            if server.website and server.website != 'null':
-                socials.append(f"{self.bot.emoji('web')} **➣** [{server.website}]({server.website})")
+            if get_meta(server, 'discord'):
+                socials.append(f"{self.bot.emoji('discord')} **➣** [Discord Link]({get_meta(server, 'discord')})")
+            if get_meta(server, 'telegram'):
+                socials.append(f"{self.bot.emoji('telegram')} **➣** [{get_meta(server, 'telegram')}](https://t.me/{str(get_meta(server, 'telegram')).replace('@','')})")
+            if get_meta(server, 'instagram'):
+                socials.append(f"{self.bot.emoji('instagram')} **➣** [@{get_meta(server, 'instagram')}](https://instagram.com/{get_meta(server, 'instagram')})")
+            if get_meta(server, 'shop'):
+                socials.append(f"{self.bot.emoji('shop')} **➣** [{get_meta(server, 'shop')}]({get_meta(server, 'shop')})")
+            if get_meta(server, 'website'):
+                socials.append(f"{self.bot.emoji('web')} **➣** [{get_meta(server, 'website')}]({get_meta(server, 'website')})")
 
             uptime = timestamp_ago(server.up_from)
 
