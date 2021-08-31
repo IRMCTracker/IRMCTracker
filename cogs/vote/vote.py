@@ -1,7 +1,7 @@
 from peewee import DoesNotExist
 
 from modules.database import get_servers
-from modules.database import Vote as VoteDB
+from modules.database import DiscordVote as VoteDB
 from modules.utils import get_beautified_dt
 
 from discord import Embed

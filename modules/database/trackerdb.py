@@ -1,10 +1,10 @@
 from discord.ext.commands.errors import PartialEmojiConversionFailure
-from modules.database import Server, Vote, Player, database, ServerMeta
+from modules.database import Server, Vote, ServerMeta, Records, Player, database
 from modules.utils import prefer_not_null
 
 from peewee import fn
 
-tables = [Server, Vote, Player, ServerMeta]
+tables = [Server, Vote, ServerMeta, Records, Player]
 
 def create_tables():
     database.create_tables(tables)

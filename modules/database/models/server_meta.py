@@ -2,7 +2,7 @@ from modules.database.basemodel import *
 from .server import Server
 
 class ServerMeta(BaseModel):
-    key = TextField()
+    key = CharField(max_length=255)
     value = LongTextField()
     server_id = ForeignKeyField(Server, 'id', backref='meta')
 
