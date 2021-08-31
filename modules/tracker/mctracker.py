@@ -31,17 +31,12 @@ class MCTracker():
 
             current_players = server.get_online_players()
             max_players = server.get_max_players()
-            top_record = db.top_players
             latency = server.get_latency()
-
-            if current_players > top_record:
-                top_record = current_players
 
             update_server(
                 name=server.get_name(),
                 current_players=current_players, 
                 max_players=max_players,
-                top_players=top_record, 
                 latest_version=server.get_version(), 
                 latest_latency=latency, 
                 favicon_path=server.get_favicon_path(),
