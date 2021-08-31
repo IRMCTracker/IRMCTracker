@@ -5,7 +5,8 @@ from time import time
 from datetime import datetime as dt
 
 from modules.config import Config
-from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count, get_servers_by_record, get_meta
+from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count, get_servers_by_record
+from modules.database.models.server_meta import get as get_meta
 from modules.utils import *
 
 from discord.ext import tasks
