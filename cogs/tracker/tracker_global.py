@@ -3,7 +3,7 @@ from os.path import exists
 from discord import Embed, File
 from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 from modules.tracker import get_servers
-from modules.database import get_server_like
+from modules.database import get_server_like, get_highest_players
 from modules.database.models.server_meta import get as get_meta
 from modules.utils import *
 
@@ -111,7 +111,7 @@ class TrackerGlobal(Cog):
 
             embed.add_field(name="「🌐」 Address ►", value=capitalize_address(server.address), inline=False)
             embed.add_field(name="「👥」 Online Players ►", value=server.current_players, inline=True)
-            embed.add_field(name="「🥇」 Top Players Record ►", value=server.top_players, inline=True)
+            embed.add_field(name="「🥇」 Top Players Record ►", value=get_highest_players(server), inline=True)
             embed.add_field(
                 name='「📈」 Uptime ►',
                 value=uptime, 
