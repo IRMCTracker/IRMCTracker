@@ -13,7 +13,7 @@ class Records(BaseModel):
     class Meta:
         table_name = 'records'
     
-def add_or_replace(server, players_count: int, latest_latency: int) -> bool:  
+def add(server, players_count: int, latest_latency: int) -> bool:  
     Records.replace(
         players = players_count,
         server_id = server,

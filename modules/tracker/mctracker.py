@@ -2,6 +2,7 @@ import datetime
 from time import sleep
 
 from modules.database.trackerdb import *
+from modules.database import records
 from modules.utils import shortified
 
 import matplotlib.pyplot as plt
@@ -47,7 +48,7 @@ class MCTracker():
             )
 
             # Add track record to database
-            Records.add_or_replace(db, current_players, latency)
+            records.add(db, current_players, latency)
 
             if update_motd:
                 update_server(

@@ -1,4 +1,3 @@
-from discord.ext.commands.errors import PartialEmojiConversionFailure
 from modules.database import database
 from modules.database.models import *
 from modules.utils import prefer_not_null
@@ -21,8 +20,6 @@ def insert_server(name, address, current_players=0, top_players=0, latest_versio
                         latest_latency=latest_version, favicon_path=favicon_path, motd_path=motd_path,
                         info_path=info_path, discord=discord)
     return server.save()
-
-
 
 def update_server(name, current_players=None, address=None, top_players=None, latest_version=None, latest_latency=None, 
                     favicon_path=None, motd_path=None, info_path=None, discord=None, telegram=None, max_players=None):
@@ -65,7 +62,6 @@ def get_servers_by_record():
 def zero_player_servers_count():
     result = Server.select().where(Server.current_players == 0)
     return len(result)
-
 
 def all_players_count():
     return Server.select(fn.SUM(Server.current_players)).scalar()
