@@ -6,6 +6,7 @@ from datetime import datetime as dt
 
 from modules.config import Config
 from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count, get_servers_by_record
+from modules.database.models.records import get_highest_players
 from modules.database.models.server_meta import get as get_meta
 from modules.utils import *
 
@@ -101,7 +102,7 @@ class TrackerTasks(Cog):
 
             embed.add_field(
                 name=f"{prefix} • {str(server.name).capitalize()}", 
-                value=f"「 {server.top_players}👥 Players 」", 
+                value=f"「 {get_highest_players(server)}👥 Players 」", 
                 inline=False
             )
 
@@ -144,7 +145,7 @@ class TrackerTasks(Cog):
 
             embed.add_field(name="「🌐」 Address ►", value=capitalize_address(server.address), inline=False)
             embed.add_field(name="「👥」 Online Players ►", value=server.current_players, inline=True)
-            embed.add_field(name="「🥇」 Top Players Record ►", value=server.top_players, inline=True)
+            embed.add_field(name="「🥇」 Top Players Record ►", value=get_highest_players(server), inline=True)
             embed.add_field(
                 name='「📈」 Uptime ►',
                 value=uptime, 
