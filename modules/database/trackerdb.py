@@ -1,5 +1,6 @@
 from modules.database import database
 from modules.database.models import *
+from modules.database.models.records import get_highest_players
 from modules.utils import prefer_not_null
 
 from peewee import fn
@@ -13,30 +14,26 @@ def remove_server(name):
     server = Server.get(Server.name == name)
     return server.delete_instance()
 
-def insert_server(name, address, current_players=0, top_players=0, latest_version='null', latest_latency=0,
-                    favicon_path='null', motd_path='null', info_path='null', discord='null'):
-    server = Server(name=name, address=address, current_players=current_players,
-                        top_players=top_players, latest_version=latest_version,
-                        latest_latency=latest_version, favicon_path=favicon_path, motd_path=motd_path,
-                        info_path=info_path, discord=discord)
+def insert_server(name, address, current_players=0, latest_version=None, latest_latency=0,
+                    favicon_path=None, motd_path=None, info_path=None):
+    server = Server(name=name, address=address, current_players=current_players, latest_version=latest_version,
+                        latest_latency=latest_latency, favicon_path=favicon_path, motd_path=motd_path,
+                        info_path=info_path)
     return server.save()
 
-def update_server(name, current_players=None, address=None, top_players=None, latest_version=None, latest_latency=None, 
-                    favicon_path=None, motd_path=None, info_path=None, discord=None, telegram=None, max_players=None):
+def update_server(name, current_players=None, address=None, latest_version=None, latest_latency=None, 
+                    favicon_path=None, motd_path=None, info_path=None, max_players=None):
     old_server = get_server(name=name)
     
     server = Server.update(
         current_players = prefer_not_null(current_players, old_server.current_players),
         max_players = prefer_not_null(max_players, old_server.max_players),
         address = prefer_not_null(address, old_server.address),
-        top_players = prefer_not_null(top_players, old_server.top_players),
         latest_version = prefer_not_null(latest_version, old_server.latest_version),
         latest_latency = prefer_not_null(latest_latency, old_server.latest_latency),
         favicon_path = prefer_not_null(favicon_path, old_server.favicon_path),
         motd_path = prefer_not_null(motd_path, old_server.motd_path),
         info_path = prefer_not_null(info_path, old_server.info_path),
-        discord = prefer_not_null(discord, old_server.discord),
-        telegram = prefer_not_null(telegram, old_server.telegram)
     ).where(Server.name == name)
     
     return server.execute()
@@ -57,7 +54,16 @@ def get_servers():
     return Server.select().order_by(Server.current_players.desc())
 
 def get_servers_by_record():
-    return Server.select().order_by(Server.top_players.desc())
+    servers = Server.select()
+    sorted_list = []
+
+    for server in servers:
+        server.top_players = get_highest_players(server)
+        sorted_list.append(server)
+
+    sorted_list.sort(key=lambda x: x.top_players, reverse=True)
+
+    return sorted_list
 
 def zero_player_servers_count():
     result = Server.select().where(Server.current_players == 0)

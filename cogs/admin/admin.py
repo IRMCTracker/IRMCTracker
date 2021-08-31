@@ -1,7 +1,7 @@
 from discord import Embed
 from discord.ext.commands import Cog, command, has_role
 
-from modules.database import update_server, insert_server, remove_server
+from modules.database import update_server, insert_server, remove_server, server_meta, get_server
 from modules.tracker import MCTracker
 from modules.utils import get_beautified_dt
 
@@ -29,15 +29,18 @@ class Admin(Cog):
 
     @command(aliases=["updatediscord"])
     @has_role('root')
-    async def setdiscord(self, ctx, name, discord):
-        update_server(name, discord=discord)
-        await ctx.send(f"Server **{name}** discord set to {discord}")
+    async def setsocial(self, ctx, social: str, server_name: str, value: str):
+        socials = ['telegram', 'website', 'instagram', 'shop', 'discord']
 
-    @command(aliases=["updatetg", "settg"])
-    @has_role('root')
-    async def settelegram(self, ctx, name, telegram):
-        update_server(name, discord=telegram)
-        await ctx.send(f"Server **{name}** telegram set to {telegram}")
+        if social in socials:
+            server = get_server(server_name)
+            if server == None:
+                return await ctx.send('Server vared shode motabar nist')
+
+            server_meta.replace(server, social, value)
+            await ctx.send(f"Server **{server_name}** {social} set shod be {value}")
+        else:
+            await ctx.send('Social vared shode nadorost ast.')
 
     @command(aliases=["settopplayer"])
     @has_role('root')
