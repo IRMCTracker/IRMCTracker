@@ -143,7 +143,10 @@ class TrackerTasks(Cog):
             embed.set_author(name=f"💎 {server.name}")
 
 
-            embed.add_field(name="「🌐」 Address ►", value=capitalize_address(server.address), inline=False)
+            if server.ip != None:
+                ip = f"( {server.ip} )"
+
+            embed.add_field(name="「🌐」 Address ►", value=f"{capitalize_address(server.address)} {ip}", inline=False)
             embed.add_field(name="「👥」 Online Players ►", value=server.current_players, inline=True)
             embed.add_field(name="「🥇」 Top Players Record ►", value=get_highest_players(server), inline=True)
             embed.add_field(
@@ -153,6 +156,9 @@ class TrackerTasks(Cog):
             )
             embed.add_field(name="「📌」 Version ►", value=server.latest_version, inline=True)
             embed.add_field(name="「📡」 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
+
+            if server.country != None:
+                embed.add_field(name="「🌎」 Country ►", value=f":flag_{str(server.country).lower()}: {server.country}", inline=False)
 
             socials_message = '\n'.join(socials)
             if len(socials) == 0:

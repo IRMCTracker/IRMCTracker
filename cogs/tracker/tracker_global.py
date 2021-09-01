@@ -109,7 +109,10 @@ class TrackerGlobal(Cog):
             motd = File(server.motd_path, filename="motd.png")
             embed.set_thumbnail(url="attachment://image.png")
 
-            embed.add_field(name="「🌐」 Address ►", value=capitalize_address(server.address), inline=False)
+            if server.ip != None:
+                ip = f"( {server.ip} )"
+
+            embed.add_field(name="「🌐」 Address ►", value=f"{capitalize_address(server.address)} {ip}", inline=False)
             embed.add_field(name="「👥」 Online Players ►", value="{} **/** {}".format(str(server.current_players), str(server.max_players)), inline=True)
             embed.add_field(name="「🥇」 Top Players Record ►", value=get_highest_players(server), inline=True)
             embed.add_field(
@@ -120,6 +123,9 @@ class TrackerGlobal(Cog):
             embed.add_field(name="「📌」 Version ►", value=server.latest_version, inline=True)
             embed.add_field(name="「📡」 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
             
+            if server.country != None:
+                embed.add_field(name="「🌎」 Country ►", value=f":flag_{str(server.country).lower()}: {server.country}", inline=False)
+                
             if server.channel_id != 0:
                 server_channel = self.bot.get_channel(server.channel_id).mention
                 embed.add_field(

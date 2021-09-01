@@ -14,10 +14,13 @@ class DomainInfo:
         self.ip = socket.gethostbyname(self.domain.strip())
     
     def _fetch_country(self):
-        reader = geolite2.reader()      
-        output = reader.get(self.ip)
-        self.country = output['country']['iso_code']
-
+        try:
+            reader = geolite2.reader()      
+            output = reader.get(self.ip)
+            self.country = output['country']['iso_code']
+        except:
+            self.country = None
+            
     def get_country(self):
         return self.country
     
