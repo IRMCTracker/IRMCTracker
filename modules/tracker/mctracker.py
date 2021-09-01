@@ -29,7 +29,7 @@ class MCTracker():
         for server in self.mcservers:
             db = server.fetch_server_from_db()
 
-            resolve_info = DomainInfo(db['address'])
+            resolve_info = DomainInfo(db.address)
 
             current_players = server.get_online_players()
             max_players = server.get_max_players()
