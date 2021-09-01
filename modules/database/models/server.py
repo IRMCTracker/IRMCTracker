@@ -4,6 +4,7 @@ from modules.database.basemodel import *
 class Server(BaseModel):
     id = PrimaryKeyField()
     name = CharField(150, unique=True)
+    description = LongTextField(null=True)
     address = CharField(150, unique=True)
     ip = CharField(150, null=True)
     country = CharField(50, null=True)
