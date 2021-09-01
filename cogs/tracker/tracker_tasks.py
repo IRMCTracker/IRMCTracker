@@ -139,10 +139,14 @@ class TrackerTasks(Cog):
 
             uptime = timestamp_ago(server.up_from)
 
-            embed=Embed(title=f"💎 {server.name}", color=0x1bd027)
+            embed=Embed(title=f"", color=0x1bd027)
 
-            if get_meta(server, 'website'):
-                embed.set_author(name=f"🌐 Website", url=get_meta(server, 'website'))
+            embed.set_author(name=f"💎 {server.name}")
+            embed.set_footer(
+                text=f"Tracked By IRMCTracker at {get_beautified_dt()}",
+                icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
+            )
+
 
 
             if server.ip != None:
@@ -150,7 +154,7 @@ class TrackerTasks(Cog):
 
             embed.add_field(name="「🌐」 Address ►", value=f"{capitalize_address(server.address)} {ip}", inline=False)
             embed.add_field(name="「👥」 Online Players ►", value=server.current_players, inline=True)
-            embed.add_field(name="「🥇」 Top Players Record ►", value=get_highest_players(server), inline=True)
+            embed.add_field(name="「🥇」 Top Record ►", value=get_highest_players(server), inline=True)
             embed.add_field(
                 name='「📈」 Uptime ►',
                 value=uptime, 
