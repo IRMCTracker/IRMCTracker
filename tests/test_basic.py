@@ -10,8 +10,6 @@ from modules.database import server_meta, records, create_tables, Server, get_se
 
 from random import randrange
 
+from modules.utils import DomainInfo
 
 create_tables()
-
-for s in get_servers_by_record():
-    print(s.name + ' | ' + str(s.top_players))

@@ -3,7 +3,7 @@ from time import sleep
 
 from modules.database.trackerdb import *
 from modules.database import records
-from modules.utils import shortified
+from modules.utils import shortified, DomainInfo
 
 import matplotlib.pyplot as plt
 
@@ -29,6 +29,8 @@ class MCTracker():
         for server in self.mcservers:
             db = server.fetch_server_from_db()
 
+            resolve_info = DomainInfo(db['address'])
+
             current_players = server.get_online_players()
             max_players = server.get_max_players()
             latency = server.get_latency()
@@ -40,6 +42,8 @@ class MCTracker():
                 latest_version=server.get_version(), 
                 latest_latency=latency, 
                 favicon_path=server.get_favicon_path(),
+                ip = resolve_info.get_ip(),
+                country = resolve_info.get_country()
             )
 
             # Add track record to database
