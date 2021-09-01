@@ -256,5 +256,5 @@ def get_country_fullname(country_short):
     try:
         full_name = [k for k in COUNTRIES.keys() if COUNTRIES[k] == country_short]
     except:
-        full_name = None
-    return full_name
+        full_name = [None]
+    return full_name[0]
