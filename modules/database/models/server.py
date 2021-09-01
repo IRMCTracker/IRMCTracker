@@ -1,14 +1,12 @@
+from enum import unique
 from modules.database.basemodel import *
 
 class Server(BaseModel):
     id = PrimaryKeyField()
     name = CharField(150, unique=True)
     address = CharField(150, unique=True)
-    # discord = CharField(150, null=True)
-    # telegram = CharField(150, null=True)
-    # instagram = CharField(150, null=True)
-    # shop = CharField(150, null=True)
-    # website = CharField(150, null=True)
+    ip = CharField(150, unique=True, null=True)
+    country = CharField(50, null=True)
     favicon_path = LongTextField(null=True)
     info_path = LongTextField(null=True)
     motd_path = LongTextField( null=True)
