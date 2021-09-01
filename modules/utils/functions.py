@@ -36,7 +36,6 @@ def timestamp_ago(timestamp, locale='en_US'):
 def capitalize_address(address):
     return '.'.join([x.capitalize() for x in address.split('.')])
 
-
 class Emojis:
     def __init__(self, emojis):
         self.emojis = emojis

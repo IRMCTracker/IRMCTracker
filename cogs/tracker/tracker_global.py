@@ -124,7 +124,8 @@ class TrackerGlobal(Cog):
             embed.add_field(name="「📡」 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
             
             if server.country != None:
-                embed.add_field(name="「🌎」 Country ►", value=f":flag_{str(server.country).lower()}: {server.country}", inline=False)
+                country_full_name = get_country_fullname(server.country)
+                embed.add_field(name="「🌎」 Country ►", value=f":flag_{str(server.country).lower()}: {country_full_name}", inline=False)
                 
             if server.channel_id != 0:
                 server_channel = self.bot.get_channel(server.channel_id).mention
