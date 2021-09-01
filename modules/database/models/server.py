@@ -5,7 +5,7 @@ class Server(BaseModel):
     id = PrimaryKeyField()
     name = CharField(150, unique=True)
     address = CharField(150, unique=True)
-    ip = CharField(150, unique=True, null=True)
+    ip = CharField(150, null=True)
     country = CharField(50, null=True)
     favicon_path = LongTextField(null=True)
     info_path = LongTextField(null=True)

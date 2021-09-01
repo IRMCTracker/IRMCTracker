@@ -115,6 +115,7 @@ class TrackerGlobal(Cog):
             motd = File(server.motd_path, filename="motd.png")
             embed.set_thumbnail(url="attachment://image.png")
 
+            ip = ""
             if server.ip != None:
                 ip = f"( **{server.ip}** )"
 

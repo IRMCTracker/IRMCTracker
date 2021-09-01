@@ -148,7 +148,7 @@ class TrackerTasks(Cog):
             )
 
 
-
+            ip = ""
             if server.ip != None:
                 ip = f"( **{server.ip}** )"
 
