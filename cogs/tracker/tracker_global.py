@@ -98,8 +98,10 @@ class TrackerGlobal(Cog):
             if server.motd_path == 'null' or not exists(server.motd_path):
                 server.motd_path = 'storage/static/banner.png'
             
-            embed=Embed(title="", color=0x1bd027)
-            embed.set_author(name=f"💎 {server.name}")
+            embed=Embed(title=f"💎 {server.name}", color=0x1bd027)
+
+            if get_meta(server, 'website'):
+                embed.set_author(name=f"🌐 Website", url=get_meta(server, 'website'))
 
             favicon = File(server.favicon_path, filename="image.png")
 
@@ -110,7 +112,7 @@ class TrackerGlobal(Cog):
             embed.set_thumbnail(url="attachment://image.png")
 
             if server.ip != None:
-                ip = f"( {server.ip} )"
+                ip = f"( **{server.ip}** )"
 
             embed.add_field(name="「🌐」 Address ►", value=f"{capitalize_address(server.address)} {ip}", inline=False)
             embed.add_field(name="「👥」 Online Players ►", value="{} **/** {}".format(str(server.current_players), str(server.max_players)), inline=True)

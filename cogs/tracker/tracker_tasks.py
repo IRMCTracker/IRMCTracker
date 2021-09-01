@@ -139,12 +139,14 @@ class TrackerTasks(Cog):
 
             uptime = timestamp_ago(server.up_from)
 
-            embed=Embed(title="", color=0x1bd027)
-            embed.set_author(name=f"💎 {server.name}")
+            embed=Embed(title=f"💎 {server.name}", color=0x1bd027)
+
+            if get_meta(server, 'website'):
+                embed.set_author(name=f"🌐 Website", url=get_meta(server, 'website'))
 
 
             if server.ip != None:
-                ip = f"( {server.ip} )"
+                ip = f"( **{server.ip}** )"
 
             embed.add_field(name="「🌐」 Address ►", value=f"{capitalize_address(server.address)} {ip}", inline=False)
             embed.add_field(name="「👥」 Online Players ►", value=server.current_players, inline=True)
