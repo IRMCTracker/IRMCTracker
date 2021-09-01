@@ -17,7 +17,7 @@ class Admin(Cog):
     @command(aliases=["newserver"])
     @has_role('root')
     async def addserver(self, ctx, name, address):
-        insert_server(name, address=address)
+        insert_server(name, address)
         await ctx.send(f"Server **{name}** with address **{address}** added to database")
 
     @command(aliases=["rmserver"])

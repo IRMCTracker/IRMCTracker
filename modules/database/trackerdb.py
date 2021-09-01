@@ -14,11 +14,8 @@ def remove_server(name):
     server = Server.get(Server.name == name)
     return server.delete_instance()
 
-def insert_server(name, address, current_players=0, latest_version=None, latest_latency=0,
-                    favicon_path=None, motd_path=None, info_path=None):
-    server = Server(name=name, address=address, current_players=current_players, latest_version=latest_version,
-                        latest_latency=latest_latency, favicon_path=favicon_path, motd_path=motd_path,
-                        info_path=info_path)
+def insert_server(name, address):
+    server = Server(name=name, address=address, up_from=0)
     return server.save()
 
 def update_server(name, current_players=None, address=None, latest_version=None, latest_latency=None, 
