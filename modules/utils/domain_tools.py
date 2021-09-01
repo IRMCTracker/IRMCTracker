@@ -11,7 +11,10 @@ class DomainInfo:
         self._fetch_country()
 
     def _fetch_ip(self):
-        self.ip = socket.gethostbyname(self.domain.strip())
+        try:
+            self.ip = socket.gethostbyname(self.domain.strip())
+        except:
+            self.ip = None
     
     def _fetch_country(self):
         try:
