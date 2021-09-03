@@ -14,7 +14,7 @@ class Moderation(Cog):
 
     @Cog.listener()
     async def on_message(self, message: Message):
-        if message.author == self.bot.user or message.author.id == 296565827115941889:
+        if message.author == self.bot.user or message.author.id == 296565827115941889 or self.bot.user.bot:
             return
         
         warn = None
