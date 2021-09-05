@@ -14,6 +14,7 @@ class MCTracker():
         self.all_servers = get_servers()
         self.mcservers = []
         self.is_fetched = False
+        self.counter = 0
 
     def fetch_servers(self):  
         self.mcservers.clear()
