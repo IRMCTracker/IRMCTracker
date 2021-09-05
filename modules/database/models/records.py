@@ -8,7 +8,7 @@ class Records(BaseModel):
     players = IntegerField(null=True, default=0)
     latency = IntegerField(null=True, default=0)
     server_id = ForeignKeyField(Server, 'id', backref='records')
-    created_at = DateField()
+    created_at = DateTimeField()
 
     class Meta:
         table_name = 'records'
