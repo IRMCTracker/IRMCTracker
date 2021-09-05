@@ -26,6 +26,9 @@ class MCTracker():
         return self.mcservers
     
     def update_servers_database(self, update_motd=False):
+        add_record = True if self.counter % 40 == 0 else False
+        self.counter += 1
+
         for server in self.mcservers:
             db = server.fetch_server_from_db()
 
@@ -47,7 +50,9 @@ class MCTracker():
             )
 
             # Add track record to database
-            records.add(db, current_players, latency)
+            # WILL CHECK TO ONLY ADD EVERY 2 HOURS
+            if add_record:
+                records.add(db, current_players, latency)
 
             if update_motd:
                 update_server(
