@@ -139,9 +139,8 @@ class TrackerTasks(Cog):
 
             uptime = timestamp_ago(server.up_from)
 
-            embed=Embed(title=f"", color=0x1bd027)
+            embed=Embed(title=f"💎 {server.name}", color=0x1bd027, url = "https://mctracker.ir/server/{}".format(str(server['id'])))
 
-            embed.set_author(name=f"💎 {server.name}")
             embed.set_footer(
                 text=f"Tracked By IRMCTracker at {get_beautified_dt()}",
                 icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
