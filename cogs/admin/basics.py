@@ -1,7 +1,8 @@
+from modules.tracker.mctracker import MCTracker
 from modules.config import Config
 
 from discord import Embed
-from discord.ext.commands import command, Cog
+from discord.ext.commands import command, Cog, group
 
 class Basics(Cog):
     """Basic commands cog
@@ -72,6 +73,18 @@ class Basics(Cog):
         """Sends a notification at member leave """
         embed = Embed(title=str(member) + ' did rm -rf /', color=0xA62019)
         await self.bot.get_channel(Config.Channels.ADMIN).send(embed=embed)
+
+    @group(invoke_without_command=True, aliases=['yta'])
+    async def mctrackervote(self, ctx):
+        await ctx.send("MCTrackerVote plugin")
+
+    @mctrackervote.command()
+    async def github(self, ctx):
+        description = """You can find the project at [[MCTracker Vote Repo]](https://github.com/Alijkaz/MCTrackerVote)
+        If you're a Java developer and interested in our project dont hesitate and start contributing!"""
+        embed = Embed(title="💻 Github [We're Open Source!]", description=description, color=0x3698cf)
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Basics(bot))
