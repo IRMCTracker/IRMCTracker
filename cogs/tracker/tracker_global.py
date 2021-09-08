@@ -98,7 +98,7 @@ class TrackerGlobal(Cog):
             if server.motd_path == 'null' or not exists(server.motd_path):
                 server.motd_path = 'storage/static/banner.png'
             
-            embed=Embed(title=f"💎 {server.name}", description=f"{' ' if server.description != None else server.description}", color=0x1bd027, url = "https://mctracker.ir/server/{}".format(str(server.id)))
+            embed=Embed(title=f"💎 {server.name}", description=f"{server.description if server.description != None else ' '}", color=0x1bd027, url = "https://mctracker.ir/server/{}".format(str(server.id)))
 
             embed.set_footer(
                 text=f"Tracked By IRMCTracker at {get_beautified_dt()}",
