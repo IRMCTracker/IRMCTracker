@@ -69,7 +69,7 @@ class Admin(Cog):
         channel = self.bot.get_channel(868223162796625920)
         embed = Embed(title=f"🎈 Chanelog", description=update, color=0x536dfe)
         embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/866594343551500308/868231230729125968/chanelog.png')
-        embed.set_footer(text=f"{ctx.author.name} - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/296565827115941889/f6c762a29a13c63b1d16e4b970a80c17.webp?size=128')
+        embed.set_footer(text=f"{ctx.author.name} - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/296565827115941889/e7173c0bae58262ea565f746cecd6b8b.webp?size=128')
         await channel.send(embed=embed)
 
     @command()
