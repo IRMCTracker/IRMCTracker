@@ -119,10 +119,33 @@ class TrackerTasks(Cog):
     async def update_top_text(self):
         i = 0
         for channel_id in Config.Channels.TOP_CHANNELS:
+
             channel = self.bot.get_channel(channel_id)
             messages = await channel.history(limit=1).flatten()
 
             server = self.servers[i]
+            
+            if i == 0:
+                prefix = '🥇'
+            elif i == 1:
+                prefix = '🥈'
+            elif i == 2:
+                prefix = '🥉'
+            else:
+                prefix = '🏅'
+
+            if not self.is_online(server):
+                prefix = '❌'
+                players = '-'
+            else:
+                players = server.current_players
+                
+            await channel.edit(
+                name=f"{prefix}・{shortified(server.name, 9).capitalize()}「{players}👥」"
+            )
+
+            server.channel_id = channel_id
+            server.save()
 
             socials = []
 
@@ -137,7 +160,9 @@ class TrackerTasks(Cog):
             if get_meta(server, 'website'):
                 socials.append(f"{self.bot.emoji('web')} **➣** [{get_meta(server, 'website')}]({get_meta(server, 'website')})")
 
-            uptime = timestamp_ago(server.up_from)
+            uptime = "-"
+            if self.is_online(server):
+                uptime = timestamp_ago(server.up_from)
 
             embed=Embed(title=f"💎 {server.name}", color=0x1bd027, url = "https://mctracker.ir/server/{}".format(str(server.id)))
 
@@ -150,7 +175,7 @@ class TrackerTasks(Cog):
             ip = ""
             if server.ip != None:
                 ip = f"( **{server.ip}** )"
-
+            
             embed.add_field(name="「🌐」 Address ►", value=f"{capitalize_address(server.address)} {ip}", inline=False)
             embed.add_field(name="「👥」 Online Players ►", value=server.current_players, inline=True)
             embed.add_field(name="「🥇」 Top Record ►", value=get_highest_players(server), inline=True)
@@ -176,45 +201,27 @@ class TrackerTasks(Cog):
                 inline=False
             )
 
-            embed.set_image(url="https://cdn.discordapp.com/attachments/879304683590676482/879338350488748102/motd.png")
-            await messages[0].edit(content=None, embed=embed)
+            if self.is_online(server):
+                # Dealing with MOTD and ICON because cant edit images
+                cache_channel = self.bot.get_channel(Config.Channels.CACHE)
 
-            
+                if server.favicon_path != None:
+                    file = await cache_channel.send(file=discord.File(server.favicon_path))
+                    image_url = file.attachments[0].url
+                    embed.set_thumbnail(url=image_url)
+
+                if server.motd_path != None:
+                    file = await cache_channel.send(file=discord.File(server.motd_path))
+                    image_url = file.attachments[0].url
+                    embed.set_image(url=image_url)
+
+                await messages[0].edit(content=None, embed=embed)
+
+
             i += 1
     async def update_channels(self):
         """Updating the channels with newly fetched data
         """
-
-        i = 0
-        for channel_id in Config.Channels.TOP_CHANNELS:
-            channel = self.bot.get_channel(channel_id)
-            
-            server = self.servers[i]
-            name = shortified(server.name, 9).capitalize()
-
-            players = server.current_players
-            
-            if i == 0:
-                prefix = '🥇'
-            elif i == 1:
-                prefix = '🥈'
-            elif i == 2:
-                prefix = '🥉'
-            else:
-                prefix = '🏅'
-
-            if not self.is_online(server):
-                prefix = '❌'
-                players = '-'
-
-            await channel.edit(
-                name=f"{prefix}・{name}「{players}👥」"
-            )
-
-            server.channel_id = channel_id
-            server.save()
-
-            i += 1
 
         await self.bot.get_channel(Config.Channels.ALL).edit(
             name=f"💎・All「{all_players_count()}👥」"

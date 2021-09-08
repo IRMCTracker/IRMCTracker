@@ -16,6 +16,8 @@ class Config:
 
         ALERTS = get('channels.alerts')
 
+        CACHE = get('channels.cache')
+
     class Roles:
         DEFAULT = get('roles.default')
         
