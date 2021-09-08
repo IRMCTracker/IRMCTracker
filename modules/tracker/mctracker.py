@@ -46,6 +46,7 @@ class MCTracker():
                 latest_version=server.get_version(), 
                 latest_latency=latency, 
                 favicon_path=server.get_favicon_path(),
+                motd_path=server.get_motd_path(),
                 ip = resolve_info.get_ip(),
                 country = resolve_info.get_country()
             )

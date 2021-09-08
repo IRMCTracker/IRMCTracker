@@ -1,6 +1,9 @@
 import re
 
 import base64
+
+import requests, os
+
 from mcstatus import MinecraftServer
 
 from modules.database import get_server
@@ -79,6 +82,24 @@ class MCServer:
             return filename
         else:
             return None
+
+    def get_motd_path(self):
+        if self.status:
+            data = "http://status.mclive.eu/{}/{}/25565/banner.png".format(self.get_name(), self.server_address)
+            filename = f"storage/cache/motd-{self.get_name()}.png"
+
+            page = requests.get(data)
+
+            if page.status_code != 200:
+                return None
+                
+            with open(filename, 'wb') as f:
+                f.write(page.content)
+
+            return filename
+        else:
+            return None
+
 
     def fetch_server_from_db(self):
         return get_server(self.get_name())
