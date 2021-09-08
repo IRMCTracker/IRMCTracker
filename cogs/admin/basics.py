@@ -74,7 +74,7 @@ class Basics(Cog):
         embed = Embed(title=str(member) + ' did rm -rf /', color=0xA62019)
         await self.bot.get_channel(Config.Channels.ADMIN).send(embed=embed)
 
-    @group(invoke_without_command=True, aliases=['yta'])
+    @group(invoke_without_command=True, aliases=['mcvote'])
     async def mctrackervote(self, ctx):
         await ctx.send("MCTrackerVote plugin")
 
