@@ -88,7 +88,10 @@ class MCServer:
             data = "http://status.mclive.eu/{}/{}/25565/banner.png".format(self.get_name(), self.server_address)
             filename = f"storage/cache/motd-{self.get_name()}.png"
 
-            page = requests.get(data)
+            try:
+                page = requests.get(data, timeout=6)
+            except requests.exceptions.Timeout:
+                return None
 
             if page.status_code != 200:
                 return None
