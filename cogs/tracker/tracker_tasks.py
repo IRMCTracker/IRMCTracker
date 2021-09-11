@@ -73,7 +73,7 @@ class TrackerTasks(Cog):
         embed = Embed(title="⏰ Hourly Track", 
                         description=f"🥇 **{self.servers[0].name}** in the lead with **{self.servers[0].current_players}** Players", 
                         color=0x00D166, timestamp=get_utc())
-        embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}")
+        embed.set_footer(text=f"Tracked by IRMCTracker")
         file = File("chart.png", filename="chart.png")
         embed.set_image(url="attachment://chart.png")
 
