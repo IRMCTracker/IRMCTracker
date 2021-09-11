@@ -169,7 +169,7 @@ class TrackerTasks(Cog):
             embed=Embed(title=f"💎 {server.name}",description=f"{server.description if server.description != None else ' '}", color=0x1bd027, url = "https://mctracker.ir/server/{}".format(str(server.id)), timestamp=get_utc())
 
             embed.set_footer(
-                text=f"Tracked By IRMCTracker at {get_beautified_dt()}",
+                text=f"Tracked By IRMCTracker",
                 icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
             )
 
@@ -284,7 +284,7 @@ class TrackerTasks(Cog):
                     favicon = File(server.favicon_path, filename="fav.png")
                     embed.set_thumbnail(url="attachment://fav.png")
 
-                embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
+                embed.set_footer(text=f"Tracked by IRMCTracker", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
 
                 await alert_channel.send(file=favicon,embed=embed)
 

@@ -53,7 +53,7 @@ class TrackerGlobal(Cog):
 
         embed.set_image(url='attachment://banner.png')
 
-        embed.set_footer(text='Tracked at ' +   get_beautified_dt())
+        embed.set_footer(text='Tracked by IRMCTracker')
 
         await ctx.send(ctx.author.mention, file=banner, embed=embed)
 
@@ -108,7 +108,7 @@ class TrackerGlobal(Cog):
                             timestamp=get_utc())
 
             embed.set_footer(
-                text=f"Tracked By IRMCTracker at {get_beautified_dt()}",
+                text=f"Tracked By IRMCTracker",
                 icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
             )
 
