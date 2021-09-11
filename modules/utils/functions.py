@@ -38,6 +38,9 @@ def replace_placeholders(string, placeholders):
 def random_string(len=16):
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(len))
 
+def get_utc():
+    return dt.utcnow()
+
 def get_beautified_dt():
     return f"{dt.now():%Y-%m-%d %I:%M:%S}"
 

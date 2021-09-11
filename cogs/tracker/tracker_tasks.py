@@ -70,7 +70,9 @@ class TrackerTasks(Cog):
 
         MCTracker().draw_chart()
 
-        embed = Embed(title="Hourly Track", description=f"🥇 **{self.servers[0].name}** in the lead with **{self.servers[0].current_players}** Players", color=0x00D166) #creates embed
+        embed = Embed(title="⏰ Hourly Track", 
+                        description=f"🥇 **{self.servers[0].name}** in the lead with **{self.servers[0].current_players}** Players", 
+                        color=0x00D166, timestamp=get_utc())
         embed.set_footer(text=f"IRMCTracker Bot - {get_beautified_dt()}")
         file = File("chart.png", filename="chart.png")
         embed.set_image(url="attachment://chart.png")
@@ -87,7 +89,7 @@ class TrackerTasks(Cog):
 
         embed = Embed(title="💎 Top Records | رکورد سرور های ایرانی",
                         description="لیست بالا ترین رکورد سرور های ایرانی بر اساس تعداد پلیر",
-                        color=0x4CAF50)
+                        color=0x4CAF50, timestamp=get_utc())
 
         i = 0
         for server in get_servers_by_record():
@@ -164,7 +166,7 @@ class TrackerTasks(Cog):
             if self.is_online(server):
                 uptime = timestamp_ago(server.up_from)
 
-            embed=Embed(title=f"💎 {server.name}",description=f"{server.description if server.description != None else ' '}", color=0x1bd027, url = "https://mctracker.ir/server/{}".format(str(server.id)))
+            embed=Embed(title=f"💎 {server.name}",description=f"{server.description if server.description != None else ' '}", color=0x1bd027, url = "https://mctracker.ir/server/{}".format(str(server.id)), timestamp=get_utc())
 
             embed.set_footer(
                 text=f"Tracked By IRMCTracker at {get_beautified_dt()}",
@@ -258,7 +260,8 @@ class TrackerTasks(Cog):
                     embed = Embed(
                         title=f"Server {server.name} online shod!",
                         description=f"\U0001f6a8 Server {server.name} lahazati pish online shod.\n\n⏰ Downtime: " + timestamp_ago(abs(server.up_from)),
-                        color=0x00D166
+                        color=0x00D166,
+                        timestamp=get_utc()
                     )
                     server.up_from = current_timestamp
 
@@ -268,7 +271,8 @@ class TrackerTasks(Cog):
                     embed = Embed(
                         title=f"❌ Server {server.name} offline shod!",
                         description=f"Server {server.name} lahazati pish az dastres kharej shod.\n\n⏰ Uptime: " + timestamp_ago(server.up_from),
-                        color=0xff5757
+                        color=0xff5757,
+                        timestamp=get_utc()
                     )
                     server.up_from = -abs(current_timestamp)
             

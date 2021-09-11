@@ -1,7 +1,7 @@
 from discord import Message, Embed
 from discord.ext.commands import command, Cog
 
-from modules.utils import has_link, has_discord_link, message_has_mentions
+from modules.utils import *
 
 class Moderation(Cog):
     """Simple moderation handlers for tracker bot
@@ -30,7 +30,7 @@ class Moderation(Cog):
             await message.delete()
         
         if warn:
-            embed = Embed(title=f"{message.author.name} , {warn}", color=0xc62828)
+            embed = Embed(title=f"{message.author.name} , {warn}", color=0xc62828, timestamp=get_utc())
             await message.channel.send(message.author.mention, embed=embed, delete_after=5.0)
             
 

@@ -27,7 +27,7 @@ class TrackerGlobal(Cog):
 
         servers = get_servers()
         banner = File('storage/static/banner.png', filename='banner.png')
-        embed = Embed(title="📡 Servers List | لیست سرور ها", description='', color=0x673AB7)
+        embed = Embed(title="📡 Servers List | لیست سرور ها", description='', color=0x673AB7, timestamp=get_utc())
 
         offline_servers = []
         i = 0
@@ -68,14 +68,14 @@ class TrackerGlobal(Cog):
         if server == None:
             return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Dastoor vared shode motabar nist.", 
                                         description='Estefade dorost: ```.track [servername]\nMesal: .track madcraft```',
-                                        color=0xF44336))
+                                        color=0xF44336, timestamp=get_utc()))
 
         server = get_server_like(server)
 
         if server == None:
             return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Server vared shode vojood nadarad!",
                                         description='Ba dastoor zir tamami server haro bebinid ```.servers```',
-                                        color=0xF44336))
+                                        color=0xF44336, timestamp=get_utc()))
         else:
             socials = []
 
@@ -93,12 +93,19 @@ class TrackerGlobal(Cog):
             uptime = timestamp_ago(server.up_from)
 
             if server.latest_latency == 0:
-                embed = Embed(title=f"🔴 {server.name}", description=f"Server morede nazar shoma dar hale hazer offline hast : (\n\n⏰ Downtime: {timestamp_ago(abs(server.up_from))}", color=0xc62828)
+                embed = Embed(title=f"🔴 {server.name}", 
+                                description=f"Server morede nazar shoma dar hale hazer offline hast : (\n\n⏰ Downtime: {timestamp_ago(abs(server.up_from))}", 
+                                color=0xc62828, 
+                                timestamp=get_utc())
                 return await ctx.send(mention_msg, embed=embed)
             if server.motd_path == 'null' or not exists(server.motd_path):
                 server.motd_path = 'storage/static/banner.png'
             
-            embed=Embed(title=f"💎 {server.name}", description=f"{server.description if server.description != None else ' '}", color=0x1bd027, url = "https://mctracker.ir/server/{}".format(str(server.id)))
+            embed=Embed(title=f"💎 {server.name}", 
+                            description=f"{server.description if server.description != None else ' '}", 
+                            color=0x1bd027, 
+                            url = "https://mctracker.ir/server/{}".format(str(server.id)),
+                            timestamp=get_utc())
 
             embed.set_footer(
                 text=f"Tracked By IRMCTracker at {get_beautified_dt()}",
@@ -160,7 +167,7 @@ class TrackerGlobal(Cog):
         if isinstance(error, CommandOnCooldown):
             embed = Embed(title="Slow it Down!",
                     description=f"Shoma dar har daghighe faghat **6bar** emkan estefade az dastoor track ro darid.\nBaraye estefade mojadad **{error.retry_after:.0f}** sanie sabr konid.",
-                    color=0xF44336)
+                    color=0xF44336, timestamp=get_utc())
             await ctx.send(ctx.author.mention, embed=embed)
         
 
