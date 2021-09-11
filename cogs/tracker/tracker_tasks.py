@@ -110,6 +110,7 @@ class TrackerTasks(Cog):
 
             i += 1
 
+        embed.set_footer(text=f"Tracked by IRMCTracker")
         embed.set_image(url="https://cdn.discordapp.com/attachments/879304683590676482/879338350488748102/motd.png")
 
         await messages[0].edit(content=None, embed=embed)
