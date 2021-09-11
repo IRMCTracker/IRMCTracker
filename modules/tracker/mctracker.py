@@ -71,7 +71,7 @@ class MCTracker():
             sleep(180)      
 
     def draw_chart(self, output_file='chart.png'):
-        names = [shortified(server.name, 6) for server in self.all_servers]
+        names = [shortified(server.name, 6, False) for server in self.all_servers]
         players = [server.current_players for server in self.all_servers]
 
         colors = []
@@ -97,7 +97,7 @@ class MCTracker():
 
             colors.append(color)
 
-        fig, ax = plt.subplots(figsize=(17,8))
+        fig, ax = plt.subplots(figsize=(18,8))
 
         ax.bar(names, players, color=colors)
         plt.title(f"Iranian MineCraft Servers - {datetime.datetime.now():%Y-%m-%d %I:%M:%S}")

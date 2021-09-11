@@ -46,8 +46,8 @@ def prefer_not_null(a, b):
         return a
     return b
     
-def shortified(string, max_len=6) -> str:
-    return (string[:max_len] + '..') if len(string) > max_len else string
+def shortified(string, max_len=6, show_dots=True) -> str:
+    return (string[:max_len] + '..' if show_dots else '') if len(string) > max_len else string
 
 def ago(date, locale='en_US'):
     return timeago.format(date, locale=locale)
