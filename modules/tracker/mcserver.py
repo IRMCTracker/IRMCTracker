@@ -90,7 +90,7 @@ class MCServer:
 
             try:
                 page = requests.get(data, timeout=6)
-            except requests.exceptions.Timeout:
+            except Exception as e:
                 return None
 
             if page.status_code != 200:
