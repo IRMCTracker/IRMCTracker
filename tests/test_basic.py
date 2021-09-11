@@ -10,6 +10,9 @@ from modules.database import server_meta, records, create_tables, Server, get_se
 
 from random import randrange
 
-from modules.utils import DomainInfo
+from modules.utils import display_time
 
 create_tables()
+
+
+print(display_time(1631348823))

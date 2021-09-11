@@ -5,6 +5,28 @@ import random, string
 import timeago
 from datetime import datetime as dt
 
+
+intervals = (
+    ('weeks', 604800),  # 60 * 60 * 24 * 7
+    ('days', 86400),    # 60 * 60 * 24
+    ('hours', 3600),    # 60 * 60
+    ('minutes', 60),
+    ('seconds', 1),
+)
+
+def timestamp_ago(timestamp: int, granularity=2):
+    seconds = int(time() - timestamp)
+    result = []
+
+    for name, count in intervals:
+        value = seconds // count
+        if value:
+            seconds -= value * count
+            if value == 1:
+                name = name.rstrip('s')
+            result.append("{} {}".format(value, name))
+    return ', '.join(result[:granularity])
+
 def replace_placeholders(string, placeholders):
     placeholders['%timestamp%'] = str(time())
 
@@ -29,9 +51,6 @@ def shortified(string, max_len=6) -> str:
 
 def ago(date, locale='en_US'):
     return timeago.format(date, locale=locale)
-
-def timestamp_ago(timestamp, locale='en_US'):
-    return ago(dt.fromtimestamp(timestamp), locale)
 
 def capitalize_address(address):
     return '.'.join([x.capitalize() for x in address.split('.')])
