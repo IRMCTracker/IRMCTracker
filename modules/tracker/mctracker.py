@@ -97,7 +97,7 @@ class MCTracker():
 
             colors.append(color)
 
-        fig, ax = plt.subplots(figsize=(18,8))
+        fig, ax = plt.subplots(figsize=(17,8))
 
         ax.bar(names, players, color=colors)
         plt.title(f"Iranian MineCraft Servers - {datetime.datetime.now():%Y-%m-%d %I:%M:%S}")
