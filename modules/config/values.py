@@ -6,6 +6,8 @@ from distutils.util import strtobool
 class Config:   
     class Channels:
         TOP_CHANNELS = get('channels.top')
+        TOP_VOTED_CHANNELS = get('channels.top_voted')
+        
         RECORD_CHANNEL = get('channels.record')
         
         ALL = get('channels.total-vc')
