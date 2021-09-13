@@ -4,15 +4,12 @@
 Can be directly executed via running 'python main.py test' command
 """
 
+from modules.database.models.vote import get_top_voted_servers
 from peewee import DoesNotExist
 
 from modules.database import server_meta, records, create_tables, Server, get_servers_by_record
 
 from random import randrange
 
-from modules.utils import display_time
-
+from modules.database import *
 create_tables()
-
-
-print(display_time(1631348823))
