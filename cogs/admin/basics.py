@@ -1,3 +1,4 @@
+from modules.utils.functions import get_utc
 from modules.tracker.mctracker import MCTracker
 from modules.config import Config
 
@@ -54,19 +55,22 @@ class Basics(Cog):
     async def github(self, ctx):
         description = """You can find the project at [[IRMCTracker Github Repo]](https://github.com/Alijkaz/IRMCTracker)
         If you're a Python developer and you are interested in our project don't hesitate and start contributing the project :P"""
-        embed = Embed(title="💻 Github [We're Open Source!]", description=description, color=0x3698cf)
+        embed = Embed(title="💻 Github [We're Open Source!]", description=description, color=0x3698cf, timestamp=get_utc())
+        embed.set_footer(text='By IRMCTracker')
         await ctx.send(embed=embed)
 
     @command()
     async def api(self, ctx):
         description = """Documentation API MCTracker amade shode va az alan ghabel estefade hast! [[Documentations]](https://docs.mctracker.ir/website/api)"""
-        embed = Embed(title="📚 Docs [Tozihat]", description=description, url="https://docs.mctracker.ir/website/api", color=0x3698cf)
+        embed = Embed(title="📚 Docs [Tozihat]", description=description, url="https://docs.mctracker.ir/website/api", color=0x3698cf, timestamp=get_utc())
+        embed.set_footer(text='By IRMCTracker')
         await ctx.send(embed=embed)
 
     @command()
     async def docs(self, ctx):
         description = """Az alan mitoonid tamam tozihat va nahve estefade az plugin MCTrackerVote ro dakhel doc haye ma bebinid [[Documentations]](https://docs.mctracker.ir/mctrackervote-plugin/overview)"""
-        embed = Embed(title="📚 Docs [Tozihat]", description=description, url="https://docs.mctracker.ir/mctrackervote-plugin/overview", color=0x3698cf)
+        embed = Embed(title="📚 Docs [Tozihat]", description=description, url="https://docs.mctracker.ir/mctrackervote-plugin/overview", color=0x3698cf, timestamp=get_utc())
+        embed.set_footer(text='By IRMCTracker')
         await ctx.send(embed=embed)
 
     @Cog.listener()
