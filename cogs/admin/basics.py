@@ -57,6 +57,18 @@ class Basics(Cog):
         embed = Embed(title="💻 Github [We're Open Source!]", description=description, color=0x3698cf)
         await ctx.send(embed=embed)
 
+    @command()
+    async def api(self, ctx):
+        description = """Documentation API MCTracker amade shode va az alan ghabel estefade hast! [[Documentations]](https://docs.mctracker.ir/website/api)"""
+        embed = Embed(title="📚 Docs [Tozihat]", description=description, url="https://docs.mctracker.ir/website/api", color=0x3698cf)
+        await ctx.send(embed=embed)
+
+    @command()
+    async def docs(self, ctx):
+        description = """Az alan mitoonid tamam tozihat va nahve estefade az plugin MCTrackerVote ro dakhel doc haye ma bebinid [[Documentations]](https://docs.mctracker.ir/mctrackervote-plugin/overview)"""
+        embed = Embed(title="📚 Docs [Tozihat]", description=description, url="https://docs.mctracker.ir/mctrackervote-plugin/overview", color=0x3698cf)
+        await ctx.send(embed=embed)
+
     @Cog.listener()
     async def on_member_join(self, member):
         """Adds default role to member and sends notification in admin channel
