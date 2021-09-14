@@ -76,33 +76,33 @@ class MCTracker():
 
         colors = []
         for player_count in players:
-            if player_count >= 120:
+            if player_count >= 150:
                 color = 'lime'
-            elif 120 > player_count >= 80:
-                color = 'green'
-            elif 80 > player_count >= 60:
+            elif 150 > player_count >= 100:
+                color = 'mediumseagreen'
+            elif 100 > player_count >= 80:
                 color = 'darkgreen'
-            elif 60 > player_count >= 50:
-                color = 'gold'
-            elif 50 > player_count >= 40:
+            elif 80 > player_count >= 60:
                 color = 'yellow'
+            elif 60 > player_count >= 40:
+                color = 'orange'
             elif 40 > player_count >= 30:
-                color = 'khaki'
+                color = 'darkkhaki'
             elif 30 > player_count >= 20:
                 color = 'orangered'
             elif 20 > player_count >= 10:
-                color = 'indianred'
-            elif 10 > player_count:
                 color = 'firebrick'
+            elif 10 > player_count:
+                color = 'brown'
 
             colors.append(color)
 
         fig, ax = plt.subplots(figsize=(17,8))
 
         ax.bar(names, players, color=colors)
-        plt.title(f"Iranian MineCraft Servers - {datetime.datetime.now():%Y-%m-%d %I:%M:%S}")
+        plt.title(f"[IR MineCraft Servers] - {datetime.datetime.now():%Y-%m-%d %I:%M:%S}")
         plt.xlabel('Server Names', fontsize=8, labelpad=5)
-        plt.ylabel('Players Count', fontsize=8, labelpad=5)
+        plt.ylabel('Players', fontsize=8, labelpad=5)
 
         for index,data in enumerate(players):
             x = index - 0.11
