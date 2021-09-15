@@ -85,7 +85,7 @@ class MCServer:
 
     def get_motd_path(self):
         if self.status:
-            data = "https://api.loohpjames.com/serverbanner.png?ip={}&name={}".format(self.server_address, self.get_name())
+            data = "http://status.mclive.eu/{}/{}/25565/banner.png".format(self.get_name(), self.server_address)
             filename = f"storage/cache/motd-{self.get_name()}.png"
             
             try:
