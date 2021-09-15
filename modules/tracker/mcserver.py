@@ -85,9 +85,9 @@ class MCServer:
 
     def get_motd_path(self):
         if self.status:
-            data = "http://status.mclive.eu/{}/{}/25565/banner.png".format(self.get_name(), self.server_address)
+            data = "https://api.loohpjames.com/serverbanner.png?ip={}&name={}".format(self.server_address, self.get_name())
             filename = f"storage/cache/motd-{self.get_name()}.png"
-
+            
             try:
                 page = requests.get(data, timeout=6)
             except Exception as e:
