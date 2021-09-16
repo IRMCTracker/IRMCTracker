@@ -39,6 +39,8 @@ class TrackerTasks(Cog):
         """Simply updating bot activity
         """
 
+        await self.bot.wait_until_ready()
+
         players_count = all_players_count()
         servers_count = str(len(self.servers))
 
@@ -58,8 +60,6 @@ class TrackerTasks(Cog):
 
     @tasks.loop(minutes=1, reconnect=True)
     async def tracker_tick(self):
-        await self.bot.wait_until_ready()
-
         """Main Tracker tick
 
         Main tick for sending hourly charts, and updating channels
@@ -67,6 +67,8 @@ class TrackerTasks(Cog):
         TODO:
             - Refactor to separate tasks for better readability
         """
+
+        await self.bot.wait_until_ready()
 
         minute = dt.now().minute
 
