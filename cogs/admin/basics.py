@@ -43,55 +43,40 @@ class Basics(Cog):
     async def faq(self, ctx):
         """Simply sends faq messages
         """
+        messages = [
+            {
+                'title': '➕・Chetor serveram ro ezafe konam?',
+                'description': 'Baraye ezafe kardan server khodetoon ticket jadidi dakhel server discord ma ijad konid va [ 1. Address | 2. Name] serveretoon ro ersal konid.'
+            }, {
+                'title': '⚠・Serveram track nemishe chikar konam?',
+                'description': 'Dar 90% mavaghe moshkel az samte Firewall server shomast ke ba didan server haei ke track mishan mishe in ro fahmid, Baraye hal moshkel dakhel discord ma ticket jadidi baz konid ta shoma ro rahnamaei konim.',
+            }, {
+                'title': '🎈・Chetor serveram dakhel site bere?',
+                'description': 'Zamani ke server shoma ezafe beshe, dar hamoon lahze dakhel site ham ezafe mishe va niazi be ticket ezafe nist.'
+            }, {
+                'title': '☹・Serveram ro dakhel panel site nemibinam chikar konam?',
+                'description': 'Ticket jadidi dakhel discord ma baz konid ta shoma ro ezafe konim.'
+            }, {
+                'title': '😃・Ide toop daram koja mitoonam begam behetoon?',
+                'description': 'Behtarin ja bakhsh ticket discord ma hast chon 100% payam shoma dide mishe.'
+            }, {
+                'title': '🤔・Moshkel digei daram!',
+                'description': 'Hamin hala dakhel server discord ma ticket bedid!'
+            }
+        ]
 
-        embed = Embed(
-            title="➕・Chetor serveram ro ezafe konam?", 
-            description="Baraye ezafe kardan server khodetoon ticket jadidi dakhel server discord ma ijad konid va [ 1. Address | 2. Name] serveretoon ro ersal konid.", 
-            color=random_color(),
-            timestamp=get_utc()
-        )
-        await ctx.send(embed=embed)
-
-        embed = Embed(
-            title="⚠・Serveram track nemishe chikar konam?", 
-            description="Dar 90% mavaghe moshkel az samte Firewall server shomast ke ba didan server haei ke track mishan mishe in ro fahmid, Baraye hal moshkel dakhel discord ma ticket jadidi baz konid ta shoma ro rahnamaei konim.", 
-            color=random_color(),
-            timestamp=get_utc()
-        )
-        await ctx.send(embed=embed)
-    
-        embed = Embed(
-            title="🎈・Chetor serveram dakhel site bere?", 
-            description="Zamani ke server shoma ezafe beshe, dar hamoon lahze dakhel site ham ezafe mishe va niazi be ticket ezafe nist.", 
-            color=random_color(),
-            timestamp=get_utc()
-        )
-        await ctx.send(embed=embed)
-
-        embed = Embed(
-            title="☹・Serveram ro dakhel panel site nemibinam chikar konam?", 
-            description="Ticket jadidi dakhel discord ma baz konid ta shoma ro ezafe konim.", 
-            color=random_color(),
-            timestamp=get_utc()
-        )
-        await ctx.send(embed=embed)
-
-
-        embed = Embed(
-            title="😃・Ide toop daram koja mitoonam begam behetoon?", 
-            description="Behtarin ja bakhsh ticket discord ma hast chon 100% payam shoma dide mishe.", 
-            color=random_color(),
-            timestamp=get_utc()
-        )
-        await ctx.send(embed=embed)
-
-        embed = Embed(
-            title="🤔・Moshkel digei daram!", 
-            description="Hamin hala dakhel server discord ma ticket bedid!", 
-            color=random_color(),
-            timestamp=get_utc()
-        )
-        await ctx.send(embed=embed)
+        for message in messages:
+            embed = Embed(
+                title=message['title'], 
+                description=message['description'], 
+                color=random_color(),
+                timestamp=get_utc()
+            )
+            embed.set_footer(
+                text=f"Tracked By IRMCTracker",
+                icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
+            )
+            await ctx.send(embed=embed)
 
     @command()
     async def github(self, ctx):
