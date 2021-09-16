@@ -34,7 +34,7 @@ class TrackerTasks(Cog):
         self.update_activity_task.start()
     
         
-    @tasks.loop(seconds=30)
+    @tasks.loop(seconds=15)
     async def update_activity_task(self):
         """Simply updating bot activity
         """
@@ -45,9 +45,9 @@ class TrackerTasks(Cog):
         servers_count = str(len(self.servers))
 
         if self.counter % 2 == 0:
-            status_text = f"{players_count} players currently"
+            status_text = f"👥 {players_count} Players"
         else:
-            status_text = f"more than {servers_count} servers"
+            status_text = f"💻 {servers_count}+ Servers"
 
         await self.bot.change_presence(
             activity=Activity(
