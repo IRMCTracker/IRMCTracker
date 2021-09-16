@@ -25,13 +25,14 @@ class TrackerTasks(Cog):
     def __init__(self, bot):
         self.bot = bot
         self.servers = get_servers()
-        
+
         # Running the task
         self.tracker_tick.start()
     
     @tasks.loop(minutes=1)
     async def tracker_tick(self):
-        print('a')
+        await self.bot.wait_until_ready()
+
         """Main Tracker tick
 
         Main tick for sending hourly charts, updating activity and updating channels
@@ -233,7 +234,6 @@ class TrackerTasks(Cog):
     async def update_top_players_channels(self):
         i = 0
         for channel_id in Config.Channels.TOP_CHANNELS:
-
             channel = self.bot.get_channel(channel_id)
             messages = await channel.history(limit=1).flatten()
 
