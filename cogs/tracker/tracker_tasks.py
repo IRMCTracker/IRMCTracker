@@ -24,18 +24,48 @@ class TrackerTasks(Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.counter = 0
         self.servers = get_servers()
 
-        # Running the task
+        # Running main bot tick
         self.tracker_tick.start()
+
+        # Running activity updating task
+        self.update_activity_task.start()
     
-    @tasks.loop(minutes=1)
+        
+    @tasks.loop(seconds=30)
+    async def update_activity_task(self):
+        """Simply updating bot activity
+        """
+
+        players_count = all_players_count()
+        servers_count = str(len(self.servers))
+
+        if self.counter % 2 == 0:
+            status_text = f"{players_count} players currently"
+        else:
+            status_text = f"more than {servers_count} servers"
+
+        await self.bot.change_presence(
+            activity=Activity(
+                type=ActivityType.watching,
+                name=status_text
+            )
+        )
+
+        self.counter += 1
+
+    @tasks.loop(minutes=1, reconnect=True)
     async def tracker_tick(self):
         await self.bot.wait_until_ready()
 
         """Main Tracker tick
 
-        Main tick for sending hourly charts, updating activity and updating channels
+        Main tick for sending hourly charts, and updating channels
+
+        TODO:
+            - Refactor to separate tasks for better readability
         """
 
         minute = dt.now().minute
@@ -56,20 +86,7 @@ class TrackerTasks(Cog):
                 await self.update_records_text()
             # Every hour
             if minute == 0:
-                await self.send_chart()
-
-        await self.update_activity()
-        
-    async def update_activity(self):
-        """Simply updating bot activity
-        """
-
-        await self.bot.change_presence(
-            activity=Activity(
-                type=ActivityType.watching,
-                name=f"{all_players_count()} players in {str(len(self.servers))} servers"
-            )
-        )
+                await self.send_chart()        
 
     async def send_chart(self):
         """Sending the chart to #hourly-chart channel
