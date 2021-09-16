@@ -97,11 +97,10 @@ class Admin(Cog):
         **Links:**
         » Discord:  https://discord.gg/ey3FmsMfmp
         """
-        channel = self.bot.get_channel(867121964229066752)
         embed = Embed(title=f"📌 Guidelines", description=description, color=0x43a047)
         embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/866594343551500308/868239327715549184/guidelines.png')
         embed.set_footer(text=f"IRMCTracker", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
-        await channel.send(embed=embed)
+        await ctx.send(embed=embed)
 
 
     @command(has_role='root')

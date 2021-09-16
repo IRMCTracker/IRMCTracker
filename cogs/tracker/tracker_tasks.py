@@ -25,9 +25,13 @@ class TrackerTasks(Cog):
     def __init__(self, bot):
         self.bot = bot
         self.servers = get_servers()
+        
+        # Running the task
+        self.tracker_tick.start()
     
     @tasks.loop(minutes=1)
     async def tracker_tick(self):
+        print('a')
         """Main Tracker tick
 
         Main tick for sending hourly charts, updating activity and updating channels
