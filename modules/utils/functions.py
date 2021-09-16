@@ -1,5 +1,6 @@
 import discord
 
+from random import randint
 from time import time
 import random, string
 import timeago
@@ -27,6 +28,9 @@ def timestamp_ago(timestamp: int, granularity=2):
             result.append("{} {}".format(value, name))
     return ', '.join(result[:granularity])
 
+def random_color():
+    return randint(0, 0xffffff)
+
 def replace_placeholders(string, placeholders):
     placeholders['%timestamp%'] = str(time())
 
@@ -50,7 +54,8 @@ def prefer_not_null(a, b):
     return b
     
 def shortified(string, max_len=6, show_dots=True) -> str:
-    return (string[:max_len] + ('..' if show_dots else '')) if len(string) > max_len else string
+    return (string[:max_len] + ('..' if show_dots else '')
+    ) if len(string) > max_len else string
 
 def ago(date, locale='en_US'):
     return timeago.format(date, locale=locale)

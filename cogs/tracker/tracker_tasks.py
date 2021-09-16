@@ -164,7 +164,13 @@ class TrackerTasks(Cog):
             if self.is_online(server):
                 uptime = timestamp_ago(server.up_from)
 
-            embed=Embed(title=f"💎 {server.name}",description=f"{server.description if server.description != None else ' '}", color=0x1bd027, url = "https://mctracker.ir/server/{}".format(str(server.id)), timestamp=get_utc())
+            embed=Embed(
+                title=f"💎 {server.name}",
+                description=f"{server.description if server.description != None else ' '}", 
+                color=random_color(), 
+                url = "https://mctracker.ir/server/{}".format(str(server.id)), 
+                timestamp=get_utc()
+            )
 
             embed.set_footer(
                 text=f"Tracked By IRMCTracker",
@@ -268,7 +274,13 @@ class TrackerTasks(Cog):
             if self.is_online(server):
                 uptime = timestamp_ago(server.up_from)
 
-            embed=Embed(title=f"💎 {server.name}",description=f"{server.description if server.description != None else ' '}", color=0x1bd027, url = "https://mctracker.ir/server/{}".format(str(server.id)), timestamp=get_utc())
+            embed=Embed(
+                title=f"💎 {server.name}",
+                description=f"{server.description if server.description != None else ' '}", 
+                color=random_color(), 
+                url = "https://mctracker.ir/server/{}".format(str(server.id)), 
+                timestamp=get_utc()
+            )
 
             embed.set_footer(
                 text=f"Tracked By IRMCTracker",
