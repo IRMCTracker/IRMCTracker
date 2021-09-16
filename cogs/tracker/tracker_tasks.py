@@ -45,7 +45,7 @@ class TrackerTasks(Cog):
         servers_count = str(len(self.servers))
 
         if self.counter % 2 == 0:
-            status_text = f"👥 {players_count} Players"
+            status_text = f"👥 {players_count}+ Players"
         else:
             status_text = f"💻 {servers_count}+ Servers"
 
