@@ -48,7 +48,7 @@ environment:
     - MYSQL_ROOT_PASSWORD
     - MYSQL_USER
     - MYSQL_PASSWORD
-    - MYSQL_DATABASE```
+    - MYSQL_DATABASE
 ```
 
 **Warning: Do not change the value of `MYSQL_HOST` in the `.env` file.**
