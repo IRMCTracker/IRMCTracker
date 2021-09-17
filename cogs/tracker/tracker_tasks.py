@@ -27,13 +27,19 @@ class TrackerTasks(Cog):
         self.counter = 0
         self.servers = get_servers()
 
-        # Running main bot tick
-        self.tracker_tick.start()
-
         # Running activity updating task
         self.update_activity_task.start()
-    
+
+        # Running top channels update task
+        self.update_top_channels_task.start()
+
+        # Running stats channels update task
+        self.update_stats_channels_task.start()
         
+        # Running main bot tick
+        self.tracker_tick.start()
+    
+    # TRACKER TASKS
     @tasks.loop(seconds=15)
     async def update_activity_task(self):
         """Simply updating bot activity
@@ -84,7 +90,6 @@ class TrackerTasks(Cog):
 
         await self.update_records_text()
 
-
     @tasks.loop(minutes=1, reconnect=True)
     async def tracker_tick(self):
         """Main Tracker tick
@@ -103,6 +108,7 @@ class TrackerTasks(Cog):
         # Every hour (1:00 , 2:00, ...)
         if dt.now().minute == 0:
             await self.send_chart()        
+    # END OF TRACKER TASKS
 
     async def send_chart(self):
         """Sending the chart to #hourly-chart channel
@@ -155,10 +161,7 @@ class TrackerTasks(Cog):
 
         await messages[0].edit(content=None, embed=embed)
 
-
-        
-    # Theres a lot of messy / duplicate code below here
-    # Will refactor ASAP
+    # TODO: Theres a lot of messy / duplicate code below here, Will refactor ASAP
     async def update_top_voted_channels(self):
         i = 0
         top_servers = get_top_voted_servers(len(Config.Channels.TOP_VOTED_CHANNELS))
@@ -373,7 +376,6 @@ class TrackerTasks(Cog):
 
             i += 1
 
-
     def is_online(self, server):
         if server.latest_latency == 0:
             return False
@@ -431,7 +433,5 @@ class TrackerTasks(Cog):
                 await alert_channel.send(file=favicon,embed=embed)
 
     
-
-
 def setup(client):
     client.add_cog(TrackerTasks(client))
