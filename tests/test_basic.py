@@ -13,3 +13,4 @@ from random import randrange
 
 from modules.database import *
 create_tables()
+

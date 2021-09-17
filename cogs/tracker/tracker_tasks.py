@@ -45,9 +45,9 @@ class TrackerTasks(Cog):
         servers_count = str(len(self.servers))
 
         if self.counter % 2 == 0:
-            status_text = f"👥 {players_count}+ Players"
+            status_text = f"👥 {players_count} Players"
         else:
-            status_text = f"💻 {servers_count}+ Servers"
+            status_text = f"💻 {servers_count} Servers"
 
         await self.bot.change_presence(
             activity=Activity(
@@ -58,37 +58,51 @@ class TrackerTasks(Cog):
 
         self.counter += 1
 
-    @tasks.loop(minutes=1, reconnect=True)
-    async def tracker_tick(self):
-        """Main Tracker tick
-
-        Main tick for sending hourly charts, and updating channels
-
-        TODO:
-            - Refactor to separate tasks for better readability
+    @tasks.loop(minutes=1)
+    async def update_top_channels_task(self):
+        """Updating top players / top voted channels
         """
 
         await self.bot.wait_until_ready()
 
-        minute = dt.now().minute
-
-        self.servers = get_servers()
-
-        # Registering update and downtime events of a server in tempdata
-        await self.register_uptime(self.servers)
-
         await self.update_top_players_channels()
         await self.update_top_voted_channels()
 
-        # Every five minutes or hour
-        if minute % 5 == 0 or minute == 0:
-            # Every five minutes
-            if minute % 5 == 0:
-                await self.update_channels()
-                await self.update_records_text()
-            # Every hour
-            if minute == 0:
-                await self.send_chart()        
+    @tasks.loop(minutes=5)
+    async def update_stats_channels_task(self):
+        """Updating stats voice channels
+        """
+
+        await self.bot.wait_until_ready()
+
+        await self.bot.get_channel(Config.Channels.ALL).edit(
+            name=f"💎・All「{all_players_count()}👥」"
+        )
+        await self.bot.get_channel(Config.Channels.EMPTY).edit(
+            name=f"📈・Empty「{zero_player_servers_count()}🔨」"
+        )  
+
+        await self.update_records_text()
+
+
+    @tasks.loop(minutes=1, reconnect=True)
+    async def tracker_tick(self):
+        """Main Tracker tick
+
+        Main tick for sending hourly charts and registering uptime
+        """
+
+        await self.bot.wait_until_ready()
+
+        # Fetching servers fresh data from database
+        self.servers = get_servers()
+
+        # Updating servers uptime status in database
+        await self.register_uptime(self.servers)
+
+        # Every hour (1:00 , 2:00, ...)
+        if dt.now().minute == 0:
+            await self.send_chart()        
 
     async def send_chart(self):
         """Sending the chart to #hourly-chart channel
@@ -358,23 +372,14 @@ class TrackerTasks(Cog):
 
 
             i += 1
-    async def update_channels(self):
-        """Updating the channels with newly fetched data
-        """
 
-        await self.bot.get_channel(Config.Channels.ALL).edit(
-            name=f"💎・All「{all_players_count()}👥」"
-        )
-        await self.bot.get_channel(Config.Channels.EMPTY).edit(
-            name=f"📈・Empty「{zero_player_servers_count()}🔨」"
-        )  
 
     def is_online(self, server):
         if server.latest_latency == 0:
             return False
         return True
 
-    async def register_uptime(self, servers):    
+    async def register_uptime(self):    
         """Refactored uptime registration system
 
         We have up_from field in database that changes to the timestamp that
@@ -384,7 +389,7 @@ class TrackerTasks(Cog):
         """        
         alert_channel = self.bot.get_channel(Config.Channels.ALERTS)
 
-        for server in servers:
+        for server in self.servers:
             is_online = self.is_online(server)
             up_from_timestamp = server.up_from
             current_timestamp = round(time())
