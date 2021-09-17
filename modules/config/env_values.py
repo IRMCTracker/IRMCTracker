@@ -1,27 +1,6 @@
 from os import getenv
-from modules.config import get
 from dotenv import load_dotenv
 from distutils.util import strtobool
-
-class Config:   
-    class Channels:
-        TOP_CHANNELS = get('channels.top')
-        TOP_VOTED_CHANNELS = get('channels.top_voted')
-        
-        RECORD_CHANNEL = get('channels.record')
-        
-        ALL = get('channels.total-vc')
-        EMPTY = get('channels.zero-vc')
-        HOURLY = get('channels.text-hourly')
-        
-        ADMIN = get('channels.admin')
-
-        ALERTS = get('channels.alerts')
-
-        CACHE = get('channels.cache')
-
-    class Roles:
-        DEFAULT = get('roles.default')
         
 class Env:
     load_dotenv('storage/data/.env')
@@ -35,6 +14,8 @@ class Env:
     
     DB_PATH = getenv('DB_PATH')
     CONFIG_PATH = getenv('CONFIG_PATH')
+    LANG_DIR = getenv('LANG_DIR')
+    DEFAULT_LANG = getenv('DEFAULT_LANG')
 
     MYSQL_USER = getenv('MYSQL_USER')
     MYSQL_PASSWORD = getenv('MYSQL_PASSWORD')
