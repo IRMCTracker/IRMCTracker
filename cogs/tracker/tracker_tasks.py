@@ -1,4 +1,3 @@
-from modules.database.models.vote import get_top_voted_servers
 import os
 
 from time import time
@@ -9,13 +8,13 @@ from modules.config import Config
 from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count, get_servers_by_record
 from modules.database.models.records import get_highest_players
 from modules.database.models.server_meta import get as get_meta
+from modules.database.models.vote import get_top_voted_servers
+
 from modules.utils import *
 
 from discord.ext import tasks
 from discord import File, Embed, Activity, ActivityType
 from discord.ext.commands import Cog
-
-from art import text2art
 
 class TrackerTasks(Cog):
     """Doing all the automated tracking->discord tasks
