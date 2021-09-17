@@ -1,0 +1,34 @@
+
+
+services:
+  sql_database:
+    container_name: sqldb
+    image: mysql:latest
+    networks:
+      - main
+    ports:
+      - "3306:3306"
+    restart: on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql-root-pw
+      - MYSQL_USER=mysql_user
+      - MYSQL_PASSWORD=mysql_pass
+      - MYSQL_DATABASE=mysql_database
+    volumes:
+      - /storage/data:/etc/mysql/conf.d
+  
+  irmctracker_bot:
+    container_name: irmctracker_bot
+    build: .
+    depends_on:
+      - sql_database
+    networks:
+      - main
+    restart: on-failure
+
+
+networks:
+  main:
+
+volumes:
+  sql_database:
