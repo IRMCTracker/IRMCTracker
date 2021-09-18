@@ -4,7 +4,7 @@ services:
   mysql:
     container_name: mysql
     image: mysql:latest
-    env_file: /storage/data/.env
+    env_file: ./storage/data/.env
     networks:
       - main
     ports:
@@ -19,14 +19,11 @@ services:
   irmctracker_bot:
     container_name: irmctracker_bot
     build: .
-    depends_on:
-      - sql_database
     networks:
       - main
     restart: on-failure
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
 networks:
   main:
 
