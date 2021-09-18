@@ -341,9 +341,8 @@ class TrackerTasks(Cog):
             embed.add_field(name="「📌」 Version ►", value=server.latest_version, inline=True)
             embed.add_field(name="「📡」 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
 
-            if server.country != None:
-                country_full_name = get_country_fullname(server.country)
-                embed.add_field(name="「🌎」 Country ►", value=f":flag_{str(server.country).lower()}: {country_full_name}", inline=False)
+            if server.country_code != None:
+                embed.add_field(name="「🌎」 Country ►", value=f":flag_{str(server.country_code).lower()}: {server.region}", inline=False)
 
             socials_message = '\n'.join(socials)
             if len(socials) == 0:
