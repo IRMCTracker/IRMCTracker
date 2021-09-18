@@ -3,7 +3,6 @@ import discord
 from random import randint
 from time import time
 import random, string
-import timeago
 from datetime import datetime as dt
 
 
@@ -56,9 +55,6 @@ def prefer_not_null(a, b):
 def shortified(string, max_len=6, show_dots=True) -> str:
     return (string[:max_len] + ('..' if show_dots else '')
     ) if len(string) > max_len else string
-
-def ago(date, locale='en_US'):
-    return timeago.format(date, locale=locale)
 
 def capitalize_address(address):
     return '.'.join([x.capitalize() for x in address.split('.')])
