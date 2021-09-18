@@ -48,7 +48,8 @@ class MCTracker():
                 favicon_path=server.get_favicon_path(),
                 motd_path=server.get_motd_path(),
                 ip = resolve_info.get_ip(),
-                country = resolve_info.get_country()
+                country_code = resolve_info.get_country_code(),
+                region = resolve_info.get_region()
             )
 
             # Add track record to database
