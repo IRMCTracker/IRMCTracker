@@ -23,12 +23,17 @@ class DomainInfo:
   
             output = json.loads(response.read())
 
-            self.country = output['countryCode']
+            self.country_code = output['countryCode']
+            self.region = "{} {}".format(output['country'], output['regionName'])
         except:
-            self.country = None
+            self.country_code = None
+            self.region = None
             
-    def get_country(self):
-        return self.country
+    def get_country_code(self):
+        return self.country_code
+
+    def get_region(self):
+        return self.region
     
     def get_ip(self):
         return self.ip
