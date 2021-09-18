@@ -1,21 +1,23 @@
 version: "3"
 
+env_file: .env
+
 services:
   sql_database:
     container_name: sqldb
     image: mysql:latest
+    env_file: /storage/data/.env
     networks:
       - main
     ports:
       - "3306:3306"
     restart: on-failure
-    environment:
-      - MYSQL_ROOT_PASSWORD=mysql-root-pw
-      - MYSQL_USER=mysql_user
-      - MYSQL_PASSWORD=mysql_pass
-      - MYSQL_DATABASE=mysql_database
     volumes:
       - /storage/data:/etc/mysql/conf.d
+    healthcheck:
+      test: "cat /var/log/mysql/general-log.log | grep \"root@localhost on  using Socket\""
+      interval: 1s
+      retries: 120
   irmctracker_bot:
     container_name: irmctracker_bot
     build: .
