@@ -1,7 +1,5 @@
 version: "3"
 
-env_file: .env
-
 services:
   mysql:
     container_name: mysql
