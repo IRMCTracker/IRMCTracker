@@ -1,5 +1,6 @@
 import socket
-from geolite2 import geolite2
+from urllib.request import urlopen
+import json
 
 class DomainInfo:
     def __init__(self, domain) -> None:
@@ -18,9 +19,11 @@ class DomainInfo:
     
     def _fetch_country(self):
         try:
-            reader = geolite2.reader()      
-            output = reader.get(self.ip)
-            self.country = output['country']['iso_code']
+            response = urlopen('http://ip-api.com/json/{}'.format(self.ip))
+  
+            output = json.loads(response.read())
+
+            self.country = output['countryCode']
         except:
             self.country = None
             
