@@ -57,7 +57,7 @@ environment:
 Then enter this command in the main Directory:
 ```
 # Run docker-compose
-docker-compose up -d .
+docker-compose up -d
 ```
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
