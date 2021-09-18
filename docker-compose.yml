@@ -1,5 +1,5 @@
-
-
+version: "3"
+s
 services:
   sql_database:
     container_name: sqldb
@@ -16,7 +16,6 @@ services:
       - MYSQL_DATABASE=mysql_database
     volumes:
       - /storage/data:/etc/mysql/conf.d
-  
   irmctracker_bot:
     container_name: irmctracker_bot
     build: .
@@ -25,7 +24,6 @@ services:
     networks:
       - main
     restart: on-failure
-
 
 networks:
   main:
