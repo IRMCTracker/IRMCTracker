@@ -3,8 +3,8 @@ version: "3"
 env_file: .env
 
 services:
-  sql_database:
-    container_name: sqldb
+  mysql:
+    container_name: mysql
     image: mysql:latest
     env_file: /storage/data/.env
     networks:
@@ -26,7 +26,9 @@ services:
     networks:
       - main
     restart: on-failure
-
+    depends_on:
+      mysql:
+        condition: service_healthy
 networks:
   main:
 
