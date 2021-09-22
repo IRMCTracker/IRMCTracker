@@ -102,7 +102,7 @@ class TrackerTasks(Cog):
         self.servers = get_servers()
 
         # Updating servers uptime status in database
-        await self.register_uptime(self.servers)
+        await self.register_uptime()
 
         # Every hour (1:00 , 2:00, ...)
         if dt.now().minute == 0:
@@ -385,7 +385,7 @@ class TrackerTasks(Cog):
         server starts to answer our requests so that we can calculate the time
         the server has been online
         Will set up_from field to a negative timestamp if server is offline in the latest check
-        """        
+        """
         alert_channel = self.bot.get_channel(Config.Channels.ALERTS)
 
         for server in self.servers:

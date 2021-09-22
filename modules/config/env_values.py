@@ -14,8 +14,6 @@ class Env:
     
     DB_PATH = getenv('DB_PATH')
     CONFIG_PATH = getenv('CONFIG_PATH')
-    LANG_DIR = getenv('LANG_DIR')
-    DEFAULT_LANG = getenv('DEFAULT_LANG')
 
     MYSQL_USER = getenv('MYSQL_USER')
     MYSQL_PASSWORD = getenv('MYSQL_PASSWORD')

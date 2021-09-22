@@ -8,7 +8,7 @@ class Server(BaseModel):
     address = CharField(150, unique=True)
     ip = CharField(150, null=True)
     country_code = CharField(50, null=True)
-    region = CharField(50, null=True)
+    region = CharField(100, null=True)
     favicon_path = LongTextField(null=True)
     info_path = LongTextField(null=True)
     motd_path = LongTextField( null=True)
