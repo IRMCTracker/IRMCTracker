@@ -7,11 +7,7 @@ services:
     env_file: ./storage/data/.env
     networks:
       - main
-    ports:
-      - "3306:3306"
     restart: on-failure
-    volumes:
-      - /storage/data:/etc/mysql/conf.d
     healthcheck:
       test: "cat /var/log/mysql/general-log.log | grep \"root@localhost on  using Socket\""
       interval: 1s

@@ -4,7 +4,8 @@ LABEL service="IRMCTracker"
 
 WORKDIR /irmctracker
 
-COPY requirments.txt /irmctracker/
+COPY requirements.txt /
+RUN pip install -r /requirements.txt
 
 RUN bash && \
     apt-get update && \
