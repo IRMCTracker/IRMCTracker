@@ -1,4 +1,4 @@
-from cogs.tracker.tracker_tasks import TrackerTasks
+from cogs.tracker.tasks import TrackerTasks
 from discord.ext.commands.context import Context
 from discord.ext.commands.errors import ExtensionAlreadyLoaded, ExtensionFailed, ExtensionNotFound, ExtensionNotLoaded, NoEntryPointError
 
