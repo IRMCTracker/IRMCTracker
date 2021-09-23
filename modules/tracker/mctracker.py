@@ -69,7 +69,7 @@ class MCTracker():
 
             self.update_servers_database()
 
-            sleep(180)      
+            sleep(60)      
 
     def draw_chart(self, output_file='chart.png'):
         names = [shortified(server.name, 6, False) for server in self.all_servers]
