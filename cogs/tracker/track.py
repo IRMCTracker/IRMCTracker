@@ -8,54 +8,13 @@ from modules.database.models.server_meta import get as get_meta
 from modules.utils import *
 
 class TrackerGlobal(Cog):
-    """Track commands cog
+    """Track command
 
-    All the tracker commands for public users
+    To get information of a specific server
 
     TODO:
         - Add a command for fetching custom domain/ip addresses
     """
-
-    def __init__(self, bot):
-        self.bot = bot
-
-    @command(aliases=['allservers'])
-    @cooldown(6, 60, BucketType.user)
-    async def servers(self, ctx):
-        """Sending all the sorted servers in an embed
-        """
-
-        servers = get_servers()
-        banner = File('storage/static/banner.png', filename='banner.png')
-        embed = Embed(title="📡 Servers List | لیست سرور ها", description='', color=0x673AB7, timestamp=get_utc())
-
-        offline_servers = []
-        i = 0
-        for server in servers:
-            if i == 0:
-                prefix = '🥇'
-            elif i == 1:
-                prefix = '🥈'
-            elif i == 2:
-                prefix = '🥉'
-            else:
-                prefix = '🏅'
-
-            if server.latest_latency == 0:
-                offline_servers.append(server)
-            else:
-                embed.add_field(name=f"{prefix} {server.name}", value=f"👥 {server.current_players}", inline=True)
-
-            i += 1
-
-        for server in offline_servers:
-            embed.add_field(name=f"🔴 {server.name}", value=f"👥 -", inline=True)
-
-        embed.set_image(url='attachment://banner.png')
-
-        embed.set_footer(text='Tracked by IRMCTracker')
-
-        await ctx.send(ctx.author.mention, file=banner, embed=embed)
 
     @command(aliases=['status','stats', 'server'])
     @cooldown(6, 60, BucketType.user)
