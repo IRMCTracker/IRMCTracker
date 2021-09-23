@@ -1,7 +1,7 @@
 from modules.database.basemodel import *
 from .server import Server
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class Records(BaseModel):
     id = PrimaryKeyField()
@@ -22,6 +22,10 @@ def add(server, players_count: int, latest_latency: int) -> bool:
     ).execute()
 
     return True
+
+def get_server_records(server):
+    return Records.select().where(Records.server_id == server & (Records.created_at > (datetime.now() - timedelta(days=7)).date()))
+    
 
 def get_highest_players(server) -> int:
     return Records.select(fn.MAX(Records.players)).where(Records.server_id == server).scalar()

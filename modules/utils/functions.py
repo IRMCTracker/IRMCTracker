@@ -4,6 +4,8 @@ from random import randint
 from time import time
 import random, string
 from datetime import datetime as dt
+import arabic_reshaper
+from bidi.algorithm import get_display
 
 
 intervals = (
@@ -43,6 +45,9 @@ def random_string(len=16):
 
 def get_utc():
     return dt.utcnow()
+
+def to_persian(text):
+    return get_display(arabic_reshaper.reshape(text))
 
 def get_beautified_dt():
     return f"{dt.now():%Y-%m-%d %I:%M:%S}"
