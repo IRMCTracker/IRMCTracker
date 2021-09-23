@@ -57,3 +57,6 @@ class ServersCommand(Cog):
                     description=f"Shoma dar har daghighe faghat **6bar** emkan estefade az dastoor servers ro darid.\nBaraye estefade mojadad **{error.retry_after:.0f}** sanie sabr konid.",
                     color=0xF44336, timestamp=get_utc())
             await ctx.send(ctx.author.mention, embed=embed)
+
+def setup(client):
+    client.add_cog(ServersCommand(client))
