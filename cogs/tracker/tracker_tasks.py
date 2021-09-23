@@ -73,7 +73,7 @@ class TrackerTasks(Cog):
         await self.update_top_players_channels()
         await self.update_top_voted_channels()
 
-    @tasks.loop(minutes=5)
+    @tasks.loop(minutes=1)
     async def update_stats_channels_task(self):
         """Updating stats voice channels
         """
