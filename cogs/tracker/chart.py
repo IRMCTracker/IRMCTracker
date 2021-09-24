@@ -18,8 +18,8 @@ class ChartCommand(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def draw_server_chart(self, server_id):
-        url = "https://mctracker.ir/api/server/{}/records/daily/1".format(server_id)
+    def draw_server_chart(self, server):
+        url = "https://mctracker.ir/api/server/{}/records/daily/1".format(server.id)
 
         response = urlopen(url)
 
@@ -57,7 +57,7 @@ class ChartCommand(Cog):
 
         fig, ax = plt.subplots(figsize=(15,8))
 
-        plt.title(f"MadCraft {to_persian('پلیر های یک هفته اخیر')} - {datetime.now():%Y-%m-%d %I:%M:%S}")
+        plt.title(f"{server.name} {to_persian('پلیر های یک هفته اخیر')} - {datetime.now():%Y-%m-%d %I:%M:%S}")
         plt.xlabel(to_persian('روز'), fontsize=10, labelpad=5)
         plt.ylabel(to_persian('تعداد پلیر'), fontsize=10, labelpad=5)
         
@@ -97,7 +97,7 @@ class ChartCommand(Cog):
                         color=0x00D166, timestamp=get_utc())
         embed.set_footer(text=f"Tracked by IRMCTracker", icon_url="https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128")
 
-        output_file = self.draw_server_chart(server.id)
+        output_file = self.draw_server_chart(server)
 
         file = File(output_file, filename="server_chart.png")
         embed.set_image(url="attachment://server_chart.png")
