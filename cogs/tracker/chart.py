@@ -1,8 +1,9 @@
+from modules.database.models.records import get_highest_players
 from discord import Embed, File
 from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 from modules.database import get_server_like
 from modules.utils import *
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 from os import sep, remove
 import uuid
@@ -90,9 +91,9 @@ class ChartCommand(Cog):
             return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Server vared shode vojood nadarad!",
                                         description='Ba dastoor zir tamami server haro bebinid ```.servers```',
                                         color=0xF44336, timestamp=get_utc()))
-
-        embed = Embed(title=f"👥 Player haye hafte akhir {server}", 
-                        description=f"Liste balatarin meghdar player haye {server} dar hafte akhir", 
+        
+        embed = Embed(title=f"👥 Player Chart {server.name}", 
+                        description=f"👥 Player Online: **{server.current_players}** | 🥇 Balatarin Record: **{get_highest_players(server)}**",
                         color=0x00D166, timestamp=get_utc())
         embed.set_footer(text=f"Tracked by IRMCTracker", icon_url="https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128")
 
