@@ -51,10 +51,9 @@ class TrackerTasks(Cog):
         chart_file = self.draw_pie_chart()
 
         embed = Embed(title="🥧 Pie Chart - Players of top Iranian servers", 
-                        color=0x00D166, timestamp=get_utc(),
+                        color=0x0099E1, timestamp=get_utc(),
                         url="https://mctracker.ir/server/list")
-
-        embed.set_footer(text=f"Tracked by IRMCTracker")
+        embed.set_footer(text=f"Tracked by IRMCTracker", icon_url="https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128")
 
         cache_channel = self.bot.get_channel(Config.Channels.CACHE)
 
@@ -149,7 +148,7 @@ class TrackerTasks(Cog):
         embed = Embed(title="⏰ Hourly Track", 
                         description=f"🥇 **{self.servers[0].name}** in the lead with **{self.servers[0].current_players}** Players", 
                         color=0x00D166, timestamp=get_utc())
-        embed.set_footer(text=f"Tracked by IRMCTracker")
+        embed.set_footer(text=f"Tracked by IRMCTracker", icon_url="https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128")
         file = File("chart.png", filename="chart.png")
         embed.set_image(url="attachment://chart.png")
 
@@ -411,7 +410,7 @@ class TrackerTasks(Cog):
 
         servers = get_servers_limit(8)
 
-        names = [f"[{server.current_players}] {server.name}"  for server in servers]
+        names = [f"{server.name} [ {server.current_players} ]"  for server in servers]
         players = [server.current_players for server in servers]
 
         fig, ax = plt.subplots(figsize=(10,8))
