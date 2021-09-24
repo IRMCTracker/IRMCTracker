@@ -46,10 +46,11 @@ class TrackerTasks(Cog):
     # TRACKER TASKS
     @tasks.loop(minutes=1)
     async def pie_chart_task(self):
+        await self.bot.wait_until_ready()
+
         chart_file = self.draw_pie_chart()
 
-        embed = Embed(title="🥧 Pie Chart", 
-                        description=f"⏰ Players chart of top IRanian servers", 
+        embed = Embed(title="🥧 Pie Chart - Players of top Iranian servers", 
                         color=0x00D166, timestamp=get_utc(),
                         url="https://mctracker.ir/server/list")
 
@@ -404,6 +405,10 @@ class TrackerTasks(Cog):
             i += 1
 
     def draw_pie_chart(self):
+        plt.rcParams['text.color'] = 'white'
+        plt.rcParams['font.size'] = '10'
+        plt.rcParams['font.weight'] = 'bold'
+
         servers = get_servers_limit(8)
 
         names = [f"[{server.current_players}] {server.name}"  for server in servers]
@@ -414,13 +419,15 @@ class TrackerTasks(Cog):
         ax.pie(players, explode=(0.1, 0, 0, 0, 0, 0, 0, 0), labels=names, autopct='%1.1f%%',
                 shadow=True, startangle=90)
         ax.axis('equal')
-
+        
         # TODO add title, im commenting it for now because it doesnt look good at all
         # plt.title(f"{to_persian('پلیر های ده سرور برتر ایرانی')} - {get_beautified_dt()}")
 
         output_file = random_cache_file('png')
 
-        plt.savefig(output_file)
+        plt.savefig(output_file, transparent=True)
+
+        plt.close(fig)
 
         return output_file
 
