@@ -9,7 +9,8 @@ class Config:
         
         ALL = get('channels.total-vc')
         EMPTY = get('channels.zero-vc')
-        HOURLY = get('channels.text-hourly')
+        HOURLY = get('channels.hourly-chart')
+        PIE = get('channels.pie-chart')
         
         ADMIN = get('channels.admin')
 

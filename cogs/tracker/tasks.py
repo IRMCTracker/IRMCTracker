@@ -5,7 +5,7 @@ from time import time
 from datetime import datetime as dt
 
 from modules.config import Config
-from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count, get_servers_by_record
+from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count, get_servers_by_record, get_servers_limit
 from modules.database.models.records import get_highest_players
 from modules.database.models.server_meta import get as get_meta
 from modules.database.models.vote import get_top_voted_servers
@@ -15,6 +15,8 @@ from modules.utils import *
 from discord.ext import tasks
 from discord import File, Embed, Activity, ActivityType
 from discord.ext.commands import Cog
+
+import matplotlib.pyplot as plt
 
 class TrackerTasks(Cog):
     """Doing all the automated tracking->discord tasks
@@ -37,7 +39,35 @@ class TrackerTasks(Cog):
         
         # Running main bot tick
         self.tracker_tick.start()
-    
+
+        # Running pie chart task
+        self.pie_chart_task.start()
+
+    # TRACKER TASKS
+    @tasks.loop(minutes=1)
+    async def pie_chart_task(self):
+        chart_file = self.draw_pie_chart()
+
+        embed = Embed(title="🥧 Pie Chart", 
+                        description=f"⏰ Players chart of top IRanian servers", 
+                        color=0x00D166, timestamp=get_utc(),
+                        url="https://mctracker.ir/server/list")
+
+        embed.set_footer(text=f"Tracked by IRMCTracker")
+
+        cache_channel = self.bot.get_channel(Config.Channels.CACHE)
+
+        file = await cache_channel.send(file=discord.File(chart_file))
+        chart_url = file.attachments[0].url
+        embed.set_image(url=chart_url)
+
+        channel = self.bot.get_channel(Config.Channels.PIE)
+        messages = await channel.history(limit=1).flatten()
+
+        await messages[0].edit(content=None, embed=embed)
+
+        os.remove(chart_file)
+
     # TRACKER TASKS
     @tasks.loop(seconds=15)
     async def update_activity_task(self):
@@ -106,7 +136,7 @@ class TrackerTasks(Cog):
 
         # Every hour (1:00 , 2:00, ...)
         if dt.now().minute == 0:
-            await self.send_chart()        
+            await self.send_chart()
     # END OF TRACKER TASKS
 
     async def send_chart(self):
@@ -373,6 +403,28 @@ class TrackerTasks(Cog):
 
             i += 1
 
+    def draw_pie_chart(self):
+        servers = get_servers_limit(8)
+
+        names = [f"[{server.current_players}] {server.name}"  for server in servers]
+        players = [server.current_players for server in servers]
+
+        fig, ax = plt.subplots(figsize=(10,8))
+
+        ax.pie(players, explode=(0.1, 0, 0, 0, 0, 0, 0, 0), labels=names, autopct='%1.1f%%',
+                shadow=True, startangle=90)
+        ax.axis('equal')
+
+        # TODO add title, im commenting it for now because it doesnt look good at all
+        # plt.title(f"{to_persian('پلیر های ده سرور برتر ایرانی')} - {get_beautified_dt()}")
+
+        output_file = random_cache_file('png')
+
+        plt.savefig(output_file)
+
+        return output_file
+
+        
     def is_online(self, server):
         if server.latest_latency == 0:
             return False

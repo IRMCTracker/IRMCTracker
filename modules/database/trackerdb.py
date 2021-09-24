@@ -53,6 +53,9 @@ def get_server_like(name):
 def get_servers():
     return Server.select().order_by(Server.current_players.desc())
 
+def get_servers_limit(limit: int):
+    return Server.select().order_by(Server.current_players.desc()).limit(limit)
+
 def get_servers_by_record():
     servers = Server.select()
     sorted_list = []

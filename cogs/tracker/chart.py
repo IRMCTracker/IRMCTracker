@@ -69,7 +69,7 @@ class ChartCommand(Cog):
                 x = index - 0.2
             plt.text(x=x , y =data+1 , s=f"{data}" , fontdict=dict(fontsize=12))
 
-        output_file = "storage{}cache{}{}.png".format(sep, sep, uuid.uuid4())
+        output_file = random_cache_file('png')
 
         plt.savefig(output_file)
 

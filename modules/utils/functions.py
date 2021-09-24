@@ -6,7 +6,8 @@ import random, string
 from datetime import datetime as dt
 import arabic_reshaper
 from bidi.algorithm import get_display
-
+from os import sep
+import uuid
 
 intervals = (
     ('weeks', 604800),  # 60 * 60 * 24 * 7
@@ -63,6 +64,9 @@ def shortified(string, max_len=6, show_dots=True) -> str:
 
 def capitalize_address(address):
     return '.'.join([x.capitalize() for x in address.split('.')])
+
+def random_cache_file(ext):
+    return "storage{}cache{}{}.{}".format(sep, sep, uuid.uuid4(), ext)
 
 class Emojis:
     def __init__(self, emojis):
