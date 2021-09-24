@@ -16,6 +16,9 @@ class TrackerGlobal(Cog):
         - Add a command for fetching custom domain/ip addresses
     """
 
+    def __init__(self, bot):
+        self.bot = bot
+
     @command(aliases=['status','stats', 'server'])
     @cooldown(6, 60, BucketType.user)
     async def track(self, ctx, server=None):
@@ -59,7 +62,7 @@ class TrackerGlobal(Cog):
                 return await ctx.send(mention_msg, embed=embed)
             if server.motd_path == 'null' or not exists(server.motd_path):
                 server.motd_path = 'storage/static/banner.png'
-            
+
             embed=Embed(title=f"💎 {server.name}", 
                             description=f"{server.description if server.description != None else ' '}", 
                             color=0x1bd027, 
@@ -91,6 +94,7 @@ class TrackerGlobal(Cog):
                 value=uptime, 
                 inline=False
             )
+
             embed.add_field(name="「📌」 Version ►", value=server.latest_version, inline=True)
             embed.add_field(name="「📡」 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
             
@@ -114,8 +118,6 @@ class TrackerGlobal(Cog):
                 value=socials_message, 
                 inline=False
             )
-
-
 
             embed.set_image(url="attachment://motd.png")
             await ctx.send(mention_msg, files=[favicon, motd], embed=embed)
