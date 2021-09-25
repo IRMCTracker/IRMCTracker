@@ -404,7 +404,7 @@ class TrackerTasks(Cog):
             i += 1
 
     def draw_pie_chart(self):
-        # plt.rcParams['text.color'] = 'white'
+        plt.rcParams['text.color'] = 'white'
         # plt.rcParams['font.size'] = '10'
         # plt.rcParams['font.weight'] = 'bold'
 
