@@ -404,9 +404,9 @@ class TrackerTasks(Cog):
             i += 1
 
     def draw_pie_chart(self):
-        plt.rcParams['text.color'] = 'white'
-        plt.rcParams['font.size'] = '10'
-        plt.rcParams['font.weight'] = 'bold'
+        # plt.rcParams['text.color'] = 'white'
+        # plt.rcParams['font.size'] = '10'
+        # plt.rcParams['font.weight'] = 'bold'
 
         servers = get_servers_limit(8)
 
