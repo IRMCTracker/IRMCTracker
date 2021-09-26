@@ -25,7 +25,6 @@ class TrackerTasks(Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.servers = get_servers()
         
         # Running main bot tick
         self.tracker_tick.start()
@@ -39,9 +38,6 @@ class TrackerTasks(Cog):
 
         await self.bot.wait_until_ready()
 
-        # Fetching servers fresh data from database
-        self.servers = get_servers()
-
         # Every hour (1:00 , 2:00, ...)
         if dt.now().minute == 0:
             await self.send_chart()
@@ -53,8 +49,10 @@ class TrackerTasks(Cog):
 
         MCTracker().draw_chart()
 
+        servers = get_servers()
+
         embed = Embed(title="⏰ Hourly Track", 
-                        description=f"🥇 **{self.servers[0].name}** in the lead with **{self.servers[0].current_players}** Players", 
+                        description=f"🥇 **{servers[0].name}** in the lead with **{servers[0].current_players}** Players", 
                         color=0x00D166, timestamp=get_utc())
         embed.set_footer(text=f"Tracked by IRMCTracker", icon_url="https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128")
         file = File("chart.png", filename="chart.png")

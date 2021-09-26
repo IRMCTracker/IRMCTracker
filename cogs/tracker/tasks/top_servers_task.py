@@ -17,7 +17,6 @@ class TopServersTask(Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.servers = get_servers()
 
         # Running top channels update task
         self.update_top_servers_task.start()
@@ -140,12 +139,13 @@ class TopServersTask(Cog):
 
     async def update_top_players_channels(self):
         i = 0
+        servers = get_servers()
 
         for channel_id in Config.Channels.TOP_CHANNELS:
             channel = self.bot.get_channel(channel_id)
             messages = await channel.history(limit=1).flatten()
 
-            server = self.servers[i]
+            server = servers[i]
             
             if i == 0:
                 prefix = '🥇'
@@ -227,7 +227,7 @@ class TopServersTask(Cog):
                 value=socials_message, 
                 inline=False
             )
-
+            
             if self.is_online(server):
                 # Dealing with MOTD and ICON because cant edit images
                 cache_channel = self.bot.get_channel(Config.Channels.CACHE)

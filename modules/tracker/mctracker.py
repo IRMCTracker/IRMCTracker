@@ -18,8 +18,9 @@ class MCTracker():
         self.mcservers.clear()
 
         for server in self.all_servers:
-            self.mcservers.append(MCServer(server.name, server.address))
-        
+            s = MCServer(server.name, server.address)
+            self.mcservers.append(s)
+
         self.is_fetched = True
 
         return self.mcservers
@@ -60,7 +61,7 @@ class MCTracker():
                     name=server.get_name(),
                     motd_path=server.get_motd()
                 )
-    
+
     def update_task(self):
         while True:
             self.fetch_servers()
