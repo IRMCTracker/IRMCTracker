@@ -5,8 +5,6 @@ from modules.database.trackerdb import *
 from modules.database import records
 from modules.utils import shortified, DomainInfo
 
-import matplotlib.pyplot as plt
-
 from .mcserver import MCServer
 
 class MCTracker():
@@ -72,6 +70,8 @@ class MCTracker():
             sleep(60)      
 
     def draw_chart(self, output_file='chart.png'):
+        import matplotlib.pyplot as plt
+        
         names = [shortified(server.name, 6, False) for server in self.all_servers]
         players = [server.current_players for server in self.all_servers]
 
