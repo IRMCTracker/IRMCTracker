@@ -73,6 +73,8 @@ class ChartCommand(Cog):
 
         plt.savefig(output_file)
 
+        plt.close(fig)
+
         return output_file
 
     @command(aliases=['charts'])

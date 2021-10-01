@@ -63,7 +63,7 @@ class PieChartTask(Cog):
 
         plt.savefig(output_file, transparent=True)
 
-        plt.close()
+        plt.close(fig)
 
         return output_file
 

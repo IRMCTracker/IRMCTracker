@@ -63,38 +63,6 @@ class TrackerTasks(Cog):
         )
 
         os.remove('chart.png')
-
-    async def update_records_text(self):
-        channel = self.bot.get_channel(Config.Channels.RECORD_CHANNEL)
-        messages = await channel.history(limit=1).flatten()
-
-        embed = Embed(title="💎 Top Records | رکورد سرور های ایرانی",
-                        description="لیست بالا ترین رکورد سرور های ایرانی بر اساس تعداد پلیر",
-                        color=0x4CAF50, timestamp=get_utc())
-
-        i = 0
-        for server in get_servers_by_record():
-            if i == 0:
-                prefix = '🥇'
-            elif i == 1:
-                prefix = '🥈'
-            elif i == 2:
-                prefix = '🥉'
-            else:
-                prefix = '🏅'
-
-            embed.add_field(
-                name=f"{prefix} • {str(server.name).capitalize()}", 
-                value=f"「 {get_highest_players(server)}👥 Players 」", 
-                inline=False
-            )
-
-            i += 1
-
-        embed.set_footer(text=f"Tracked by IRMCTracker")
-        embed.set_image(url="https://cdn.discordapp.com/attachments/879304683590676482/879338350488748102/motd.png")
-
-        await messages[0].edit(content=None, embed=embed)
     
 def setup(client):
     client.add_cog(TrackerTasks(client))
