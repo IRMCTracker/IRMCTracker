@@ -59,81 +59,7 @@ class TopServersTask(Cog):
                 name=f"{prefix}・{shortified(server.name, 9).capitalize()}「{server.votes}✌」"
             )
 
-            socials = []
-
-            if get_meta(server, 'discord'):
-                socials.append(f"{self.bot.emoji('discord')} **➣** [Discord Link]({get_meta(server, 'discord')})")
-            if get_meta(server, 'telegram'):
-                socials.append(f"{self.bot.emoji('telegram')} **➣** [{get_meta(server, 'telegram')}](https://t.me/{str(get_meta(server, 'telegram')).replace('@','')})")
-            if get_meta(server, 'instagram'):
-                socials.append(f"{self.bot.emoji('instagram')} **➣** [@{get_meta(server, 'instagram')}](https://instagram.com/{get_meta(server, 'instagram')})")
-            if get_meta(server, 'shop'):
-                socials.append(f"{self.bot.emoji('shop')} **➣** [{get_meta(server, 'shop')}]({get_meta(server, 'shop')})")
-            if get_meta(server, 'website'):
-                socials.append(f"{self.bot.emoji('web')} **➣** [{get_meta(server, 'website')}]({get_meta(server, 'website')})")
-
-            uptime = "-"
-            if self.is_online(server):
-                uptime = timestamp_ago(server.up_from)
-
-            embed=Embed(
-                title=f"💎 {server.name}",
-                description=f"{server.description if server.description != None else ' '}", 
-                color=random_color(), 
-                url = "https://mctracker.ir/server/{}".format(str(server.id)), 
-                timestamp=get_utc()
-            )
-
-            embed.set_footer(
-                text=f"Tracked By IRMCTracker",
-                icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
-            )
-
-
-            ip = ""
-            if server.ip != None:
-                ip = f"( **{server.ip}** )"
-            
-            embed.add_field(name="「🌐」 Address ►", value=f"{capitalize_address(server.address)} {ip}", inline=False)
-            embed.add_field(name="「👥」 Online Players ►", value=server.current_players, inline=True)
-            embed.add_field(name="「🥇」 Top Record ►", value=get_highest_players(server), inline=True)
-            embed.add_field(
-                name='「📈」 Uptime ►',
-                value=uptime, 
-                inline=False
-            )
-            embed.add_field(name="「📌」 Version ►", value=server.latest_version, inline=True)
-            embed.add_field(name="「📡」 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
-
-            if server.country_code != None:
-                embed.add_field(name="「🌎」 Country ►", value=f":flag_{str(server.country_code).lower()}: {server.region}", inline=False)
-
-            socials_message = '\n'.join(socials)
-            if len(socials) == 0:
-                socials_message = 'No Socials Set'
-
-            embed.add_field(
-                name=f"「{self.bot.emoji('people')}」 Socials ►", 
-                value=socials_message, 
-                inline=False
-            )
-
-            if self.is_online(server):
-                # Dealing with MOTD and ICON because cant edit images
-                cache_channel = self.bot.get_channel(Config.Channels.CACHE)
-
-                if server.favicon_path != None:
-                    file = await cache_channel.send(file=discord.File(server.favicon_path))
-                    image_url = file.attachments[0].url
-                    embed.set_thumbnail(url=image_url)
-
-                if server.motd_path != None:
-                    file = await cache_channel.send(file=discord.File(server.motd_path))
-                    image_url = file.attachments[0].url
-                    embed.set_image(url=image_url)
-
-                await messages[0].edit(content=None, embed=embed)
-
+            await self.edit_embed(server, messages[0])
 
             i += 1
 
@@ -169,80 +95,7 @@ class TopServersTask(Cog):
             server.channel_id = channel_id
             server.save()
 
-            socials = []
-
-            if get_meta(server, 'discord'):
-                socials.append(f"{self.bot.emoji('discord')} **➣** [Discord Link]({get_meta(server, 'discord')})")
-            if get_meta(server, 'telegram'):
-                socials.append(f"{self.bot.emoji('telegram')} **➣** [{get_meta(server, 'telegram')}](https://t.me/{str(get_meta(server, 'telegram')).replace('@','')})")
-            if get_meta(server, 'instagram'):
-                socials.append(f"{self.bot.emoji('instagram')} **➣** [@{get_meta(server, 'instagram')}](https://instagram.com/{get_meta(server, 'instagram')})")
-            if get_meta(server, 'shop'):
-                socials.append(f"{self.bot.emoji('shop')} **➣** [{get_meta(server, 'shop')}]({get_meta(server, 'shop')})")
-            if get_meta(server, 'website'):
-                socials.append(f"{self.bot.emoji('web')} **➣** [{get_meta(server, 'website')}]({get_meta(server, 'website')})")
-
-            uptime = "-"
-            if self.is_online(server):
-                uptime = timestamp_ago(server.up_from)
-
-            embed=Embed(
-                title=f"💎 {server.name}",
-                description=f"{server.description if server.description != None else ' '}", 
-                color=random_color(), 
-                url = "https://mctracker.ir/server/{}".format(str(server.id)), 
-                timestamp=get_utc()
-            )
-
-            embed.set_footer(
-                text=f"Tracked By IRMCTracker",
-                icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
-            )
-
-
-            ip = ""
-            if server.ip != None:
-                ip = f"( **{server.ip}** )"
-            
-            embed.add_field(name="「🌐」 Address ►", value=f"{capitalize_address(server.address)} {ip}", inline=False)
-            embed.add_field(name="「👥」 Online Players ►", value=server.current_players, inline=True)
-            embed.add_field(name="「🥇」 Top Record ►", value=get_highest_players(server), inline=True)
-            embed.add_field(
-                name='「📈」 Uptime ►',
-                value=uptime, 
-                inline=False
-            )
-            embed.add_field(name="「📌」 Version ►", value=server.latest_version, inline=True)
-            embed.add_field(name="「📡」 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
-
-            if server.country_code != None:
-                embed.add_field(name="「🌎」 Country ►", value=f":flag_{str(server.country_code).lower()}: {server.region}", inline=False)
-
-            socials_message = '\n'.join(socials)
-            if len(socials) == 0:
-                socials_message = 'No Socials Set'
-
-            embed.add_field(
-                name=f"「{self.bot.emoji('people')}」 Socials ►", 
-                value=socials_message, 
-                inline=False
-            )
-            
-            # Dealing with MOTD and ICON because cant edit images
-            cache_channel = self.bot.get_channel(Config.Channels.CACHE)
-
-            if server.favicon_path != None:
-                file = await cache_channel.send(file=discord.File(server.favicon_path))
-                image_url = file.attachments[0].url
-                embed.set_thumbnail(url=image_url)
-
-            if server.motd_path != None:
-                file = await cache_channel.send(file=discord.File(server.motd_path))
-                image_url = file.attachments[0].url
-                embed.set_image(url=image_url)
-
-            await messages[0].edit(content=None, embed=embed)
-
+            await self.edit_embed(server, messages[0])
 
             i += 1
 
@@ -251,5 +104,90 @@ class TopServersTask(Cog):
             return False
         return True        
 
+    async def edit_embed(self, server, msg):
+        socials = []
+
+        if get_meta(server, 'discord'):
+            socials.append(f"{self.bot.emoji('discord')} [Discord]({get_meta(server, 'discord')})")
+        if get_meta(server, 'telegram'):
+            socials.append(f"{self.bot.emoji('telegram')} [Telegram](https://t.me/{str(get_meta(server, 'telegram')).replace('@','')})")
+        if get_meta(server, 'instagram'):
+            socials.append(f"{self.bot.emoji('instagram')} [InstaGram](https://instagram.com/{get_meta(server, 'instagram')})")
+        if get_meta(server, 'shop'):
+            socials.append(f"{self.bot.emoji('shop')} [Shop]({get_meta(server, 'shop')})")
+        if get_meta(server, 'website'):
+            socials.append(f"{self.bot.emoji('web')} [WebSite]({get_meta(server, 'website')})")
+
+        uptime = "-"
+        if self.is_online(server):
+            uptime = timestamp_ago(server.up_from)
+
+        embed=Embed(
+            title=f"💎 {server.name}",
+            description=f"{server.description if server.description != None else ' '}", 
+            color=random_color(), 
+            url = "https://mctracker.ir/server/{}".format(str(server.id)), 
+            timestamp=get_utc()
+        )
+
+        embed.set_footer(
+            text=f"Tracked By IRMCTracker",
+            icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
+        )
+
+
+        ip = ""
+        if server.ip != None:
+            ip = f"( **{server.ip}** )"
+        
+        embed.add_field(name="「🌐」Address »", value=f"{capitalize_address(server.address)} {ip}", inline=False)
+        embed.add_field(name="「👥」Online Players »", value=server.current_players, inline=True)
+        embed.add_field(name="「🥇」Top Record »", value=get_highest_players(server), inline=True)
+        embed.add_field(
+            name='「📈」Uptime »',
+            value=uptime, 
+            inline=False
+        )
+        embed.add_field(name="「📌」Version »", value=server.latest_version, inline=True)
+        embed.add_field(name="「📡」Latency »", value=f"{str(server.latest_latency)} ms", inline=True)
+
+        if server.country_code != None:
+            embed.add_field(name="「🌎」Country »", value=f":flag_{str(server.country_code).lower()}: {server.region}", inline=False)
+
+        gamemodes_raw = json.loads(server.gamemodes)
+
+        if len(gamemodes_raw) > 0:
+            gamemodes_list = ["{} **{}** 「**{}**👥」".format(self.bot.emoji(str(gamemode['name']).lower()) or self.bot.emoji("barrier"),gamemode['name'], gamemode['players']) for gamemode in gamemodes_raw]
+            gamemodes = '\n'.join(gamemodes_list)
+
+            embed.add_field(
+                name=f"「🎮」GameModes »",
+                value=gamemodes,
+                inline=True
+            )
+        
+        if len(socials) > 0:
+            socials_message = '\n'.join(socials)
+
+            embed.add_field(
+                name=f"「{self.bot.emoji('people')}」Socials »", 
+                value=socials_message, 
+                inline=True
+            )
+
+        cache_channel = self.bot.get_channel(Config.Channels.CACHE)
+
+        if server.favicon_path != None:
+            file = await cache_channel.send(file=discord.File(server.favicon_path))
+            image_url = file.attachments[0].url
+            embed.set_thumbnail(url=image_url)
+
+        if server.motd_path != None:
+            file = await cache_channel.send(file=discord.File(server.motd_path))
+            image_url = file.attachments[0].url
+            embed.set_image(url=image_url)
+
+        await msg.edit(content=None, embed=embed)
+        
 def setup(client):
     client.add_cog(TopServersTask(client))

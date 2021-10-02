@@ -6,7 +6,7 @@ import requests, os
 
 from mcstatus import MinecraftServer
 
-from modules.database import get_server
+from modules.database import get_server, Gamemode
 from modules.utils import *
 
 import dns.resolver
@@ -57,8 +57,31 @@ class MCServer:
         if self.status != None:
             return re.sub(r'§[A-Za-z1-9]', '', self.status.version.name)
         return None
-            
+                
+    def get_gamemodes(self):
+        server_gamemodes = []
 
+        if self.status == None:
+            return server_gamemodes
+
+        gamemodes = [gamemode.name for gamemode in Gamemode.select()]
+        
+        try:
+            for sample in [sample.name for sample in self.status.players.sample]:
+                cleaned = re.sub(r'§[A-Za-z1-9]', '', sample)
+
+                for gamemode in gamemodes:
+                    if gamemode in cleaned:
+                        players = [int(x) for x in re.findall(r'\d+', cleaned)]
+
+                        server_gamemodes.append({
+                            'name': gamemode,
+                            'players': sum(players)
+                        })
+        except TypeError:
+            return server_gamemodes
+        
+        return server_gamemodes
 
     def get_name(self, shortified=False):
         name = self.server_name

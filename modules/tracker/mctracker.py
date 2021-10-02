@@ -1,4 +1,5 @@
 import datetime
+import json
 from time import sleep
 
 from modules.database.trackerdb import *
@@ -46,6 +47,7 @@ class MCTracker():
                 latest_latency=latency, 
                 favicon_path=server.get_favicon_path(),
                 motd_path=server.get_motd_path(),
+                gamemodes=json.dumps(server.get_gamemodes()),
                 ip = resolve_info.get_ip(),
                 country_code = resolve_info.get_country_code(),
                 region = resolve_info.get_region()

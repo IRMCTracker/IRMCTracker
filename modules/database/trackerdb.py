@@ -19,7 +19,7 @@ def insert_server(name, address):
     return server.save()
 
 def update_server(name, current_players=None, address=None, latest_version=None, latest_latency=None, 
-                    favicon_path=None, motd_path=None, info_path=None, max_players=None, ip=None, country_code=None, region=None):
+                    favicon_path=None, motd_path=None, info_path=None, max_players=None, ip=None, country_code=None, region=None, gamemodes=None):
     old_server = get_server(name=name)
     
     server = Server.update(
@@ -31,6 +31,7 @@ def update_server(name, current_players=None, address=None, latest_version=None,
         favicon_path = prefer_not_null(favicon_path, old_server.favicon_path),
         motd_path = prefer_not_null(motd_path, old_server.motd_path),
         info_path = prefer_not_null(info_path, old_server.info_path),
+        gamemodes = prefer_not_null(gamemodes, old_server.gamemodes),
         ip = prefer_not_null(ip, old_server.ip),
         country_code = prefer_not_null(country_code, old_server.country_code),
         region = prefer_not_null(region, old_server.region)
