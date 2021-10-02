@@ -154,17 +154,18 @@ class TopServersTask(Cog):
         if server.country_code != None:
             embed.add_field(name="「🌎」Country »", value=f":flag_{str(server.country_code).lower()}: {server.region}", inline=False)
 
-        gamemodes_raw = json.loads(server.gamemodes)
+        if server.gamemodes != None:
+            gamemodes_raw = json.loads(server.gamemodes)
 
-        if len(gamemodes_raw) > 0:
-            gamemodes_list = ["{} **{}** 「**{}**👥」".format(self.bot.emoji(str(gamemode['name']).lower()) or self.bot.emoji("barrier"),gamemode['name'], gamemode['players']) for gamemode in gamemodes_raw]
-            gamemodes = '\n'.join(gamemodes_list)
+            if len(gamemodes_raw) > 0:
+                gamemodes_list = ["{} **{}** 「**{}**👥」".format(self.bot.emoji(str(gamemode['name']).lower()) or self.bot.emoji("barrier"),gamemode['name'], gamemode['players']) for gamemode in gamemodes_raw]
+                gamemodes = '\n'.join(gamemodes_list)
 
-            embed.add_field(
-                name=f"「🎮」GameModes »",
-                value=gamemodes,
-                inline=True
-            )
+                embed.add_field(
+                    name=f"「🎮」GameModes »",
+                    value=gamemodes,
+                    inline=True
+                )
         
         if len(socials) > 0:
             socials_message = '\n'.join(socials)
