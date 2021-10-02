@@ -228,27 +228,26 @@ class TopServersTask(Cog):
                 inline=False
             )
             
-            if self.is_online(server):
-                # Dealing with MOTD and ICON because cant edit images
-                cache_channel = self.bot.get_channel(Config.Channels.CACHE)
+            # Dealing with MOTD and ICON because cant edit images
+            cache_channel = self.bot.get_channel(Config.Channels.CACHE)
 
-                if server.favicon_path != None:
-                    file = await cache_channel.send(file=discord.File(server.favicon_path))
-                    image_url = file.attachments[0].url
-                    embed.set_thumbnail(url=image_url)
+            if server.favicon_path != None:
+                file = await cache_channel.send(file=discord.File(server.favicon_path))
+                image_url = file.attachments[0].url
+                embed.set_thumbnail(url=image_url)
 
-                if server.motd_path != None:
-                    file = await cache_channel.send(file=discord.File(server.motd_path))
-                    image_url = file.attachments[0].url
-                    embed.set_image(url=image_url)
+            if server.motd_path != None:
+                file = await cache_channel.send(file=discord.File(server.motd_path))
+                image_url = file.attachments[0].url
+                embed.set_image(url=image_url)
 
-                await messages[0].edit(content=None, embed=embed)
+            await messages[0].edit(content=None, embed=embed)
 
 
             i += 1
 
     def is_online(self, server):
-        if server.latest_latency == 0:
+        if server.latest_latency == 0 and server.current_players == 0:
             return False
         return True        
 

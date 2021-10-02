@@ -74,7 +74,7 @@ class UptimeAlertsTask(Cog):
                 await alert_channel.send(file=favicon,embed=embed)
 
     def is_online(self, server):
-        if server.latest_latency == 0:
+        if server.latest_latency == 0 and server.current_players == 0:
             return False
         return True        
 
