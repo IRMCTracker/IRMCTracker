@@ -112,11 +112,11 @@ class TopServersTask(Cog):
         if get_meta(server, 'telegram'):
             socials.append(f"{self.bot.emoji('telegram')} [Telegram](https://t.me/{str(get_meta(server, 'telegram')).replace('@','')})")
         if get_meta(server, 'instagram'):
-            socials.append(f"{self.bot.emoji('instagram')} [InstaGram](https://instagram.com/{get_meta(server, 'instagram')})")
+            socials.append(f"{self.bot.emoji('instagram')} [Instagram](https://instagram.com/{get_meta(server, 'instagram')})")
         if get_meta(server, 'shop'):
             socials.append(f"{self.bot.emoji('shop')} [Shop]({get_meta(server, 'shop')})")
         if get_meta(server, 'website'):
-            socials.append(f"{self.bot.emoji('web')} [WebSite]({get_meta(server, 'website')})")
+            socials.append(f"{self.bot.emoji('web')} [Website]({get_meta(server, 'website')})")
 
         uptime = "-"
         if self.is_online(server):
@@ -162,7 +162,7 @@ class TopServersTask(Cog):
                 gamemodes = '\n'.join(gamemodes_list)
 
                 embed.add_field(
-                    name=f"「🎮」GameModes »",
+                    name=f"「🎮」Games Status »",
                     value=gamemodes,
                     inline=True
                 )
