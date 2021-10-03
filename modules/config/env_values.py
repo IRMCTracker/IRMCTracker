@@ -10,7 +10,7 @@ class Env:
     LOG_DEBUG_DISCORD = bool(strtobool(getenv('LOG_DEBUG_DISCORD')))
 
     TOKEN = getenv('DEBUG_TOKEN') if DEBUG else getenv('TOKEN')
-    PREFIX = getenv('DEBUG_PREFIX') if DEBUG else getenv('PREFIX')
+    PREFIX = getenv('DEBUG_PREFIX').split(",") if DEBUG else getenv('PREFIX').split(",")
     
     DB_PATH = getenv('DB_PATH')
     CONFIG_PATH = getenv('CONFIG_PATH')
