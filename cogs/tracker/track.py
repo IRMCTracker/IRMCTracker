@@ -39,89 +39,107 @@ class TrackerGlobal(Cog):
                                         description='Ba dastoor zir tamami server haro bebinid ```.servers```',
                                         color=0xF44336, timestamp=get_utc()))
         else:
-            socials = []
-
-            if get_meta(server, 'discord'):
-                socials.append(f"{self.bot.emoji('discord')} **➣** [Discord Link]({get_meta(server, 'discord')})")
-            if get_meta(server, 'telegram'):
-                socials.append(f"{self.bot.emoji('telegram')} **➣** [{get_meta(server, 'telegram')}](https://t.me/{str(get_meta(server, 'telegram')).replace('@','')})")
-            if get_meta(server, 'instagram'):
-                socials.append(f"{self.bot.emoji('instagram')} **➣** [@{get_meta(server, 'instagram')}](https://instagram.com/{get_meta(server, 'instagram')})")
-            if get_meta(server, 'shop'):
-                socials.append(f"{self.bot.emoji('shop')} **➣** [{get_meta(server, 'shop')}]({get_meta(server, 'shop')})")
-            if get_meta(server, 'website'):
-                socials.append(f"{self.bot.emoji('web')} **➣** [{get_meta(server, 'website')}]({get_meta(server, 'website')})")
-
-            uptime = timestamp_ago(server.up_from)
-
-            if server.latest_latency == 0:
+            if not self.is_online(server):
                 embed = Embed(title=f"🔴 {server.name}", 
                                 description=f"Server morede nazar shoma dar hale hazer offline hast : (\n\n⏰ Downtime: {timestamp_ago(abs(server.up_from))}", 
                                 color=0xc62828, 
                                 timestamp=get_utc())
                 return await ctx.send(mention_msg, embed=embed)
-            if server.motd_path == 'null' or not exists(server.motd_path):
-                server.motd_path = 'storage/static/banner.png'
 
-            embed=Embed(title=f"💎 {server.name}", 
-                            description=f"{server.description if server.description != None else ' '}", 
-                            color=0x1bd027, 
-                            url = "https://mctracker.ir/server/{}".format(str(server.id)),
-                            timestamp=get_utc())
+            await self.send_embed(server, ctx)
 
-            embed.set_footer(
-                text=f"Tracked By IRMCTracker",
-                icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
+    def is_online(self, server):
+        if server.latest_latency == 0 and server.current_players == 0:
+            return False
+        return True        
+
+    async def send_embed(self, server, ctx):
+        socials = []
+
+        if get_meta(server, 'discord'):
+            socials.append(f"{self.bot.emoji('discord')} [Discord]({get_meta(server, 'discord')})")
+        if get_meta(server, 'telegram'):
+            socials.append(f"{self.bot.emoji('telegram')} [Telegram](https://t.me/{str(get_meta(server, 'telegram')).replace('@','')})")
+        if get_meta(server, 'instagram'):
+            socials.append(f"{self.bot.emoji('instagram')} [InstaGram](https://instagram.com/{get_meta(server, 'instagram')})")
+        if get_meta(server, 'shop'):
+            socials.append(f"{self.bot.emoji('shop')} [Shop]({get_meta(server, 'shop')})")
+        if get_meta(server, 'website'):
+            socials.append(f"{self.bot.emoji('web')} [WebSite]({get_meta(server, 'website')})")
+
+        uptime = "-"
+        if self.is_online(server):
+            uptime = timestamp_ago(server.up_from)
+
+        embed=Embed(
+            title=f"💎 {server.name}",
+            description=f"{server.description if server.description != None else ' '}", 
+            color=random_color(), 
+            url = "https://mctracker.ir/server/{}".format(str(server.id)), 
+            timestamp=get_utc()
+        )
+
+        embed.set_footer(
+            text=f"Tracked By IRMCTracker",
+            icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
+        )
+
+
+        ip = ""
+        if server.ip != None:
+            ip = f"( **{server.ip}** )"
+        
+        embed.add_field(name="「🌐」Address »", value=f"{capitalize_address(server.address)} {ip}", inline=False)
+        embed.add_field(name="「👥」Online Players »", value=server.current_players, inline=True)
+        embed.add_field(name="「🥇」Top Record »", value=get_highest_players(server), inline=True)
+        embed.add_field(
+            name='「📈」Uptime »',
+            value=uptime, 
+            inline=False
+        )
+        embed.add_field(name="「📌」Version »", value=server.latest_version, inline=True)
+        embed.add_field(name="「📡」Latency »", value=f"{str(server.latest_latency)} ms", inline=True)
+
+        if server.country_code != None:
+            embed.add_field(name="「🌎」Country »", value=f":flag_{str(server.country_code).lower()}: {server.region}", inline=False)
+
+        if server.gamemodes != None:
+            gamemodes_raw = json.loads(server.gamemodes)
+
+            if len(gamemodes_raw) > 0:
+                gamemodes_list = ["{} **{}** 「**{}**👥」".format(self.bot.emoji(str(gamemode['name']).lower()) or self.bot.emoji("barrier"),gamemode['name'], gamemode['players']) for gamemode in gamemodes_raw]
+                gamemodes = '\n'.join(gamemodes_list)
+
+                embed.add_field(
+                    name=f"「🎮」GameModes »",
+                    value=gamemodes,
+                    inline=True
+                )
+        
+        if len(socials) > 0:
+            socials_message = '\n'.join(socials)
+
+            embed.add_field(
+                name=f"「{self.bot.emoji('people')}」Socials »", 
+                value=socials_message, 
+                inline=True
             )
 
-            favicon = File(server.favicon_path, filename="image.png")
+        files = []
 
-            if server.motd_path == None:
-                server.motd_path = 'storage/static/banner.png'
-                            
-            motd = File(server.motd_path, filename="motd.png")
+        if server.favicon_path != None:
+            files.append(File(server.favicon_path, filename="image.png"))
             embed.set_thumbnail(url="attachment://image.png")
 
-            ip = ""
-            if server.ip != None:
-                ip = f"( **{server.ip}** )"
-
-            embed.add_field(name="「🌐」 Address ►", value=f"{capitalize_address(server.address)} {ip}", inline=False)
-            embed.add_field(name="「👥」 Online Players ►", value="{} **/** {}".format(str(server.current_players), str(server.max_players)), inline=True)
-            embed.add_field(name="「🥇」 Top Record ►", value=get_highest_players(server), inline=True)
-            embed.add_field(
-                name='「📈」 Uptime ►',
-                value=uptime, 
-                inline=False
-            )
-
-            embed.add_field(name="「📌」 Version ►", value=server.latest_version, inline=True)
-            embed.add_field(name="「📡」 Latency ►", value=f"{str(server.latest_latency)} ms", inline=True)
-            
-            if server.country_code != None:
-                embed.add_field(name="「🌎」 Country ►", value=f":flag_{str(server.country_code).lower()}: {server.region}", inline=False)
-                
-            if server.channel_id != 0:
-                server_channel = self.bot.get_channel(server.channel_id).mention
-                embed.add_field(
-                    name="「📢」 Channel ►",
-                    value=server_channel,
-                    inline=False
-                )
-
-            socials_message = '\n'.join(socials)
-            if len(socials) == 0:
-                socials_message = 'No Socials Set'
-
-            embed.add_field(
-                name=f"「{self.bot.emoji('people')}」 Socials ►", 
-                value=socials_message, 
-                inline=False
-            )
-
+        if server.motd_path != None:
+            files.append(File(server.motd_path, filename="motd.png"))
             embed.set_image(url="attachment://motd.png")
-            await ctx.send(mention_msg, files=[favicon, motd], embed=embed)
-        
+        else:
+            embed.set_image(url='storage/static/banner.png')
+                        
+
+        await ctx.send(ctx.author.mention, files=files, embed=embed)
+
     @track.error
     async def track_error(self, ctx, error):
         if isinstance(error, CommandOnCooldown):
