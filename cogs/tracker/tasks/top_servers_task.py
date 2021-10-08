@@ -19,20 +19,13 @@ class TopServersTask(Cog):
         self.bot = bot
 
         # Running top channels update task
-        self.update_top_servers_task.start()
-
+        self.update_top_voted_channels.start()
+        self.update_top_players_channels.start()
+    
     @tasks.loop(minutes=1)
-    async def update_top_servers_task(self):
-        """Updating top players / top voted channels
-        """
-        await self.bot.wait_until_ready()
-        
-        await self.update_top_players_channels()
-        await self.update_top_voted_channels()
-
-
-    # TODO: Theres a lot of messy / duplicate code below here, Will refactor ASAP
     async def update_top_voted_channels(self):
+        await self.bot.wait_until_ready()
+
         i = 0
         top_servers = get_top_voted_servers(len(Config.Channels.TOP_VOTED_CHANNELS))
 
@@ -63,7 +56,10 @@ class TopServersTask(Cog):
 
             i += 1
 
+    @tasks.loop(minutes=1)
     async def update_top_players_channels(self):
+        await self.bot.wait_until_ready()
+
         i = 0
         servers = get_servers()
 

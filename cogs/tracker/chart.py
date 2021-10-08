@@ -5,8 +5,7 @@ from modules.database import get_server_like
 from modules.utils import *
 import matplotlib.pyplot as plt
 
-from os import sep, remove
-import uuid
+from os import remove
 from datetime import datetime
 
 class ChartCommand(Cog):
