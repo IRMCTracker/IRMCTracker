@@ -1,4 +1,4 @@
-import datetime
+import datetime, time
 import json
 from time import sleep
 
@@ -11,66 +11,62 @@ from .mcserver import MCServer
 class MCTracker():
     def __init__(self):
         self.all_servers = get_servers()
-        self.mcservers = []
         self.is_fetched = False
         self.counter = 0
 
-    def fetch_servers(self):  
-        self.mcservers.clear()
-
-        for server in self.all_servers:
-            s = MCServer(server.name, server.address)
-            self.mcservers.append(s)
-
-        self.is_fetched = True
-
-        return self.mcservers
-    
-    def update_servers_database(self, update_motd=False):
+    def update_servers(self):  
         add_record = True if self.counter % 40 == 0 else False
+        
+        for server in self.all_servers:
+            self.update_server_database(MCServer(server.name, server.address), add_record)
+
         self.counter += 1
+        
+        self.is_fetched = True
+    
+    def update_server_database(self, server: MCServer, add_record: bool):
+        db = server.fetch_server_from_db()
 
-        for server in self.mcservers:
-            db = server.fetch_server_from_db()
+        resolve_info = DomainInfo(db.address)
 
-            resolve_info = DomainInfo(db.address)
+        current_players = server.get_online_players()
+        max_players = server.get_max_players()
+        latency = server.get_latency()
 
-            current_players = server.get_online_players()
-            max_players = server.get_max_players()
-            latency = server.get_latency()
+        update_server(
+            name=server.get_name(),
+            current_players=current_players, 
+            max_players=max_players,
+            latest_version=server.get_version(), 
+            latest_latency=latency, 
+            favicon_path=server.get_favicon_path(),
+            motd_path=server.get_motd_path(),
+            gamemodes=json.dumps(server.get_gamemodes()),
+            ip = resolve_info.get_ip(),
+            country_code = resolve_info.get_country_code(),
+            region = resolve_info.get_region()
+        )
 
-            update_server(
-                name=server.get_name(),
-                current_players=current_players, 
-                max_players=max_players,
-                latest_version=server.get_version(), 
-                latest_latency=latency, 
-                favicon_path=server.get_favicon_path(),
-                motd_path=server.get_motd_path(),
-                gamemodes=json.dumps(server.get_gamemodes()),
-                ip = resolve_info.get_ip(),
-                country_code = resolve_info.get_country_code(),
-                region = resolve_info.get_region()
-            )
+        # Add track record to database
+        # WILL ONLY ADD EVERY 2 HOURS
+        if add_record:
+            records.add(db, current_players, latency)
 
-            # Add track record to database
-            # WILL CHECK TO ONLY ADD EVERY 2 HOURS
-            if add_record:
-                records.add(db, current_players, latency)
-
-            if update_motd:
-                update_server(
-                    name=server.get_name(),
-                    motd_path=server.get_motd()
-                )
 
     def update_task(self):
         while True:
-            self.fetch_servers()
+            start =  time.time()
 
-            self.update_servers_database()
+            self.update_servers()
 
-            sleep(60)      
+            end =  time.time()
+
+            # Checking if fetching server took more than
+            # 60 seconds we'll ignore sleep and go for another
+            # round of fetching servers
+            if (end - start) > 60:
+                continue
+            sleep(60)
 
     def draw_chart(self, output_file='chart.png'):
         import matplotlib.pyplot as plt
