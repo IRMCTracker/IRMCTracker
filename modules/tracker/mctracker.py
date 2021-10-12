@@ -51,6 +51,14 @@ class MCTracker():
         # WILL ONLY ADD EVERY 2 HOURS
         if add_record:
             records.add(db, current_players, latency)
+        else:
+            # Update last record if players are higher than highest record
+            highest_players = get_highest_players(db.id)
+        
+            if current_players > highest_players:
+                last_record = Records.select().where(Records.server_id == db.id).order_by(Records.id.desc()).get()
+                last_record.players = current_players
+                last_record.save()
 
 
     def update_task(self):
