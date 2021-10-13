@@ -79,8 +79,13 @@ class MCTracker():
     def draw_chart(self, output_file='chart.png'):
         import matplotlib.pyplot as plt
         
-        names = [shortified(server.name, 6, False) for server in self.all_servers]
-        players = [server.current_players for server in self.all_servers]
+        names = []
+        players = []
+        for server in self.all_servers:
+            # We wont show 0 player servers anymore
+            if server.current_players != 0:
+                names.append(shortified(server.name, 6, False))
+                players.append(server.current_players)
 
         colors = []
         for player_count in players:
