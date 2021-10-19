@@ -72,7 +72,7 @@ class UptimeAlertsTask(Cog):
                         # And we build up alert embed
                         embed = Embed(
                             title=f"💀 Server {server.name} hazf shod!",
-                            description=f"Server {server.name} bedalil offline budan bishtar az 14 rooz az list tracking Tracker hazf shod.",
+                            description=f"Server {server.name} bedalil offline budan bishtar az 30 rooz az list tracking Tracker hazf shod.",
                             color=0xA62019,
                             timestamp=get_utc()
                         )
