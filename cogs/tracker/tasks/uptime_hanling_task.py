@@ -1,6 +1,7 @@
 from time import time
 
 from modules.config import Config
+from modules.database import *
 from modules.tracker import get_servers
 
 from modules.utils import *
@@ -50,6 +51,32 @@ class UptimeAlertsTask(Cog):
                     )
                     server.up_from = current_timestamp
 
+                # Logic of removing servers that were offline within past 14 days
+                else:
+                    # 14 days in seconds
+                    expire_after_seconds = (60 * 60) * 24 * 14
+                    # Convertin offline for seconds to offline for days
+                    offline_days = (time() - server.up_from)
+                    
+                    # Checking if server is offline for more than expire after seconds
+                    if (offline_days > expire_after_seconds):
+                        # Removing the server records
+                        Records.delete().where(Records.server_id == server.id).execute()
+
+                        # Removing the server metas
+                        ServerMeta.delete().where(ServerMeta.server_id == server.id).execute()
+
+                        # Now we gonna remove server
+                        Server.delete().where(Server.id == server.id).execute()
+
+                        # And we build up alert embed
+                        embed = Embed(
+                            title=f"💀 Server {server.name} hazf shod!",
+                            description=f"Server {server.name} bedalil offline budan bishtar az 14 rooz az list tracking Tracker hazf shod.",
+                            color=0xA62019,
+                            timestamp=get_utc()
+                        )
+
             # Means server is online from last check in database
             else:
                 if not is_online:
@@ -62,6 +89,7 @@ class UptimeAlertsTask(Cog):
                     server.up_from = -abs(current_timestamp)
             
             server.save()
+
 
             if embed != None:
                 favicon = None
