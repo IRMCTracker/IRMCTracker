@@ -62,7 +62,7 @@ def get_servers_by_record():
     sorted_list = []
 
     for server in servers:
-        server.top_players = get_highest_players(server)
+        server.top_players = get_highest_players(server) or 0
         sorted_list.append(server)
 
     sorted_list.sort(key=lambda x: x.top_players, reverse=True)
