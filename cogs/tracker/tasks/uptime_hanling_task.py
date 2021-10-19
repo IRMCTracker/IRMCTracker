@@ -51,10 +51,10 @@ class UptimeAlertsTask(Cog):
                     )
                     server.up_from = current_timestamp
 
-                # Logic of removing servers that were offline within past 14 days
+                # Logic of removing servers that were offline within past 30 days
                 else:
-                    # 14 days in seconds
-                    expire_after_seconds = (60 * 60) * 24 * 14
+                    # 30 days in seconds
+                    expire_after_seconds = (60 * 60) * 24 * 30
                     # Convertin offline for seconds to offline for days
                     offline_days = (time() - server.up_from)
                     
