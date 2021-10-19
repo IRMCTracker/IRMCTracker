@@ -56,7 +56,7 @@ class UptimeAlertsTask(Cog):
                     # 30 days in seconds
                     expire_after_seconds = (60 * 60) * 24 * 30
                     # Convertin offline for seconds to offline for days
-                    offline_days = (time() - server.up_from)
+                    offline_days = (time() - abs(server.up_from))
                     
                     # Checking if server is offline for more than expire after seconds
                     if (offline_days > expire_after_seconds):
