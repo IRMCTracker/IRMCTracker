@@ -27,6 +27,9 @@ class MCTracker():
     def update_server_database(self, server: MCServer, add_record: bool):
         db = server.fetch_server_from_db()
 
+        if db == None:
+            return
+
         resolve_info = DomainInfo(db.address)
 
         current_players = server.get_online_players()
