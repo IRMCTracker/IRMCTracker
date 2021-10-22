@@ -134,7 +134,10 @@ class TopServersTask(Cog):
 
         ip = ""
         if server.ip != None:
-            ip = f"( **{server.ip}** )"
+            if bool(get_meta(server, 'show-ip')) == False:
+                ip = ""
+            else:
+                ip = f"( **{server.ip}** )"
         
         embed.add_field(name="「🌐」Address »", value=f"{capitalize_address(server.address)} {ip}", inline=False)
         embed.add_field(name="「👥」Online Players »", value=server.current_players, inline=True)
