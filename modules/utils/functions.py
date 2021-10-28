@@ -17,7 +17,7 @@ intervals = (
     ('seconds', 1),
 )
 
-def humanize_number(value, fraction_point=1, round=False):
+def humanize_number(value, fraction_point=0):
     powers = [10 ** x for x in (12, 9, 6, 3, 0)]
     human_powers = ('T', 'B', 'M', 'K', '')
     is_negative = False
@@ -34,8 +34,6 @@ def humanize_number(value, fraction_point=1, round=False):
     if is_negative:
         return_value = "-" + return_value
 
-    if round:
-        return round(return_value)
     return return_value
 
 def timestamp_ago(timestamp: int, granularity=2):
