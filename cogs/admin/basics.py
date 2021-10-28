@@ -110,7 +110,7 @@ class Basics(Cog):
         embed = Embed(title=str(member) + ' summoned', color=0x00D166)
         await member.add_roles(member.guild.get_role(Config.Roles.DEFAULT))
         await self.bot.get_channel(Config.Channels.ADMIN).send(embed=embed)
-        
+
     @Cog.listener()
     async def on_member_remove(self, member):
         """Sends a notification at member leave """
