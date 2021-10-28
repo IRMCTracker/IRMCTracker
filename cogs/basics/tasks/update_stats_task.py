@@ -8,7 +8,7 @@ from discord.ext.commands import Cog
 
 
 class StatsTask(Cog):
-    """Updating activity task
+    """Updating tracker stats channels task
     """
 
     def __init__(self, bot):
