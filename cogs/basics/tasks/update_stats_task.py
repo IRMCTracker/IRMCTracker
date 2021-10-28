@@ -32,26 +32,26 @@ class StatsTask(Cog):
         channel = self.bot.get_channel(Config.Channels.MEMBERS)
         guild = self.bot.get_guild(Config.GUILD_ID)
         await channel.edit(
-            name=f"👥・ Members「{guild.member_count}」"
+            name=f"👥・ Members「{get_all_votes_count(guild.member_count)}」"
         )
 
     async def update_servers_count(self):
         channel = self.bot.get_channel(Config.Channels.SERVERS)
         servers_count = str(len(get_servers()))
         await channel.edit(
-            name=f"💻・ Servers「{servers_count}」"
+            name=f"💻・ Servers「{get_all_votes_count(servers_count)}」"
         )
 
     async def update_votes_count(self):
         channel = self.bot.get_channel(Config.Channels.VOTES)
         await channel.edit(
-            name=f"😄・ Votes「{get_all_votes_count()}」"
+            name=f"😄・ Votes「{humanize_number(get_all_votes_count())}」"
         )
 
     async def update_tracks_count(self):
         channel = self.bot.get_channel(Config.Channels.TRACKS)
         await channel.edit(
-            name=f"🔗・ Tracks「{get_all_records_count()}」"
+            name=f"🔗・ Tracks「{humanize_number(get_all_records_count())}」"
         )
 
 def setup(client):
