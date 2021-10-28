@@ -35,7 +35,7 @@ class StatsTask(Cog):
         channel = self.bot.get_channel(Config.Channels.SERVERS)
         servers_count = str(len(get_servers()))
         await channel.edit(
-            name=f"🌐・ Servers「{servers_count}」"
+            name=f"💻・ Servers「{servers_count}」"
         )
 
     
