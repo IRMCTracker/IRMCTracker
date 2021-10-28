@@ -12,7 +12,13 @@ class Records(BaseModel):
 
     class Meta:
         table_name = 'records'
-    
+
+def get_all_records_count():
+    try:
+        return Records.select().count()
+    except DoesNotExist:
+        return 0
+
 def add(server, players_count: int, latest_latency: int) -> bool:  
     Records.replace(
         players = players_count,
