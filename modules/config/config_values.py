@@ -1,6 +1,8 @@
 from modules.config import get
 
 class Config:   
+    GUILD_ID = get('guild-id')
+    
     class Channels:
         TOP_CHANNELS = get('channels.top')
         TOP_VOTED_CHANNELS = get('channels.top_voted')
@@ -17,6 +19,9 @@ class Config:
         ALERTS = get('channels.alerts')
 
         CACHE = get('channels.cache')
+
+        MEMBERS = get('channels.members-count')
+        SERVERS = get('channels.servers-count')
 
     class Roles:
         DEFAULT = get('roles.default')
