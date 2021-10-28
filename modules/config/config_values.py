@@ -22,6 +22,7 @@ class Config:
 
         MEMBERS = get('channels.members-count')
         SERVERS = get('channels.servers-count')
+        VOTES = get('channels.votes-count')
 
     class Roles:
         DEFAULT = get('roles.default')

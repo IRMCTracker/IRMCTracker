@@ -1,4 +1,5 @@
 from modules.config import Config
+from modules.database.models.vote import get_all_votes_count
 from modules.tracker import get_servers
 
 from modules.utils import *
@@ -23,6 +24,7 @@ class StatsTask(Cog):
 
         await self.update_members_count()
         await self.update_servers_count()
+        await self.update_votes_count()
 
     async def update_members_count(self):
         channel = self.bot.get_channel(Config.Channels.MEMBERS)
@@ -36,6 +38,12 @@ class StatsTask(Cog):
         servers_count = str(len(get_servers()))
         await channel.edit(
             name=f"💻・ Servers「{servers_count}」"
+        )
+
+    async def update_votes_count(self):
+        channel = self.bot.get_channel(Config.Channels.VOTES)
+        await channel.edit(
+            name=f"😄・ Votes「{get_all_votes_count()}」"
         )
 
     

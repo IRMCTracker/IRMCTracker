@@ -13,6 +13,12 @@ class Vote(BaseModel):
     class Meta:
         table_name = 'votes'
 
+def get_all_votes_count():
+    try:
+        return Vote.select().count()
+    except DoesNotExist:
+        return 0
+
 def get_server_votes_count(server_id: int):
     try:
         return Vote.select().where(Vote.server_id == server_id).count()
