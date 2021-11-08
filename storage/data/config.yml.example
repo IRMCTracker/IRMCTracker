@@ -1,0 +1,24 @@
+guild-id: CHANNEL_ID
+channels:
+  top:
+    - CHANNEL_ID
+    - CHANNEL_ID
+    - CHANNEL_ID
+  top_voted:
+    - CHANNEL_ID
+    - CHANNEL_ID
+    - CHANNEL_ID
+  record: CHANNEL_ID
+  total-vc: CHANNEL_ID
+  zero-vc: CHANNEL_ID
+  hourly-chart: CHANNEL_ID
+  pie-chart: CHANNEL_ID
+  admin: CHANNEL_ID
+  alerts: CHANNEL_ID
+  cache: CHANNEL_ID
+  members-count: CHANNEL_ID
+  servers-count: CHANNEL_ID
+  votes-count: CHANNEL_ID
+  tracks-count: CHANNEL_ID
+roles:
+  default: CHANNEL_ID
