@@ -10,6 +10,7 @@ from modules.api import Player
 from modules.utils import *
 
 from random import randint
+from datetime import datetime
 
 import math
 
@@ -42,27 +43,16 @@ class Profile(Cog):
 
         try:
             player_db = PlayerDB.get(PlayerDB.username == username)
-
-            hypixel_player = json.loads(player_db.hypixel_data)
-            hypixel_status = hypixel_player['status']
-
         except DoesNotExist:
-            hypixel = HypixelPlayer(username)
-            hypixel_player = hypixel.get_player()
-            hypixel_status = hypixel_player['status']
-
             player_db = PlayerDB(
                 username=username,
                 uuid=player.get_uuid(),
-                hypixel_data=json.dumps(hypixel_player),
+                hypixel_data=None,
                 minecraft_data=json.dumps(player.get_player_data()),
+                updated_at=datetime.now()
             )
             player_db.save()
         
-        network_experience = hypixel_player["player"]["networkExp"]
-        network_level = (math.sqrt((2 * network_experience) + 30625) / 50) - 2.5
-        network_level = round(network_level, 2)
-
         random_color = randint(0, 0xffffff)
 
         embed = Embed(
@@ -90,6 +80,63 @@ class Profile(Cog):
             url=player.get_head_image()
         )
 
+
+        embed.set_footer(
+            text=f"IRMCTracker ・ {get_beautified_dt()}", 
+            icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048'
+        )
+
+        await ctx.send(embed=embed)
+
+
+    @command(aliases=['hyp'])
+    async def hypixel(self, ctx, username:str = None):
+        if ctx.channel.id != Config.Channels.PROFILE_USAGE_CHANNEL:
+            await ctx.message.add_reaction('❌')
+            return
+
+        # Check if username is specified in the command
+        if not username:
+            embed = Embed(title=f"{self.bot.emoji('steve_think')} Khob alan donbal ki hasti dabsh?", 
+                            description="Usage: .hypixel [username] | .hypixel Alijk", 
+                            color=0xFF0000)
+            return await ctx.send(embed=embed)
+        
+        player = Player(username)
+
+        # Check if username is valid and exists
+        if not player.is_valid():
+            embed = Embed(title=f"{self.bot.emoji('steve_think')} Ki hast? {username} ro nemishnasam!", 
+                            color=0xFF0000)
+            return await ctx.send(embed=embed)
+
+        try:
+            player_db = PlayerDB.get(PlayerDB.username == username)
+
+            if (player_db.hypixel_data == None):
+                raise DoesNotExist
+
+            hypixel_player = json.loads(player_db.hypixel_data)
+            hypixel_status = hypixel_player['status']
+
+        except DoesNotExist:
+            hypixel = HypixelPlayer(username)
+            hypixel_player = hypixel.get_player()
+            hypixel_status = hypixel_player['status']
+
+            PlayerDB.insert(
+                username=username,
+                uuid=player.get_uuid(),
+                hypixel_data=json.dumps(hypixel_player),
+                minecraft_data=json.dumps(player.get_player_data()),
+                updated_at=datetime.now()
+            ).on_conflict('replace').execute()
+        
+        network_experience = hypixel_player["player"]["networkExp"]
+        network_level = (math.sqrt((2 * network_experience) + 30625) / 50) - 2.5
+        network_level = round(network_level, 2)
+
+        random_color = randint(0, 0xffffff)
 
         if hypixel_player:
             hypixel_embed = Embed(
@@ -178,17 +225,17 @@ class Profile(Cog):
                     value=str(hypixel_status['mode']).capitalize(),
                     inline=True
                 )
+        else:
+            embed = Embed(title=f"{self.bot.emoji('steve_think')} Benazar miad {username} aslan hypixel play nadade!", 
+                color=0xFF0000)
+            return await ctx.send(embed=embed)
 
-        for e in [embed, hypixel_embed]:
-            e.set_footer(
-                text=f"IRMCTracker ・ {get_beautified_dt()}", 
-                icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048'
-            )
+        hypixel_embed.set_footer(
+            text=f"IRMCTracker ・ {get_beautified_dt()}", 
+            icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048'
+        )
 
-        await ctx.send(embed=embed)
-
-        if hypixel_player:
-            await ctx.send(embed=hypixel_embed)
+        await ctx.send(embed=hypixel_embed)
 
 def setup(bot):
     bot.add_cog(Profile(bot))

@@ -62,7 +62,7 @@ def humanize_number(value, significant_digits=3, strip_trailing_zeros=True):
     return return_value + suffix
 
 def timestamp_ago(timestamp: int, granularity=2):
-    seconds = int(time() - timestamp)
+    seconds = int(time() - int(timestamp))
     result = []
 
     for name, count in intervals:

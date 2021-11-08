@@ -6,8 +6,7 @@ from modules.utils import *
 class HypixelPlayer:
     def __init__(self, username) -> None:
         self.username = username
-        self.uuid = UsernameToUUID(username).get_uuid()
-        
+        self.uuid = UsernameToUUID(username).get_uuid()        
 
     def is_valid(self):
         return True if self.uuid != '' else False

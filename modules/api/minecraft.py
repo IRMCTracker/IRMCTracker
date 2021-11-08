@@ -1,5 +1,6 @@
 import requests
 from modules.utils import *
+from datetime import datetime
 
 class Player:
     def __init__(self, username) -> None:
@@ -48,7 +49,7 @@ class Player:
     def get_created_ago(self):
         if not self.get_created_at():
             return 'Not Shown'
-        return ago(self.get_created_at())
+        return f"{self.get_created_at()} ({timestamp_ago(datetime.fromisoformat(self.get_created_at()).timestamp())})"
     
     def get_uuid(self):
         return self.uuid
