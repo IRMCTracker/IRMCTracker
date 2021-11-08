@@ -20,5 +20,8 @@ channels:
   servers-count: CHANNEL_ID
   votes-count: CHANNEL_ID
   tracks-count: CHANNEL_ID
+  track-usage: CHANNEL_ID
+  profile-usage: CHANNEL_ID
+  skin-usage: CHANNEL_ID
 roles:
   default: CHANNEL_ID

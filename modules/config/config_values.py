@@ -25,5 +25,9 @@ class Config:
         VOTES = get('channels.votes-count')
         TRACKS = get('channels.tracks-count')
 
+        TRACK_USAGE_CHANNEL = get('channels.track-usage')
+        PROFILE_USAGE_CHANNEL = get('channels.profile-usage')
+        SKIN_USAGE_CHANNEL = get('channels.skin-usage')
+
     class Roles:
         DEFAULT = get('roles.default')

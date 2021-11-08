@@ -2,6 +2,7 @@ from os.path import exists
 
 from discord import Embed, File
 from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
+from modules.config.config_values import Config
 from modules.tracker import get_servers
 from modules.database import get_server_like, get_highest_players
 from modules.database.models.server_meta import get as get_meta
@@ -24,6 +25,9 @@ class TrackerGlobal(Cog):
     async def track(self, ctx, server=None):
         """Track command for getting information about servers
         """
+        if ctx.channel.id != Config.Channels.TRACK_USAGE_CHANNEL:
+            await ctx.message.add_reaction('❌')
+            return
 
         mention_msg = ctx.author.mention
 
