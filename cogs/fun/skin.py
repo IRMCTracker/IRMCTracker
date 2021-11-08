@@ -3,6 +3,7 @@ from discord import Embed
 from discord.ext.commands import Cog, command
 
 from modules.api import Player
+from modules.config.config_values import Config
 
 class Skin(Cog):
     def __init__(self, bot):
@@ -13,6 +14,10 @@ class Skin(Cog):
 
     @command()
     async def skin(self, ctx, username = None):
+        if ctx.channel.id != Config.Channels.SKIN_USAGE_CHANNEL:
+            await ctx.message.add_reaction('❌')
+            return
+
         # Check if username is specified in the command
         if not username:
             embed = Embed(title="🤔 Khob alan donbale che skini hasti dabsh?", 
@@ -36,6 +41,10 @@ class Skin(Cog):
 
     @command()
     async def head(self, ctx, username = None):
+        if ctx.channel.id != Config.Channels.SKIN_USAGE_CHANNEL:
+            await ctx.message.add_reaction('❌')
+            return
+
         # Check if username is specified in the command
         if not username:
             embed = Embed(title="🤔 Khob alan donbale kale ki hasti dabsh?", 

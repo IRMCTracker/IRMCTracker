@@ -1,6 +1,7 @@
 from discord import Embed
 
 from discord.ext.commands import Cog, command
+from modules.config.config_values import Config
 
 from modules.database import Player as PlayerDB
 from peewee import DoesNotExist
@@ -20,6 +21,10 @@ class Profile(Cog):
 
     @command(aliases=['prof','p','player'])
     async def profile(self, ctx, username:str = None):
+        if ctx.channel.id != Config.Channels.PROFILE_USAGE_CHANNEL:
+            await ctx.message.add_reaction('❌')
+            return
+
         # Check if username is specified in the command
         if not username:
             embed = Embed(title=f"{self.bot.emoji('steve_think')} Khob alan donbal ki hasti dabsh?", 
