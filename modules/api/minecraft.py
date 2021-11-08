@@ -49,7 +49,7 @@ class Player:
     def get_created_ago(self):
         if not self.get_created_at():
             return 'Not Shown'
-        return f"{self.get_created_at()} ({timestamp_ago(datetime.fromisoformat(self.get_created_at()).timestamp())})"
+        return f"{self.get_created_at()} ({timestamp_ago(datetime.strptime(self.get_created_at(), '%Y-%m-%d').timestamp())})"
     
     def get_uuid(self):
         return self.uuid
