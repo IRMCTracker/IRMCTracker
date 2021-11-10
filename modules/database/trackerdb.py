@@ -1,3 +1,4 @@
+from typing import Union
 from modules.database import database
 from modules.database.models import *
 from modules.database.models.records import get_highest_players
@@ -45,7 +46,7 @@ def get_server(name):
     except:
         return None
 
-def get_server_like(name):
+def get_server_like(name) -> Union[Server,None]:
     try:
         return Server.get(Server.name.startswith(name))
     except:
