@@ -23,7 +23,7 @@ def run_discord_bot():
     """ 
     
     bot = Bot(command_prefix=Env.PREFIX,
-              intents=Intents().all(), help_command=None)
+              intents=Intents().all(), help_command=None, case_insensitive=True)
     
     loaded_extensions = {}
 
