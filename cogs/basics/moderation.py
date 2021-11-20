@@ -14,24 +14,22 @@ class Moderation(Cog):
 
     @Cog.listener()
     async def on_message(self, message: Message):
-        if message.author == self.bot.user or message.author.id == 296565827115941889 or self.bot.user.bot:
+        if message.author == self.bot.user or message.author.id == 296565827115941889:
             return
-        
+
         warn = None
 
         if has_link(message.content):
             warn = 'Lotfan az ersal hargoone link khoddari konid!'
-            await message.delete()
         elif has_discord_link(message.content):
             warn = 'Lotfan az ersal invite discord khoddari konid!'
-            await message.delete()
         elif message_has_mentions(message):
             warn = 'Lotfan kasi ro dakhele chat ha mention nakonid!'
-            await message.delete()
         
         if warn:
             embed = Embed(title=f"{message.author.name} , {warn}", color=0xc62828, timestamp=get_utc())
             await message.channel.send(message.author.mention, embed=embed, delete_after=5.0)
+            await message.delete()
             
 
 
