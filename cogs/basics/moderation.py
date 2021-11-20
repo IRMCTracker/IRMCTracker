@@ -23,8 +23,6 @@ class Moderation(Cog):
             warn = 'Lotfan az ersal hargoone link khoddari konid!'
         elif has_discord_link(message.content):
             warn = 'Lotfan az ersal invite discord khoddari konid!'
-        elif message_has_mentions(message):
-            warn = 'Lotfan kasi ro dakhele chat ha mention nakonid!'
         
         if warn:
             embed = Embed(title=f"{message.author.name} , {warn}", color=0xc62828, timestamp=get_utc())
