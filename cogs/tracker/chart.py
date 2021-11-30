@@ -22,14 +22,18 @@ class ChartCommand(Cog):
 
         response = urlopen(url)
 
-        results = json.loads(response.read())
+        results: list = json.loads(response.read())
 
         days = []
         players = []
 
+        results.reverse()
+
         for day in results:
             days.append(to_persian(day))
             players.append(results[day][0]['players'])
+
+        days[:-1] = days[:-1] + " (امروز)"
 
         colors = []
         for player_count in players:
