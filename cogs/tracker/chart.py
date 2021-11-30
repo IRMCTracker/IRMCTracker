@@ -8,6 +8,10 @@ import matplotlib.pyplot as plt
 from os import remove
 from datetime import datetime
 
+import urllib.request as urlrq
+import certifi
+import ssl
+
 class ChartCommand(Cog):
     """Chart command
 
@@ -20,20 +24,19 @@ class ChartCommand(Cog):
     def draw_server_chart(self, server):
         url = "https://mctracker.ir/api/server/{}/records/daily/1".format(server.id)
 
-        response = urlopen(url)
+        response = urlrq.urlopen(url, context=ssl.create_default_context(cafile=certifi.where()))
 
-        results: list = json.loads(response.read())
+        results = json.loads(response.read())
 
         days = []
         players = []
 
-        results.reverse()
+        count = 1
+        for day in reversed(results):
+            days.append(to_persian(day + " (امروز)" if count == len(results) else day))
+            players.append(results[day][0]['players'])        
 
-        for day in results:
-            days.append(to_persian(day))
-            players.append(results[day][0]['players'])
-
-        days[:-1] = days[:-1] + " (امروز)"
+            count += 1
 
         colors = []
         for player_count in players:
