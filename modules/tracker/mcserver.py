@@ -79,6 +79,7 @@ class MCServer:
                             'name': gamemode,
                             'players': sum(players)
                         })
+                server_gamemodes = sorted(server_gamemodes, key=lambda x: x['players'], reverse=False)
         except TypeError:
             return server_gamemodes
         
