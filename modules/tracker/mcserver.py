@@ -69,9 +69,10 @@ class MCServer:
         try:
             for sample in [sample.name for sample in self.status.players.sample]:
                 cleaned = re.sub(r'§[A-Za-z1-9]', '', sample)
+                cleaned = cleaned.replace(':', '')
 
                 for gamemode in gamemodes:
-                    if gamemode in cleaned:
+                    if gamemode.lower() in cleaned.lower():
                         players = [int(x) for x in re.findall(r'\d+', cleaned)]
 
                         server_gamemodes.append({
