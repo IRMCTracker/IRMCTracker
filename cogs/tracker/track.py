@@ -1,5 +1,7 @@
 from os.path import exists
 
+import whois
+
 from discord import Embed, File
 from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 from modules.config.config_values import Config
@@ -36,6 +38,7 @@ class TrackerGlobal(Cog):
                                         description='Estefade dorost: ```.track [servername]\nMesal: .track madcraft```',
                                         color=0xF44336, timestamp=get_utc()))
 
+        if 
         server = get_server_like(server)
 
         if server == None:

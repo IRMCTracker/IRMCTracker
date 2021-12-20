@@ -1,3 +1,4 @@
+from discord.errors import HTTPException
 from modules.config import Config
 from modules.database.models.records import get_highest_players
 from modules.database.models.server_meta import get as get_meta
@@ -91,7 +92,13 @@ class TopServersTask(Cog):
             server.channel_id = channel_id
             server.save()
 
-            await self.edit_embed(server, messages[0])
+            try:
+                await self.edit_embed(server, messages[0])
+            except HTTPException as e:
+                get_logger().warn("HTTPException error occured")
+                print("Exception: {}".format(type(e).__name__))
+                print("Exception message: {}".format(e))
+
 
             i += 1
 
@@ -178,16 +185,31 @@ class TopServersTask(Cog):
         cache_channel = self.bot.get_channel(Config.Channels.CACHE)
 
         if server.favicon_path != None:
-            file = await cache_channel.send(file=discord.File(server.favicon_path))
-            image_url = file.attachments[0].url
-            embed.set_thumbnail(url=image_url)
+            try:
+                file = await cache_channel.send(file=discord.File(server.favicon_path))
+                image_url = file.attachments[0].url
+                embed.set_thumbnail(url=image_url)
+            except HTTPException as e:
+                get_logger().warn("HTTPException error occured")
+                print("Exception: {}".format(type(e).__name__))
+                print("Exception message: {}".format(e))
 
         if server.motd_path != None:
-            file = await cache_channel.send(file=discord.File(server.motd_path))
-            image_url = file.attachments[0].url
-            embed.set_image(url=image_url)
+            try:
+                file = await cache_channel.send(file=discord.File(server.motd_path))
+                image_url = file.attachments[0].url
+                embed.set_image(url=image_url)
+            except HTTPException as e:
+                get_logger().warn("HTTPException error occured")
+                print("Exception: {}".format(type(e).__name__))
+                print("Exception message: {}".format(e))
 
-        await msg.edit(content=None, embed=embed)
-        
+        try:
+            await msg.edit(content=None, embed=embed)
+        except HTTPException as e:
+            get_logger().warn("HTTPException error occured")
+            print("Exception: {}".format(type(e).__name__))
+            print("Exception message: {}".format(e))
+
 def setup(client):
     client.add_cog(TopServersTask(client))
