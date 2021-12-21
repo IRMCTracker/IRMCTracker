@@ -23,7 +23,7 @@ class TopServersTask(Cog):
         self.update_top_voted_channels.start()
         self.update_top_players_channels.start()
     
-    @tasks.loop(minutes=1)
+    @tasks.loop(seconds=15)
     async def update_top_voted_channels(self):
         await self.bot.wait_until_ready()
 
@@ -57,7 +57,7 @@ class TopServersTask(Cog):
 
             i += 1
 
-    @tasks.loop(minutes=1)
+    @tasks.loop(seconds=15)
     async def update_top_players_channels(self):
         await self.bot.wait_until_ready()
 
