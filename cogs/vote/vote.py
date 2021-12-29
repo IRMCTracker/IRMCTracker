@@ -1,6 +1,8 @@
 from discord.ext.commands.errors import MissingRequiredArgument
 from peewee import DoesNotExist
 
+import time
+
 from modules.database import get_servers
 from modules.database import DiscordVote as VoteDB
 from modules.utils import get_beautified_dt
@@ -17,8 +19,11 @@ class Vote(Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.bot.is_voting_enabled = False
-    
+        self.bot.vote_title = None
+        self.bot.vote_desc = None
+        self.bot.vote_channel_id = 0
+        self.bot.vote_message_id = 0
+
     @group(invoke_without_command=True, aliases=['vt'])
     @has_role('root')
     async def voting(self, ctx):
@@ -27,7 +32,7 @@ class Vote(Cog):
     @voting.command()
     @has_role('root')
     async def clear(self, ctx):
-        VoteDB.raw('DELETE FROM votes').execute()
+        VoteDB.raw('DELETE FROM discord_votes').execute()
         await ctx.send('Cleared vote table')
 
     @voting.command()
@@ -37,11 +42,14 @@ class Vote(Cog):
         params = title_and_desc.split("\n")
 
         # Alert user on missing arguments
-        if (len(params) != 2): raise MissingRequiredArgument()
+        if len(params) != 2: raise MissingRequiredArgument()
         
-        title = params[0]
-        description = params[1]
+        self.bot.vote_title = f"💎 Vote | {params[0]}"
+        self.bot.vote_desc = params[1]  + "\n\nسرور مورد نظر خودتون رو داخل باکس پایین انتخاب کنید"
 
+        await self.send_vote_message(ctx.channel)
+
+    async def send_vote_message(self, channel):
         servers = get_servers()
 
         options = []
@@ -49,13 +57,13 @@ class Vote(Cog):
         for server in servers:
             options.append(SelectOption(server.name, server.id))
         
-        embed = Embed(title=f"💎 Vote | {title}", 
-                        description=description + "\n\nسرور مورد نظر خودتون رو داخل باکس پایین انتخاب کنید", 
+        embed = Embed(title=self.bot.vote_title,
+                        description=self.bot.vote_desc, 
                         color=0xD7CCC8)
         embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/533248248685789196/876398664254361620/vote.png')
         embed.set_footer(text=f"IRMCTracker - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
 
-        msg = await ctx.send(
+        msg = await channel.send(
             embed=embed,
             components=[
                 SelectMenu(
@@ -67,10 +75,11 @@ class Vote(Cog):
             ]
         )
 
-        self.bot.is_voting_enabled = True
+        self.bot.vote_message_id = msg.id
+        self.bot.vote_channel_id = channel.id
 
-        while self.bot.is_voting_enabled:
-            inter = await msg.wait_for_dropdown()
+        while self.bot.vote_message_id != 0:
+            inter = await msg.wait_for_dropdown(None, 3000)
 
             labels = [option.label for option in inter.select_menu.selected_options]
             values = [option.value for option in inter.select_menu.selected_options]
@@ -86,7 +95,9 @@ class Vote(Cog):
     @voting.command()
     @has_role('root')
     async def stop(self, ctx):
-        if self.bot.is_voting_enabled:
+        if self.bot.vote_message_id != 0:
+            self.bot.vote_message_id = 0
+            self.bot.vote_channel_id = 0
             embed = Embed(title="⭕ Stopped Voting", description="I'm no longer listening to votes", color=0xD32F2F)
             await ctx.send(embed=embed)
         else:
