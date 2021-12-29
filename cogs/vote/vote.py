@@ -1,3 +1,4 @@
+from discord.ext.commands.errors import MissingRequiredArgument
 from peewee import DoesNotExist
 
 from modules.database import get_servers
@@ -5,7 +6,7 @@ from modules.database import DiscordVote as VoteDB
 from modules.utils import get_beautified_dt
 
 from discord import Embed
-from discord.ext.commands import Cog, command, has_role, group
+from discord.ext.commands import Cog, has_role, group
 
 from dislash import SelectMenu, SelectOption
 
@@ -31,7 +32,16 @@ class Vote(Cog):
 
     @voting.command()
     @has_role('root')
-    async def start(self, ctx):
+    async def start(self, ctx, *, title_and_desc: str):
+        # Title and description validating...
+        params = title_and_desc.split("\n")
+
+        # Alert user on missing arguments
+        if (len(params) != 2): raise MissingRequiredArgument()
+        
+        title = params[0]
+        description = params[1]
+
         servers = get_servers()
 
         options = []
@@ -39,10 +49,10 @@ class Vote(Cog):
         for server in servers:
             options.append(SelectOption(server.name, server.id))
         
-        embed = Embed(title="💎 Vote | نظر سنجی بهترین سرور ماینکرفتی", 
-                        description="به نظر شما کدام سرور ماینکرفتی لایق مقام 🥇 اول در ایران هستش؟\n\nسرور مورد نظر خودتون رو داخل باکس پایین انتخاب کنید", 
+        embed = Embed(title=f"💎 Vote | {title}", 
+                        description=description + "\n\nسرور مورد نظر خودتون رو داخل باکس پایین انتخاب کنید", 
                         color=0xD7CCC8)
-        embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/868568387486371860/876400855564316702/voting.png')
+        embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/533248248685789196/876398664254361620/vote.png')
         embed.set_footer(text=f"IRMCTracker - {get_beautified_dt()}", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
 
         msg = await ctx.send(
@@ -50,7 +60,7 @@ class Vote(Cog):
             components=[
                 SelectMenu(
                     custom_id="best_server",
-                    placeholder="سرور مورد نظر خودتون رو انتخاب کنید",
+                    placeholder="سرور مورد نظر خودتون رو انتخاب کنید ❓",
                     max_values=1,
                     options=options
                 )
@@ -65,7 +75,7 @@ class Vote(Cog):
             labels = [option.label for option in inter.select_menu.selected_options]
             values = [option.value for option in inter.select_menu.selected_options]
             
-            await inter.reply(f"✅ {inter.author.mention} نظر شما ثبت شد", delete_after=3)
+            await inter.reply(f"✅ {inter.author.mention} نظر شما ثبت شد! مرسی از اینکه وقت گذاشتی 😄", delete_after=3)
             
             VoteDB.insert(
                 user_id = inter.author.id,
@@ -84,10 +94,19 @@ class Vote(Cog):
 
     @voting.command(aliases=['results', 'r'])
     @has_role('root')
-    async def result(self, ctx):
+    async def result(self, ctx, *, title_and_desc):
+        # Title and description validating...
+        params = title_and_desc.split("\n")
+
+        # Alert user on missing arguments
+        if (len(params) != 2): raise MissingRequiredArgument()
+        
+        title = params[0]
+        description = params[1]
+
         servers = get_servers()
         all_votes_count = 0
-        
+
         #Looping through all server in database so that 
         # we can count and sort based on votes
         for server in servers:
@@ -98,25 +117,29 @@ class Vote(Cog):
                 server.votes_count = len(server.votes)
                 # Add count to all count
                 all_votes_count += server.votes_count
-            # Excepts when server doesnt have any votes so we set it to 0
+            # Excepts when server doesnt have any votes so we set them to 0 (we aint showing 0 vote servers)
             except DoesNotExist:
                 server.votes_count = 0
 
         # Sorting servers based on votes_count (that we created in loop above)
         servers_sorted = sorted(servers, key=lambda x: x.votes_count, reverse=True)
-
-        embed = Embed(title="💎 Top Servers | برترین سرور های ایرانی",
-                        description=f"سه سرور برتر ایرانی بر اساس نظرسنجی از کاربران\n\n💻 مجموع رای ها:  {all_votes_count} رای", 
-                        color=0x536DFE)
-
-        stacks = round(len(servers_sorted) / 3)
         
+        embed = Embed(title=f"💎 Top Servers | {title}",
+                        description=description + f"\n\n💻 مجموع رای ها: {all_votes_count} رای", 
+                        color=0x536DFE)
         i = 1
-        prefix = '🥇'
-        for server in servers_sorted:
-            if stacks * 2 >= i > stacks:
+        prefix = '🏅'
+
+        for server in servers_sorted:   
+            # We will ignore 0 vote servers in result
+            if (server.votes_count == 0):
+                continue
+
+            if i == 1:
+                prefix = '🥇'
+            elif i == 2:
                 prefix = '🥈'
-            elif stacks * 3 >= i > stacks * 2:
+            elif i == 3:
                 prefix = '🥉'
 
             embed.add_field(name=f"{prefix} {server.name}",
@@ -129,6 +152,11 @@ class Vote(Cog):
 
         await ctx.send(embed=embed)
 
+    @start.error
+    @result.error
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, MissingRequiredArgument):
+            await ctx.send("Input arguments are wrong! Usage is: vote start [line #1 title] [line #2 description]")
 
 def setup(client):
     client.add_cog(Vote(client))
