@@ -140,11 +140,8 @@ class TopServersTask(Cog):
 
 
         ip = ""
-        if server.ip != None:
-            if bool(get_meta(server, 'show-ip')) == False:
-                ip = ""
-            else:
-                ip = f"( **{server.ip}** )"
+        if server.ip != None and bool(get_meta(server, 'show-ip')):
+            ip = f"( **{server.ip}** )"
         
         embed.add_field(name="「🌐」Address »", value=f"{capitalize_address(server.address)} {ip}", inline=False)
         embed.add_field(name="「👥」Online Players »", value=server.current_players, inline=True)
