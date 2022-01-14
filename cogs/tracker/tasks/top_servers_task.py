@@ -96,8 +96,8 @@ class TopServersTask(Cog):
                 await self.edit_embed(server, messages[0])
             except HTTPException as e:
                 get_logger().warn("HTTPException error occured")
-                print("Exception: {}".format(type(e).__name__))
-                print("Exception message: {}".format(e))
+                get_logger().warn("Exception: {}".format(type(e).__name__))
+                get_logger().warn("Exception message: {}".format(e))
 
 
             i += 1
@@ -188,8 +188,8 @@ class TopServersTask(Cog):
                 embed.set_thumbnail(url=image_url)
             except HTTPException as e:
                 get_logger().warn("HTTPException error occured")
-                print("Exception: {}".format(type(e).__name__))
-                print("Exception message: {}".format(e))
+                get_logger().warn("Exception: {}".format(type(e).__name__))
+                get_logger().warn("Exception message: {}".format(e))
 
         if server.motd_path != None:
             try:
@@ -198,15 +198,15 @@ class TopServersTask(Cog):
                 embed.set_image(url=image_url)
             except HTTPException as e:
                 get_logger().warn("HTTPException error occured")
-                print("Exception: {}".format(type(e).__name__))
-                print("Exception message: {}".format(e))
+                get_logger().warn("Exception: {}".format(type(e).__name__))
+                get_logger().warn("Exception message: {}".format(e))
 
         try:
             await msg.edit(content=None, embed=embed)
         except HTTPException as e:
             get_logger().warn("HTTPException error occured")
-            print("Exception: {}".format(type(e).__name__))
-            print("Exception message: {}".format(e))
+            get_logger().warn("Exception: {}".format(type(e).__name__))
+            get_logger().warn("Exception message: {}".format(e))
 
 def setup(client):
     client.add_cog(TopServersTask(client))

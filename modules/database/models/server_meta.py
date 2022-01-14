@@ -14,7 +14,7 @@ class ServerMeta(BaseModel):
 
 def get(server, key: str) -> str:
     try:
-        return ServerMeta.get((ServerMeta.key == key) & ServerMeta.server_id == server).value
+        return ServerMeta.get((ServerMeta.key == key) & (ServerMeta.server_id == server)).value
     except DoesNotExist:
         return None
 
