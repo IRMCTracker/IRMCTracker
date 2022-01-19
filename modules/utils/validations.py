@@ -10,13 +10,13 @@ def has_link(message):
     r'(?::\d+)?' # optional port
     r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
-    return re.match(regex, message) is not None
+    return regex.search(message) is not None
 
 def has_discord_link(message):
     regex = re.compile(
     r'(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li)|discordapp\.com\/invite)\/.+[a-z]', re.IGNORECASE)
 
-    return re.match(regex, message) is not None
+    return regex.search(message) is not None
 
 def message_has_mentions(message: Message):
     if message.mentions:
