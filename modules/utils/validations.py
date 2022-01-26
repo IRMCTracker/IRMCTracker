@@ -1,5 +1,5 @@
 import re
-from discord import Message
+from nextcord import Message
 
 def has_link(message):
     regex = re.compile(

@@ -1,4 +1,4 @@
-import discord
+import nextcord
 
 from random import randint
 from time import time

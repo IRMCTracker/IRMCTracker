@@ -1,6 +1,6 @@
 from modules.database.models.records import get_highest_players
-from discord import Embed, File
-from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
+from nextcord import Embed, File
+from nextcord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 from modules.database import get_server_like
 from modules.utils import *
 import matplotlib.pyplot as plt

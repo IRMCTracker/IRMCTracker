@@ -2,8 +2,8 @@ import sys
 import asyncio
 import os
 
-from discord import Intents
-from discord.ext.commands import Bot
+from nextcord import Intents
+from nextcord.ext.commands import Bot
 
 from modules.config import Env
 from modules.utils import get_logger

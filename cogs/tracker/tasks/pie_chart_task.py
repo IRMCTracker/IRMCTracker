@@ -5,9 +5,9 @@ from modules.tracker import get_servers_limit
 
 from modules.utils import *
 
-from discord.ext import tasks
-from discord import Embed
-from discord.ext.commands import Cog
+from nextcord.ext import tasks
+from nextcord import Embed
+from nextcord.ext.commands import Cog
 
 import matplotlib.pyplot as plt
 

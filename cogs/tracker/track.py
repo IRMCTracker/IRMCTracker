@@ -2,8 +2,8 @@ from os.path import exists
 
 import whois
 
-from discord import Embed, File
-from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
+from nextcord import Embed, File
+from nextcord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 from modules.config.config_values import Config
 from modules.tracker import get_servers
 from modules.database import get_server_like, get_highest_players

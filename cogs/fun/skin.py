@@ -1,6 +1,6 @@
-from discord import Embed
+from nextcord import Embed
 
-from discord.ext.commands import Cog, command
+from nextcord.ext.commands import Cog, command
 
 from modules.api import Player
 from modules.config.config_values import Config

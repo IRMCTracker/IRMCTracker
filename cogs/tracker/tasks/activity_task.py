@@ -2,9 +2,9 @@ from modules.tracker import MCTracker, get_servers, all_players_count
 
 from modules.utils import *
 
-from discord.ext import tasks
-from discord import Activity, ActivityType
-from discord.ext.commands import Cog
+from nextcord.ext import tasks
+from nextcord import Activity, ActivityType
+from nextcord.ext.commands import Cog
 
 
 class ActivityTask(Cog):

@@ -1,5 +1,5 @@
-from discord import Embed, File
-from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
+from nextcord import Embed, File
+from nextcord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 from modules.tracker import get_servers
 from modules.utils import *
 

@@ -1,5 +1,5 @@
-from discord import Message, Embed
-from discord.ext.commands import command, Cog
+from nextcord import Message, Embed
+from nextcord.ext.commands import command, Cog
 
 from modules.utils import *
 

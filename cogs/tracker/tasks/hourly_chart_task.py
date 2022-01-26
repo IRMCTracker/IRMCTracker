@@ -12,9 +12,9 @@ from modules.database.models.vote import get_top_voted_servers
 
 from modules.utils import *
 
-from discord.ext import tasks
-from discord import File, Embed, Activity, ActivityType
-from discord.ext.commands import Cog
+from nextcord.ext import tasks
+from nextcord import File, Embed, Activity, ActivityType
+from nextcord.ext.commands import Cog
 
 import matplotlib.pyplot as plt
 

@@ -1,4 +1,4 @@
-from discord.errors import HTTPException
+from nextcord.errors import HTTPException
 from modules.config import Config
 from modules.database.models.records import get_highest_players
 from modules.database.models.server_meta import get as get_meta
@@ -7,9 +7,9 @@ from modules.database import get_servers
 
 from modules.utils import *
 
-from discord.ext import tasks
-from discord import Embed
-from discord.ext.commands import Cog
+from nextcord.ext import tasks
+from nextcord import Embed
+from nextcord.ext.commands import Cog
 
 
 class TopServersTask(Cog):

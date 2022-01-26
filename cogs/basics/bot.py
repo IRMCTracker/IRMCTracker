@@ -1,10 +1,8 @@
-from discord.ext.commands.context import Context
-from discord.ext.commands.errors import ExtensionAlreadyLoaded, ExtensionFailed, ExtensionNotFound, ExtensionNotLoaded, NoEntryPointError
+from nextcord.ext.commands.context import Context
+from nextcord.ext.commands.errors import ExtensionAlreadyLoaded, ExtensionFailed, ExtensionNotFound, ExtensionNotLoaded, NoEntryPointError
 
-from discord.ext.commands import command, Cog, has_role, Bot as _bot
+from nextcord.ext.commands import command, Cog, has_role, Bot as _bot
 from modules.utils import get_logger, Emojis
-
-from dislash import SlashClient
 
 class Bot(Cog):
     """Low end bot management commands/events
@@ -17,7 +15,6 @@ class Bot(Cog):
     async def on_ready(self):
         get_logger().info(f"Booted and running on user: {self.bot.user}")
 
-        self.bot.slash = SlashClient(self.bot)
         self.bot.emoji = Emojis(self.bot.emojis).get_emoji        
 
     @command()

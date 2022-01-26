@@ -5,8 +5,8 @@ from modules.tracker import get_servers
 
 from modules.utils import *
 
-from discord.ext import tasks
-from discord.ext.commands import Cog
+from nextcord.ext import tasks
+from nextcord.ext.commands import Cog
 
 
 class StatsTask(Cog):
