@@ -34,7 +34,7 @@ class PieChartTask(Cog):
 
         cache_channel = self.bot.get_channel(Config.Channels.CACHE)
 
-        file = await cache_channel.send(file=discord.File(chart_file))
+        file = await cache_channel.send(file=nextcord.File(chart_file))
         chart_url = file.attachments[0].url
         embed.set_image(url=chart_url)
 

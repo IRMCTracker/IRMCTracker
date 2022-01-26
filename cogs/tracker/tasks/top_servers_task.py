@@ -184,7 +184,7 @@ class TopServersTask(Cog):
 
         if server.favicon_path != None:
             try:
-                file = await cache_channel.send(file=discord.File(server.favicon_path))
+                file = await cache_channel.send(file=nextcord.File(server.favicon_path))
                 image_url = file.attachments[0].url
                 embed.set_thumbnail(url=image_url)
             except HTTPException as e:
@@ -194,7 +194,7 @@ class TopServersTask(Cog):
 
         if server.motd_path != None:
             try:
-                file = await cache_channel.send(file=discord.File(server.motd_path))
+                file = await cache_channel.send(file=nextcord.File(server.motd_path))
                 image_url = file.attachments[0].url
                 embed.set_image(url=image_url)
             except HTTPException as e:
