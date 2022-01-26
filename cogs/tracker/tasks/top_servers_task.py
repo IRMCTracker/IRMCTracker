@@ -151,7 +151,8 @@ class TopServersTask(Cog):
             value=uptime, 
             inline=False
         )
-        embed.add_field(name="「📌」Version »", value=server.latest_version, inline=True)
+        custom_version = get_meta(server, 'custom_version')
+        embed.add_field(name="「📌」Version »", value=server.latest_version if custom_version == None else custom_version, inline=True)
         embed.add_field(name="「📡」Latency »", value=f"{str(server.latest_latency)} ms", inline=True)
 
         if server.country_code != None:
