@@ -3,6 +3,7 @@ import nextcord
 from random import randint
 from time import time
 import random, string
+import datetime
 from datetime import datetime as dt
 import arabic_reshaper
 from bidi.algorithm import get_display
@@ -89,7 +90,7 @@ def random_string(len=16):
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(len))
 
 def get_utc():
-    return dt.utcnow()
+    return dt.now(datetime.timezone.utc)
 
 def to_persian(text):
     return get_display(arabic_reshaper.reshape(text))
