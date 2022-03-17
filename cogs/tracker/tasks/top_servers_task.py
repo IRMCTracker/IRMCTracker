@@ -189,7 +189,10 @@ class TopServersTask(Cog):
 
         if server.motd_path is not None:
             try:
-                file = await self.bot.CACHE_CHANNEL.send(file=nextcord.File(server.motd_path))
+                if is_online(server):
+                    file = await self.bot.CACHE_CHANNEL.send(file=nextcord.File(server.motd_path))
+                else:        
+                    file = await self.bot.CACHE_CHANNEL.send(file=nextcord.File('storage/static/banner.png'))
                 image_url = file.attachments[0].url
                 embed.set_image(url=image_url)
             except HTTPException as e:
