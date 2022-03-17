@@ -7,8 +7,49 @@ from modules.database import records
 from modules.utils import shortified, DomainInfo
 
 from .mcserver import MCServer
+import matplotlib.pyplot as plt
 
-class MCTracker():
+def update_server_database(server: MCServer, add_record: bool):
+    db = server.fetch_server_from_db()
+
+    if db is None:
+        return
+
+    resolve_info = DomainInfo(db.address)
+
+    current_players = server.get_online_players()
+    max_players = server.get_max_players()
+    latency = server.get_latency()
+
+    update_server(
+        name=server.get_name(),
+        current_players=current_players,
+        max_players=max_players,
+        latest_version=server.get_version(),
+        latest_latency=latency,
+        favicon_path=server.get_favicon_path(),
+        motd_path=server.get_motd_path(),
+        gamemodes=json.dumps(server.get_gamemodes()),
+        ip = resolve_info.get_ip(),
+        country_code = resolve_info.get_country_code(),
+        region = resolve_info.get_region()
+    )
+
+    # Add track record to database
+    # WILL ONLY ADD EVERY 2 HOURS
+    if add_record:
+        records.add(db, current_players, latency)
+    else:
+        # Update last record if players are higher than highest record
+        highest_players = get_highest_players(db.id)
+
+        if current_players > highest_players:
+            last_record = Records.select().where(Records.server_id == db.id).order_by(Records.id.desc()).get()
+            last_record.players = current_players
+            last_record.save()
+
+
+class MCTracker:
     def __init__(self):
         self.all_servers = get_servers()
         self.is_fetched = False
@@ -18,51 +59,11 @@ class MCTracker():
         add_record = True if self.counter % 40 == 0 else False
         
         for server in self.all_servers:
-            self.update_server_database(MCServer(server.name, server.address), add_record)
+            update_server_database(MCServer(server.name, server.address), add_record)
 
         self.counter += 1
         
         self.is_fetched = True
-    
-    def update_server_database(self, server: MCServer, add_record: bool):
-        db = server.fetch_server_from_db()
-
-        if db == None:
-            return
-
-        resolve_info = DomainInfo(db.address)
-
-        current_players = server.get_online_players()
-        max_players = server.get_max_players()
-        latency = server.get_latency()
-
-        update_server(
-            name=server.get_name(),
-            current_players=current_players, 
-            max_players=max_players,
-            latest_version=server.get_version(), 
-            latest_latency=latency, 
-            favicon_path=server.get_favicon_path(),
-            motd_path=server.get_motd_path(),
-            gamemodes=json.dumps(server.get_gamemodes()),
-            ip = resolve_info.get_ip(),
-            country_code = resolve_info.get_country_code(),
-            region = resolve_info.get_region()
-        )
-
-        # Add track record to database
-        # WILL ONLY ADD EVERY 2 HOURS
-        if add_record:
-            records.add(db, current_players, latency)
-        else:
-            # Update last record if players are higher than highest record
-            highest_players = get_highest_players(db.id)
-        
-            if current_players > highest_players:
-                last_record = Records.select().where(Records.server_id == db.id).order_by(Records.id.desc()).get()
-                last_record.players = current_players
-                last_record.save()
-
 
     def update_task(self):
         while True:
@@ -80,8 +81,6 @@ class MCTracker():
             sleep(60)
 
     def draw_chart(self, output_file='chart.png'):
-        import matplotlib.pyplot as plt
-        
         names = []
         players = []
         for server in self.all_servers:

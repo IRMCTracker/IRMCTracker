@@ -24,20 +24,20 @@ class UsernameToUUID:
         """
         get_args = "" if timestamp is None else "?at=" + str(timestamp)
 
-        http_conn = http.client.HTTPSConnection("api.mojang.com");
+        http_conn = http.client.HTTPSConnection("api.mojang.com")
         http_conn.request("GET", "/users/profiles/minecraft/" + self.username + get_args,
-            headers={'User-Agent':'Minecraft Username -> UUID', 'Content-Type':'application/json'});
+            headers={'User-Agent':'Minecraft Username -> UUID', 'Content-Type':'application/json'})
         response = http_conn.getresponse().read().decode("utf-8")
 
-        if (not response and timestamp is None): # No response & no timestamp
+        if not response and timestamp is None: # No response & no timestamp
             return self.get_uuid(0) # Let's retry with the Unix timestamp 0.
-        if (not response): # No response (player probably doesn't exist)
+        if not response: # No response (player probably doesn't exist)
             return ""
 
         json_data = json.loads(response)
         try:
             uuid = json_data['id']
         except KeyError as e:
-            print("KeyError raised:", e);
+            print("KeyError raised:", e)
 
         return uuid

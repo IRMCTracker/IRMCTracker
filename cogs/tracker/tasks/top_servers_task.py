@@ -12,6 +12,11 @@ from nextcord import Embed
 from nextcord.ext.commands import Cog
 
 
+def log_http_exception(e):
+    get_logger().warn("HTTPException error occured")
+    get_logger().warn("Exception: {}".format(type(e).__name__))
+    get_logger().warn("Exception message: {}".format(e))
+
 class TopServersTask(Cog):
     """Updating top servers channels task
     """
@@ -23,7 +28,7 @@ class TopServersTask(Cog):
         self.update_top_voted_channels.start()
         self.update_top_players_channels.start()
     
-    @tasks.loop(seconds=15)
+    @tasks.loop(seconds=30)
     async def update_top_voted_channels(self):
         await self.bot.wait_until_ready()
 
@@ -37,18 +42,8 @@ class TopServersTask(Cog):
 
             server = top_servers[i]
             
-            if i == 0:
-                prefix = '🥇'
-            elif i == 1:
-                prefix = '🥈'
-            elif i == 2:
-                prefix = '🥉'
-            else:
-                prefix = '🏅'
+            prefix = get_medal_emoji(i) if is_online(server) else '❌'
 
-            if not self.is_online(server):
-                prefix = '❌'
-                
             await channel.edit(
                 name=f"{prefix}・{shortified(server.name, 9).capitalize()}「{server.votes}✌」"
             )
@@ -57,7 +52,7 @@ class TopServersTask(Cog):
 
             i += 1
 
-    @tasks.loop(seconds=15)
+    @tasks.loop(seconds=30)
     async def update_top_players_channels(self):
         await self.bot.wait_until_ready()
 
@@ -70,16 +65,9 @@ class TopServersTask(Cog):
 
             server = servers[i]
             
-            if i == 0:
-                prefix = '🥇'
-            elif i == 1:
-                prefix = '🥈'
-            elif i == 2:
-                prefix = '🥉'
-            else:
-                prefix = '🏅'
+            prefix = get_medal_emoji(i)
 
-            if not self.is_online(server):
+            if not is_online(server):
                 prefix = '❌'
                 players = '-'
             else:
@@ -95,17 +83,9 @@ class TopServersTask(Cog):
             try:
                 await self.edit_embed(server, messages[0])
             except HTTPException as e:
-                get_logger().warn("HTTPException error occured")
-                get_logger().warn("Exception: {}".format(type(e).__name__))
-                get_logger().warn("Exception message: {}".format(e))
-
+                log_http_exception(e)
 
             i += 1
-
-    def is_online(self, server):
-        if server.latest_latency == 0 and server.current_players == 0:
-            return False
-        return True        
 
     async def edit_embed(self, server, msg):
         socials = []
@@ -122,7 +102,7 @@ class TopServersTask(Cog):
             socials.append(f"{self.bot.emoji('web')} [Website]({get_meta(server, 'website')})")
 
         uptime = "-"
-        if self.is_online(server):
+        if is_online(server):
             uptime = timestamp_ago(server.up_from)
 
         embed=Embed(
@@ -140,7 +120,7 @@ class TopServersTask(Cog):
 
 
         ip = ""
-        if server.ip != None and bool(get_meta(server, 'show-ip')):
+        if server.ip is not None and bool(get_meta(server, 'show-ip')):
             ip = f"( **{server.ip}** )"
         
         embed.add_field(name="「🌐」Address »", value=f"{capitalize_address(server.address)} {ip}", inline=False)
@@ -155,10 +135,10 @@ class TopServersTask(Cog):
         embed.add_field(name="「📌」Version »", value=server.latest_version if custom_version == None else custom_version, inline=True)
         embed.add_field(name="「📡」Latency »", value=f"{str(server.latest_latency)} ms", inline=True)
 
-        if server.country_code != None:
+        if server.country_code is not None:
             embed.add_field(name="「🌎」Country »", value=f":flag_{str(server.country_code).lower()}: {server.region}", inline=False)
 
-        if server.gamemodes != None:
+        if server.gamemodes is not None:
             gamemodes_raw = json.loads(server.gamemodes)
 
             if len(gamemodes_raw) > 0:
@@ -182,32 +162,27 @@ class TopServersTask(Cog):
 
         cache_channel = self.bot.get_channel(Config.Channels.CACHE)
 
-        if server.favicon_path != None:
+        if server.favicon_path is not None:
             try:
                 file = await cache_channel.send(file=nextcord.File(server.favicon_path))
                 image_url = file.attachments[0].url
                 embed.set_thumbnail(url=image_url)
             except HTTPException as e:
-                get_logger().warn("HTTPException error occured")
-                get_logger().warn("Exception: {}".format(type(e).__name__))
-                get_logger().warn("Exception message: {}".format(e))
+                log_http_exception(e)
 
-        if server.motd_path != None:
+        if server.motd_path is not None:
             try:
                 file = await cache_channel.send(file=nextcord.File(server.motd_path))
                 image_url = file.attachments[0].url
                 embed.set_image(url=image_url)
             except HTTPException as e:
-                get_logger().warn("HTTPException error occured")
-                get_logger().warn("Exception: {}".format(type(e).__name__))
-                get_logger().warn("Exception message: {}".format(e))
+                log_http_exception(e)
 
         try:
             await msg.edit(content=None, embed=embed)
         except HTTPException as e:
-            get_logger().warn("HTTPException error occured")
-            get_logger().warn("Exception: {}".format(type(e).__name__))
-            get_logger().warn("Exception message: {}".format(e))
+            log_http_exception(e)
+
 
 def setup(client):
     client.add_cog(TopServersTask(client))

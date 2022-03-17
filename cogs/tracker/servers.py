@@ -25,19 +25,10 @@ class ServersCommand(Cog):
         offline_servers = []
         i = 0
         for server in servers:
-            if i == 0:
-                prefix = '🥇'
-            elif i == 1:
-                prefix = '🥈'
-            elif i == 2:
-                prefix = '🥉'
-            else:
-                prefix = '🏅'
-
             if server.latest_latency == 0:
                 offline_servers.append(server)
             else:
-                embed.add_field(name=f"{prefix} {server.name}", value=f"👥 {server.current_players}", inline=True)
+                embed.add_field(name=f"{get_medal_emoji(i)} {server.name}", value=f"👥 {server.current_players}", inline=True)
 
             i += 1
 

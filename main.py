@@ -7,7 +7,7 @@ from nextcord.ext.commands import Bot
 
 from modules.config import Env
 from modules.utils import get_logger
-from modules.tracker import MCTracker
+from modules.tracker import update_server_database, MCTracker
 from modules.database import create_tables, database
 
 from threading import Thread
@@ -75,9 +75,7 @@ if __name__ == "__main__":
 
         if cmd == 'db':
             if child == 'update':
-                tracker = MCTracker()
-                tracker.fetch_and_sort()
-                tracker.update_servers_in_database()
+                update_server_database()
 
             else:
                 get_logger().error('Wrong command child! Use [ update ]')

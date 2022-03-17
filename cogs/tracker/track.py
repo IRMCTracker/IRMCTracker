@@ -1,11 +1,7 @@
-from os.path import exists
-
-import whois
-
 from nextcord import Embed, File
 from nextcord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
+
 from modules.config.config_values import Config
-from modules.tracker import get_servers
 from modules.database import get_server_like, get_highest_players
 from modules.database.models.server_meta import get as get_meta
 from modules.utils import *
@@ -33,19 +29,19 @@ class TrackerGlobal(Cog):
 
         mention_msg = ctx.author.mention
 
-        if server == None:
+        if server is None:
             return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Dastoor vared shode motabar nist.", 
                                         description='Estefade dorost: ```.track [servername]\nMesal: .track madcraft```',
                                         color=0xF44336, timestamp=get_utc()))
 
         server = get_server_like(server)
 
-        if server == None:
+        if server is None:
             return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Server vared shode vojood nadarad!",
                                         description='Ba dastoor zir tamami server haro bebinid ```.servers```',
                                         color=0xF44336, timestamp=get_utc()))
         else:
-            if not self.is_online(server):
+            if not is_online(server):
                 embed = Embed(title=f"🔴 {server.name}", 
                                 description=f"Server morede nazar shoma dar hale hazer offline hast : (\n\n⏰ Downtime: {timestamp_ago(abs(server.up_from))}", 
                                 color=0xc62828, 
@@ -53,11 +49,6 @@ class TrackerGlobal(Cog):
                 return await ctx.send(mention_msg, embed=embed)
 
             await self.send_embed(server, ctx)
-
-    def is_online(self, server):
-        if server.latest_latency == 0 and server.current_players == 0:
-            return False
-        return True        
 
     async def send_embed(self, server, ctx):
         socials = []
@@ -74,12 +65,12 @@ class TrackerGlobal(Cog):
             socials.append(f"{self.bot.emoji('web')} [Website]({get_meta(server, 'website')})")
 
         uptime = "-"
-        if self.is_online(server):
+        if is_online(server):
             uptime = timestamp_ago(server.up_from)
 
         embed=Embed(
             title=f"💎 {server.name}",
-            description=f"{server.description if server.description != None else ' '}", 
+            description=f"{server.description if server.description is not None else ' '}",
             color=random_color(), 
             url = "https://mctracker.ir/server/{}".format(str(server.id)), 
             timestamp=get_utc()
@@ -92,8 +83,8 @@ class TrackerGlobal(Cog):
 
 
         ip = ""
-        if server.ip != None:
-            if bool(get_meta(server, 'show-ip')) == False:
+        if server.ip is not None:
+            if not bool(get_meta(server, 'show-ip')):
                 ip = ""
             else:
                 ip = f"( **{server.ip}** )"
@@ -107,13 +98,13 @@ class TrackerGlobal(Cog):
             inline=False
         )
         custom_version = get_meta(server, 'custom_version')
-        embed.add_field(name="「📌」Version »", value=server.latest_version if custom_version == None else custom_version, inline=True)
+        embed.add_field(name="「📌」Version »", value=server.latest_version if custom_version is None else custom_version, inline=True)
         embed.add_field(name="「📡」Latency »", value=f"{str(server.latest_latency)} ms", inline=True)
 
-        if server.country_code != None:
+        if server.country_code is not None:
             embed.add_field(name="「🌎」Country »", value=f":flag_{str(server.country_code).lower()}: {server.region}", inline=False)
 
-        if server.gamemodes != None:
+        if server.gamemodes is not None:
             gamemodes_raw = json.loads(server.gamemodes)
 
             if len(gamemodes_raw) > 0:
@@ -137,11 +128,11 @@ class TrackerGlobal(Cog):
 
         files = []
 
-        if server.favicon_path != None:
+        if server.favicon_path is not None:
             files.append(File(server.favicon_path, filename="image.png"))
             embed.set_thumbnail(url="attachment://image.png")
 
-        if server.motd_path != None:
+        if server.motd_path is not None:
             files.append(File(server.motd_path, filename="motd.png"))
             embed.set_image(url="attachment://motd.png")
         else:

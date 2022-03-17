@@ -45,14 +45,7 @@ class StatsChannelsTask(Cog):
 
         i = 0
         for server in get_servers_by_record():
-            if i == 0:
-                prefix = '🥇'
-            elif i == 1:
-                prefix = '🥈'
-            elif i == 2:
-                prefix = '🥉'
-            else:
-                prefix = '🏅'
+            prefix = get_medal_emoji(i)
 
             embed.add_field(
                 name=f"{prefix} • {str(server.name).capitalize()}", 

@@ -1,20 +1,17 @@
-from nextcord import Embed
-
-from nextcord.ext.commands import Cog, command
-from modules.config.config_values import Config
-
-from modules.database import Player as PlayerDB
-from peewee import DoesNotExist
-from modules.api.hypixel import HypixelPlayer
-from modules.api import Player
-from modules.utils import *
-
-from random import randint
+import json
+import math
 from datetime import datetime
 
-import math
+from nextcord import Embed
+from nextcord.ext.commands import Cog, command
+from peewee import DoesNotExist
 
-import json
+from modules.api import Player
+from modules.api.hypixel import HypixelPlayer
+from modules.config.config_values import Config
+from modules.database import Player as PlayerDB
+from modules.utils import *
+
 
 class Profile(Cog):
     def __init__(self, bot):
@@ -41,9 +38,8 @@ class Profile(Cog):
                             color=0xFF0000)
             return await ctx.send(embed=embed)
 
-        try:
-            player_db = PlayerDB.get(PlayerDB.username == username)
-        except DoesNotExist:
+
+        if not PlayerDB.select().where(PlayerDB.username == username).exists():
             player_db = PlayerDB(
                 username=username,
                 uuid=player.get_uuid(),
@@ -52,12 +48,10 @@ class Profile(Cog):
                 updated_at=datetime.now()
             )
             player_db.save()
-        
-        random_color = randint(0, 0xffffff)
 
         embed = Embed(
             title=f"{self.bot.emoji('steve_dab')} ⌠・Player Profile {username.capitalize()}・⌡", 
-            color=random_color
+            color=get_random_color()
         )
 
         usernames = ' | '.join(player.get_other_usernames())
@@ -113,7 +107,7 @@ class Profile(Cog):
         try:
             player_db = PlayerDB.get(PlayerDB.username == username)
 
-            if (player_db.hypixel_data == None):
+            if player_db.hypixel_data is None:
                 raise DoesNotExist
 
             hypixel_player = json.loads(player_db.hypixel_data)
@@ -136,12 +130,10 @@ class Profile(Cog):
         network_level = (math.sqrt((2 * network_experience) + 30625) / 50) - 2.5
         network_level = round(network_level, 2)
 
-        random_color = randint(0, 0xffffff)
-
         if hypixel_player:
             hypixel_embed = Embed(
                 title=f"{self.bot.emoji('steve_dab')} ⌠・Hypixel Profile {username.capitalize()}・⌡", 
-                color=random_color
+                color=get_random_color()
             )
 
             hypixel_embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/879323399749533716/879750805266243634/hypixel.jpg')

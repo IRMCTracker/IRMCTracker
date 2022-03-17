@@ -14,7 +14,7 @@ def has_link(message):
 
 def has_discord_link(message):
     regex = re.compile(
-    r'(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li)|discordapp\.com\/invite)\/.+[a-z]', re.IGNORECASE)
+    r'(https?://)?(www\.)?(discord\.(gg|io|me|li)|discordapp\.com/invite)/.+[a-z]', re.IGNORECASE)
 
     return regex.search(message) is not None
 

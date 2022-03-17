@@ -11,6 +11,29 @@ from nextcord.ext.commands import Cog
 
 import matplotlib.pyplot as plt
 
+
+def draw_pie_chart():
+    plt.rcParams['text.color'] = 'white'
+
+    servers = get_servers_limit(8)
+
+    names = [f"{server.name} [ {server.current_players} ]"  for server in servers]
+    players = [server.current_players for server in servers]
+
+    fig, ax = plt.subplots(figsize=(10,8))
+
+    ax.pie(players, explode=(0.1, 0, 0, 0, 0, 0, 0, 0), labels=names, autopct='%1.1f%%',
+            shadow=True, startangle=90)
+    ax.axis('equal')
+
+    output_file = random_cache_file('png')
+
+    plt.savefig(output_file, transparent=True)
+
+    plt.close(fig)
+
+    return output_file
+
 class PieChartTask(Cog):
     """Sending PIE Chart task
     """
@@ -25,7 +48,7 @@ class PieChartTask(Cog):
     async def pie_chart_task(self):
         await self.bot.wait_until_ready()
 
-        chart_file = self.draw_pie_chart()
+        chart_file = draw_pie_chart()
 
         embed = Embed(title="🥧 Pie Chart - Players of top Iranian servers", 
                         color=0x0099E1, timestamp=get_utc(),
@@ -45,27 +68,6 @@ class PieChartTask(Cog):
 
         os.remove(chart_file)
 
-    def draw_pie_chart(self):
-        plt.rcParams['text.color'] = 'white'
-
-        servers = get_servers_limit(8)
-
-        names = [f"{server.name} [ {server.current_players} ]"  for server in servers]
-        players = [server.current_players for server in servers]
-
-        fig, ax = plt.subplots(figsize=(10,8))
-
-        ax.pie(players, explode=(0.1, 0, 0, 0, 0, 0, 0, 0), labels=names, autopct='%1.1f%%',
-                shadow=True, startangle=90)
-        ax.axis('equal')
-
-        output_file = random_cache_file('png')
-
-        plt.savefig(output_file, transparent=True)
-
-        plt.close(fig)
-
-        return output_file
 
 def setup(client):
     client.add_cog(PieChartTask(client))

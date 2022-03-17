@@ -12,6 +12,70 @@ import urllib.request as urlrq
 import certifi
 import ssl
 
+
+def draw_server_chart(server):
+    url = "https://mctracker.ir/api/server/{}/records/daily/1".format(server.id)
+
+    response = urlrq.urlopen(url, context=ssl.create_default_context(cafile=certifi.where()))
+
+    results = json.loads(response.read())
+
+    days = []
+    players = []
+
+    count = 1
+    for day in reversed(results):
+        days.append(to_persian(day + " (امروز)" if count == len(results) else day))
+        players.append(results[day][0]['players'])
+
+        count += 1
+
+    colors = []
+    for player_count in players:
+        if player_count >= 150:
+            color = 'lime'
+        elif 150 > player_count >= 100:
+            color = 'darkgreen'
+        elif 100 > player_count >= 80:
+            color = 'mediumseagreen'
+        elif 80 > player_count >= 60:
+            color = 'orange'
+        elif 60 > player_count >= 40:
+            color = 'yellow'
+        elif 40 > player_count >= 30:
+            color = 'darkkhaki'
+        elif 30 > player_count >= 20:
+            color = 'orangered'
+        elif 20 > player_count >= 10:
+            color = 'firebrick'
+        elif 10 > player_count:
+            color = 'brown'
+
+        colors.append(color)
+
+    fig, ax = plt.subplots(figsize=(15,8))
+
+    plt.title(f"{server.name} {to_persian('پلیر های یک هفته اخیر')} - {datetime.now():%Y-%m-%d %I:%M:%S}")
+    plt.xlabel(to_persian('روز'), fontsize=10, labelpad=5)
+    plt.ylabel(to_persian('تعداد پلیر'), fontsize=10, labelpad=5)
+
+    ax.bar(days, players, color=colors)
+
+    for index,data in enumerate(players):
+        x = index - 0.11
+        if len(str(data)) == 3:
+            x = index - 0.2
+        plt.text(x=x , y =data+1 , s=f"{data}" , fontdict=dict(fontsize=12))
+
+    output_file = random_cache_file('png')
+
+    plt.savefig(output_file)
+
+    plt.close(fig)
+
+    return output_file
+
+
 class ChartCommand(Cog):
     """Chart command
 
@@ -21,81 +85,19 @@ class ChartCommand(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def draw_server_chart(self, server):
-        url = "https://mctracker.ir/api/server/{}/records/daily/1".format(server.id)
-
-        response = urlrq.urlopen(url, context=ssl.create_default_context(cafile=certifi.where()))
-
-        results = json.loads(response.read())
-
-        days = []
-        players = []
-
-        count = 1
-        for day in reversed(results):
-            days.append(to_persian(day + " (امروز)" if count == len(results) else day))
-            players.append(results[day][0]['players'])        
-
-            count += 1
-
-        colors = []
-        for player_count in players:
-            if player_count >= 150:
-                color = 'lime'
-            elif 150 > player_count >= 100:
-                color = 'darkgreen'
-            elif 100 > player_count >= 80:
-                color = 'mediumseagreen'
-            elif 80 > player_count >= 60:
-                color = 'orange'
-            elif 60 > player_count >= 40:
-                color = 'yellow'
-            elif 40 > player_count >= 30:
-                color = 'darkkhaki'
-            elif 30 > player_count >= 20:
-                color = 'orangered'
-            elif 20 > player_count >= 10:
-                color = 'firebrick'
-            elif 10 > player_count:
-                color = 'brown'
-
-            colors.append(color)
-
-        fig, ax = plt.subplots(figsize=(15,8))
-
-        plt.title(f"{server.name} {to_persian('پلیر های یک هفته اخیر')} - {datetime.now():%Y-%m-%d %I:%M:%S}")
-        plt.xlabel(to_persian('روز'), fontsize=10, labelpad=5)
-        plt.ylabel(to_persian('تعداد پلیر'), fontsize=10, labelpad=5)
-        
-        ax.bar(days, players, color=colors)
-
-        for index,data in enumerate(players):
-            x = index - 0.11
-            if len(str(data)) == 3:
-                x = index - 0.2
-            plt.text(x=x , y =data+1 , s=f"{data}" , fontdict=dict(fontsize=12))
-
-        output_file = random_cache_file('png')
-
-        plt.savefig(output_file)
-
-        plt.close(fig)
-
-        return output_file
-
     @command(aliases=['charts'])
     @cooldown(6, 60, BucketType.user)
     async def chart(self, ctx, server=None):
         mention_msg = ctx.author.mention
 
-        if server == None:
+        if server is None:
             return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Dastoor vared shode motabar nist.", 
                                         description='Estefade dorost: ```.chart [servername]\nMesal: .chart madcraft```',
                                         color=0xF44336, timestamp=get_utc()))
 
         server = get_server_like(server)
 
-        if server == None:
+        if server is None:
             return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Server vared shode vojood nadarad!",
                                         description='Ba dastoor zir tamami server haro bebinid ```.servers```',
                                         color=0xF44336, timestamp=get_utc()))
@@ -105,7 +107,7 @@ class ChartCommand(Cog):
                         color=0x00D166, timestamp=get_utc())
         embed.set_footer(text=f"Tracked by IRMCTracker", icon_url="https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128")
 
-        output_file = self.draw_server_chart(server)
+        output_file = draw_server_chart(server)
 
         file = File(output_file, filename="server_chart.png")
         embed.set_image(url="attachment://server_chart.png")

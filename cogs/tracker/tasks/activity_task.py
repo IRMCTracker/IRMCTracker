@@ -1,10 +1,8 @@
-from modules.tracker import MCTracker, get_servers, all_players_count
-
-from modules.utils import *
-
-from nextcord.ext import tasks
 from nextcord import Activity, ActivityType
+from nextcord.ext import tasks
 from nextcord.ext.commands import Cog
+
+from modules.tracker import get_servers, all_players_count
 
 
 class ActivityTask(Cog):
@@ -23,13 +21,12 @@ class ActivityTask(Cog):
     async def activity_task(self):
         await self.bot.wait_until_ready()
 
-        players_count = all_players_count()
-        servers_count = str(len(get_servers()))
-
-        if self.counter % 2 == 0:
-            status_text = f"👥 {players_count} Players"
+        if self.counter == 0:
+            status_text = f"👥 {all_players_count()} Players"
+            self.counter = 1
         else:
-            status_text = f"💻 {servers_count} Servers"
+            status_text = f"💻 {str(len(get_servers()))} Servers"
+            self.counter = 0
 
         await self.bot.change_presence(
             activity=Activity(
@@ -37,9 +34,6 @@ class ActivityTask(Cog):
                 name=status_text
             )
         )
-
-        self.counter += 1
-
     
 def setup(client):
     client.add_cog(ActivityTask(client))

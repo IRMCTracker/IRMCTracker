@@ -78,16 +78,16 @@ def timestamp_ago(timestamp: int, granularity=2):
 def random_color():
     return randint(0, 0xffffff)
 
-def replace_placeholders(string, placeholders):
+def replace_placeholders(text, placeholders):
     placeholders['%timestamp%'] = str(time())
 
     for placeholder in placeholders:
-        string = string.replace('%' + placeholder + '%', str(placeholders[placeholder]))
+        text = text.replace('%' + placeholder + '%', str(placeholders[placeholder]))
     
-    return string
+    return text
 
-def random_string(len=16):
-    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(len))
+def random_string(length=16):
+    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length))
 
 def get_utc():
     return dt.now(datetime.timezone.utc)
@@ -103,15 +103,35 @@ def prefer_not_null(a, b):
         return a
     return b
     
-def shortified(string, max_len=6, show_dots=True) -> str:
-    return (string[:max_len] + ('..' if show_dots else '')
-    ) if len(string) > max_len else string
+def shortified(text, max_len=6, show_dots=True) -> str:
+    return (text[:max_len] + ('..' if show_dots else '')
+    ) if len(text) > max_len else text
 
 def capitalize_address(address):
     return '.'.join([x.capitalize() for x in address.split('.')])
 
 def random_cache_file(ext):
     return "storage{}cache{}{}.{}".format(sep, sep, uuid.uuid4(), ext)
+
+def get_medal_emoji(index):
+    if index == 0:
+        prefix = '🥇'
+    elif index == 1:
+        prefix = '🥈'
+    elif index == 2:
+        prefix = '🥉'
+    else:
+        prefix = '🏅'
+
+    return prefix
+
+def get_random_color():
+    return randint(0, 0xffffff)
+
+def is_online(server):
+    if server.latest_latency == 0 and server.current_players == 0:
+        return False
+    return True
 
 class Emojis:
     def __init__(self, emojis):

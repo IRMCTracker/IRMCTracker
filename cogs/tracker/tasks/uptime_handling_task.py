@@ -34,7 +34,7 @@ class UptimeAlertsTask(Cog):
         alert_channel = self.bot.get_channel(Config.Channels.ALERTS)
 
         for server in get_servers():
-            is_online = self.is_online(server)
+            server_is_online = is_online(server)
             up_from_timestamp = server.up_from
             current_timestamp = round(time())
 
@@ -42,7 +42,7 @@ class UptimeAlertsTask(Cog):
             
             # Means server is offline from last check in database
             if up_from_timestamp < 0:
-                if is_online:
+                if server_is_online:
                     embed = Embed(
                         title=f"Server {server.name} online shod!",
                         description=f"\U0001f6a8 Server {server.name} lahazati pish online shod.\n\n⏰ Downtime: " + timestamp_ago(abs(server.up_from)),
@@ -55,11 +55,11 @@ class UptimeAlertsTask(Cog):
                 else:
                     # 30 days in seconds
                     expire_after_seconds = (60 * 60) * 24 * 30
-                    # Convertin offline for seconds to offline for days
+                    # Converting offline for seconds to offline for days
                     offline_days = (time() - abs(server.up_from))
                     
                     # Checking if server is offline for more than expire after seconds
-                    if (offline_days > expire_after_seconds):
+                    if offline_days > expire_after_seconds:
                         # Removing the server records
                         Records.delete().where(Records.server_id == server.id).execute()
 
@@ -79,7 +79,7 @@ class UptimeAlertsTask(Cog):
 
             # Means server is online from last check in database
             else:
-                if not is_online:
+                if not server_is_online:
                     embed = Embed(
                         title=f"❌ Server {server.name} offline shod!",
                         description=f"Server {server.name} lahazati pish az dastres kharej shod.\n\n⏰ Uptime: " + timestamp_ago(server.up_from),
@@ -91,7 +91,7 @@ class UptimeAlertsTask(Cog):
             server.save()
 
 
-            if embed != None:
+            if embed is not None:
                 favicon = None
                 if server.favicon_path:
                     favicon = File(server.favicon_path, filename="fav.png")
@@ -100,11 +100,6 @@ class UptimeAlertsTask(Cog):
                 embed.set_footer(text=f"Tracked by IRMCTracker", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
 
                 await alert_channel.send(file=favicon,embed=embed)
-
-    def is_online(self, server):
-        if server.latest_latency == 0 and server.current_players == 0:
-            return False
-        return True        
 
 def setup(client):
     client.add_cog(UptimeAlertsTask(client))

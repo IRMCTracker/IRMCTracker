@@ -1,22 +1,13 @@
 import os
 
-from time import time
-
-from datetime import datetime as dt
-
-from modules.config import Config
-from modules.tracker import MCTracker, get_servers, all_players_count, zero_player_servers_count, get_servers_by_record, get_servers_limit
-from modules.database.models.records import get_highest_players
-from modules.database.models.server_meta import get as get_meta
-from modules.database.models.vote import get_top_voted_servers
-
-from modules.utils import *
-
+from nextcord import File, Embed
 from nextcord.ext import tasks
-from nextcord import File, Embed, Activity, ActivityType
 from nextcord.ext.commands import Cog
 
-import matplotlib.pyplot as plt
+from modules.config import Config
+from modules.tracker import MCTracker, get_servers
+from modules.utils import *
+
 
 class TrackerTasks(Cog):
     """Doing all the automated tracking->discord tasks
@@ -41,7 +32,6 @@ class TrackerTasks(Cog):
         # Every hour (1:00 , 2:00, ...)
         if dt.now().minute == 0:
             await self.send_chart()
-    # END OF TRACKER TASKS
 
     async def send_chart(self):
         """Sending the chart to #hourly-chart channel
