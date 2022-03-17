@@ -160,11 +160,9 @@ class TopServersTask(Cog):
                 inline=True
             )
 
-        cache_channel = self.bot.get_channel(Config.Channels.CACHE)
-
         if server.favicon_path is not None:
             try:
-                file = await cache_channel.send(file=nextcord.File(server.favicon_path))
+                file = await self.bot.CACHE_CHANNEL.send(file=nextcord.File(server.favicon_path))
                 image_url = file.attachments[0].url
                 embed.set_thumbnail(url=image_url)
             except HTTPException as e:
@@ -172,7 +170,7 @@ class TopServersTask(Cog):
 
         if server.motd_path is not None:
             try:
-                file = await cache_channel.send(file=nextcord.File(server.motd_path))
+                file = await self.bot.CACHE_CHANNEL.send(file=nextcord.File(server.motd_path))
                 image_url = file.attachments[0].url
                 embed.set_image(url=image_url)
             except HTTPException as e:

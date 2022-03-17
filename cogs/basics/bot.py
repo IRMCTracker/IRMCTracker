@@ -2,6 +2,7 @@ from nextcord.ext.commands.context import Context
 from nextcord.ext.commands.errors import ExtensionAlreadyLoaded, ExtensionFailed, ExtensionNotFound, ExtensionNotLoaded, NoEntryPointError
 
 from nextcord.ext.commands import command, Cog, has_role, Bot as _bot
+from modules.config import Config
 from modules.utils import get_logger, Emojis
 
 class Bot(Cog):
@@ -15,6 +16,7 @@ class Bot(Cog):
     async def on_ready(self):
         get_logger().info(f"Booted and running on user: {self.bot.user}")
 
+        self.bot.CACHE_CHANNEL = self.bot.get_channel(Config.Channels.CACHE)
         self.bot.emoji = Emojis(self.bot.emojis).get_emoji        
 
     @command()
