@@ -27,8 +27,7 @@ class TopServersTask(Cog):
         self.TOP_VOTED_CHANNELS = []
 
         # Running top channels update task
-        self.update_top_voted_channels.start()
-        self.update_top_players_channels.start()
+        self.update_top_channels.start()
     
     async def load_top_channels(self):
         async def add_channel(channel_id, where):
@@ -50,12 +49,17 @@ class TopServersTask(Cog):
             await add_channel(channel_id, self.TOP_VOTED_CHANNELS)
 
     @tasks.loop(minutes=1)
-    async def update_top_voted_channels(self):
+    async def update_top_channels(self):
         await self.bot.wait_until_ready()
-
+        
         # Will be only running at the first time
         if len(self.TOP_VOTED_CHANNELS) == 0:
             await self.load_top_channels()
+
+        await self.update_top_voted_channels()
+        await self.update_top_players_channels()
+
+    async def update_top_voted_channels(self):
 
         i = 0
         top_servers = get_top_voted_servers(len(Config.Channels.TOP_VOTED_CHANNELS))
@@ -73,10 +77,7 @@ class TopServersTask(Cog):
 
             i += 1
 
-    @tasks.loop(minutes=1)
     async def update_top_players_channels(self):
-        await self.bot.wait_until_ready()
-
         i = 0
         servers = get_servers()
 
