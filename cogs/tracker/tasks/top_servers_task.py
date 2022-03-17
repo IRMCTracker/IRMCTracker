@@ -23,46 +23,64 @@ class TopServersTask(Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.TOP_PLAYERS_CHANNELS = []
+        self.TOP_VOTED_CHANNELS = []
 
         # Running top channels update task
         self.update_top_voted_channels.start()
         self.update_top_players_channels.start()
     
-    @tasks.loop(seconds=30)
+    async def load_top_channels(self):
+        async def add_channel(channel_id, where):
+            channel = self.bot.get_channel(channel_id)
+            message = (await channel.history(limit=1).flatten())[0]
+
+            data = {
+                "id": channel_id,
+                "object": channel,
+                "message": message
+            }
+
+            where.append(data)
+
+        for channel_id in Config.Channels.TOP_CHANNELS:
+            await add_channel(channel_id, self.TOP_PLAYERS_CHANNELS)
+
+        for channel_id in Config.Channels.TOP_VOTED_CHANNELS:
+            await add_channel(channel_id, self.TOP_VOTED_CHANNELS)
+
+    @tasks.loop(minutes=1)
     async def update_top_voted_channels(self):
         await self.bot.wait_until_ready()
+
+        # Will be only running at the first time
+        if len(self.TOP_VOTED_CHANNELS) == 0:
+            await self.load_top_channels()
 
         i = 0
         top_servers = get_top_voted_servers(len(Config.Channels.TOP_VOTED_CHANNELS))
 
-        for channel_id in Config.Channels.TOP_VOTED_CHANNELS:
-
-            channel = self.bot.get_channel(channel_id)
-            messages = await channel.history(limit=1).flatten()
-
+        for top_channel in self.TOP_VOTED_CHANNELS:
             server = top_servers[i]
             
             prefix = get_medal_emoji(i) if is_online(server) else '❌'
 
-            await channel.edit(
+            await top_channel["object"].edit(
                 name=f"{prefix}・{shortified(server.name, 9).capitalize()}「{server.votes}✌」"
             )
 
-            await self.edit_embed(server, messages[0])
+            await self.edit_embed(server, top_channel["message"])
 
             i += 1
 
-    @tasks.loop(seconds=30)
+    @tasks.loop(minutes=1)
     async def update_top_players_channels(self):
         await self.bot.wait_until_ready()
 
         i = 0
         servers = get_servers()
 
-        for channel_id in Config.Channels.TOP_CHANNELS:
-            channel = self.bot.get_channel(channel_id)
-            messages = await channel.history(limit=1).flatten()
-
+        for top_channel in self.TOP_PLAYERS_CHANNELS:
             server = servers[i]
             
             prefix = get_medal_emoji(i)
@@ -73,15 +91,15 @@ class TopServersTask(Cog):
             else:
                 players = server.current_players
                 
-            await channel.edit(
+            await top_channel["object"].edit(
                 name=f"{prefix}・{shortified(server.name, 9).capitalize()}「{players}👥」"
             )
 
-            server.channel_id = channel_id
+            server.channel_id = top_channel["id"]
             server.save()
 
             try:
-                await self.edit_embed(server, messages[0])
+                await self.edit_embed(server, top_channel["message"])
             except HTTPException as e:
                 log_http_exception(e)
 
