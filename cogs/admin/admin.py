@@ -102,32 +102,6 @@ class Admin(Cog):
         embed.set_footer(text=f"IRMCTracker", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
         await ctx.send(embed=embed)
 
-
-    @command(has_role='root')
-    @has_role('root')
-    async def sendhourly(self,ctx):
-        await self.bot.get_cog('TrackerTasks').send_chart()
-
-    @command(has_role='root')
-    @has_role('root')
-    async def updatedb(self,ctx):
-        MCTracker().update_servers_database()
-
-    @command()
-    @has_role('root')
-    async def updatechannels(self,ctx):
-        await self.bot.get_cog('TrackerTasks').update_channels()
-
-    @command()
-    @has_role('root')
-    async def updatetoptext(self,ctx):
-        await self.bot.get_cog('TrackerTasks').update_top_text()
-
-    @command()
-    @has_role('root')
-    async def updaterecordstext(self,ctx):
-        await self.bot.get_cog('TrackerTasks').update_records_text()
-
     @command(pass_context = True)
     @has_role('root')
     async def clear(self, ctx, number: int):
