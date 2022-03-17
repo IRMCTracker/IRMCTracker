@@ -5,6 +5,7 @@ storage/data/database.db
 storage/logs/
 
 # IDE generated
+./idea
 .vscode/
 
 # Byte-compiled / optimized / DLL files
