@@ -139,7 +139,7 @@ class TopServersTask(Cog):
 
 
         ip = ""
-        if server.ip is not None and bool(get_meta(server, 'show-ip')):
+        if server.ip is not None and get_meta(server, 'show-ip') == 'true':
             ip = f"( **{server.ip}** )"
         
         embed.add_field(name="「🌐」Address »", value=f"{capitalize_address(server.address)} {ip}", inline=False)
