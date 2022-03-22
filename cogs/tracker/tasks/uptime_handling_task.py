@@ -37,7 +37,7 @@ class UptimeAlertsTask(Cog):
 
         for server in get_servers():
             server_is_online = is_online(server)
-            up_from_timestamp = server.up_from
+            up_from_timestamp = int(server.up_from)
             current_timestamp = round(time())
 
             embed = None
