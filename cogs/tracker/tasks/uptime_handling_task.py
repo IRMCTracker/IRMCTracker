@@ -18,6 +18,7 @@ class UptimeAlertsTask(Cog):
         self.bot = bot
         
         # Running main bot tick
+        self.alert_channel = None
         self.uptime_alerts_task.start()
 
     @tasks.loop(minutes=1)
@@ -31,7 +32,8 @@ class UptimeAlertsTask(Cog):
         the server has been online
         Will set up_from field to a negative timestamp if server is offline in the latest check
         """
-        alert_channel = self.bot.get_channel(Config.Channels.ALERTS)
+        if (self.alert_channel == None):
+            self.alert_channel = self.bot.get_channel(Config.Channels.ALERTS)
 
         for server in get_servers():
             server_is_online = is_online(server)
@@ -44,7 +46,7 @@ class UptimeAlertsTask(Cog):
             if up_from_timestamp < 0:
                 if server_is_online:
                     embed = Embed(
-                        title=f"Server {server.name} online shod!",
+                        title=f"🟢 Server {server.name} online shod!",
                         description=f"\U0001f6a8 Server {server.name} lahazati pish online shod.\n\n⏰ Downtime: " + timestamp_ago(abs(server.up_from)),
                         color=0x00D166,
                         timestamp=get_utc()
@@ -81,7 +83,7 @@ class UptimeAlertsTask(Cog):
             else:
                 if not server_is_online:
                     embed = Embed(
-                        title=f"❌ Server {server.name} offline shod!",
+                        title=f"🔴 Server {server.name} offline shod!",
                         description=f"Server {server.name} lahazati pish az dastres kharej shod.\n\n⏰ Uptime: " + timestamp_ago(server.up_from),
                         color=0xff5757,
                         timestamp=get_utc()
@@ -99,7 +101,7 @@ class UptimeAlertsTask(Cog):
 
                 embed.set_footer(text=f"Tracked by IRMCTracker", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
 
-                await alert_channel.send(file=favicon,embed=embed)
+                await self.alert_channel.send(file=favicon,embed=embed)
 
 def setup(client):
     client.add_cog(UptimeAlertsTask(client))
