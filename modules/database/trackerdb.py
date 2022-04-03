@@ -52,7 +52,7 @@ def get_server_like(name):
         return None
 
 def get_servers():
-    return Server.select().order_by(Server.current_players.desc())
+    return Server.select().order_by(Server.current_players.desc(), Server.up_from.desc())
 
 def get_servers_limit(limit: int):
     return Server.select().order_by(Server.current_players.desc()).limit(limit)
