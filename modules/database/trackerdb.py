@@ -3,6 +3,8 @@ from modules.database.models import *
 from modules.database.models.records import get_highest_players
 from modules.utils import prefer_not_null
 
+from datetime import datetime
+
 from peewee import fn
 
 tables = [Server, Records, DiscordVote, ServerMeta, Player]
@@ -15,7 +17,7 @@ def remove_server(name):
     return server.delete_instance()
 
 def insert_server(name, address):
-    server = Server(name=name, address=address, up_from=0)
+    server = Server(name=name, address=address, up_from=-datetime.now().timestamp(), is_vip=0, channel_id=-1)
     return server.save()
 
 def update_server(name, current_players=None, address=None, latest_version=None, latest_latency=None, 

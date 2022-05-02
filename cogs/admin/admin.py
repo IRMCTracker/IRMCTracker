@@ -20,41 +20,6 @@ class Admin(Cog):
         insert_server(name, address)
         await ctx.send(f"Server **{name}** with address **{address}** added to database")
 
-    @command(aliases=["rmserver"])
-    @has_role('root')
-    async def removeserver(self, ctx, name):
-        remove_server(name)
-        await ctx.send(f"Removed server **{name}**")
-
-
-    @command(aliases=["updatediscord"])
-    @has_role('root')
-    async def setsocial(self, ctx, social: str, server_name: str, value: str):
-        socials = ['telegram', 'website', 'instagram', 'shop', 'discord']
-
-        if social in socials:
-            server = get_server(server_name)
-            if server == None:
-                return await ctx.send('Server vared shode motabar nist')
-
-            server_meta.add(server, social, value)
-            await ctx.send(f"Server **{server_name}** {social} set shod be {value}")
-        else:
-            await ctx.send('Social vared shode nadorost ast.')
-
-    @command(aliases=["settopplayer"])
-    @has_role('root')
-    async def settopplayers(self, ctx, name, top_players):
-        update_server(name, top_players=top_players)
-        await ctx.send(f"Server **{name}** top players set to {top_players}")
-
-    @command(aliases=["updateaddress"])
-    @has_role('root')
-    async def setaddress(self, ctx, name, address):
-        update_server(name, address=address)
-        await ctx.send(f"Server **{name}** address set to **{address}**")
-
-
     @command()
     @has_role('root')
     async def update(self, ctx, *, update: str):

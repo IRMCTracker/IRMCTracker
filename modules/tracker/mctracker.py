@@ -51,14 +51,13 @@ def update_server_database(server: MCServer, add_record: bool):
 
 class MCTracker:
     def __init__(self):
-        self.all_servers = get_servers()
         self.is_fetched = False
         self.counter = 0
 
     def update_servers(self):  
         add_record = True if self.counter % 40 == 0 else False
         
-        for server in self.all_servers:
+        for server in get_servers():
             update_server_database(MCServer(server.name, server.address), add_record)
 
         self.counter += 1
@@ -83,7 +82,7 @@ class MCTracker:
     def draw_chart(self, output_file='chart.png'):
         names = []
         players = []
-        for server in self.all_servers:
+        for server in get_servers():
             # We wont show 0 player servers anymore
             if server.current_players != 0:
                 names.append(shortified(server.name, 6, False))
