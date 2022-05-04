@@ -1,10 +1,8 @@
 import json
 import math
-from datetime import datetime
 
 from nextcord import Embed
 from nextcord.ext.commands import Cog, command
-from peewee import DoesNotExist
 
 from modules.api import Player
 from modules.api.hypixel import HypixelPlayer
@@ -38,14 +36,13 @@ class Profile(Cog):
                             color=0xFF0000)
             return await ctx.send(embed=embed)
 
-
         if not PlayerDB.select().where(PlayerDB.username == username).exists():
             player_db = PlayerDB(
                 username=username,
                 uuid=player.get_uuid(),
                 hypixel_data=None,
                 minecraft_data=json.dumps(player.get_player_data()),
-                updated_at=datetime.now()
+                updated_at=datetime.datetime.now()
             )
             player_db.save()
 
@@ -104,16 +101,18 @@ class Profile(Cog):
                             color=0xFF0000)
             return await ctx.send(embed=embed)
 
+        temp_message = await ctx.send(embed=Embed(title=f"{self.bot.emoji('steve_think')} Sabr kon ta {username} ro barat gir biaram...", color=0x00D166))
+
         try:
             player_db = PlayerDB.get(PlayerDB.username == username)
 
             if player_db.hypixel_data is None:
-                raise DoesNotExist
+                raise PlayerDB.DoesNotExist
 
             hypixel_player = json.loads(player_db.hypixel_data)
             hypixel_status = hypixel_player['status']
 
-        except DoesNotExist:
+        except (PlayerDB.DoesNotExist, IndexError):
             hypixel = HypixelPlayer(username)
             hypixel_player = hypixel.get_player()
             hypixel_status = hypixel_player['status']
@@ -123,7 +122,7 @@ class Profile(Cog):
                 uuid=player.get_uuid(),
                 hypixel_data=json.dumps(hypixel_player),
                 minecraft_data=json.dumps(player.get_player_data()),
-                updated_at=datetime.now()
+                updated_at=datetime.datetime.now()
             ).on_conflict('replace').execute()
         
         network_experience = hypixel_player["player"]["networkExp"]
@@ -221,7 +220,9 @@ class Profile(Cog):
             embed = Embed(title=f"{self.bot.emoji('steve_think')} Benazar miad {username} aslan hypixel play nadade!", 
                 color=0xFF0000)
             return await ctx.send(embed=embed)
-
+        
+        await temp_message.delete()
+        
         hypixel_embed.set_footer(
             text=f"IRMCTracker ・ {get_beautified_dt()}", 
             icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048'
