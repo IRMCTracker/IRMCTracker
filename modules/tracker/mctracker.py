@@ -1,4 +1,4 @@
-import datetime, time
+import time
 import json
 from time import sleep
 
@@ -114,7 +114,7 @@ class MCTracker:
         fig, ax = plt.subplots(figsize=(17,8))
 
         ax.bar(names, players, color=colors)
-        plt.title(f"[IR] MineCraft Servers - {datetime.datetime.now():%Y-%m-%d %I:%M:%S}")
+        plt.title(f"[IR] MineCraft Servers - {datetime.now():%Y-%m-%d %I:%M:%S}")
         plt.xlabel('Servers', fontsize=8, labelpad=5)
         plt.ylabel('Players', fontsize=8, labelpad=5)
 
