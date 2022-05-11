@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from distutils.util import strtobool
         
 class Env:
-    load_dotenv('storage/data/.env')
+    load_dotenv('.env')
     
     DEBUG = bool(strtobool(getenv('DEBUG')))
     LOG_SQL = bool(strtobool(getenv('LOG_SQL')))

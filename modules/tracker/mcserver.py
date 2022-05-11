@@ -20,6 +20,8 @@ class MCServer:
         
         self.fetch_status()
 
+        os.makedirs('storage/data/cache', exist_ok=True)
+
     def lookup(self):
         return MinecraftServer.lookup(self._check_srv(self.server_address))
     
@@ -99,7 +101,7 @@ class MCServer:
         if self.status:
             data = str(self.status.favicon).replace('data:image/png;base64,', '')
             imgdata = base64.b64decode(data)
-            filename = f"storage/cache/fav-{self.get_name()}.png"
+            filename = f"storage/data/cache/fav-{self.get_name()}.png"
 
             with open(filename, 'wb') as f:
                     f.write(imgdata)
@@ -111,7 +113,7 @@ class MCServer:
     def get_motd_path(self):
         if self.status:
             data = "http://status.mclive.eu/{}/{}/25565/banner.png".format(self.get_name(), self.server_address)
-            filename = f"storage/cache/motd-{self.get_name()}.png"
+            filename = f"storage/data/cache/motd-{self.get_name()}.png"
             
             try:
                 page = requests.get(data, timeout=6)

@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  python:
+    build:
+      context: .
+      dockerfile: python.dockerfile
+    depends_on:
+      - mariadb
+    volumes:
+      - ./storage/data/logs:/home/app/storage/data/logs
+  mariadb:
+    image: mariadb:10.7.3
+    volumes:
+      - ./storage/data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${MYSQL_ROOT_PASSWORD}"]
+      retries: 3
+      timeout: 5s

@@ -1,4 +1,5 @@
 import logging
+from os import makedirs
 
 def add_handler(name, filename, stream_level, file_level, logger_level):
     # Create a custom logger
@@ -8,9 +9,11 @@ def add_handler(name, filename, stream_level, file_level, logger_level):
     c_handler = logging.StreamHandler()
     
     # Getting the storage logs path
-    log_path = 'storage/logs/' + filename
+    log_path = 'storage/data/logs/'
 
-    f_handler = logging.FileHandler(filename=log_path, encoding='utf-8', mode='w')
+    makedirs(name=log_path, exist_ok=True)
+
+    f_handler = logging.FileHandler(filename=log_path + filename, encoding='utf-8')
     c_handler.setLevel(stream_level)
     f_handler.setLevel(file_level)
 

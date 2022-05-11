@@ -3,7 +3,7 @@ from confuse import Configuration
 from .env_values import Env
 
 CONFIG = Configuration('IRMCTracker', __name__)
-CONFIG.set_file(getenv('CONFIG_PATH'))
+CONFIG.set_file('config.yml')
 CONFIG = CONFIG.get()
 
 def get_path(full_path: str, cfg):

@@ -1,12 +1,8 @@
 guild-id: CHANNEL_ID
 channels:
-  top:
-    - CHANNEL_ID
-    - CHANNEL_ID
+  top_players:
     - CHANNEL_ID
   top_voted:
-    - CHANNEL_ID
-    - CHANNEL_ID
     - CHANNEL_ID
   record: CHANNEL_ID
   total-vc: CHANNEL_ID
