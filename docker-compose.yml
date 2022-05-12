@@ -9,6 +9,7 @@ services:
       - mariadb
     volumes:
       - ./storage/data/logs:/home/app/storage/data/logs
+      - ./storage/data/cache:/home/app/storage/data/cache
   mariadb:
     image: mariadb:10.7.3
     volumes:
