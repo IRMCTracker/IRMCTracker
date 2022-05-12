@@ -2,6 +2,7 @@ version: '3'
 
 services:
   python:
+    container_name: tracker_bot
     build:
       context: .
       dockerfile: python.dockerfile
@@ -10,7 +11,10 @@ services:
     volumes:
       - ./storage/data/logs:/home/app/storage/data/logs
       - ./storage/data/cache:/home/app/storage/data/cache
+    networks:
+      - tracker_network
   mariadb:
+    container_name: tracker_database
     image: mariadb:10.7.3
     volumes:
       - ./storage/data/mysql:/var/lib/mysql
@@ -25,3 +29,9 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-p${MYSQL_ROOT_PASSWORD}"]
       retries: 3
       timeout: 5s
+    networks:
+      - tracker_network
+networks:
+  tracker_network:
+    name: tracker_network
+    driver: bridge
