@@ -9,14 +9,11 @@ from os import remove
 from datetime import datetime
 
 import urllib.request as urlrq
-import certifi
-import ssl
-
 
 def draw_server_chart(server):
     url = "https://mctracker.ir/api/server/{}/records/daily/1".format(server.id)
 
-    response = urlrq.urlopen(url, context=ssl.create_default_context(cafile=certifi.where()))
+    response = urlrq.urlopen(url)
 
     results = json.loads(response.read())
 
@@ -24,11 +21,13 @@ def draw_server_chart(server):
     players = []
 
     count = 1
-    for day in reversed(results):
-        days.append(to_persian(day + " (امروز)" if count == len(results) else day))
-        players.append(results[day][0]['players'])
 
-        count += 1
+    for day in reversed(results):
+        if len(results[day]) > 0:
+            days.append(to_persian(day + " (امروز)" if count == len(results) else day))
+            players.append(results[day][0]['players'])
+
+            count += 1
 
     colors = []
     for player_count in players:
@@ -68,10 +67,12 @@ def draw_server_chart(server):
         plt.text(x=x , y =data+1 , s=f"{data}" , fontdict=dict(fontsize=12))
 
     output_file = random_cache_file('png')
-
+    
     plt.savefig(output_file)
 
-    plt.close(fig)
+    plt.cla()
+    plt.clf()
+    plt.close()
 
     return output_file
 
@@ -89,7 +90,6 @@ class ChartCommand(Cog):
     @cooldown(6, 60, BucketType.user)
     async def chart(self, ctx, server=None):
         mention_msg = ctx.author.mention
-
         if server is None:
             return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Dastoor vared shode motabar nist.", 
                                         description='Estefade dorost: ```.chart [servername]\nMesal: .chart madcraft```',
@@ -101,7 +101,7 @@ class ChartCommand(Cog):
             return await ctx.send(mention_msg, embed=Embed(title=f"{self.bot.emoji('steve_think')} Server vared shode vojood nadarad!",
                                         description='Ba dastoor zir tamami server haro bebinid ```.servers```',
                                         color=0xF44336, timestamp=get_utc()))
-        
+
         embed = Embed(title=f"👥 Player Chart {server.name}", 
                         description=f"👥 Player Online: **{server.current_players}** | 🥇 Balatarin Record: **{get_highest_players(server)}**",
                         color=0x00D166, timestamp=get_utc())

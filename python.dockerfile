@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9-slim
 
 RUN useradd --user-group -r app
 
@@ -10,7 +10,7 @@ RUN chown -R app:app /home/app
 
 USER app
 
-RUN pip3 install -r requirements.txt --no-cache-dir
+RUN pip3 install -r requirements.txt --no-warn-script-location
 
 ENTRYPOINT [ "python", "main.py" ]
 

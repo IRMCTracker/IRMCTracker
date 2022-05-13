@@ -126,6 +126,8 @@ class MCTracker:
 
         plt.savefig(output_file)
 
-        plt.close(fig)
+        plt.cla()
+        plt.clf()
+        plt.close()
         
         return output_file

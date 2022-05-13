@@ -39,7 +39,7 @@ def run_discord_bot():
 
                 bot.load_extension(filename)
 
-                print(f"\n- Loaded {filename}")
+                get_logger().info(f"Loaded {filename}")
 
     bot.loaded_extensions = loaded_extensions
 

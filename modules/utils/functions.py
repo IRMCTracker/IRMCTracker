@@ -111,7 +111,7 @@ def capitalize_address(address):
     return '.'.join([x.capitalize() for x in address.split('.')])
 
 def random_cache_file(ext):
-    return "storage{}cache{}{}.{}".format(sep, sep, uuid.uuid4(), ext)
+    return "storage{}data{}cache{}{}.{}".format(sep, sep, sep, uuid.uuid4(), ext)
 
 def get_medal_emoji(index):
     if index == 0:

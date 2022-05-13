@@ -30,7 +30,9 @@ def draw_pie_chart():
 
     plt.savefig(output_file, transparent=True)
 
-    plt.close(fig)
+    plt.cla()
+    plt.clf()
+    plt.close()
 
     return output_file
 
