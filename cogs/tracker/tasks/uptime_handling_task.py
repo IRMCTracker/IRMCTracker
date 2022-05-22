@@ -52,6 +52,7 @@ class UptimeAlertsTask(Cog):
                         timestamp=get_utc()
                     )
                     server.up_from = current_timestamp
+                    server.save()
 
                 # Logic of removing servers that were offline within past 30 days
                 else:
@@ -89,9 +90,7 @@ class UptimeAlertsTask(Cog):
                         timestamp=get_utc()
                     )
                     server.up_from = -abs(current_timestamp)
-            
-            server.save()
-
+                    server.save()
 
             if embed is not None:
                 favicon = None
