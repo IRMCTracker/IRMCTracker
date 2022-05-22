@@ -3,6 +3,7 @@ import math
 
 from nextcord import Embed
 from nextcord.ext.commands import Cog, command
+from pymysql import IntegrityError
 
 from modules.api import Player
 from modules.api.hypixel import HypixelPlayer
@@ -36,6 +37,8 @@ class Profile(Cog):
                             color=0xFF0000)
             return await ctx.send(embed=embed)
 
+        temp_message = await ctx.send(embed=Embed(title=f"{self.bot.emoji('steve_think')} Sabr kon ta {username} ro barat gir biaram...", color=0x00D166))
+
         if not PlayerDB.select().where(PlayerDB.username == username).exists():
             player_db = PlayerDB(
                 username=username,
@@ -44,7 +47,12 @@ class Profile(Cog):
                 minecraft_data=json.dumps(player.get_player_data()),
                 updated_at=datetime.datetime.now()
             )
-            player_db.save()
+
+            try:
+                player_db.save()
+            except:
+                PlayerDB.get(PlayerDB.uuid == player.get_uuid()).delete_instance()
+                player_db.save()
 
         embed = Embed(
             title=f"{self.bot.emoji('steve_dab')} ⌠・Player Profile {username.capitalize()}・⌡", 
@@ -71,6 +79,7 @@ class Profile(Cog):
             url=player.get_head_image()
         )
 
+        await temp_message.delete()
 
         embed.set_footer(
             text=f"IRMCTracker ・ {get_beautified_dt()}", 
@@ -85,7 +94,7 @@ class Profile(Cog):
         if ctx.channel.id != Config.Channels.PROFILE_USAGE_CHANNEL:
             await ctx.message.add_reaction('❌')
             return
-
+        
         # Check if username is specified in the command
         if not username:
             embed = Embed(title=f"{self.bot.emoji('steve_think')} Khob alan donbal ki hasti dabsh?", 
@@ -112,9 +121,10 @@ class Profile(Cog):
             hypixel_player = json.loads(player_db.hypixel_data)
             hypixel_status = hypixel_player['status']
 
-        except (PlayerDB.DoesNotExist, IndexError):
+        except (PlayerDB.DoesNotExist, IndexError, TypeError):
             hypixel = HypixelPlayer(username)
             hypixel_player = hypixel.get_player()
+
             hypixel_status = hypixel_player['status']
 
             PlayerDB.insert(
