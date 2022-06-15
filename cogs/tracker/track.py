@@ -1,5 +1,5 @@
-from nextcord import Embed, File
-from nextcord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
+from discord import Embed, File
+from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 
 from modules.config.config_values import Config
 from modules.database import get_server_like, get_highest_players

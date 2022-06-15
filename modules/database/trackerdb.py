@@ -43,24 +43,24 @@ def update_server(name, current_players=None, address=None, latest_version=None,
 
 def get_server(name):
     try:
-        return Server.get(Server.name == name)
+        return Server.get(Server.name == name & Server.is_active == True)
     except:
         return None
 
 def get_server_like(name):
     try:
-        return Server.get(Server.name.startswith(name))
+        return Server.get(Server.name.startswith(name) & Server.is_active == True)
     except:
         return None
 
 def get_servers():
-    return Server.select().order_by(Server.current_players.desc(), Server.up_from.desc())
+    return Server.select().where(Server.is_active == True).order_by(Server.current_players.desc(), Server.up_from.desc())
 
 def get_servers_limit(limit: int):
-    return Server.select().order_by(Server.current_players.desc()).limit(limit)
+    return Server.select().where(Server.is_active == True).order_by(Server.current_players.desc()).limit(limit)
 
 def get_servers_by_record():
-    servers = Server.select()
+    servers = get_servers()
     sorted_list = []
 
     for server in servers:
@@ -72,9 +72,9 @@ def get_servers_by_record():
     return sorted_list
 
 def zero_player_servers_count():
-    result = Server.select().where(Server.current_players == 0)
+    result = Server.select().where(Server.is_active == True).where(Server.current_players == 0)
     return len(result)
 
 def all_players_count():
-    return Server.select(fn.SUM(Server.current_players)).scalar()
+    return Server.select(fn.SUM(Server.current_players)).where(Server.is_active == True).scalar()
     

@@ -1,6 +1,6 @@
-from nextcord import Activity, ActivityType
-from nextcord.ext import tasks
-from nextcord.ext.commands import Cog
+from discord import Activity, ActivityType
+from discord.ext import tasks
+from discord.ext.commands import Cog
 
 from modules.tracker import get_servers, all_players_count
 

@@ -1,8 +1,8 @@
 import os
 
-from nextcord import File, Embed
-from nextcord.ext import tasks
-from nextcord.ext.commands import Cog
+from discord import File, Embed
+from discord.ext import tasks
+from discord.ext.commands import Cog
 
 from modules.config import Config
 from modules.tracker import MCTracker, get_servers

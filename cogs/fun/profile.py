@@ -1,8 +1,8 @@
 import json
 import math
 
-from nextcord import Embed
-from nextcord.ext.commands import Cog, command
+from discord import Embed
+from discord.ext.commands import Cog, command
 from pymysql import IntegrityError
 
 from modules.api import Player

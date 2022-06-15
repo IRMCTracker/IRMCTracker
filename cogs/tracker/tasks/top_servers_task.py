@@ -1,4 +1,4 @@
-from nextcord.errors import HTTPException
+from discord.errors import HTTPException
 from modules.config import Config
 from modules.database.models.records import get_highest_players
 from modules.database.models.server_meta import get as get_meta
@@ -7,9 +7,9 @@ from modules.database import get_servers
 
 from modules.utils import *
 
-from nextcord.ext import tasks
-from nextcord import Embed
-from nextcord.ext.commands import Cog
+from discord.ext import tasks
+from discord import Embed
+from discord.ext.commands import Cog
 
 
 def log_http_exception(e):
@@ -181,7 +181,7 @@ class TopServersTask(Cog):
 
         if server.favicon_path is not None:
             try:
-                file = await self.bot.CACHE_CHANNEL.send(file=nextcord.File(server.favicon_path))
+                file = await self.bot.CACHE_CHANNEL.send(file=discord.File(server.favicon_path))
                 image_url = file.attachments[0].url
                 embed.set_thumbnail(url=image_url)
             except HTTPException as e:
@@ -190,9 +190,9 @@ class TopServersTask(Cog):
         if server.motd_path is not None:
             try:
                 if is_online(server):
-                    file = await self.bot.CACHE_CHANNEL.send(file=nextcord.File(server.motd_path))
+                    file = await self.bot.CACHE_CHANNEL.send(file=discord.File(server.motd_path))
                 else:        
-                    file = await self.bot.CACHE_CHANNEL.send(file=nextcord.File('storage/static/banner.png'))
+                    file = await self.bot.CACHE_CHANNEL.send(file=discord.File('storage/static/banner.png'))
                 image_url = file.attachments[0].url
                 embed.set_image(url=image_url)
             except HTTPException as e:

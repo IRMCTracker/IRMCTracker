@@ -1,5 +1,5 @@
-from nextcord import Embed
-from nextcord.ext.commands import Cog, command, has_role
+from discord import Embed
+from discord.ext.commands import Cog, command, has_role
 
 from modules.database import update_server, insert_server, remove_server, server_meta, get_server
 from modules.tracker import MCTracker

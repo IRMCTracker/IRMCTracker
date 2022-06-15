@@ -6,9 +6,9 @@ from modules.tracker import get_servers
 
 from modules.utils import *
 
-from nextcord.ext import tasks
-from nextcord import File, Embed
-from nextcord.ext.commands import Cog
+from discord.ext import tasks
+from discord import File, Embed
+from discord.ext.commands import Cog
 
 
 class UptimeAlertsTask(Cog):

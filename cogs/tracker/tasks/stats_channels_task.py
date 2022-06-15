@@ -4,9 +4,9 @@ from modules.database.models.records import get_highest_players
 
 from modules.utils import *
 
-from nextcord.ext import tasks
-from nextcord import Embed
-from nextcord.ext.commands import Cog
+from discord.ext import tasks
+from discord import Embed
+from discord.ext.commands import Cog
 
 
 class StatsChannelsTask(Cog):

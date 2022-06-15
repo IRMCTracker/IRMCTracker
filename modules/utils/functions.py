@@ -1,4 +1,4 @@
-import nextcord
+import discord
 
 from random import randint
 from time import time
@@ -138,4 +138,4 @@ class Emojis:
         self.emojis = emojis
 
     def get_emoji(self, name):
-        return nextcord.utils.get(self.emojis, name=name)
+        return discord.utils.get(self.emojis, name=name)

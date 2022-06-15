@@ -20,6 +20,7 @@ class Server(BaseModel):
     up_from = BigIntegerField(default=0)
     is_vip = BooleanField(default=False)
     channel_id = BigIntegerField(default=0)
+    is_active = BooleanField(default=True)
 
     class Meta:
         table_name = 'servers'

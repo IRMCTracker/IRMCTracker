@@ -1,8 +1,8 @@
 from modules.utils import *
 from modules.config import Config
 
-from nextcord import Embed
-from nextcord.ext.commands import command, Cog, group
+from discord import Embed
+from discord.ext.commands import command, Cog, group
 
 class Basics(Cog):
     """Basic commands cog

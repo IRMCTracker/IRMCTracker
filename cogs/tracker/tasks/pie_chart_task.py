@@ -5,9 +5,9 @@ from modules.tracker import get_servers_limit
 
 from modules.utils import *
 
-from nextcord.ext import tasks
-from nextcord import Embed
-from nextcord.ext.commands import Cog
+from discord.ext import tasks
+from discord import Embed
+from discord.ext.commands import Cog
 
 import matplotlib.pyplot as plt
 
@@ -59,7 +59,7 @@ class PieChartTask(Cog):
 
         cache_channel = self.bot.get_channel(Config.Channels.CACHE)
 
-        file = await cache_channel.send(file=nextcord.File(chart_file))
+        file = await cache_channel.send(file=discord.File(chart_file))
         chart_url = file.attachments[0].url
         embed.set_image(url=chart_url)
 
