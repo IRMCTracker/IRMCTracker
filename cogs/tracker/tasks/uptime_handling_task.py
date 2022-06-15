@@ -63,18 +63,12 @@ class UptimeAlertsTask(Cog):
                     
                     # Checking if server is offline for more than expire after seconds
                     if offline_days > expire_after_seconds:
-                        # Removing the server records
-                        Records.delete().where(Records.server_id == server.id).execute()
-
-                        # Removing the server metas
-                        ServerMeta.delete().where(ServerMeta.server_id == server.id).execute()
-
-                        # Now we gonna remove server
-                        Server.delete().where(Server.id == server.id).execute()
+                        server.is_active = False
+                        server.save()
 
                         # And we build up alert embed
                         embed = Embed(
-                            title=f"💀 Server {server.name} hazf shod!",
+                            title=f"💀 Server {server.name} gheire faal shod!",
                             description=f"Server {server.name} bedalil offline budan bishtar az 30 rooz az list tracking Tracker hazf shod.",
                             color=0xA62019,
                             timestamp=get_utc()
