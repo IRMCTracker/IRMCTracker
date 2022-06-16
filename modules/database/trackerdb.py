@@ -43,13 +43,13 @@ def update_server(name, current_players=None, address=None, latest_version=None,
 
 def get_server(name):
     try:
-        return Server.get(Server.name == name & Server.is_active == True)
+        return Server.get((Server.name == name) & (Server.is_active == True))
     except:
         return None
 
 def get_server_like(name):
     try:
-        return Server.get(Server.name.startswith(name) & Server.is_active == True)
+        return Server.get((Server.name.startswith(name)) & (Server.is_active == True))
     except:
         return None
 
