@@ -1,8 +1,28 @@
+bot:
+  token: token_here
+  prefix: prefix_here
+  hypixel-key: needed_for_profile_command
+  debug:
+    enabled: false
+    token: debug_token_here
+    prefix: debug_prefix_here
+
+log:
+  discord-debug: false
+  sql-queries: false
+  
+mysql:
+  host: mariadb
+  port: 3306
+  database: tracker
+  user: tracker
+  password: change_me
+
 guild-id: CHANNEL_ID
 channels:
-  top_players:
+  top-players:
     - CHANNEL_ID
-  top_voted:
+  top-voted:
     - CHANNEL_ID
   record: CHANNEL_ID
   total-vc: CHANNEL_ID

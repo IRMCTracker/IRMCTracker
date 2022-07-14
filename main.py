@@ -5,7 +5,7 @@ import os
 from discord import Intents
 from discord.ext.commands import Bot
 
-from modules.config import Env
+from modules.config.config_values import Config
 from modules.utils import get_logger
 from modules.tracker import update_server_database, MCTracker
 from modules.database import create_tables, database
@@ -22,7 +22,7 @@ def run_discord_bot():
         - Will load every single cog in ~/cogs/ directory and run the bot    
     """ 
     
-    bot = Bot(command_prefix=Env.PREFIX,
+    bot = Bot(command_prefix=Config.Bot.PREFIX,
               intents=Intents().all(), help_command=None, case_insensitive=True)
     
     loaded_extensions = {}
@@ -43,7 +43,7 @@ def run_discord_bot():
 
     bot.loaded_extensions = loaded_extensions
 
-    bot.run(Env.TOKEN)
+    bot.run(Config.Bot.TOKEN)
 
     return bot
 

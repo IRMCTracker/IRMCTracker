@@ -19,7 +19,7 @@ class VoteCommand(Cog):
         """Sending vote URL of the specific server
         """
 
-        if ctx.channel.id != Config.Channels.TRACK_USAGE_CHANNEL:
+        if ctx.channel.id != Config.Channels.TRACK_USAGE:
             await ctx.message.add_reaction('❌')
             return
 

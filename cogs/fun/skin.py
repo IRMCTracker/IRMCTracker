@@ -14,7 +14,7 @@ class Skin(Cog):
 
     @command()
     async def skin(self, ctx, username = None):
-        if ctx.channel.id != Config.Channels.SKIN_USAGE_CHANNEL:
+        if ctx.channel.id != Config.Channels.SKIN_USAGE:
             await ctx.message.add_reaction('❌')
             return
 
@@ -41,7 +41,7 @@ class Skin(Cog):
 
     @command()
     async def head(self, ctx, username = None):
-        if ctx.channel.id != Config.Channels.SKIN_USAGE_CHANNEL:
+        if ctx.channel.id != Config.Channels.SKIN_USAGE:
             await ctx.message.add_reaction('❌')
             return
 

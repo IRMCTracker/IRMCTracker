@@ -1,6 +1,6 @@
-from modules.config import Env
 from peewee import MySQLDatabase
+from modules.config import Config
 
-database = MySQLDatabase(Env.MYSQL_DATABASE, user=Env.MYSQL_USER, password=Env.MYSQL_PASSWORD,
-                         host=Env.MYSQL_HOST, port=Env.MYSQL_PORT, charset='utf8mb4')
+database = MySQLDatabase(Config.MySQL.DATABASE, user=Config.MySQL.USER, password=Config.MySQL.PASSWORD,
+                         host=Config.MySQL.HOST, port=Config.MySQL.PORT, charset='utf8mb4')
 

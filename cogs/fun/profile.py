@@ -18,7 +18,7 @@ class Profile(Cog):
 
     @command(aliases=['prof','p','player'])
     async def profile(self, ctx, username:str = None):
-        if ctx.channel.id != Config.Channels.PROFILE_USAGE_CHANNEL:
+        if ctx.channel.id != Config.Channels.PROFILE_USAGE:
             await ctx.message.add_reaction('❌')
             return
 
@@ -91,7 +91,7 @@ class Profile(Cog):
 
     @command(aliases=['hyp'])
     async def hypixel(self, ctx, username:str = None):
-        if ctx.channel.id != Config.Channels.PROFILE_USAGE_CHANNEL:
+        if ctx.channel.id != Config.Channels.PROFILE_USAGE:
             await ctx.message.add_reaction('❌')
             return
         

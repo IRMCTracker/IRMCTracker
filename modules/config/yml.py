@@ -1,6 +1,4 @@
-from os import getenv, walk
 from confuse import Configuration
-from .env_values import Env
 
 CONFIG = Configuration('IRMCTracker', __name__)
 CONFIG.set_file('config.yml')

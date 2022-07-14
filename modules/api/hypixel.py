@@ -1,6 +1,6 @@
 import requests
 
-from modules.config import Env
+from modules.config import Config
 from modules.utils import *
 
 class HypixelPlayer:
@@ -15,7 +15,7 @@ class HypixelPlayer:
         return requests.get(
             url = "https://api.hypixel.net/player",
             params = {
-                "key": Env.HYPIXEL_KEY,
+                "key": Config.Bot.HYPIXEL_KEY,
                 "name": self.username
             }
         ).json()
@@ -24,7 +24,7 @@ class HypixelPlayer:
         return requests.get(
             url = "https://api.hypixel.net/status",
             params = {
-                "key": Env.HYPIXEL_KEY,
+                "key": Config.Bot.HYPIXEL_KEY,
                 "uuid": self.uuid
             }
         ).json()['session']

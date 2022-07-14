@@ -42,10 +42,10 @@ class TopServersTask(Cog):
 
             where.append(data)
 
-        for channel_id in Config.Channels.TOP_CHANNELS:
+        for channel_id in Config.Channels.TOP_PLAYERS:
             await add_channel(channel_id, self.TOP_PLAYERS_CHANNELS)
 
-        for channel_id in Config.Channels.TOP_VOTED_CHANNELS:
+        for channel_id in Config.Channels.TOP_VOTED:
             await add_channel(channel_id, self.TOP_VOTED_CHANNELS)
 
     @tasks.loop(minutes=1)

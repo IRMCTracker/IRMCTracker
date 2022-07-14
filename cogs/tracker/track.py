@@ -23,7 +23,7 @@ class TrackerGlobal(Cog):
     async def track(self, ctx, server=None):
         """Track command for getting information about servers
         """
-        if ctx.channel.id != Config.Channels.TRACK_USAGE_CHANNEL:
+        if ctx.channel.id != Config.Channels.TRACK_USAGE:
             await ctx.message.add_reaction('❌')
             return
 

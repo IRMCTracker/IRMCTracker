@@ -36,7 +36,7 @@ class StatsChannelsTask(Cog):
         await self.update_records_text()
     
     async def update_records_text(self):
-        channel = self.bot.get_channel(Config.Channels.RECORD_CHANNEL)
+        channel = self.bot.get_channel(Config.Channels.RECORD)
         messages = await channel.history(limit=1).flatten()
 
         embed = Embed(title="💎 Top Records | رکورد سرور های ایرانی",
