@@ -62,7 +62,7 @@ class TopServersTask(Cog):
     async def update_top_voted_channels(self):
 
         i = 0
-        top_servers = get_top_voted_servers(len(Config.Channels.TOP_VOTED_CHANNELS))
+        top_servers = get_top_voted_servers(len(Config.Channels.TOP_VOTED))
 
         for top_channel in self.TOP_VOTED_CHANNELS:
             server = top_servers[i]
