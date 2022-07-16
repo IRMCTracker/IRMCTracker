@@ -10,7 +10,7 @@ class Config:
     class Bot:
         DEBUG_ENABLED = bool(get('bot.debug.enabled'))
         TOKEN = get('bot.debug.token') if DEBUG_ENABLED else get('bot.token')
-        PREFIX = get('bot.debug.prefix') if DEBUG_ENABLED else get('bot.prefix')
+        PREFIX = get('bot.debug.prefix').split(",") if DEBUG_ENABLED else get('bot.prefix').split(",")
         HYPIXEL_KEY = get('bot.hypixel-key')
 
     class MySQL:
