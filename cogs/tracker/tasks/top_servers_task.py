@@ -32,6 +32,9 @@ class TopServersTask(Cog):
     async def load_top_channels(self):
         async def add_channel(channel_id, where):
             channel = self.bot.get_channel(channel_id)
+            
+            if channel == None: return
+
             message = (await channel.history(limit=1).flatten())[0]
 
             data = {
