@@ -27,7 +27,7 @@ def get_server_votes_count(server_id: int):
 
 
 def get_top_voted_servers(amount:int = 3):
-    servers = Server.select()
+    servers = Server.select().where(Server.is_active == True)
 
     for server in servers:
         server.votes = get_server_votes_count(server.id)
