@@ -27,7 +27,7 @@ class TopServersTask(Cog):
         self.TOP_VOTED_CHANNELS = []
 
         # Running top channels update task
-        self.update_top_channels.start()
+        self.update_top_voted_channels.start()
     
     async def load_top_channels(self):
         async def add_channel(channel_id, where):
@@ -52,23 +52,19 @@ class TopServersTask(Cog):
             await add_channel(channel_id, self.TOP_VOTED_CHANNELS)
 
     @tasks.loop(minutes=1)
-    async def update_top_channels(self):
+    async def update_top_voted_channels(self):
         await self.bot.wait_until_ready()
         
         # Will be only running at the first time
         if len(self.TOP_VOTED_CHANNELS) == 0:
             await self.load_top_channels()
 
-        await self.update_top_voted_channels()
-        await self.update_top_players_channels()
-
-    async def update_top_voted_channels(self):
+        top_voted_servers = get_top_voted_servers(len(Config.Channels.TOP_VOTED))
+        top_players_servers = get_servers()
 
         i = 0
-        top_servers = get_top_voted_servers(len(Config.Channels.TOP_VOTED))
-
         for top_channel in self.TOP_VOTED_CHANNELS:
-            server = top_servers[i]
+            server = top_voted_servers[i]
             
             prefix = get_medal_emoji(i) if is_online(server) else '❌'
 
@@ -76,16 +72,16 @@ class TopServersTask(Cog):
                 name=f"{prefix}・{shortified(server.name, 9).capitalize()}「{server.votes}✌」"
             )
 
-            await self.edit_embed(server, top_channel["message"])
+            try:
+                await self.edit_embed(server, top_channel["message"])
+            except HTTPException as e:
+                log_http_exception(e)
 
             i += 1
 
-    async def update_top_players_channels(self):
         i = 0
-        servers = get_servers()
-
         for top_channel in self.TOP_PLAYERS_CHANNELS:
-            server = servers[i]
+            server = top_players_servers[i]
             
             prefix = get_medal_emoji(i)
 
