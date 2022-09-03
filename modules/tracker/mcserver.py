@@ -28,7 +28,7 @@ class MCServer:
     def _check_srv(self, domain):
         try:
             srvInfo = {}
-            srv_records=dns.resolver.query('_minecraft._tcp.'+domain, 'SRV')
+            srv_records=dns.resolver.resolve('_minecraft._tcp.'+domain, 'SRV')
             for srv in srv_records:
                 srvInfo['host']     = str(srv.target).rstrip('.')
                 srvInfo['port']     = srv.port
