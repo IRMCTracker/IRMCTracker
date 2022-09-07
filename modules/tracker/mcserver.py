@@ -27,12 +27,10 @@ class MCServer:
     
     def _check_srv(self, domain):
         try:
-            srvInfo = {}
             srv_records=dns.resolver.resolve('_minecraft._tcp.'+domain, 'SRV')
-            for srv in srv_records:
-                srvInfo['host']     = str(srv.target).rstrip('.')
-                srvInfo['port']     = srv.port
-            address = srvInfo['host']
+            host = str(srv_records[0].target).rstrip('.')
+            port = srv_records[0].port
+            address = host + ':' + str(port)
         except:
             address = domain
         
