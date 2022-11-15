@@ -54,9 +54,9 @@ if __name__ == "__main__":
 
     if len(args) == 0:
         sys.exit(
-            "You have not entered any args.\nAvailable args: [run:all, run:bot, run:tracker , db]")
+            "You have not entered any args.\nAvailable args: [run, run:bot, run:tracker , db]")
 
-    if args[0] == 'run:all':
+    if args[0] == 'run':
         # Creating the database tables (and the actual database file if doesnt exist)
         create_tables()
 
