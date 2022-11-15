@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     if len(args) == 0:
         sys.exit(
-            "You have not entered any args.\nAvailable args: [run:all, run:bot, run:tracker , test, db]")
+            "You have not entered any args.\nAvailable args: [run:all, run:bot, run:tracker , db]")
 
     if args[0] == 'run:all':
         # Creating the database tables (and the actual database file if doesnt exist)
@@ -81,16 +81,3 @@ if __name__ == "__main__":
         bot = run_discord_bot()
 
         bot.db = db
-
-    elif args[0] == 'test':
-        from tests.test_basic import *
-
-    elif ':' in args[0]:
-        cmd, child = args[0].split(':')
-
-        if cmd == 'db':
-            if child == 'update':
-                update_server_database()
-
-            else:
-                get_logger().error('Wrong command child! Use [ update ]')
