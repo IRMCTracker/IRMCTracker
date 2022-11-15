@@ -54,14 +54,29 @@ if __name__ == "__main__":
 
     if len(args) == 0:
         sys.exit(
-            "You have not entered any args.\nAvailable args: [run , test, db]")
+            "You have not entered any args.\nAvailable args: [run:all, run:bot, run:tracker , test, db]")
 
-    if args[0] == 'run':
+    if args[0] == 'run:all':
         # Creating the database tables (and the actual database file if doesnt exist)
         create_tables()
 
         # Running the database update task in another thread so that it doesnt interfere with the actual bot
         thread = Thread(target = MCTracker().update_task, daemon=True).start()
+
+        bot = run_discord_bot()
+
+        bot.db = db
+
+    elif args[0] == 'run:tracker':
+        # Creating the database tables (and the actual database file if doesnt exist)
+        create_tables()
+
+        # Running the database update task in another thread so that it doesnt interfere with the actual bot
+        thread = Thread(target = MCTracker().update_task, daemon=True).start()
+
+    elif args[0] == 'run:bot':
+        # Creating the database tables (and the actual database file if doesnt exist)
+        create_tables()
 
         bot = run_discord_bot()
 

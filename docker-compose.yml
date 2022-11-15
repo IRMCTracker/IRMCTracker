@@ -13,6 +13,7 @@ services:
       - ./storage/data/cache:/home/app/storage/data/cache
     networks:
       - tracker_network
+    command: "run:all"
   mariadb:
     container_name: tracker_database
     image: mariadb:10.7.3
