@@ -83,7 +83,7 @@ class Profile(Cog):
 
         embed.set_footer(
             text=f"IRMCTracker ・ {get_beautified_dt()}", 
-            icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048'
+            icon_url='https://mctracker.ir/img/logo.png'
         )
 
         await ctx.send(embed=embed)
@@ -145,7 +145,7 @@ class Profile(Cog):
                 color=get_random_color()
             )
 
-            hypixel_embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/879323399749533716/879750805266243634/hypixel.jpg')
+            hypixel_embed.set_thumbnail(url='https://mctracker.ir/img/hypixel.jpg')
 
             hypixel_embed.add_field(
                 name=f"{self.bot.emoji('level')} • Level",
@@ -235,7 +235,7 @@ class Profile(Cog):
         
         hypixel_embed.set_footer(
             text=f"IRMCTracker ・ {get_beautified_dt()}", 
-            icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048'
+            icon_url='https://mctracker.ir/img/logo.png'
         )
 
         await ctx.send(embed=hypixel_embed)

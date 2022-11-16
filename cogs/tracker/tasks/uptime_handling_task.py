@@ -92,7 +92,7 @@ class UptimeAlertsTask(Cog):
                     favicon = File(server.favicon_path, filename="fav.png")
                     embed.set_thumbnail(url="attachment://fav.png")
 
-                embed.set_footer(text=f"Tracked by IRMCTracker", icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=2048')
+                embed.set_footer(text=f"Tracked by IRMCTracker", icon_url='https://mctracker.ir/img/logo.png')
 
                 await self.alert_channel.send(file=favicon,embed=embed)
 
