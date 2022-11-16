@@ -55,7 +55,7 @@ class PieChartTask(Cog):
         embed = Embed(title="🥧 Pie Chart - Players of top Iranian servers", 
                         color=0x0099E1, timestamp=get_utc(),
                         url="https://mctracker.ir/server/list")
-        embed.set_footer(text=f"Tracked by IRMCTracker", icon_url="https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128")
+        embed.set_footer(text=f"Tracked by IRMCTracker", icon_url="https://mctracker.ir/img/logo.png")
 
         cache_channel = self.bot.get_channel(Config.Channels.CACHE)
 

@@ -105,7 +105,7 @@ class ChartCommand(Cog):
         embed = Embed(title=f"👥 Player Chart {server.name}", 
                         description=f"👥 Player Online: **{server.current_players}** | 🥇 Balatarin Record: **{get_highest_players(server)}**",
                         color=0x00D166, timestamp=get_utc())
-        embed.set_footer(text=f"Tracked by IRMCTracker", icon_url="https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128")
+        embed.set_footer(text=f"Tracked by IRMCTracker", icon_url="https://mctracker.ir/img/logo.png")
 
         output_file = draw_server_chart(server)
 

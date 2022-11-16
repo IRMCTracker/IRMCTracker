@@ -44,7 +44,7 @@ class VoteCommand(Cog):
             embed = Embed(title=f"✌ Vote {server.name}", description=description, color=0x4CAF50, timestamp=get_utc(), url=vote_url)
             embed.set_footer(
                 text=f"Tracked By IRMCTracker",
-                icon_url='https://cdn.discordapp.com/avatars/866290840426512415/06e4661be6886a7818e5ce1d09fa5709.webp?size=128'
+                icon_url='https://mctracker.ir/img/logo.png'
             )
             await ctx.send(embed=embed)
 
