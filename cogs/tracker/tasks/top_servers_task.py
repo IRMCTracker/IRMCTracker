@@ -68,12 +68,12 @@ class TopServersTask(Cog):
             
             prefix = get_medal_emoji(i) if is_online(server) else '❌'
 
-            await top_channel["object"].edit(
-                name=f"{prefix}・{shortified(server.name, 9).capitalize()}「{server.votes}✌」"
-            )
-
             try:
                 await self.edit_embed(server, top_channel["message"])
+
+                await top_channel["object"].edit(
+                    name=f"{prefix}・{shortified(server.name, 9).capitalize()}「{server.votes}✌」"
+                )
             except HTTPException as e:
                 log_http_exception(e)
 
@@ -90,16 +90,16 @@ class TopServersTask(Cog):
                 players = '-'
             else:
                 players = server.current_players
-                
-            await top_channel["object"].edit(
-                name=f"{prefix}・{shortified(server.name, 9).capitalize()}「{players}👥」"
-            )
 
             server.channel_id = top_channel["id"]
             server.save()
 
             try:
                 await self.edit_embed(server, top_channel["message"])
+
+                await top_channel["object"].edit(
+                    name=f"{prefix}・{shortified(server.name, 9).capitalize()}「{players}👥」"
+                )
             except HTTPException as e:
                 log_http_exception(e)
 
