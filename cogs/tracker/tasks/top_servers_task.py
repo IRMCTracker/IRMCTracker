@@ -1,3 +1,5 @@
+from os.path import isfile
+
 from discord.errors import HTTPException
 from modules.config import Config
 from modules.database.models.records import get_highest_players
@@ -179,23 +181,25 @@ class TopServersTask(Cog):
             )
 
         if server.favicon_path is not None:
-            try:
-                file = await self.bot.CACHE_CHANNEL.send(file=discord.File(server.favicon_path))
-                image_url = file.attachments[0].url
-                embed.set_thumbnail(url=image_url)
-            except HTTPException as e:
-                log_http_exception(e)
+            if isfile(server.favicon_path):
+                try:
+                    file = await self.bot.CACHE_CHANNEL.send(file=discord.File(server.favicon_path))
+                    image_url = file.attachments[0].url
+                    embed.set_thumbnail(url=image_url)
+                except HTTPException as e:
+                    log_http_exception(e)
 
         if server.motd_path is not None:
-            try:
-                if is_online(server):
-                    file = await self.bot.CACHE_CHANNEL.send(file=discord.File(server.motd_path))
-                else:        
-                    file = await self.bot.CACHE_CHANNEL.send(file=discord.File('storage/static/banner.png'))
-                image_url = file.attachments[0].url
-                embed.set_image(url=image_url)
-            except HTTPException as e:
-                log_http_exception(e)
+            if isfile(server.motd_path):
+                try:
+                    if is_online(server):
+                        file = await self.bot.CACHE_CHANNEL.send(file=discord.File(server.motd_path))
+                    else:        
+                        file = await self.bot.CACHE_CHANNEL.send(file=discord.File('storage/static/banner.png'))
+                    image_url = file.attachments[0].url
+                    embed.set_image(url=image_url)
+                except HTTPException as e:
+                    log_http_exception(e)
 
         try:
             await msg.edit(content=None, embed=embed)
