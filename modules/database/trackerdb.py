@@ -41,6 +41,12 @@ def update_server(name, current_players=None, address=None, latest_version=None,
     
     return server.execute()
 
+def get_server_by_id(id):
+    try:
+        return Server.get((Server.id == id) & (Server.is_active == True))
+    except:
+        return None
+
 def get_server(name):
     try:
         return Server.get((Server.name == name) & (Server.is_active == True))

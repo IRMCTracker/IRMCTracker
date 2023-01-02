@@ -5,7 +5,7 @@ from modules.config import Config
 from modules.database.models.records import get_highest_players
 from modules.database.models.server_meta import get as get_meta
 from modules.database.models.vote import get_top_voted_servers
-from modules.database import get_servers
+from modules.database import get_servers, get_server_by_id
 
 from modules.utils import *
 
@@ -64,6 +64,18 @@ class TopServersTask(Cog):
         top_voted_servers = get_top_voted_servers(len(Config.Channels.TOP_VOTED))
         top_players_servers = get_servers()
 
+        # Updating server of year channel
+        server_of_year = get_server_by_id(Config.SERVER_OF_YEAR_ID)
+        server_of_year_channel = self.bot.get_channel(Config.Channels.SERVER_OF_YEAR_CHANNEL)
+        server_of_year_message = (await server_of_year_channel.history(limit=1).flatten())[0]
+
+        try:
+            await self.edit_embed(server_of_year, server_of_year_message)
+            await server_of_year_channel.edit( name=f"🏆・{shortified(server_of_year.name, 9).capitalize()}・🏆" )
+        except HTTPException as e:
+            log_http_exception(e)
+
+        # Updating top voted channels
         i = 0
         for top_channel in self.TOP_VOTED_CHANNELS:
             server = top_voted_servers[i]
@@ -81,6 +93,7 @@ class TopServersTask(Cog):
 
             i += 1
 
+        # Updating top player channels
         i = 0
         for top_channel in self.TOP_PLAYERS_CHANNELS:
             server = top_players_servers[i]

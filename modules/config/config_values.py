@@ -2,6 +2,7 @@ from modules.config import get
 
 class Config:   
     GUILD_ID = get('guild-id')
+    SERVER_OF_YEAR_ID = get('server-of-year')
 
     class Log:
         DISCORD_DEBUG = bool(get('log.discord-debug'))
@@ -45,6 +46,8 @@ class Config:
         TRACK_USAGE = get('channels.track-usage')
         PROFILE_USAGE = get('channels.profile-usage')
         SKIN_USAGE = get('channels.skin-usage')
+
+        SERVER_OF_YEAR_CHANNEL = get('channels.server-of-year')
 
     class Roles:
         DEFAULT = get('roles.default')

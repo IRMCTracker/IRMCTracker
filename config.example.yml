@@ -18,6 +18,8 @@ mysql:
   user: tracker
   password: change_me
 
+server-of-year: 0
+
 guild-id: CHANNEL_ID
 channels:
   top-players:
@@ -39,5 +41,6 @@ channels:
   track-usage: CHANNEL_ID
   profile-usage: CHANNEL_ID
   skin-usage: CHANNEL_ID
+  server-of-year: CHANNEL_ID
 roles:
   default: CHANNEL_ID
