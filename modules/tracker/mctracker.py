@@ -43,10 +43,11 @@ def update_server_database(server: MCServer, add_record: bool):
         # Update last record if players are higher than highest record
         highest_players = get_highest_players(db.id)
 
-        if current_players > highest_players:
-            last_record = Records.select().where(Records.server_id == db.id).order_by(Records.id.desc()).get()
-            last_record.players = current_players
-            last_record.save()
+        if highest_players:
+            if current_players > highest_players:
+                last_record = Records.select().where(Records.server_id == db.id).order_by(Records.id.desc()).get()
+                last_record.players = current_players
+                last_record.save()
 
 
 class MCTracker:
