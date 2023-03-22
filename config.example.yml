@@ -7,17 +7,6 @@ bot:
     token: debug_token_here
     prefix: debug_prefix_here
 
-log:
-  discord-debug: false
-  sql-queries: false
-  
-mysql:
-  host: mariadb
-  port: 3306
-  database: tracker
-  user: tracker
-  password: change_me
-
 server-of-year: 0
 
 guild-id: CHANNEL_ID
