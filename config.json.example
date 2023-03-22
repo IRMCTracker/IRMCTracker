@@ -1,0 +1,30 @@
+{
+    "token": "",
+    "client_id": 0,
+    "debug": false,
+    "apikeys": {
+        "hypixel": ""
+    },
+    "server_of_year": 0,
+    "guild_id": 0,
+    "channels": {
+        "top_players": [],
+        "top_voted": [],
+        "record": 0,
+        "total-vc": 0,
+        "zero-vc": 0,
+        "hourly-chart": 0,
+        "pie-chart": 0,
+        "admin": 0,
+        "alerts": 0,
+        "cache": 0,
+        "members-count": 0,
+        "servers-count": 0,
+        "votes-count": 0,
+        "tracks-count": 0,
+        "track-usage": 0,
+        "profile-usage": 0,
+        "skin-usage": 0
+    },
+    "default_role": 0
+}
