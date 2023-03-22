@@ -5,3 +5,25 @@ A discord bot  for tracking Iranian Minecraft servers and showing the statistics
 ## Installation
 
 Will be re-written when remake is complete...
+
+
+## TODO
+- [x] Give default role on join
+- [ ] Bot activity
+- [ ] /skin command
+- [ ] /head command
+- [ ] /profile command
+- [ ] /hypixel command
+- [ ] /servers command
+- [ ] /vote command
+- [ ] /track command
+- [ ] Moderation (Prevent links)
+- [ ] Update stats channels
+- [ ] Update top players servers channels
+- [ ] Update top voted servers channels
+- [ ] Update server of year channel
+- [ ] Records channel
+- [ ] Hourly charts channel
+- [ ] Pie charts channel
+- [ ] Alerts channel
+- [ ] /chart command
