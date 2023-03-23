@@ -1,4 +1,10 @@
-const { request } = require("undici");
+/**
+ * Commonly used functions
+ */
+
+const {
+    request
+} = require("undici");
 const fs = require("fs")
 const path = require("path")
 
@@ -13,18 +19,21 @@ function findJSFiles(dirPath, arrayOfFiles) {
     files = fs.readdirSync(dirPath)
 
     arrayOfFiles = arrayOfFiles || []
-  
-    files.forEach(function(file) {
-      if (fs.statSync(dirPath + "/" + file).isDirectory()) {
-        arrayOfFiles = findJSFiles(dirPath + "/" + file, arrayOfFiles)
-      } else {
-        if (file.endsWith('.js')) {
-            arrayOfFiles.push(path.join(dirPath, "/", file))
+
+    files.forEach(function (file) {
+        if (fs.statSync(dirPath + "/" + file).isDirectory()) {
+            arrayOfFiles = findJSFiles(dirPath + "/" + file, arrayOfFiles)
+        } else {
+            if (file.endsWith('.js')) {
+                arrayOfFiles.push(path.join(dirPath, "/", file))
+            }
         }
-      }
     })
-  
+
     return arrayOfFiles
 }
 
-module.exports = {userNameToUUID, findJSFiles};
+module.exports = {
+    userNameToUUID,
+    findJSFiles
+};

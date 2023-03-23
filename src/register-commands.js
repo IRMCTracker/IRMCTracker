@@ -1,3 +1,7 @@
+/**
+ * Refreshing slash commands
+ */
+
 const { REST, Routes } = require('discord.js');
 const { client_id, token } = require('../config.json');
 const { findJSFiles } = require('../src/utils');

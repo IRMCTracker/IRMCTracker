@@ -1,7 +1,18 @@
-const { Client, Events, GatewayIntentBits } = require('discord.js');
-const { token } = require('../config.json');
+/**
+ * Bootstrapping and running the bot
+ */
 
-global.client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] });
+const {
+	Client,
+	GatewayIntentBits
+} = require('discord.js');
+const {
+	token
+} = require('../config.json');
+
+global.client = new Client({
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]
+});
 
 require('./bootstrap');
 

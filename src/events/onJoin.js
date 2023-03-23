@@ -1,14 +1,11 @@
 const { Events } = require("discord.js");
 
+/**
+ * Adding defualt role to newly joined members
+ */
 module.exports = {
     type: Events.GuildMemberAdd,
-    execute: async (e) => {
-        const role = e.guild.roles.cache.get(default_role);
-        
-        if (role) {
-            e.roles.add(role);
-        } else {
-            console.warn('Invalid default role');
-        }
+    async execute (e) {
+        e.roles.add(e.guild.roles.cache.get(default_role))
     }
 }

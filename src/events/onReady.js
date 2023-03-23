@@ -1,9 +1,12 @@
 const { Events } = require("discord.js");
 
+/**
+ * Handling jobs
+ */
 module.exports = {
     type: Events.ClientReady,
-    execute: async (c) => {
-        console.log(`Ready! Logged in as ${c.user.tag}`);
+    async execute (c) {
+        console.log(`\nReady! Logged in as ${c.user.tag}`);
         
         let counter = 0;
         setInterval(() => {

@@ -1,12 +1,12 @@
 {
     "token": "",
     "client_id": 0,
+    "guild_id": 0,
     "debug": false,
     "apikeys": {
         "hypixel": ""
     },
     "server_of_year": 0,
-    "guild_id": 0,
     "channels": {
         "top_players": [],
         "top_voted": [],
