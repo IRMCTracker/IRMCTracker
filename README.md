@@ -9,13 +9,13 @@ Will be re-written when remake is complete...
 
 ## TODO
 - [x] Give default role on join
-- [ ] Bot activity
+- [x] Bot activity
 - [x] /skin command
 - [x] /head command
 - [ ] /profile command
 - [ ] /hypixel command
-- [ ] /servers command
 - [ ] /vote command
+- [ ] /servers command
 - [ ] /track command
 - [ ] Moderation (Prevent links)
 - [ ] Update stats channels
