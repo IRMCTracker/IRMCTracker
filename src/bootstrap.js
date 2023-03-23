@@ -38,3 +38,22 @@ for (const filePath of findJSFiles(eventsPath)) {
 		console.warn(`The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
 };
+
+/* Register Jobs */
+console.log(`\nLoading jobs...`);
+
+client.jobs = [];
+
+const jobsPath = path.join(__dirname, 'jobs');
+
+for (const filePath of findJSFiles(jobsPath)) {
+	const job = require(filePath);
+
+	if ('interval' in job && 'execute' in job) {
+		console.log(`» [Job Loaded] ${path.basename(filePath)}`);
+		
+		client.jobs.push(job);
+	} else {
+		console.warn(`The command at ${filePath} is missing a required "data" or "execute" property.`);
+	}
+}
