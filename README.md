@@ -15,7 +15,7 @@ Will be re-written when remake is complete...
 - [ ] /profile command
 - [ ] /hypixel command
 - [ ] /vote command
-- [ ] /servers command
+- [x] /servers command
 - [ ] /track command
 - [ ] Moderation (Prevent links)
 - [ ] Update stats channels

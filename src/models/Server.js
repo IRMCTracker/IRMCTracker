@@ -1,6 +1,18 @@
 const {DataTypes, Model} = require("sequelize");
 
 module.exports = class Server extends Model {
+    static all() {
+        return this.findAll({
+            where: {
+                is_active: true
+            },
+            order: [
+                ['current_players', 'DESC'],
+                ['up_from', 'DESC']
+            ]
+        });
+    }
+
     static init(sequelize, options) {
         super.init({
             id: {
