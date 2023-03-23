@@ -4,7 +4,8 @@
   "description": "A discord bot  for tracking Iranian Minecraft servers and showing the statistics of them",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/index.js",
+    "register": "node ./src/register-commands.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   "homepage": "https://github.com/IRMCTracker/IRMCTracker#readme",
   "dependencies": {
     "discord.js": "^14.8.0",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "undici": "^5.21.0"
   }
 }
