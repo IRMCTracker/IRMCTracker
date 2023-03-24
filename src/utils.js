@@ -15,6 +15,21 @@ async function userNameToUUID(userName) {
         .catch(error => console.warn('Error occured during fetching UUID: ' + error.message));
 }
 
+async function getMinecraftProfile(uuid) {
+    return await request(`https://api.ashcon.app/mojang/v2/user/${uuid}`)
+        .then(result => result.body.json())
+        .then(json => {
+            if (json) {
+                return {
+                    username: json.username,
+                    history: json.username_history.map(history => history.username),
+                    createdAt: json.created_at
+                };
+            }
+        })
+        .catch(error => console.warn('Error occured during fetching profile: ' + error.message));
+}
+
 function findJSFiles(dirPath, arrayOfFiles) {
     files = fs.readdirSync(dirPath)
 
@@ -35,5 +50,6 @@ function findJSFiles(dirPath, arrayOfFiles) {
 
 module.exports = {
     userNameToUUID,
-    findJSFiles
+    getMinecraftProfile,
+    findJSFiles,
 };

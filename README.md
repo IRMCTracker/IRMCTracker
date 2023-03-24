@@ -12,7 +12,7 @@ Will be re-written when remake is complete...
 - [x] Bot activity
 - [x] /skin command
 - [x] /head command
-- [ ] /profile command
+- [x] /profile command
 - [ ] /hypixel command
 - [ ] /vote command
 - [x] /servers command
