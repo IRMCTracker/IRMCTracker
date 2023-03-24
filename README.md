@@ -17,7 +17,7 @@ Will be re-written when remake is complete...
 - [ ] /vote command
 - [x] /servers command
 - [ ] /track command
-- [ ] Moderation (Prevent links)
+- [x] Moderation (Prevent links)
 - [ ] Update stats channels
 - [ ] Update top players servers channels
 - [ ] Update top voted servers channels
