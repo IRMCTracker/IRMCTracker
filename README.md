@@ -13,17 +13,17 @@ Will be re-written when remake is complete...
 - [x] /skin command
 - [x] /head command
 - [x] /profile command
-- [ ] /hypixel command
-- [ ] /vote command
-- [x] /servers command
+- [x] /vote command
 - [ ] /track command
+- [x] /servers command
 - [x] Moderation (Prevent links)
-- [ ] Update stats channels
+- [x] Update stats channels
 - [ ] Update top players servers channels
 - [ ] Update top voted servers channels
 - [ ] Update server of year channel
 - [ ] Records channel
 - [ ] Hourly charts channel
 - [ ] Pie charts channel
-- [ ] Alerts channel
 - [ ] /chart command
+- [-] Alerts channel (bot wont be responsible for it)
+- [-] /hypixel command (won't do it for now)

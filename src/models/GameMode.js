@@ -14,7 +14,6 @@ module.exports = class GameMode extends Model {
             },
         }, {
             sequelize,
-            modelName: 'gamemode',
             tableName: 'gamemodes',
             timestamps: false,
         })

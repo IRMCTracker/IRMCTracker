@@ -1,4 +1,5 @@
 const {DataTypes, Model} = require("sequelize");
+const Server = require("./Server");
 
 module.exports = class Record extends Model {
     static init(sequelize, options) {
@@ -16,6 +17,10 @@ module.exports = class Record extends Model {
                 type: DataTypes.INTEGER,
                 defaultValue: 0,
             },
+            server_id: {
+                type: DataTypes.BIGINT,
+                allowNull: false,
+            },
             created_at: {
                 type: DataTypes.DATE,
                 defaultValue: DataTypes.NOW,
@@ -25,6 +30,6 @@ module.exports = class Record extends Model {
             modelName: 'record',
             tableName: 'records',
             timestamps: false,
-        })
+        });
     }
 };

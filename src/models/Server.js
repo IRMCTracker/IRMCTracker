@@ -1,6 +1,33 @@
-const {DataTypes, Model} = require("sequelize");
+const {DataTypes, Model, Op} = require("sequelize");
 
 module.exports = class Server extends Model {
+    static findLike(name) {
+        return this.findOne({
+            where: {
+                name: {
+                    [Op.like]: `%${name}%`
+                },
+                is_active: true
+            }
+        })
+    }
+
+    static totalPlayersCount() {
+        return Server.aggregate('current_players', 'SUM', {
+            where: {},
+            is_active: true
+        });
+    }
+
+    static emptyServersCount() {
+        return Server.count({
+            where: {
+                current_players: 0,
+                is_active: true
+            }
+        });
+    }
+
     static all() {
         return this.findAll({
             where: {
