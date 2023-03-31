@@ -1,4 +1,5 @@
 # Temp IRMCTracker files
+node_modules/
 storage/cache/
 config.yml
 storage/data/

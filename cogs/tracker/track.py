@@ -136,8 +136,8 @@ class TrackerGlobal(Cog):
             files.append(File(server.motd_path, filename="motd.png"))
             embed.set_image(url="attachment://motd.png")
         else:
-            embed.set_image(url='storage/static/banner.png')
-                        
+            files.append(File('storage/static/banner.png', filename='banner.png'))
+            embed.set_image(url='attachment://banner.png')
 
         await ctx.send(ctx.author.mention, files=files, embed=embed)
 
