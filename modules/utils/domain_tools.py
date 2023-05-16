@@ -1,6 +1,7 @@
 import socket
 from urllib.request import urlopen
 import json
+import dns.resolver
 
 class DomainInfo:
     def __init__(self, domain) -> None:
@@ -16,7 +17,15 @@ class DomainInfo:
             self.ip = socket.gethostbyname(self.domain.strip())
         except:
             self.ip = None
-    
+
+        if self.ip is None:
+            try:
+                srv_records=dns.resolver.resolve('_minecraft._tcp.'+ self.domain.strip(), 'SRV')
+                host = str(srv_records[0].target).rstrip('.')
+                self.ip = socket.gethostbyname(host)
+            except:
+                pass
+        
     def _fetch_country(self):
         try:
             response = urlopen('http://ip-api.com/json/{}'.format(self.ip))
