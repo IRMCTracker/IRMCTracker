@@ -1,5 +1,4 @@
 import sys
-import asyncio
 import os
 
 from discord import Intents
@@ -7,11 +6,7 @@ from discord.ext.commands import Bot
 
 from modules.config.config_values import Config
 from modules.utils import get_logger
-from modules.tracker import update_server_database, MCTracker
 from modules.database import create_tables, database
-
-from threading import Thread
-
 
 def run_discord_bot():
     """ Running discord bot
@@ -57,24 +52,6 @@ if __name__ == "__main__":
             "You have not entered any args.\nAvailable args: [run, run:bot, run:tracker , db]")
 
     if args[0] == 'run':
-        # Creating the database tables (and the actual database file if doesnt exist)
-        create_tables()
-
-        # Running the database update task in another thread so that it doesnt interfere with the actual bot
-        thread = Thread(target = MCTracker().update_task, daemon=True).start()
-
-        bot = run_discord_bot()
-
-        bot.db = db
-
-    elif args[0] == 'run:tracker':
-        # Creating the database tables (and the actual database file if doesnt exist)
-        create_tables()
-
-        # Running the database update task in main thread
-        MCTracker().update_task()
-
-    elif args[0] == 'run:bot':
         # Creating the database tables (and the actual database file if doesnt exist)
         create_tables()
 

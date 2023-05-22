@@ -5,9 +5,11 @@ from discord.ext import tasks
 from discord.ext.commands import Cog
 
 from modules.config import Config
-from modules.tracker import MCTracker, get_servers
+from modules.tracker import get_servers
 from modules.utils import *
 
+from modules.utils import shortified
+import matplotlib.pyplot as plt
 
 class TrackerTasks(Cog):
     """Doing all the automated tracking->discord tasks
@@ -37,7 +39,7 @@ class TrackerTasks(Cog):
         """Sending the chart to #hourly-chart channel
         """
 
-        MCTracker().draw_chart()
+        self.draw_chart()
 
         servers = get_servers()
 
@@ -54,5 +56,58 @@ class TrackerTasks(Cog):
 
         os.remove('chart.png')
     
+    def draw_chart(self, output_file='chart.png'):
+        names = []
+        players = []
+        for server in get_servers():
+            # We wont show 0 player servers anymore
+            if server.current_players != 0:
+                names.append(shortified(server.name, 6, False))
+                players.append(server.current_players)
+
+        colors = []
+        for player_count in players:
+            if player_count >= 120:
+                color = 'lime'
+            elif 120 > player_count >= 90:
+                color = 'darkgreen'
+            elif 90 > player_count >= 75:
+                color = 'mediumseagreen'
+            elif 75 > player_count >= 50:
+                color = 'orange'
+            elif 50 > player_count >= 40:
+                color = 'yellow'
+            elif 40 > player_count >= 25:
+                color = 'darkkhaki'
+            elif 25 > player_count >= 15:
+                color = 'orangered'
+            elif 15 > player_count >= 5:
+                color = 'firebrick'
+            elif 5 > player_count:
+                color = 'brown'
+
+            colors.append(color)
+
+        fig, ax = plt.subplots(figsize=(17,8))
+
+        ax.bar(names, players, color=colors)
+        plt.title(f"IRAN MineCraft Servers - {datetime.now():%Y-%m-%d %I:%M:%S}")
+        plt.xlabel('Servers', fontsize=8, labelpad=5)
+        plt.ylabel('Players Border', fontsize=8, labelpad=5)
+
+        for index,data in enumerate(players):
+            x = index - 0.11
+            if len(str(data)) == 3:
+                x = index - 0.2
+            plt.text(x=x , y =data+1 , s=f"{data}" , fontdict=dict(fontsize=12))
+
+        plt.savefig(output_file)
+
+        plt.cla()
+        plt.clf()
+        plt.close()
+        
+        return output_file
+
 def setup(client):
     client.add_cog(TrackerTasks(client))
