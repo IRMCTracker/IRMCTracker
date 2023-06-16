@@ -20,7 +20,7 @@ class Config:
         PASSWORD = os.getenv('MYSQL_PASSWORD')
         DATABASE = os.getenv('MYSQL_DATABASE')
         HOST = os.getenv('MYSQL_HOST')
-        PORT = os.getenv('MYSQL_PORT')
+        PORT = int(os.getenv('MYSQL_PORT'))
     
     class Channels:
         TOP_PLAYERS = os.getenv('TOP_PLAYERS').split(", ")
