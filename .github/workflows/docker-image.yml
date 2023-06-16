@@ -14,10 +14,11 @@ jobs:
 
     env:
       IMAGE_NAME: irmctracker
-      IMAGE_VERSION: "$(date +%s)"
 
     steps:
     - uses: actions/checkout@v3
+    - name: Set current date as image version env
+      run: echo "IMAGE_VERSION=$(date +%s)" >> $GITHUB_ENV
     - name: Docker Login
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
