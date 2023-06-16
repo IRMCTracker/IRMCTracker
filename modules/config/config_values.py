@@ -1,53 +1,54 @@
-from modules.config import get
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Config:   
-    GUILD_ID = get('guild-id')
-    SERVER_OF_YEAR_ID = get('server-of-year')
+    GUILD_ID = os.getenv('GUILD_ID')
+    SERVER_OF_YEAR_ID = os.getenv('SERVER_OF_YEAR_ID')
 
     class Log:
-        DISCORD_DEBUG = bool(get('log.discord-debug'))
-        SQL_QUERIES = bool(get('log.sql-queries'))
+        DISCORD_DEBUG = bool(os.getenv('LOG_DISCORD_DEBUG'))
 
     class Bot:
-        DEBUG_ENABLED = bool(get('bot.debug.enabled'))
-        TOKEN = get('bot.debug.token') if DEBUG_ENABLED else get('bot.token')
-        PREFIX = get('bot.debug.prefix').split(",") if DEBUG_ENABLED else get('bot.prefix').split(",")
-        HYPIXEL_KEY = get('bot.hypixel-key')
+        TOKEN = os.getenv('BOT_TOKEN')
+        PREFIX = os.getenv('BOT_PREFIX').split(",")
+        HYPIXEL_KEY = os.getenv('HYPIXEL_KEY')
 
     class MySQL:
-        USER = get('mysql.user')
-        PASSWORD = get('mysql.password')
-        DATABASE = get('mysql.database')
-        HOST = get('mysql.host')
-        PORT = get('mysql.port')
+        USER = os.getenv('MYSQL_USER')
+        PASSWORD = os.getenv('MYSQL_PASSWORD')
+        DATABASE = os.getenv('MYSQL_DATABASE')
+        HOST = os.getenv('MYSQL_HOST')
+        PORT = os.getenv('MYSQL_PORT')
     
     class Channels:
-        TOP_PLAYERS = get('channels.top-players')
-        TOP_VOTED = get('channels.top-voted')
+        TOP_PLAYERS = os.getenv('TOP_PLAYERS').split(", ")
+        TOP_VOTED = os.getenv('TOP_VOTED').split(", ")
         
-        RECORD = get('channels.record')
+        RECORD = os.getenv('RECORD')
         
-        ALL = get('channels.total-vc')
-        EMPTY = get('channels.zero-vc')
-        HOURLY = get('channels.hourly-chart')
-        PIE = get('channels.pie-chart')
+        ALL = os.getenv('TOTAL_VC')
+        EMPTY = os.getenv('ZERO_VC')
+        HOURLY = os.getenv('HOURLY_CHART')
+        PIE = os.getenv('PIE_CHART')
         
-        ADMIN = get('channels.admin')
+        ADMIN = os.getenv('ADMIN')
 
-        ALERTS = get('channels.alerts')
+        ALERTS = os.getenv('ALERTS')
 
-        CACHE = get('channels.cache')
+        CACHE = os.getenv('CACHE')
 
-        MEMBERS = get('channels.members-count')
-        SERVERS = get('channels.servers-count')
-        VOTES = get('channels.votes-count')
-        TRACKS = get('channels.tracks-count')
+        MEMBERS = os.getenv('MEMBERS_COUNT')
+        SERVERS = os.getenv('SERVERS_COUNT')
+        VOTES = os.getenv('VOTES_COUNT')
+        TRACKS = os.getenv('TRACKS_COUNT')
 
-        TRACK_USAGE = get('channels.track-usage')
-        PROFILE_USAGE = get('channels.profile-usage')
-        SKIN_USAGE = get('channels.skin-usage')
+        TRACK_USAGE = os.getenv('TRACK_USAGE')
+        PROFILE_USAGE = os.getenv('PROFILE_USAGE')
+        SKIN_USAGE = os.getenv('SKIN_USAGE')
 
-        SERVER_OF_YEAR_CHANNEL = get('channels.server-of-year')
+        SERVER_OF_YEAR_CHANNEL = os.getenv('SERVER_OF_YEAR')
 
     class Roles:
-        DEFAULT = get('roles.default')
+        DEFAULT = os.getenv('DEFAULT_ROLE')
