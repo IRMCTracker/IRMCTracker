@@ -50,12 +50,10 @@ class TrackerGlobal(Cog):
                                 timestamp=get_utc())
                 return await ctx.send(mention_msg, embed=embed)
 
-            get_debug_logger().info('Preparing server data to send in channel')
 
             await self.send_embed(server, ctx)
 
     async def send_embed(self, server, ctx):
-        get_debug_logger().info('Parsing socials')
 
         socials = []
 
@@ -110,7 +108,6 @@ class TrackerGlobal(Cog):
         if server.country_code is not None:
             embed.add_field(name="「🌎」Country »", value=f":flag_{str(server.country_code).lower()}: {server.region}", inline=False)
 
-        get_debug_logger().info('Parsing gamemodes')
 
         if server.gamemodes is not None:
             gamemodes_raw = json.loads(server.gamemodes)
@@ -134,7 +131,6 @@ class TrackerGlobal(Cog):
                 inline=True
             )
 
-        get_debug_logger().info('Preparing motd, favicon files')
 
         files = []
 
@@ -151,7 +147,6 @@ class TrackerGlobal(Cog):
             files.append(File('storage/static/banner.png', filename='banner.png'))
             embed.set_image(url='attachment://banner.png')
 
-        get_debug_logger().info('Sending data in channel')
 
         await ctx.send(ctx.author.mention, files=files, embed=embed)
 
