@@ -14,7 +14,7 @@ jobs:
 
     env:
       IMAGE_NAME: irmctracker
-      IMAGE_VERSION: $(date +%s)
+      IMAGE_VERSION: "$(date +%s)"
 
     steps:
     - uses: actions/checkout@v3
