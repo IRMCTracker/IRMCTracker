@@ -12,4 +12,4 @@ USER app
 
 RUN pip3 install -r requirements.txt --no-warn-script-location
 
-ENTRYPOINT [ "python", "main.py" ]
+ENTRYPOINT [ "python", "main.py", "run"]
