@@ -12,6 +12,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      IMAGE_NAME: irmctracker
+      IMAGE_VERSION: latest
+
     steps:
     - uses: actions/checkout@v3
     - name: Docker Login
@@ -22,6 +26,6 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file python.dockerfile --tag tracker-bot:$(date +%s)
+      run: docker build . --file python.dockerfile --tag ${{secrets.DOCKER_USER}}/$IMAGE_NAME:$IMAGE_VERSION
     - name: Docker Push
-      run: docker push ${{secrets.DOCKER_USER}}/irmctracker
+      run: docker push ${{secrets.DOCKER_USER}}/$IMAGE_NAME:$IMAGE_VERSION
