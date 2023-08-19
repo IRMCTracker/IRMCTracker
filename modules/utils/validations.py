@@ -17,7 +17,7 @@ def has_link(message):
     match = regex.search(message)
     if match:
         url = match.group(0)
-        parsed_url = urlparse.urlparse(url)
+        parsed_url = urlparse(url)
         domain = parsed_url.netloc.lower()
 
         # Check if the domain is in the list of ignored domains
