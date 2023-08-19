@@ -2,6 +2,8 @@ from discord import Activity, ActivityType
 from discord.ext import tasks
 from discord.ext.commands import Cog
 
+from modules.utils import *
+
 from modules.tracker import get_servers, all_players_count
 
 
@@ -17,8 +19,10 @@ class ActivityTask(Cog):
         self.activity_task.start()
 
     # TRACKER TASKS
-    @tasks.loop(seconds=15)
+    @tasks.loop(seconds=45)
     async def activity_task(self):
+        get_logger().info("Updating bot activity")
+        
         await self.bot.wait_until_ready()
 
         if self.counter == 0:

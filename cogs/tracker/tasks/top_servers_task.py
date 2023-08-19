@@ -55,6 +55,8 @@ class TopServersTask(Cog):
 
     @tasks.loop(minutes=1)
     async def update_top_voted_channels(self):
+        get_logger().info("Updating top voted and players channels")
+
         await self.bot.wait_until_ready()
         
         # Will be only running at the first time

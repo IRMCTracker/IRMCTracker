@@ -23,6 +23,7 @@ class StatsChannelsTask(Cog):
     async def stats_channels_task(self):
         """Updating stats voice channels
         """
+        get_logger().info("Updating stats channels")
 
         await self.bot.wait_until_ready()
 
