@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-RUN useradd --user-group -r app
+RUN useradd --user-group -m -r app
 
 COPY --chown=app:app requirements.txt /app/
 
