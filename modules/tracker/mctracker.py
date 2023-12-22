@@ -51,35 +51,6 @@ def update_server_database(server: MCServer, add_record: bool):
 
 
 class MCTracker:
-    def __init__(self):
-        self.is_fetched = False
-        self.counter = 0
-
-    def update_servers(self):  
-        add_record = True if self.counter % 40 == 0 else False
-        
-        for server in get_servers():
-            update_server_database(MCServer(server.name, server.address), add_record)
-
-        self.counter += 1
-        
-        self.is_fetched = True
-
-    def update_task(self):
-        while True:
-            start =  time.time()
-
-            self.update_servers()
-
-            end =  time.time()
-
-            # Checking if fetching server took more than
-            # 60 seconds we'll ignore sleep and go for another
-            # round of fetching servers
-            if (end - start) > 60:
-                continue
-            sleep(60)
-
     def draw_chart(self, output_file='chart.png'):
         names = []
         players = []
