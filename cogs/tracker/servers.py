@@ -25,6 +25,9 @@ class ServersCommand(Cog):
         offline_servers = []
         i = 0
         for server in servers:
+            # To prevent discord fields limit
+            if i > 24: break
+
             if server.latest_latency == 0:
                 offline_servers.append(server)
             else:
