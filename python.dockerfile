@@ -4,6 +4,8 @@ RUN useradd --user-group -r app
 
 COPY --chown=app:app requirements.txt /app/
 
+RUN chown -R app:app /home/app /app
+
 USER app
 
 WORKDIR /app
