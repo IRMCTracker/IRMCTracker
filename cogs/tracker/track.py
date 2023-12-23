@@ -1,5 +1,5 @@
 from os.path import isfile
-
+import time
 from discord import Embed, File
 from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 
@@ -134,19 +134,9 @@ class TrackerGlobal(Cog):
 
         files = []
 
-        if server.favicon_path is not None:
-            if isfile(server.favicon_path):
-                files.append(File(server.favicon_path, filename="image.png"))
-                embed.set_thumbnail(url="attachment://image.png")
-
-        if server.motd_path is not None:
-            if isfile(server.motd_path):
-                files.append(File(server.motd_path, filename="motd.png"))
-                embed.set_image(url="attachment://motd.png")
-        else:
-            files.append(File('storage/static/banner.png', filename='banner.png'))
-            embed.set_image(url='attachment://banner.png')
-
+        current_timestamp = str(int(time.time()))
+        embed.set_thumbnail("https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
+        embed.set_image("https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
 
         await ctx.send(ctx.author.mention, files=files, embed=embed)
 

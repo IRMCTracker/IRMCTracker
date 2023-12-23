@@ -87,10 +87,8 @@ class UptimeAlertsTask(Cog):
                     server.save()
 
             if embed is not None:
-                favicon = None
-                if server.favicon_path:
-                    favicon = File(server.favicon_path, filename="fav.png")
-                    embed.set_thumbnail(url="attachment://fav.png")
+                current_timestamp = str(int(time()))
+                favicon = "https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp)
 
                 embed.set_footer(text=f"Tracked by IRMCTracker", icon_url='https://mctracker.ir/img/logo.png')
 
