@@ -46,6 +46,9 @@ class StatsChannelsTask(Cog):
 
         i = 0
         for server in get_servers_by_record():
+            # To prevent discord fields limit
+            if i > 24: break
+            
             prefix = get_medal_emoji(i)
 
             embed.add_field(
