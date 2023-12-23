@@ -58,14 +58,20 @@ class TrackerGlobal(Cog):
         socials = []
 
         if get_meta(server, 'discord'):
-            socials.append(f"{self.bot.emoji('discord')} [Discord]({get_meta(server, 'discord')})")
+            discord_link = get_meta(server, 'discord')
+            discord_link = ("http://" + discord_link) if not discord_link.startswith("http") else discord_link
+            socials.append(f"{self.bot.emoji('discord')} [Discord]({discord_link})")
         if get_meta(server, 'telegram'):
             socials.append(f"{self.bot.emoji('telegram')} [Telegram](https://t.me/{str(get_meta(server, 'telegram')).replace('@','')})")
         if get_meta(server, 'instagram'):
             socials.append(f"{self.bot.emoji('instagram')} [Instagram](https://instagram.com/{get_meta(server, 'instagram')})")
         if get_meta(server, 'shop'):
-            socials.append(f"{self.bot.emoji('shop')} [Shop]({get_meta(server, 'shop')})")
+            shop_link = get_meta(server, 'shop')
+            shop_link = ("http://" + shop_link) if not shop_link.startswith("http") else shop_link
+            socials.append(f"{self.bot.emoji('shop')} [Shop]({shop_link})")
         if get_meta(server, 'website'):
+            website_link = get_meta(server, 'website')
+            website_link = ("http://" + website_link) if not website_link.startswith("http") else website_link
             socials.append(f"{self.bot.emoji('web')} [Website]({get_meta(server, 'website')})")
 
         uptime = "-"
