@@ -129,7 +129,7 @@ def get_random_color():
     return randint(0, 0xffffff)
 
 def is_online(server):
-    if server.latest_latency == 0 and server.current_players == 0:
+    if server.latest_latency == None and server.current_players == None:
         return False
     return True
 
