@@ -19,7 +19,8 @@ class UptimeAlertsTask(Cog):
         
         # Running main bot tick
         self.alert_channel = None
-        self.uptime_alerts_task.start()
+        # Temporary disabling this task
+        # self.uptime_alerts_task.start()
 
     @tasks.loop(minutes=2)
     async def uptime_alerts_task(self):
