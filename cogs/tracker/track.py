@@ -141,8 +141,8 @@ class TrackerGlobal(Cog):
         files = []
 
         current_timestamp = str(int(time.time()))
-        embed.set_thumbnail("https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
-        embed.set_image("https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
+        embed.set_thumbnail(url="https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
+        embed.set_image(url="https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
 
         await ctx.send(ctx.author.mention, files=files, embed=embed)
 

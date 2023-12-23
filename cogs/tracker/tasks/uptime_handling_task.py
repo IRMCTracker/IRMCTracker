@@ -88,7 +88,7 @@ class UptimeAlertsTask(Cog):
 
             if embed is not None:
                 current_timestamp = str(int(time()))
-                embed.set_thumbnail("https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
+                embed.set_thumbnail(url="https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
 
                 embed.set_footer(text=f"Tracked by IRMCTracker", icon_url='https://mctracker.ir/img/logo.png')
 
