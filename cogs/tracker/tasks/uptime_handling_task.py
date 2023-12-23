@@ -88,11 +88,11 @@ class UptimeAlertsTask(Cog):
 
             if embed is not None:
                 current_timestamp = str(int(time()))
-                favicon = "https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp)
+                embed.set_thumbnail("https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
 
                 embed.set_footer(text=f"Tracked by IRMCTracker", icon_url='https://mctracker.ir/img/logo.png')
 
-                await self.alert_channel.send(file=favicon,embed=embed)
+                await self.alert_channel.send(embed=embed)
 
 def setup(client):
     client.add_cog(UptimeAlertsTask(client))
