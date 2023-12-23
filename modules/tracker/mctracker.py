@@ -61,6 +61,9 @@ class MCTracker:
                 players.append(server.current_players)
 
         colors = []
+
+        player_count = player_count if player_count is not None else 0
+
         for player_count in players:
             if player_count >= 120:
                 color = 'lime'
