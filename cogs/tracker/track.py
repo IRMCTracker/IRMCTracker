@@ -113,7 +113,13 @@ class TrackerGlobal(Cog):
             gamemodes_raw = json.loads(server.gamemodes)
 
             if len(gamemodes_raw) > 0:
-                gamemodes_list = ["{} **{}** 「**{}**👥」".format(self.bot.emoji(str(gamemode['name']).lower()) or self.bot.emoji("barrier"),gamemode['name'], gamemode['players']) for gamemode in gamemodes_raw]
+                gamemodes_list = [
+                    "{} **{}** 「**{}**👥」".format(
+                        self.bot.emoji(str(name).lower()) or self.bot.emoji("barrier"),
+                        name,
+                        players
+                    ) for name, players in gamemodes_raw
+                ]
                 gamemodes = '\n'.join(gamemodes_list)
 
                 embed.add_field(
