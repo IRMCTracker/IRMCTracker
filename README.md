@@ -2,46 +2,8 @@
 
 A discord bot  for tracking Iranian Minecraft servers and showing the statistics of them
 
-## Installation
+This Python source code will be replaced soon by a remake that fixes all the current issues
 
-Installation needs a valid installation of **Python > 3.6**
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install *requirments.txt*
-
-```bash
-pip install -r requirments.txt
-```
-
-### Before running the bot
-Copy `ßconfig.example.yml` to `config.yml` and update tokens, prefixes and channel / guild ids etc as desired
-
-### After running the bot
-1. Add servers to tracker database (No need to restart after that, bot will fetch the newly added servers):
-    - Directly using database management softwares
-    - Through commands ([~/cog/admin.py](https://github.com/Alijkaz/IRMCTracker/blob/main/cogs/admin.py))
-
-## Usage
-
-```bash
-# Run the discord bot
-python main.py run
-
-# Fetching all servers and updating them in database
-python main.py db:update
-
-# Running tests/test_basic.py for testing purposes
-python main.py test
-```
-
-## Build and run the container
-
-Install Docker, e.g. [Download Docker](https://docs.docker.com/engine/install/).
-
-Go ahead and run commands below to build and run containers:
-
-```
-docker-compose up -d --build
-```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
