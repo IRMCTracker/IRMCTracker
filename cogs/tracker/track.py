@@ -116,7 +116,7 @@ class TrackerGlobal(Cog):
                 gamemodes_list = [
                     "{} **{}** 「**{}**👥」".format(
                         self.bot.emoji(str(name).lower()) or self.bot.emoji("barrier"),
-                        name,
+                        name.title(),
                         players
                     ) for name, players in gamemodes_raw.items()
                 ]
