@@ -72,7 +72,7 @@ class TrackerGlobal(Cog):
         if get_meta(server, 'website'):
             website_link = get_meta(server, 'website')
             website_link = ("http://" + website_link) if not website_link.startswith("http") else website_link
-            socials.append(f"{self.bot.emoji('web')} [Website]({get_meta(server, 'website')})")
+            socials.append(f"{self.bot.emoji('web')} [Website]({website_link})")
 
         uptime = "-"
         if is_online(server):
