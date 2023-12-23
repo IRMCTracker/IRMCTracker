@@ -203,7 +203,7 @@ class TopServersTask(Cog):
 
         current_timestamp = str(int(time()))
         embed.set_thumbnail(url="https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
-        embed.set_image(url="https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
+        embed.set_image(url="https://mctracker.ir/api/servers/{}/motd?v={}".format(server.id, current_timestamp))
 
         try:
             await msg.edit(content=None, embed=embed)
