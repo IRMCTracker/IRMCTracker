@@ -1,5 +1,5 @@
 from os.path import isfile
-import time
+from time import time
 from discord.errors import HTTPException
 from modules.config import Config
 from modules.database.models.records import get_highest_players
@@ -201,7 +201,7 @@ class TopServersTask(Cog):
                 inline=True
             )
 
-        current_timestamp = str(int(time.time()))
+        current_timestamp = str(int(time()))
         embed.set_thumbnail(url="https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
         embed.set_image(url="https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
 

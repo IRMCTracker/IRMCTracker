@@ -1,5 +1,5 @@
 from os.path import isfile
-import time
+from time import time
 from discord import Embed, File
 from discord.ext.commands import command, Cog, cooldown, BucketType, CommandOnCooldown
 
@@ -140,7 +140,7 @@ class TrackerGlobal(Cog):
 
         files = []
 
-        current_timestamp = str(int(time.time()))
+        current_timestamp = str(int(time()))
         embed.set_thumbnail(url="https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
         embed.set_image(url="https://mctracker.ir/api/servers/{}/favicon?v={}".format(server.id, current_timestamp))
 
