@@ -22,7 +22,7 @@ class UptimeAlertsTask(Cog):
 
         self.uptime_alerts_task.start()
 
-    @tasks.loop(minutes=2)
+    @tasks.loop(minutes=1)
     async def uptime_alerts_task(self):
         await self.bot.wait_until_ready()
 
