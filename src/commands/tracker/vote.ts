@@ -24,7 +24,7 @@ const command: TrackerCommand = {
 		let embed = new EmbedBuilder()
 			.setTitle(`💻 رای دادن به سرور ${server.name}`)
 			.setDescription('با هرروز رای دادن به سرور مورد علاقتون میتونید داخل سرور ها جایزه دریافت کنید!')
-			.setURL(`https://mctracker.ir/server/${server.id}/vote`)
+			.setURL(`https://mctracker.ir/server/${server.name}/vote`)
 			.setColor(0x673AB7)
 			.setTimestamp(Date.now())
 			.setFooter({text: 'Tracked by IRMCTracker'})

@@ -1,28 +1,57 @@
-export class Server {
-    id: number
-    name: string;
-    favicon_url: string|null;
-    banner_url: string|null;
-    current_players: number;
-    up_from: number;
+import axios, { AxiosResponse } from 'axios';
+import { trackerUrl } from '../config.json';
 
-    constructor(id: number, name: string, current_players: number, up_from: number, favicon_url: string|null, banner_url: string|null) {
-        this.id = id;
-        this.name = name;
-        this.current_players = current_players;
-        this.up_from = up_from;
-        this.favicon_url = favicon_url;
-        this.banner_url = banner_url;
-    }
+export interface Server {
+    name: string;
+    description: string;
+    favicon: string;
+    motd: string;
+    address: string;
+    ip: string | null;
+    country_code: string | null;
+    region: string | null;
+    up_from: number;
+    latency: number | null;
+    version: string | null;
+    players: {
+        online: number;
+        max: number;
+        record: number;
+    };
+    socials: {
+        discord: string;
+        telegram: string;
+        website: string;
+        instagram: string;
+    };
+    gamemodes: {
+        [key: string]: number;
+    } | null;
+
 }
 
-export async function getServers(): Promise<Server[]> {
-    // TODO fetch from API
-    return [new Server(1, 'foo', 10, 10, null, null)];
+export async function getServers(): Promise<Server[]|null> {
+    try {
+        const response: AxiosResponse<{ data: Server[] }> = await axios.get(`${trackerUrl}/api/servers`);
+        const serverData: Server[] = response.data.data;
+        
+        return serverData;
+    } catch (error) {
+        console.error('Error fetching server data:', error);
+        return null;
+    }
 }
 
 
 export async function getServer(name: String): Promise<Server|null> {
-    // TODO fetch from API
-    return new Server(1, 'foo', 10, 10, null, null);
+    try {
+        const response: AxiosResponse<{ data: Server }> = await axios.get(`${trackerUrl}/api/servers/${name}`);
+        const serverData: Server = response.data.data;
+
+        return serverData;
+    } catch (error) {
+        console.error('Error fetching server data:', error);
+        return null;
+    }
 }
+
