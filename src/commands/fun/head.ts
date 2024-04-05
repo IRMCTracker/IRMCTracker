@@ -8,9 +8,9 @@ const command: TrackerCommand = {
 		.addStringOption(option => option.setName('name').setDescription('نام اسکین شما').setRequired(true)),
 	async execute(client, interaction) {
 		const userName: string = interaction.options.getString('name', true).toLowerCase();
-		
+
 		await interaction.reply('دارم کلتو پیدا میکنم... 🤔');
-		
+
 		const uuid = await userNameToUUID(userName);
 
 		if (uuid == null) {
@@ -19,9 +19,18 @@ const command: TrackerCommand = {
 
 		const embed = new EmbedBuilder()
 			.setTitle(`💎 Skin ${userName}`)
-			.setImage(`https://crafatar.com/renders/head/${uuid}?size=512&default=MHF_Steve&overlay`);
-		
-		await interaction.editReply({embeds: [embed], content: 'پیداش کردم 😍\n'});
+			.setImage('attachment://head.png');
+
+		await interaction.editReply({
+			embeds: [embed],
+			content: 'پیداش کردم 😍\n',
+			files: [
+				{
+					attachment: `https://crafatar.com/renders/head/${uuid}?size=512&default=MHF_Steve&overlay`,
+					name: 'head.png'
+				}
+			]
+		});
 	},
 };
 

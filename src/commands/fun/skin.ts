@@ -19,9 +19,18 @@ const command: TrackerCommand = {
 
 		const embed = new EmbedBuilder()
 			.setTitle(`💎 Skin ${userName}`)
-			.setImage(`https://crafatar.com/renders/body/${uuid}?size=512&default=MHF_Steve&overlay`);
+			.setImage('attachment://skin.png');
 		
-		await interaction.editReply({embeds: [embed], content: 'پیداش کردم 😍\n'});
+		await interaction.editReply({
+			embeds: [embed],
+			content: 'پیداش کردم 😍\n',
+			files: [
+				{
+					name: 'skin.png',
+					attachment: `https://crafatar.com/renders/body/${uuid}?size=512&default=MHF_Steve&overlay`
+				}
+			]
+		});
 	},
 
 };

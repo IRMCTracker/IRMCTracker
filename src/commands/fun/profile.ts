@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { getMinecraftProfile, userNameToUUID } from '../../services/playerService';
+import { bannerUrl } from '../../config.json';
 
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()
@@ -27,7 +28,7 @@ const command: TrackerCommand = {
 			.setTitle(`⌠・Player Profile ${userName}・⌡`)
 			.setColor("Random")
 			.setTimestamp(Date.now())
-			.setThumbnail(`https://crafatar.com/renders/head/${uuid}?size=512&default=MHF_Steve&overlay`)
+			.setThumbnail('attachment://profile.png')
 			.setImage('attachment://banner.png')
 			.setFooter({text: 'Tracked by IRMCTracker'})
 			.addFields([
@@ -35,7 +36,20 @@ const command: TrackerCommand = {
 				{name: '📆 • Created', value: profile.createdAt ?? 'مخفی', inline: true}
 			]);
 
-		await interaction.editReply({embeds: [embed], content: '', files: ['./storage/static/banner.png']});
+		await interaction.editReply({
+			embeds: [embed],
+			content: '',
+			files: [
+				{
+					name: 'profile.png',
+					attachment: `https://crafatar.com/renders/head/${uuid}?size=512&default=MHF_Steve&overlay`
+				},
+				{
+					name: 'banner.png',
+					attachment: bannerUrl
+				}
+			]
+		});
 	},
 
 };
