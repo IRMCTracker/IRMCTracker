@@ -1,13 +1,15 @@
-# IRMCTracker
+# trackerbot
 
-A discord bot  for tracking Iranian Minecraft servers and showing the statistics of them
+To install dependencies:
 
-This Python source code will be replaced soon by a remake that fixes all the current issues
+```bash
+bun install
+```
 
+To run:
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+```bash
+bun run index.js
+```
 
-
-## License
-[GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
+This project was created using `bun init` in bun v1.1.1. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
