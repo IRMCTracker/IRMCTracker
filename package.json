@@ -1,7 +1,12 @@
 {
   "name": "trackerbot",
-  "module": "index.js",
+  "module": "index.ts",
+  "main": "index.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun run ./src/index.ts",
+    "register": "bun run ./src/register.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -9,6 +14,10 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "eslint": "^8.57.0"
+    "axios": "^1.6.8",
+    "discord.js": "^14.14.1",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.4",
+    "typescript-eslint": "^7.5.0"
   }
 }
