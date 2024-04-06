@@ -14,7 +14,7 @@ const command: TrackerCommand = {
 		const server = await getServer(serverName);
 
 		if (server == null) {
-			return await interaction.reply({embeds: [
+			return await interaction.editReply({embeds: [
 				new EmbedBuilder()
 					.setColor("Red")
 					.setTitle('🔴 سرور وارد شده وجود نداره!')
@@ -29,7 +29,7 @@ const command: TrackerCommand = {
 			.setTimestamp(Date.now())
 			.setFooter({text: 'Tracked by IRMCTracker'})
 
-		await interaction.editReply({ embeds: [embed] });
+		await interaction.editReply({ content: '', embeds: [embed] });
 	},
 
 };
