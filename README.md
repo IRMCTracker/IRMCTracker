@@ -2,8 +2,7 @@
 
 A discord bot  for tracking Iranian Minecraft servers and showing the statistics of them
 
-This Python source code will be replaced soon by a remake that fixes all the current issues
-
+The old Python source code is now replaced with this new TypeScript project.
 
 
 ## Installation
