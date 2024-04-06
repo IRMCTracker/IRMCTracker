@@ -1,5 +1,5 @@
 import { AttachmentPayload, EmbedBuilder, Emoji, Guild, InteractionEditReplyOptions, MessagePayload } from 'discord.js';
-import { Server } from './serversService';
+import { Server } from './trackerService';
 import { trackerUrl, bannerUrl, logoUrl } from '../config.json';
 
 export function getServerMessage(guild: Guild, server: Server): MessagePayload | InteractionEditReplyOptions {

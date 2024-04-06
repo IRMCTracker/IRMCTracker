@@ -47,7 +47,32 @@ export function getEvents(): TrackerEvent<any>[] {
                 events.push(event)
             }
             else {
-                console.log(`[WARNING] The command at ${filePath} is missing a required "type" or "execute" property.`);
+                console.log(`[WARNING] The event at ${filePath} is missing a required "type" or "execute" property.`);
+            }
+        }
+    }
+
+    return events;
+}
+
+export function getJobs(): TrackerJob[] {
+    const events: TrackerJob[] = [];
+
+    const foldersPath = path.join(__dirname, '../jobs');
+    const eventFolders = fs.readdirSync(foldersPath);
+
+    for (const folder of eventFolders) {
+        const eventsPath = path.join(foldersPath, folder);
+        const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.ts'));
+        for (const file of eventFiles) {
+            const filePath = path.join(eventsPath, file);
+            const event: TrackerJob = require(filePath).default;
+            
+            if ('cronTime' in event && 'execute' in event) {
+                events.push(event)
+            }
+            else {
+                console.log(`[WARNING] The job at ${filePath} is missing a required "cronTime" or "execute" property.`);
             }
         }
     }

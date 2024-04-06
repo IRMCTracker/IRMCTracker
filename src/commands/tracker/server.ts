@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { getServer } from '../../services/serversService';
+import { getServer } from '../../services/trackerService';
 import { getServerMessage } from '../../services/messagingService';
 
 

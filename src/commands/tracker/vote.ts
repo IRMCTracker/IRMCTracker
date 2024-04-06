@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { getServer } from '../../services/serversService';
+import { getServer } from '../../services/trackerService';
 
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()

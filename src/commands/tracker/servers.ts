@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, APIEmbedField, RestOrArray, MessagePayload } from 'discord.js';
-import { Server, getServers } from '../../services/serversService';
+import { Server, getServers } from '../../services/trackerService';
 import { bannerUrl, logoUrl } from "../../config.json";
 
 function getMedal(index: number): string {

@@ -1,6 +1,7 @@
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { token } from './config.json';
-import { getCommands, getEvents } from './services/botService';
+import { getCommands, getEvents, getJobs } from './services/botService';
+import { CronJob } from 'cron';
 
 
 class TrackerClient extends Client {
@@ -15,13 +16,14 @@ class TrackerClient extends Client {
 const client: TrackerClient = new TrackerClient({ intents: [GatewayIntentBits.Guilds] });
 
 // Register commands
+console.log('[-] Registering commands...');
 client.commands = getCommands();
+console.log('[+] Registering commands completed.');
 
 // Register events
+console.log('[-] Registering events...');
 getEvents().forEach((event: TrackerEvent<any>) => client.on(event.type, (...args) => event.execute(client, ...args)))
-
-// Register jobs
-// TODO
+console.log('[+] Registering events completed.');
 
 // Log in to Discord with your client's token
 client.login(token);
