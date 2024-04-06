@@ -5,7 +5,7 @@ import { updateStatsChannel } from '../../services/messagingService';
 
 // Define your job object
 const job: TrackerJob = {
-    cronTime: '0 * * * * *',
+    cronTime: '0 */5 * * * *',
     async execute(client: Client) {        
         try {
             // Fetch the servers
