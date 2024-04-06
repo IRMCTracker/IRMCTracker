@@ -1,4 +1,4 @@
-import { AttachmentPayload, Client, EmbedBuilder, Emoji, Guild, InteractionEditReplyOptions, MessagePayload, TextChannel } from 'discord.js';
+import { AttachmentPayload, Client, EmbedBuilder, Emoji, InteractionEditReplyOptions, MessagePayload, TextChannel } from 'discord.js';
 import { Server } from './trackerService';
 import { trackerUrl, bannerUrl, logoUrl, trackerGuildId } from '../config.json';
 
@@ -13,7 +13,6 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
     }
 
     if (server.up_from < 0) {
-        // Server morede nazar shoma dar hale hazer offline hast : (
         embed = new EmbedBuilder()
             .setColor('Red')
             .setTitle(`🔴 ${server.name}`)
