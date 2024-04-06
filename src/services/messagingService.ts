@@ -26,7 +26,7 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
             .setImage('attachment://motd.png')
             .addFields(
                 { name: '「🌐」Address »', value: `${server.address} (**${server.ip}**)`, inline: false },
-                { name: '「👥」Online Players »', value: `${server.players.online}/${server.players.max}`, inline: true },
+                { name: '「👥」Online Players »', value: `${server.players.online}`, inline: true },
                 { name: '「🥇」Top Record »', value: server.players.record.toString(), inline: true },
                 { name: '「📈」Uptime »', value: `${server.uptime}`, inline: false },
                 { name: '「📌」Version »', value: `${server.version}`, inline: true },
