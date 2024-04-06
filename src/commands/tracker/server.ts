@@ -8,9 +8,7 @@ const command: TrackerCommand = {
 		.setName('server')
 		.setDescription('💻 دریافت اطلاعات سرور مورد نظر')
 		.addStringOption(option => option.setName('server').setDescription('اسم سرور').setRequired(true)),
-	async execute(_, interaction) {
-		if (interaction.guild === null) return;
-
+	async execute(client, interaction) {
 		const serverName: string = interaction.options.getString('server', true);
 
 		await interaction.reply("🤔 چند لحظه صبر کن...");
@@ -27,7 +25,7 @@ const command: TrackerCommand = {
 			});
 		}
 
-		const message = getServerMessage(interaction.guild, server);
+		const message = getServerMessage(client, server);
 
 		await interaction.editReply(message);
 	},

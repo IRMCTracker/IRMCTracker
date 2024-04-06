@@ -1,19 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, APIEmbedField, RestOrArray, MessagePayload } from 'discord.js';
 import { Server, getServers } from '../../services/trackerService';
 import { bannerUrl, logoUrl } from "../../config.json";
-
-function getMedal(index: number): string {
-	switch (index) {
-		case 0:
-			return '🥇';
-		case 1:
-			return '🥈';
-		case 2:
-			return '🥉';
-		default:
-			return '🏅';
-	}
-}
+import { getMedal } from '../../services/messagingService';
 
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()
@@ -28,10 +16,26 @@ const command: TrackerCommand = {
 			return await interaction.editReply('🔴 مشکلی در دریافت سرور ها بوجود آمده.');
 		}
 
+		const sortedServers = servers.slice().sort((a, b) => {
+			// Sort by players.online (descending)
+			if (b.players.online !== a.players.online) {
+				return b.players.online - a.players.online;
+			}
+			// If players.online is the same, sort by up_from (positive values first)
+			if (a.up_from >= 0 && b.up_from < 0) {
+				return -1; // a comes before b
+			}
+			if (a.up_from < 0 && b.up_from >= 0) {
+				return 1; // b comes before a
+			}
+			// If up_from values are both positive or both negative, sort by their absolute values
+			return Math.abs(b.up_from) - Math.abs(a.up_from);
+		});
+		
 
 		const embedFields: RestOrArray<APIEmbedField> = [];
 
-		servers.forEach((server: Server, index: number) => {
+		sortedServers.forEach((server: Server, index: number) => {
 			if (server.up_from > 0) {
 				embedFields.push({ name: `${getMedal(index)} ${server.name}`, value: `👥 ${server.players.online}`, inline: true });
 			} else {

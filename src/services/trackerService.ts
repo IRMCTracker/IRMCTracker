@@ -37,6 +37,7 @@ export interface StatsResponse {
         records: number;
         players: number;
         empty: number;
+        votes: number;
     };
 }
 
