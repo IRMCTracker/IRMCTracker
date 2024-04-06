@@ -1,14 +1,16 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { getServer } from '../../services/serversService';
-import { getServerEmbed } from '../../services/messagingService';
+import { getServerMessage } from '../../services/messagingService';
 
 
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()
-		.setName('vote')
+		.setName('server')
 		.setDescription('💻 دریافت اطلاعات سرور مورد نظر')
 		.addStringOption(option => option.setName('server').setDescription('اسم سرور').setRequired(true)),
 	async execute(_, interaction) {
+		if (interaction.guild === null) return;
+
 		const serverName: string = interaction.options.getString('server', true);
 
 		await interaction.reply("🤔 چند لحظه صبر کن...");
@@ -25,9 +27,9 @@ const command: TrackerCommand = {
 			});
 		}
 
-		const embed = getServerEmbed(server);
+		const message = getServerMessage(interaction.guild, server);
 
-		await interaction.editReply({ embeds: [embed] });
+		await interaction.editReply(message);
 	},
 
 };

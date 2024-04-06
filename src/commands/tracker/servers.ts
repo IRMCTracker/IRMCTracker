@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, APIEmbedField, RestOrArray, MessagePayload } from 'discord.js';
 import { Server, getServers } from '../../services/serversService';
-import { bannerUrl, trackerUrl } from "../../config.json";
+import { bannerUrl, logoUrl } from "../../config.json";
 
 function getMedal(index: number): string {
 	switch (index) {
@@ -60,29 +60,11 @@ const command: TrackerCommand = {
 		// Setting banner/footer on last embed
 		embeds[embeds.length - 1].setImage('attachment://banner.png');
 
-		// Loop through each embed and send them
-		let firstEmbed: boolean = true;
-		for (const embed of embeds) {
-			const files = [];
-
-			if (embed.toJSON().thumbnail) files.push({ name: "logo.png", attachment: `${trackerUrl}/img/logo.png` });
-			if (embed.toJSON().image) files.push({ name: "banner.png", attachment: bannerUrl })
-
-			if (firstEmbed) {
-				await interaction.editReply({
-					content: "",
-					embeds: [embed],
-					files: files
-				});
-				firstEmbed = false;
-			} else {
-				await interaction.followUp({
-					embeds: [embed],
-					files: files
-				});
-			}
-			
-		}
+		await interaction.editReply({
+			content: "",
+			embeds: embeds,
+			files: [{ name: "logo.png", attachment: logoUrl }, { name: "banner.png", attachment: bannerUrl }]
+		});
 	},
 };
 

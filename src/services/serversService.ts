@@ -4,13 +4,14 @@ import { trackerUrl } from '../config.json';
 export interface Server {
     name: string;
     description: string;
-    favicon: string;
-    motd: string;
+    favicon: string|null;
+    motd: string|null;
     address: string;
     ip: string | null;
     country_code: string | null;
     region: string | null;
     up_from: number;
+    uptime: string;
     latency: number | null;
     version: string | null;
     players: {
