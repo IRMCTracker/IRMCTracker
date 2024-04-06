@@ -58,7 +58,7 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
                     return `${guild.emojis.cache.find((emoji: Emoji) => emoji.name === platform)} [${platformName}](${link})`;
                 })
                 .join('\n');
-            
+
             embed.addFields({ name: '「👥」Socials', value: socialsFieldValue, inline: true });
         }
 
@@ -84,20 +84,41 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
     };
 }
 
-export function formatNumber(num: number): string {
-    const suffixes = ['', 'k', 'M', 'B', 'T']; // Array of suffixes for thousand, million, billion, etc.
+export function formatNumber(number: number, decPlaces: number = 0): string {
+    // 2 decimal places => 100, 3 => 1000, etc
+    decPlaces = Math.pow(10, decPlaces)
 
-    // Determine the appropriate suffix based on the magnitude of the number
-    const magnitude = Math.floor(Math.log10(num) / 3);
-    const suffix = suffixes[magnitude];
+    // Enumerate number abbreviations
+    var abbrev = ['k', 'm', 'b', 't']
+    let abbr = '';
 
-    // Calculate the shortened number
-    const shortNum = num / Math.pow(10, magnitude * 3);
+    // Go through the array backwards, so we do the largest first
+    for (var i = abbrev.length - 1; i >= 0; i--) {
+        // Convert array index to "1000", "1000000", etc
+        var size = Math.pow(10, (i + 1) * 3)
 
-    // Use toFixed to limit the number of decimal places
-    const shortNumStr = shortNum.toFixed(1);
+        // If the number is bigger or equal do the abbreviation
+        if (size <= number) {
+            // Here, we multiply by decPlaces, round, and then divide by decPlaces.
+            // This gives us nice rounding to a particular decimal place.
+            number = Math.round((number * decPlaces) / size) / decPlaces
 
-    return shortNumStr + suffix;
+            // Handle special case where we round up to the next abbreviation
+            if (number == 1000 && i < abbrev.length - 1) {
+                number = 1
+                i++
+            }
+
+            // Add the letter for the abbreviation
+            abbr = abbrev[i]
+
+            // We are done... stop
+            break
+        }
+    }
+
+    return number.toString() + abbr
+
 }
 
 export function getMedal(index: number): string {
