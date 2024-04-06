@@ -1,5 +1,5 @@
-import { Client, TextChannel, EmbedBuilder } from 'discord.js';
-import { getServers, Server } from '../../services/trackerService';
+import { Client } from 'discord.js';
+import { getServers } from '../../services/trackerService';
 import { statsChannels } from '../../config.json';
 import { updateStatsChannel } from '../../services/messagingService';
 

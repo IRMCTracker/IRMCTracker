@@ -1,0 +1,25 @@
+{
+	"token": "",
+    "clientId": "",
+	"ownerId": "",
+	"bannerUrl": "https://mctracker.ir/img/banners/banner.png",
+	"logoUrl": "https://mctracker.ir/img/logo.png",
+	"trackerUrl": "https://mctracker.ir",
+	"trackerGuildId": "",
+
+	
+	"channels": {
+		"membersCount": "",
+		"votesCount": "",
+		"serversCount": "",
+		"recordsCount": "",
+		"emptyCount": "",
+		"playersCount": ""
+	},
+
+	"statsChannels": [
+	],
+
+	"topVotesChannels": [
+	]
+}

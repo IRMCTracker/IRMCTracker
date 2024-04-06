@@ -14,6 +14,7 @@ export interface Server {
     uptime: string;
     latency: number | null;
     version: string | null;
+    votes: number;
     players: {
         online: number;
         max: number;
