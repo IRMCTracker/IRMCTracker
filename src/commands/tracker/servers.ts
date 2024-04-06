@@ -44,7 +44,7 @@ const command: TrackerCommand = {
 		});
 
 		const chunkSize = 24;
-		const embeds = [];
+		const embeds: EmbedBuilder[] = [];
 		for (let i = 0; i < embedFields.length; i += chunkSize) {
 			const chunk = embedFields.slice(i, i + chunkSize);
 			const embed = new EmbedBuilder()
@@ -57,9 +57,15 @@ const command: TrackerCommand = {
 		}
 
 		// Setting title on first embed
-		embeds[0]
-			.setTitle('📡 Servers List | لیست سرور ها')
-			.setThumbnail('attachment://logo.png')
+		embeds[0].setTitle('📡 Servers List | لیست سرور ها')
+
+		embeds.forEach((embed: EmbedBuilder, index: number) => {
+			if (index != embeds.length - 1) {
+				embeds[index].setThumbnail('attachment://logo.png')
+			}
+		})
+		
+			
 
 		// Setting banner/footer on last embed
 		embeds[embeds.length - 1].setImage('attachment://banner.png');
