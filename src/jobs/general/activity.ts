@@ -3,7 +3,7 @@ import { StatsResponse, getStats } from '../../services/trackerService';
 
 const activities = [
     "💎 Visit MCTracker.iR",
-    "🤌🏻 You can vote to servers on our site!",
+    "📋 You can vote to servers on our site!",
     "😎 Bishtar az %track_count% track",
     "🙄 Darhale track kardan %server_count% server"
 ];
