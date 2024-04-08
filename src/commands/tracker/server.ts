@@ -16,7 +16,7 @@ const command: TrackerCommand = {
 		const server = await getServer(serverName);
 
 		if (server == null) {
-			return await interaction.reply({
+			return await interaction.editReply({
 				embeds: [
 					new EmbedBuilder()
 						.setColor("Red")
