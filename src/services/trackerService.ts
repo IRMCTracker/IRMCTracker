@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { trackerUrl } from '../config.json';
 
 export interface Server {
@@ -62,8 +62,8 @@ export async function getServers(): Promise<Server[] | null> {
         const serverData: Server[] = response.data.data;
 
         return serverData;
-    } catch (error) {
-        console.error('Error fetching server data:', error);
+    } catch (error: any) {
+        console.warn('Error fetching servers data:', error.message);
         return null;
     }
 }
@@ -75,8 +75,8 @@ export async function getServer(name: String): Promise<Server | null> {
         const serverData: Server = response.data.data;
 
         return serverData;
-    } catch (error) {
-        console.error('Error fetching server data:', error);
+    } catch (error: any) {
+        console.warn('Error fetching server data:', error.message);
         return null;
     }
 }
