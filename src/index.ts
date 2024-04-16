@@ -13,7 +13,7 @@ class TrackerClient extends Client {
     }
 }
 
-const client: TrackerClient = new TrackerClient({ intents: [GatewayIntentBits.Guilds] });
+const client: TrackerClient = new TrackerClient({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages] });
 
 // Register commands
 console.log('[-] Registering commands...');
