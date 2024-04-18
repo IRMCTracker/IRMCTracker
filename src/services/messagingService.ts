@@ -1,4 +1,4 @@
-import { AttachmentPayload, Client, EmbedBuilder, Emoji, InteractionEditReplyOptions, MessagePayload, TextChannel } from 'discord.js';
+import { ActionRowBuilder, AttachmentPayload, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Emoji, InteractionEditReplyOptions, MessagePayload, TextChannel } from 'discord.js';
 import { Server } from './trackerService';
 import { trackerUrl, bannerUrl, logoUrl, trackerGuildId } from '../config.json';
 
@@ -70,7 +70,13 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
     embed.setThumbnail('attachment://favicon.png')
     files.push({ name: "favicon.png", attachment: server.favicon ? server.favicon : logoUrl })
 
+    const openTrackerButton = new ButtonBuilder()
+        .setLabel('🌐 Open ' + server.name + ' on MCTracker.iR')
+        .setURL('https://mctracker.ir/server/' + server.name)
+        .setStyle(ButtonStyle.Link);
 
+    const row = new ActionRowBuilder<ButtonBuilder>()
+        .addComponents(openTrackerButton);
 
     // Setting footer
     embed
@@ -80,7 +86,8 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
     return {
         content: '',
         embeds: [embed],
-        files: files
+        files: files,
+        components: [row]
     };
 }
 
