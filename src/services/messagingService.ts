@@ -71,12 +71,19 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
     files.push({ name: "favicon.png", attachment: server.favicon ? server.favicon : logoUrl })
 
     const openTrackerButton = new ButtonBuilder()
-        .setLabel('🌐 Open ' + server.name + ' on MCTracker.iR')
+        .setLabel('Open on MCTracker.iR')
         .setURL('https://mctracker.ir/server/' + server.name)
+        .setEmoji("🌐")
+        .setStyle(ButtonStyle.Link);
+
+    const voteButton = new ButtonBuilder()
+        .setLabel('Vote for ' + server.name)
+        .setURL('https://mctracker.ir/server/' + server.name + '/vote')
+        .setEmoji("👍🏻")
         .setStyle(ButtonStyle.Link);
 
     const row = new ActionRowBuilder<ButtonBuilder>()
-        .addComponents(openTrackerButton);
+        .addComponents(openTrackerButton, voteButton);
 
     // Setting footer
     embed
