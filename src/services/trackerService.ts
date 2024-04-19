@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { trackerUrl } from '../config.json';
+import { trackerUrl, trackerApiKey } from '../config.json';
 
 export interface Server {
     name: string;
@@ -81,3 +81,14 @@ export async function getServer(name: String): Promise<Server | null> {
     }
 }
 
+export async function ask(question: String): Promise<string | null> {
+    try {
+        const response: AxiosResponse<{ answer: string }> = await axios.post(`${trackerUrl}/api/ask`, {question: question}, {headers: {'x-api-key': trackerApiKey}});
+        const answer: string = response.data.answer;
+
+        return answer;
+    } catch (error: any) {
+        console.warn('Error asking ai:', error.message);
+        return null;
+    }
+}

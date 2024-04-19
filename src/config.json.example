@@ -7,14 +7,16 @@
 	"trackerUrl": "https://mctracker.ir",
 	"trackerGuildId": "",
 
-	
+	"trackerApiKey": "",
+
 	"channels": {
 		"membersCount": "",
 		"votesCount": "",
 		"serversCount": "",
 		"recordsCount": "",
 		"emptyCount": "",
-		"playersCount": ""
+		"playersCount": "",
+		"aiChat": ""
 	},
 
 	"statsChannels": [
