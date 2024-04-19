@@ -26,11 +26,19 @@ const event: TrackerEvent<Events.MessageCreate> = {
 			});
 		}
 
-		message.reply({
-			embeds: [
-				new EmbedBuilder().setColor('Green').setDescription(answer)
-			]
-		})
+		if (answer.length <= 256) {
+			message.reply({
+				embeds: [
+					new EmbedBuilder().setColor('Green').setTitle(answer)
+				]
+			})
+		} else {
+			message.reply({
+				embeds: [
+					new EmbedBuilder().setColor('Green').setDescription(answer)
+				]
+			})
+		}
 	},
 };
 
