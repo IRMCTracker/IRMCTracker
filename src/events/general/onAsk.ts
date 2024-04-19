@@ -28,7 +28,7 @@ const event: TrackerEvent<Events.MessageCreate> = {
 
 		message.reply({
 			embeds: [
-				new EmbedBuilder().setColor('Green').setTitle(answer)
+				new EmbedBuilder().setColor('Green').setDescription(answer)
 			]
 		})
 	},
