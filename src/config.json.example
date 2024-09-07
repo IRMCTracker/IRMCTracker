@@ -1,27 +1,25 @@
 {
-	"token": "",
-    "clientId": "",
-	"ownerId": "",
-	"bannerUrl": "https://mctracker.ir/img/banners/banner.png",
-	"logoUrl": "https://mctracker.ir/img/logo.png",
-	"trackerUrl": "https://mctracker.ir",
-	"trackerGuildId": "",
+  "token": "",
+  "clientId": "",
+  "ownerId": "",
+  "bannerUrl": "https://mctracker.ir/img/banners/banner.png",
+  "logoUrl": "https://mctracker.ir/img/logo.png",
+  "trackerUrl": "https://mctracker.ir",
+  "trackerGuildId": "",
 
-	"trackerApiKey": "",
+  "trackerApiKey": "",
 
-	"channels": {
-		"membersCount": "",
-		"votesCount": "",
-		"serversCount": "",
-		"recordsCount": "",
-		"emptyCount": "",
-		"playersCount": "",
-		"aiChat": ""
-	},
+  "channels": {
+    "membersCount": "",
+    "votesCount": "",
+    "serversCount": "",
+    "recordsCount": "",
+    "emptyCount": "",
+    "playersCount": "",
+    "aiChat": ""
+  },
 
-	"statsChannels": [
-	],
+  "statsChannels": [],
 
-	"topVotesChannels": [
-	]
+  "topVotesChannels": []
 }
