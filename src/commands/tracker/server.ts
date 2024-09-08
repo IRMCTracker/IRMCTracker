@@ -1,36 +1,44 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { getServer } from '../../services/trackerService';
-import { getServerMessage } from '../../services/messagingService';
-
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { getServer } from "../../services/trackerService";
+import { getServerMessage } from "../../services/messagingService";
 
 const command: TrackerCommand = {
-	data: new SlashCommandBuilder()
-		.setName('server')
-		.setDescription('💻 دریافت اطلاعات سرور مورد نظر')
-		.addStringOption(option => option.setName('server').setDescription('اسم سرور').setRequired(true)),
-	async execute(client, interaction) {
-		const serverName: string = interaction.options.getString('server', true);
+  data: new SlashCommandBuilder()
+    .setName("server")
+    .setDescription("💻 Retrieve information about the specified server")
+    .addStringOption((option) =>
+      option.setName("server").setDescription("Server name").setRequired(true),
+    ),
+  async execute(client, interaction) {
+    const serverName: string = interaction.options.getString("server", true);
 
-		await interaction.reply("🤔 چند لحظه صبر کن...");
+    await interaction.reply("🤔 Please wait a moment...");
 
-		const server = await getServer(serverName);
+    const server = await getServer(serverName);
 
-		if (server == null) {
-			return await interaction.editReply({
-				content: '',
-				embeds: [
-					new EmbedBuilder()
-						.setColor("Red")
-						.setTitle('🔴 سرور وارد شده وجود نداره!')
-				]
-			});
-		}
+    if (!server) {
+      const reply = await interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor("Red")
+            .setTitle("🔴 The specified server does not exist!"),
+        ],
+      });
 
-		const message = getServerMessage(client, server);
+      // Delete the message after 5 seconds
+      setTimeout(() => {
+        reply
+          .delete()
+          .catch((err) => console.error("Failed to delete message:", err));
+      }, 5000);
 
-		await interaction.editReply(message);
-	},
+      return;
+    }
 
+    const message = getServerMessage(client, server);
+
+    await interaction.editReply(message);
+  },
 };
 
-export default command
+export default command;

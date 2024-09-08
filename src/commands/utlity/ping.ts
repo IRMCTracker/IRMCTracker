@@ -1,12 +1,17 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder } from "discord.js";
 
-const command: TrackerCommand = {
-	data: new SlashCommandBuilder()
-		.setName('ping')
-		.setDescription('Replies with Pong!'),
-	async execute(_, interaction) {
-		await interaction.reply('Pong!');
-	},
+const command = {
+  data: new SlashCommandBuilder()
+    .setName("ping")
+    .setDescription("Replies with the bot's latency"),
+  async execute(_, interaction) {
+    const sent = await interaction.reply({
+      content: "Calculating ping...",
+      fetchReply: true,
+    });
+    const latency = sent.createdTimestamp - interaction.createdTimestamp;
+    await interaction.editReply(`Bot latency is ${latency}ms.`);
+  },
 };
 
-export default command
+export default command;

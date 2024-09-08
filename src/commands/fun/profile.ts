@@ -1,57 +1,76 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { getMinecraftProfile, userNameToUUID } from '../../services/playerService';
-import { bannerUrl } from '../../config.json';
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import {
+  getMinecraftProfile,
+  userNameToUUID,
+} from "../../services/playerService";
+import { bannerUrl } from "../../config.json";
 
 const command: TrackerCommand = {
-	data: new SlashCommandBuilder()
-		.setName('profile')
-		.setDescription('🔥 دریافت اطلاعات حساب ماینکرفت شما')
-		.addStringOption(option => option.setName('username').setDescription('یوزرنیم پلیر').setRequired(true)),
-	async execute(_, interaction) {
-		const userName: string = interaction.options.getString('username', true);
-		
-		await interaction.reply(`دارم حساب ${userName} پیدا میکنم... 🤔`);
+  data: new SlashCommandBuilder()
+    .setName("profile")
+    .setDescription("🔥 Retrieve your Minecraft account information")
+    .addStringOption((option) =>
+      option
+        .setName("username")
+        .setDescription("Player username")
+        .setRequired(true),
+    ),
+  async execute(_, interaction) {
+    const userName: string = interaction.options.getString("username", true);
 
-		const uuid = await userNameToUUID(userName);
+    await interaction.reply(`Searching for the account of ${userName}... 🤔`);
 
-		if (uuid == null) {
-			return await interaction.editReply('☹️ فکر کنم اشتباه نوشتی اسم پلیر رو چون نمیتونم پیداش کنم');
-		}
+    const uuid = await userNameToUUID(userName);
 
-		const profile = await getMinecraftProfile(uuid);
+    if (!uuid) {
+      return await interaction.editReply(
+        "☹️ It seems the player name is incorrect. Unable to find it.",
+      );
+    }
 
-		if (profile == null) {
-			return await interaction.editReply('☹️ مشکلی تو دریافت اطلاعات پیش اومد. لطفا بعدا دوباره تلاش کن');
-		}
+    const profile = await getMinecraftProfile(uuid);
 
-		const embed = new EmbedBuilder()
-			.setTitle(`⌠・Player Profile ${userName}・⌡`)
-			.setColor("Random")
-			.setTimestamp(Date.now())
-			.setThumbnail('attachment://profile.png')
-			.setImage('attachment://banner.png')
-			.setFooter({text: 'Tracked by IRMCTracker'})
-			.addFields([
-				{name: '💻 • UserNames', value: profile.history.join(' - '), inline: true},
-				{name: '📆 • Created', value: profile.createdAt ?? 'مخفی', inline: true}
-			]);
+    if (!profile) {
+      return await interaction.editReply(
+        "☹️ There was an issue retrieving the profile information. Please try again later.",
+      );
+    }
 
-		await interaction.editReply({
-			embeds: [embed],
-			content: '',
-			files: [
-				{
-					name: 'profile.png',
-					attachment: `https://crafatar.com/renders/head/${uuid}?size=512&default=MHF_Steve&overlay`
-				},
-				{
-					name: 'banner.png',
-					attachment: bannerUrl
-				}
-			]
-		});
-	},
+    const embed = new EmbedBuilder()
+      .setTitle(`⌠・Player Profile: ${userName}・⌡`)
+      .setColor("Random")
+      .setTimestamp()
+      .setThumbnail("attachment://profile.png")
+      .setImage("attachment://banner.png")
+      .setFooter({ text: "Tracked by IRMCTracker" })
+      .addFields([
+        {
+          name: "💻 • Usernames",
+          value: profile.history.join(" - "),
+          inline: true,
+        },
+        {
+          name: "📆 • Created",
+          value: profile.createdAt ?? "Hidden",
+          inline: true,
+        },
+      ]);
 
+    await interaction.editReply({
+      embeds: [embed],
+      content: "",
+      files: [
+        {
+          name: "profile.png",
+          attachment: `https://crafatar.com/renders/head/${uuid}?size=512&default=MHF_Steve&overlay`,
+        },
+        {
+          name: "banner.png",
+          attachment: bannerUrl,
+        },
+      ],
+    });
+  },
 };
 
-export default command
+export default command;

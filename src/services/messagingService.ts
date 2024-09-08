@@ -16,7 +16,7 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
         embed = new EmbedBuilder()
             .setColor('Red')
             .setTitle(`🔴 ${server.name}`)
-            .setDescription('سرور وارد شده درحال حاضر آفلاین هست!');
+            .setDescription('The server is offline.');
     } else {
         embed = new EmbedBuilder()
             .setColor('Random')
