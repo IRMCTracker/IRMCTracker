@@ -1,13 +1,15 @@
 import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, APIEmbedField, RestOrArray, MessagePayload } from 'discord.js';
 import { Server, getServers } from '../../services/trackerService';
 import { bannerUrl, logoUrl } from "../../config.json";
-import { getMedal } from '../../services/messagingService';
+import { getMedal, checkChannelPermission } from '../../services/messagingService';
 
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()
 		.setName('servers')
 		.setDescription('💻 دریافت لیستی از تمام سرور های موجود'),
 	async execute(_, interaction) {
+		if (!await checkChannelPermission(interaction, 'track')) return;
+        
 		await interaction.reply("🤔 چند لحظه صبر کن...");
 
 		const servers: Server[] | null = await getServers();

@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { getMinecraftProfile, userNameToUUID } from '../../services/playerService';
 import { bannerUrl } from '../../config.json';
+import { checkChannelPermission } from '../../services/messagingService';
 
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()
@@ -8,6 +9,8 @@ const command: TrackerCommand = {
 		.setDescription('🔥 دریافت اطلاعات حساب ماینکرفت شما')
 		.addStringOption(option => option.setName('username').setDescription('یوزرنیم پلیر').setRequired(true)),
 	async execute(_, interaction) {
+		if (!await checkChannelPermission(interaction, 'profile')) return;
+
 		const userName: string = interaction.options.getString('username', true);
 		
 		await interaction.reply(`دارم حساب ${userName} پیدا میکنم... 🤔`);

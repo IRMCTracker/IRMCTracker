@@ -1,6 +1,6 @@
-import { ActionRowBuilder, AttachmentPayload, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, Emoji, InteractionEditReplyOptions, MessagePayload, TextChannel } from 'discord.js';
+import { ActionRowBuilder, AttachmentPayload, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Client, EmbedBuilder, Emoji, InteractionEditReplyOptions, MessagePayload, TextChannel } from 'discord.js';
 import { Server } from './trackerService';
-import { trackerUrl, bannerUrl, logoUrl, trackerGuildId } from '../config.json';
+import { trackerUrl, bannerUrl, logoUrl, trackerGuildId, channels } from '../config.json';
 
 export function getServerMessage(client: Client, server: Server): MessagePayload | InteractionEditReplyOptions {
     let embed: EmbedBuilder;
@@ -167,4 +167,12 @@ export async function updateStatsChannel(client: Client, channelId: string, serv
     } catch (error) {
         console.error(`Error updating embed in channel ${channelId}:`, error);
     }
+}
+
+export async function checkChannelPermission(interaction: ChatInputCommandInteraction, requiredChannel: keyof typeof channels): Promise<boolean> {
+    if (interaction.channelId !== channels[requiredChannel]) {
+        await interaction.reply({ content: `❌ Dar channele eshtebahi hastid! Lotfan be <#${channels[requiredChannel]}> berid.`, ephemeral: true });
+        return false;
+    }
+    return true;
 }

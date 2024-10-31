@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { getServer } from '../../services/trackerService';
-import { getServerMessage } from '../../services/messagingService';
+import { getServerMessage, checkChannelPermission } from '../../services/messagingService';
 
 
 const command: TrackerCommand = {
@@ -9,6 +9,8 @@ const command: TrackerCommand = {
 		.setDescription('💻 دریافت اطلاعات سرور مورد نظر')
 		.addStringOption(option => option.setName('server').setDescription('اسم سرور').setRequired(true)),
 	async execute(client, interaction) {
+		if (!await checkChannelPermission(interaction, 'track')) return;
+
 		const serverName: string = interaction.options.getString('server', true);
 
 		await interaction.reply("🤔 چند لحظه صبر کن...");
