@@ -16,7 +16,8 @@
     "recordsCount": "",
     "emptyCount": "",
     "playersCount": "",
-    "aiChat": ""
+    "aiChat": "",
+    "pieChart": ""
   },
 
   "statsChannels": [],
