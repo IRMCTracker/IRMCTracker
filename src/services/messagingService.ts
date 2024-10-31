@@ -25,7 +25,7 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
             .setDescription(server.description)
             .setImage('attachment://motd.png')
             .addFields(
-            { name: '「🌐」Address »', value: `${server.address} (**${server.ip}**)`, inline: false },
+            { name: '「🌐」Address »', value: server.ip ? `${server.address} (**${server.ip}**)` : server.address, inline: false },
             { name: '「👥」Online Players »', value: `${server.players.online}`, inline: true },
             { name: '「🥇」Top Record »', value: server.players.record.toString(), inline: true },
             { name: '「📈」Uptime »', value: `${server.uptime}`, inline: false },
