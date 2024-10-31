@@ -35,7 +35,6 @@ async function getColorFromFavicon(faviconUrl: string, fallbackIndex: number): P
         
         const buffer = await response.buffer();
         const color = await getAverageColor(buffer, {algorithm: "dominant", mode: "precision", silent: true, ignoredColor: [[0, 0, 0]]});
-        console.log(color.hex, color.rgba);
         return color.hex;
     } catch (error) {
         console.error(`Error extracting color from favicon: ${error}`);
