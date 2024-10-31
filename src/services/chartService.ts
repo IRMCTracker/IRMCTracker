@@ -7,7 +7,22 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
 
+// Register Chart.js components and plugins once at the module level
 Chart.register(ArcElement, Legend, Tooltip, ChartDataLabels);
+
+// Create a singleton ChartJSNodeCanvas instance
+const chartCanvas = new ChartJSNodeCanvas({ 
+    width: 800, 
+    height: 600, 
+    backgroundColour: 'transparent'
+});
+
+// Cleanup function for proper resource management
+export function cleanup() {
+    Object.keys(Chart.instances).forEach((key) => {
+        Chart.instances[key].destroy();
+    });
+}
 
 const fallbackColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
 
@@ -46,14 +61,6 @@ export async function drawPieChart(): Promise<string> {
 
     const totalPlayers = topServers.reduce((sum, s) => sum + s.players.online, 0);
 
-    const width = 800;
-    const height = 600;
-    const chartJSNodeCanvas = new ChartJSNodeCanvas({ 
-        width, 
-        height, 
-        backgroundColour: 'transparent',
-    });
-
     const configuration = {
         type: 'pie' as const,
         data: {
@@ -72,8 +79,9 @@ export async function drawPieChart(): Promise<string> {
             responsive: true,
             plugins: {
                 datalabels: {
+                    display: true,
                     color: '#FFFFFF',
-                    textAlign: 'center' as 'center', // WTF? Why do I need to cast this? :(
+                    textAlign: 'center' as 'center',
                     font: {
                         size: 12
                     },
@@ -85,10 +93,7 @@ export async function drawPieChart(): Promise<string> {
                         const label = ctx.chart.data.labels[ctx.dataIndex].split(' (')[0];
                         return `${label}: ${percentage}%`;
                     },
-                    anchor: (ctx: any): 'center' | 'start' | 'end' => {
-                        const value = ctx.dataset.data[ctx.dataIndex];
-                        return 'center';
-                    },
+                    anchor: 'center',
                     align: (ctx: any) => {
                         const value = ctx.dataset.data[ctx.dataIndex];
                         return value / totalPlayers > 0.10 ? 'center' : 'end';
@@ -141,7 +146,8 @@ export async function drawPieChart(): Promise<string> {
         }
     };
 
-    const image = await chartJSNodeCanvas.renderToBuffer(configuration);
+    // Use the singleton instance
+    const image = await chartCanvas.renderToBuffer(configuration);
     const storageDir = path.join(process.cwd(), 'storage');
     if (!fs.existsSync(storageDir)) {
         fs.mkdirSync(storageDir, { recursive: true });
