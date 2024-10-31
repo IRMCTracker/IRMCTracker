@@ -171,7 +171,7 @@ export async function updateStatsChannel(client: Client, channelId: string, serv
 
 export async function checkChannelPermission(interaction: ChatInputCommandInteraction, requiredChannel: keyof typeof channels): Promise<boolean> {
     if (interaction.channelId !== channels[requiredChannel]) {
-        await interaction.reply({ content: `❌ Dar channele eshtebahi hastid! Lotfan be <#${channels[requiredChannel]}> berid.`, ephemeral: true });
+        await interaction.reply({ content: `❌ در چنل اشتباهی هستید! لطفا به <#${channels[requiredChannel]}> برید.`, ephemeral: true });
         return false;
     }
     return true;
