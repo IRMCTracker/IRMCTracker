@@ -25,13 +25,13 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
             .setDescription(server.description)
             .setImage('attachment://motd.png')
             .addFields(
-                { name: '「🌐」Address »', value: `${server.address} (**${server.ip}**)`, inline: false },
-                { name: '「👥」Online Players »', value: `${server.players.online}`, inline: true },
-                { name: '「🥇」Top Record »', value: server.players.record.toString(), inline: true },
-                { name: '「📈」Uptime »', value: `${server.uptime}`, inline: false },
-                { name: '「📌」Version »', value: `${server.version}`, inline: true },
-                { name: '「📡」Latency »', value: `${server.latency}ms`, inline: true },
-                { name: '「🌎」Country »', value: `:flag_${server.country_code?.toLowerCase()}: ${server.region}`, inline: false },
+            { name: '「🌐」Address »', value: `${server.address} (**${server.ip}**)`, inline: false },
+            { name: '「👥」Online Players »', value: `${server.players.online}`, inline: true },
+            { name: '「🥇」Top Record »', value: server.players.record.toString(), inline: true },
+            { name: '「📈」Uptime »', value: `${server.uptime}`, inline: false },
+            { name: '「📌」Version »', value: `${server.version}`, inline: true },
+            { name: '「📡」Latency »', value: `${server.latency}ms`, inline: true },
+            { name: '「🌎」Country »', value: `:flag_${server.country_code?.toLowerCase() ?? 'ir'}: ${server.region}`, inline: false },
             );
 
         // Add dynamic gamemodes field
