@@ -52,12 +52,12 @@ const createServerButtons = (server1: ServerComparison, server2: ServerCompariso
     return new ActionRowBuilder<ButtonBuilder>()
         .addComponents(
             new ButtonBuilder()
-                .setLabel(`View ${server1.name}`)
+                .setLabel(`🌐 ${server1.name} on MCTracker.iR`)
                 .setStyle(ButtonStyle.Link)
                 .setEmoji('🔵')
                 .setURL(`https://mctracker.ir/servers/${server1.name}`),
             new ButtonBuilder()
-                .setLabel(`View ${server2.name}`)
+                .setLabel(`🌐 ${server2.name} on MCTracker.iR`)
                 .setStyle(ButtonStyle.Link)
                 .setEmoji('🔴')
                 .setURL(`https://mctracker.ir/servers/${server2.name}`)
