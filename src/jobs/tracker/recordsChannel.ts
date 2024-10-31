@@ -18,7 +18,7 @@ const job: TrackerJob = {
                 .sort((a, b) => b.players.record - a.players.record)
                 .slice(0, 15); // Take top 15 servers
 
-            const recordsChannel = await client.channels.fetch(channels.recordsChannel) as TextChannel;
+            const recordsChannel = await client.channels.fetch(channels.records) as TextChannel;
             if (!recordsChannel) return;
 
             // Build the records list with enhanced formatting
