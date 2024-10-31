@@ -34,7 +34,8 @@ async function getColorFromFavicon(faviconUrl: string, fallbackIndex: number): P
         if (!response.ok) throw new Error('Failed to fetch favicon');
         
         const buffer = await response.buffer();
-        const color = await getAverageColor(buffer, {algorithm: "dominant", mode: "precision", silent: true, ignoredColor: [0, 0, 0]});
+        const color = await getAverageColor(buffer, {algorithm: "dominant", mode: "precision", silent: true, ignoredColor: [[0, 0, 0]]});
+        console.log(color.hex, color.rgba);
         return color.hex;
     } catch (error) {
         console.error(`Error extracting color from favicon: ${error}`);
@@ -91,16 +92,16 @@ export async function drawPieChart(): Promise<string> {
                     formatter: (value: number, ctx: any) => {
                         const percentage = ((value / totalPlayers) * 100).toFixed(1);
                         const label = ctx.chart.data.labels[ctx.dataIndex].split(' (')[0];
-                        return `${label}: ${percentage}%`;
+                        return `${label} » ${percentage}%`;
                     },
-                    anchor: 'center',
+                    anchor: 'end',  // Changed from 'center' to 'end'
                     align: (ctx: any) => {
                         const value = ctx.dataset.data[ctx.dataIndex];
-                        return value / totalPlayers > 0.10 ? 'center' : 'end';
+                        return value / totalPlayers > 0.10 ? 'start' : 'end';
                     },
                     offset: (ctx: any) => {
                         const value = ctx.dataset.data[ctx.dataIndex];
-                        return value / totalPlayers > 0.10 ? 0 : -5;
+                        return value / totalPlayers > 0.10 ? 75 : -110;  // Increased offset for better visibility
                     },
                     rotation: (ctx: any) => {
                         const value = ctx.dataset.data[ctx.dataIndex];
