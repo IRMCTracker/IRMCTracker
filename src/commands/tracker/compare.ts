@@ -36,7 +36,7 @@ const createComparisonEmbed = (server1: ServerComparison, server2: ServerCompari
             createServerField(server1, server2, '🔵'),
             {
                 name: '\u200b',
-                value: ['\u200b', '┃', '⚔️', '┃'].join('\n'),
+                value: ['\u200b', '┃', '⚔️', '┃', '\u200b'].join('\n'),
                 inline: true
             },
             createServerField(server2, server1, '🔴')
