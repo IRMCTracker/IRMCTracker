@@ -31,7 +31,7 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
             { name: '「📈」Uptime »', value: `${server.uptime}`, inline: false },
             { name: '「📌」Version »', value: `${server.version}`, inline: true },
             { name: '「📡」Latency »', value: `${server.latency}ms`, inline: true },
-            { name: '「🌎」Country »', value: `:flag_${server.country_code?.toLowerCase() ?? 'ir'}: ${server.region}`, inline: false },
+            { name: '「🌎」Country »', value: `:flag_${server.country_code?.toLowerCase() ?? 'ir'}: ${server.region ?? 'Iran Tehran'}`, inline: false },
             );
 
         // Add dynamic gamemodes field
