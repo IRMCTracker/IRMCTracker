@@ -1,8 +1,6 @@
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { token } from './config.json';
-import { getCommands, getEvents, getJobs } from './services/botService';
-import { CronJob } from 'cron';
-
+import { getCommands, getEvents } from './services/botService';
 
 class TrackerClient extends Client {
     commands: Collection<any, any>;

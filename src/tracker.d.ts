@@ -1,4 +1,4 @@
-import { Event, Client, SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import { Client, SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 
 declare global {
     interface TrackerJob {
