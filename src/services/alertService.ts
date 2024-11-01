@@ -16,7 +16,7 @@ type AlertType = 'went_online' | 'went_offline' | 'new_record' | 'high_latency' 
 class AlertStateManager {
     private static instance: AlertStateManager;
     private serverStates: Map<string, ServerState>;
-    private readonly LATENCY_THRESHOLD = 500; // ms
+    private readonly LATENCY_THRESHOLD = 6000; // ms
     private readonly PLAYER_SPIKE_THRESHOLD = 50; // Minimum increase in players
     private readonly PLAYER_SPIKE_PERCENTAGE = 0.5; // 50% increase
     private readonly HISTORY_SIZE = 5;
