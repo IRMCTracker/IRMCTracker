@@ -106,8 +106,8 @@ const command: TrackerCommand = {
                         `📊 Network Level: ${hypixelProfile.level.toFixed(2)}`,
                         `✨ Karma: ${hypixelProfile.karma.toLocaleString()}`,
                         `🏆 Achievement Points: ${hypixelProfile.achievementPoints.toLocaleString()}`,
-                        `📅 First Login: <t:${Math.floor(hypixelProfile.firstLogin.getTime() / 1000)}:R>`,
-                        `📅 Last Login: <t:${Math.floor(hypixelProfile.lastLogin.getTime() / 1000)}:R>`
+                        `📅 First Login: ${hypixelProfile.firstLogin.getTime() > 0 ? `<t:${Math.floor(hypixelProfile.firstLogin.getTime() / 1000)}:R>` : '-'}`,
+                        `📅 Last Login: ${hypixelProfile.lastLogin.getTime() > 0 ? `<t:${Math.floor(hypixelProfile.lastLogin.getTime() / 1000)}:R>` : '-'}`
                     ].join('\n'),
                     inline: false
                 }

@@ -64,8 +64,8 @@ export async function getHypixelProfile(uuid: string): Promise<HypixelProfile | 
             rank: getRank(player),
             level: getNetworkLevel(player.networkExp || 0),
             karma: player.karma || 0,
-            firstLogin: new Date(player.firstLogin),
-            lastLogin: new Date(player.lastLogin),
+            firstLogin: player.firstLogin ? new Date(player.firstLogin) : new Date(0),
+            lastLogin: player.lastLogin ? new Date(player.lastLogin) : new Date(0),
             achievementPoints: player.achievementPoints || 0,
             online: statusRes.data.session.online,
             stats: {
