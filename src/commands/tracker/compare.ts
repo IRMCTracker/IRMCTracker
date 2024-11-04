@@ -22,7 +22,7 @@ const createServerField = (server: ServerComparison, otherServer: ServerComparis
         `👥 Players: **${server.players.online}** ${getComparisonStatus(server.players.online, otherServer.players.online)}`,
         `📊 Record: **${server.players.record}** ${getComparisonStatus(server.players.record, otherServer.players.record)}`,
         `🗳️ Votes: **${formatNumber(server.votes)}** ${getComparisonStatus(server.votes, otherServer.votes)}`,
-        `📡 Ping: **${server.latency ?? 0}ms**`
+        `📡 Ping: **${server.latency ?? 0}ms** ${getComparisonStatus(server.latency ?? 0, otherServer.latency ?? 0)}`
     ].join('\n'),
     inline: true
 });
