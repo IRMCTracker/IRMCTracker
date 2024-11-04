@@ -18,7 +18,7 @@ class AlertStateManager {
     private serverStates: Map<string, ServerState>;
     private readonly LATENCY_THRESHOLD = 6000; // ms
     private readonly PLAYER_SPIKE_THRESHOLD = 50; // Minimum increase in players
-    private readonly PLAYER_SPIKE_PERCENTAGE = 0.5; // 50% increase
+    private readonly PLAYER_SPIKE_PERCENTAGE = 0.2; // 20% increase
     private readonly HISTORY_SIZE = 5;
     private readonly RECORD_MINIMUM_PLAYERS = 50; // Only record if above 100 players
 

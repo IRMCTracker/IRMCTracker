@@ -60,13 +60,14 @@ const job: TrackerJob = {
             const alertManager = AlertStateManager.getInstance();
             
             for (const server of servers) {
+                const previousState = alertManager.getServerState(server.name);
                 const alerts = alertManager.updateServerState(server);
                 
                 for (const alertType of alerts) {
                     const alertData = {
                         record: server.players.record,
                         latency: server.latency,
-                        previous: alertManager.getServerState(server.name)?.lastPlayerCount,
+                        previous: previousState?.lastPlayerCount, // Use previous state before update
                         current: server.players.online
                     };
 
