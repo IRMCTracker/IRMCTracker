@@ -63,7 +63,7 @@ const command: TrackerCommand = {
             minecraftProfile.isLegacy ? '👑 Legacy Account' : '',
             minecraftProfile.isDemoAccount ? '🎮 Demo Account' : '',
             minecraftProfile.textures.cape ? '🦸 Has Cape' : '',
-            minecraftProfile.textures.skin?.custom ? '🎨 Custom Skin' : '⚪ Default Skin',
+            minecraftProfile.textures.skin ? '🎨 Custom Skin' : '⚪ Default Skin',
             minecraftProfile.textures.skin?.slim ? '💃 Slim Model' : '🧍 Classic Model'
         ].filter(badge => badge).join(' | ');
 
