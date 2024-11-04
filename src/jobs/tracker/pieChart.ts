@@ -23,10 +23,18 @@ const job: TrackerJob = {
                     })
                     .setTimestamp();
 
-                await pieChartChannel.send({ 
-                    embeds: [embed],
-                    files: [attachment]
-                });
+                const lastMessage = await pieChartChannel.messages.fetch({ limit: 1 });
+                if (lastMessage.size > 0) {
+                    await lastMessage.first()?.edit({ 
+                        embeds: [embed],
+                        files: [attachment]
+                    });
+                } else {
+                    await pieChartChannel.send({ 
+                        embeds: [embed],
+                        files: [attachment]
+                    });
+                }
             }
         } catch (error) {
             console.error('Error executing job:', error);
