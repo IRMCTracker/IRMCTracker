@@ -83,7 +83,7 @@ export async function getHypixelProfile(uuid: string): Promise<HypixelProfile | 
                     losses: player.stats.SkyWars.losses || 0,
                     kills: player.stats.SkyWars.kills || 0,
                     deaths: player.stats.SkyWars.deaths || 0,
-                    level: player.achievements?.skywars_level || 0
+                    level: getSkyWarsLevel(player.stats.SkyWars.skywars_experience || 0)
                 } : undefined,
                 duels: player.stats?.Duels ? {
                     wins: player.stats.Duels.wins || 0,
@@ -111,7 +111,10 @@ function getRank(player: any): string {
     ];
     
     for (const rank of ranks) {
-        if (player[`rank`] === rank || player[`monthly_rank`] === rank || player[`new_rank`] === rank) {
+        if (player[`rank`] === rank || 
+            player[`monthly_rank`] === rank || 
+            player[`new_rank`] === rank ||
+            player[`newPackageRank`] === rank) {
             return rank;
         }
     }
@@ -119,5 +122,9 @@ function getRank(player: any): string {
 }
 
 function getNetworkLevel(exp: number): number {
-    return Math.sqrt(exp + 15312.5) / 2.5 - 2.5;
+    return Number((Math.sqrt(2 * exp + 30625) / 50 - 2.5).toFixed(2));
+}
+
+function getSkyWarsLevel(exp: number): number {
+    return Number(((exp - 15000) / 10000 + 12).toFixed(2));
 }
