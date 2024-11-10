@@ -32,12 +32,15 @@ const job: TrackerJob = {
                 return Math.abs(b.up_from) - Math.abs(a.up_from);
             });
     
-            // Iterate over the sorted servers and update embeds in all channels
-            for (let i = 0; i < Math.min(sortedServers.length, statsChannels.length); i++) {
-                const server = sortedServers[i];
-                const channelId = statsChannels[i];
-                await updateStatsChannel(client, channelId, server, i);
-            }
+            // Update all channels concurrently
+            await Promise.all(
+                sortedServers
+                    .slice(0, Math.min(sortedServers.length, statsChannels.length))
+                    .map((server, index) => 
+                        updateStatsChannel(client, statsChannels[index], server, index)
+                            .catch(err => console.error(`Failed to update channel ${statsChannels[index]}:`, err))
+                    )
+            );
         } catch (error) {
             console.error('Error executing job:', error);
         }

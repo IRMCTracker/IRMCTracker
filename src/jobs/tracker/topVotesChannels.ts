@@ -18,12 +18,15 @@ const job: TrackerJob = {
             // Sort the servers based on votes
             const sortedServers = servers.slice().sort((a, b) => b.votes - a.votes);
 
-            // Iterate over the sorted servers and update embeds in all channels
-            for (let i = 0; i < Math.min(sortedServers.length, topVotesChannels.length); i++) {
-                const server = sortedServers[i];
-                const channelId = topVotesChannels[i];
-                await updateStatsChannel(client, channelId, server, i);
-            }
+            // Update all channels concurrently
+            await Promise.all(
+                sortedServers
+                    .slice(0, Math.min(sortedServers.length, topVotesChannels.length))
+                    .map((server, index) => 
+                        updateStatsChannel(client, topVotesChannels[index], server, index)
+                            .catch(err => console.error(`Failed to update channel ${topVotesChannels[index]}:`, err))
+                    )
+            );
         } catch (error) {
             console.error('Error executing job:', error);
         }
