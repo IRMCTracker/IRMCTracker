@@ -29,7 +29,7 @@ const getAlertEmbed = (server: Server, alertType: AlertType, data: any = {}) => 
             color: Colors.Purple,
             title: '📈 افزایش ناگهانی بازیکنان',
             description: `سرور **${server.name}** افزایش ناگهانی در تعداد بازیکنان داشته است\n` +
-                `قبلی: ${data.previous} → فعلی: ${data.current} بازیکن\n` +
+                `قبلی: ${data.previous} ← فعلی: ${data.current} بازیکن\n` +
                 `این ممکن است نشان‌دهنده حمله ربات باشد`
         }
     };
