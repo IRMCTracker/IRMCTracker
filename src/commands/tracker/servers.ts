@@ -91,7 +91,7 @@ const command: TrackerCommand = {
 
         collector.on('collect', async i => {
             if (i.user.id !== interaction.user.id) {
-                return await i.reply({ content: "You can't use these buttons!", ephemeral: true });
+                return await i.reply({ content: "❌ فقط کسی که دستور رو اجرا کرده میتونه از این دکمه ها استفاده کنه!", ephemeral: true });
             }
 
             if (i.customId === 'previous') {
