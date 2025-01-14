@@ -6,34 +6,30 @@ import { getMedal, checkChannelPermission } from '../../services/messagingServic
 const command: TrackerCommand = {
     data: new SlashCommandBuilder()
         .setName('servers')
-        .setDescription('💻 دریافت لیستی از تمام سرور های موجود'),
+        .setDescription('💻 Retrieve a list of all available servers'),
     async execute(_, interaction) {
         if (!await checkChannelPermission(interaction, 'track')) return;
         
-        await interaction.reply("🤔 چند لحظه صبر کن...");
+        await interaction.reply("🤔 Please wait a moment...");
 
         const servers: Server[] | null = await getServers();
 
         if (servers === null) {
-            return await interaction.editReply('🔴 مشکلی در دریافت سرور ها بوجود آمده.');
+            return await interaction.editReply('🔴 There was an issue retrieving the servers.');
         }
 
         const sortedServers = servers.slice().sort((a, b) => {
-            // Sort by players.online (descending)
             if (b.players.online !== a.players.online) {
                 return b.players.online - a.players.online;
             }
-            // If players.online is the same, sort by up_from (positive values first)
             if (a.up_from >= 0 && b.up_from < 0) {
-                return -1; // a comes before b
+                return -1;
             }
             if (a.up_from < 0 && b.up_from >= 0) {
-                return 1; // b comes before a
+                return 1;
             }
-            // If up_from values are both positive or both negative, sort by their absolute values
             return Math.abs(b.up_from) - Math.abs(a.up_from);
         });
-        
 
         const embedFields: RestOrArray<APIEmbedField> = [];
 
@@ -49,12 +45,12 @@ const command: TrackerCommand = {
         const embeds: EmbedBuilder[] = [];
         for (let i = 0; i < embedFields.length; i += chunkSize) {
             const chunk = embedFields.slice(i, i + chunkSize);
-			const embed = new EmbedBuilder()
-				.setColor(0x673AB7)
-				.setTimestamp(Date.now())
-				.setFooter({ text: 'Tracked by IRMCTracker' })
-				.setTitle(`[${Math.floor(i / chunkSize) + 1}/${Math.ceil(embedFields.length / chunkSize)}] 📡 Servers List | لیست سرور ها`)
-				.setImage('attachment://banner.png');
+            const embed = new EmbedBuilder()
+                .setColor(0x673AB7)
+                .setTimestamp(Date.now())
+                .setFooter({ text: 'Tracked by IRMCTracker' })
+                .setTitle(`[${Math.floor(i / chunkSize) + 1}/${Math.ceil(embedFields.length / chunkSize)}] 📡 Servers List`)
+                .setImage('attachment://banner.png');
 
             embed.addFields(chunk);
             embeds.push(embed);
@@ -66,12 +62,12 @@ const command: TrackerCommand = {
             .addComponents(
                 new ButtonBuilder()
                     .setCustomId('previous')
-                    .setLabel('◀ صفحه قبل')
+                    .setLabel('◀ Previous Page')
                     .setStyle(ButtonStyle.Primary)
                     .setDisabled(true),
                 new ButtonBuilder()
                     .setCustomId('next')
-                    .setLabel('صفحه بعد ▶')
+                    .setLabel('Next Page ▶')
                     .setStyle(ButtonStyle.Primary)
                     .setDisabled(embeds.length <= 1)
             );
@@ -83,15 +79,14 @@ const command: TrackerCommand = {
             components: [row]
         });
 
-        // Create a collector for button interactions
         const collector = response.createMessageComponentCollector({ 
             componentType: ComponentType.Button,
-            time: 600000 // 10 minutes
+            time: 600000
         });
 
         collector.on('collect', async i => {
             if (i.user.id !== interaction.user.id) {
-                return await i.reply({ content: "❌ فقط کسی که دستور رو اجرا کرده میتونه از این دکمه ها استفاده کنه!", ephemeral: true });
+                return await i.reply({ content: "❌ Only the command executor can use these buttons!", ephemeral: true });
             }
 
             if (i.customId === 'previous') {
@@ -100,7 +95,6 @@ const command: TrackerCommand = {
                 currentPage++;
             }
 
-            // Update button states
             row.components[0].setDisabled(currentPage === 0);
             row.components[1].setDisabled(currentPage === embeds.length - 1);
 
