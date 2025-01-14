@@ -11,7 +11,7 @@ const event: TrackerEvent<Events.MessageCreate> = {
 		if (message.content.length < 5 || message.content.length > 100) {
 			return message.reply({
 				embeds: [
-					new EmbedBuilder().setColor('Red').setTitle('پیامت باید بین ۵ تا ۱۰۰ کاراکتر باشه تا بتونم کمکت کنم 😎')
+					new EmbedBuilder().setColor('Red').setTitle('I only answer to questions which have atleast 5 and atlast 100 characters. 😎')
 				]
 			});
 		}
@@ -21,7 +21,7 @@ const event: TrackerEvent<Events.MessageCreate> = {
 		if (answer == null) {
 			return message.reply({
 				embeds: [
-					new EmbedBuilder().setColor('Red').setTitle('متاسفانه جوابی ندارم 🥹')
+					new EmbedBuilder().setColor('Red').setTitle('No answers 🥹')
 				]
 			});
 		}
