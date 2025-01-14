@@ -4,12 +4,12 @@ import { getServer } from '../../services/trackerService';
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()
 		.setName('vote')
-		.setDescription('💻 رای دادن به سرور مورد علاقه')
-		.addStringOption(option => option.setName('server').setDescription('اسم سرور').setRequired(true)),
+		.setDescription('💻 Vote for your Favourite server!')
+		.addStringOption(option => option.setName('server').setDescription('Name').setRequired(true)),
 	async execute(_, interaction) {
 		const serverName: string = interaction.options.getString('server', true);
 
-		await interaction.reply("🤔 چند لحظه صبر کن...");
+		await interaction.reply("🤔 Please wait a moment...");
 
 		const server = await getServer(serverName);
 
@@ -17,13 +17,13 @@ const command: TrackerCommand = {
 			return await interaction.editReply({embeds: [
 				new EmbedBuilder()
 					.setColor("Red")
-					.setTitle('🔴 سرور وارد شده وجود نداره!')
+					.setTitle(`🔴 The given server doesn't exist on our database.`)
 			]});
 		}
 
 		let embed = new EmbedBuilder()
-			.setTitle(`💻 رای دادن به سرور ${server.name}`)
-			.setDescription('با هرروز رای دادن به سرور مورد علاقتون میتونید داخل سرور ها جایزه دریافت کنید!')
+			.setTitle(`💻 Vote for ${server.name}`)
+			.setDescription('You can vote everyday to gain great gifts from the server!')
 			.setURL(`https://mctracker.ir/server/${server.name}/vote`)
 			.setColor(0x673AB7)
 			.setTimestamp(Date.now())
