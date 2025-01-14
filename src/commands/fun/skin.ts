@@ -5,19 +5,19 @@ import { checkChannelPermission } from '../../services/messagingService';
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()
 		.setName('skin')
-		.setDescription('🤌🏻 دریافت تصویری از اسکین شما')
-			.addStringOption(option => option.setName('name').setDescription('نام اسکین شما').setRequired(true)),
+		.setDescription('🤌🏻 Get an image of your skin')
+			.addStringOption(option => option.setName('name').setDescription('Your skin name').setRequired(true)),
 	async execute(_, interaction) {
 		if (!await checkChannelPermission(interaction, 'skin')) return;
 
 		const userName: string = interaction.options.getString('name', true);
 		
-		await interaction.reply('دارم اسکینتو پیدا میکنم... 🤔');
+		await interaction.reply('Searching for your skin... 🤔');
 		
 		const uuid = await userNameToUUID(userName);
 
-		if (uuid == null) {
-			return await interaction.editReply('☹️ فکر کنم اشتباه نوشتی اسم اسکین رو چون نمیتونم پیداش کنم');
+		if (!uuid) {
+			return await interaction.editReply('☹️ I think you entered the skin name incorrectly because I can’t find it.');
 		}
 
 		const embed = new EmbedBuilder()
@@ -26,7 +26,7 @@ const command: TrackerCommand = {
 		
 		await interaction.editReply({
 			embeds: [embed],
-			content: 'پیداش کردم 😍\n',
+			content: 'I found it! 😍\n',
 			files: [
 				{
 					name: 'skin.png',
@@ -35,7 +35,6 @@ const command: TrackerCommand = {
 			]
 		});
 	},
-
 };
 
-export default command
+export default command;
