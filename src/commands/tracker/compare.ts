@@ -7,7 +7,7 @@ interface ServerComparison {
     name: string;
     players: { online: number; record: number; };
     votes: number;
-    latency: number|null;
+    latency: number | null;
 }
 
 const getComparisonStatus = (val1: number, val2: number): string => {
@@ -67,14 +67,14 @@ const createServerButtons = (server1: ServerComparison, server2: ServerCompariso
 const command: TrackerCommand = {
     data: new SlashCommandBuilder()
         .setName('compare')
-        .setDescription('🆚 مقایسه دو سرور با یکدیگر')
+        .setDescription('🆚 Compare two servers with each other')
         .addStringOption(option => 
             option.setName('server1')
-            .setDescription('نام سرور اول')
+            .setDescription('Name of the first server')
             .setRequired(true))
         .addStringOption(option => 
             option.setName('server2')
-            .setDescription('نام سرور دوم')  
+            .setDescription('Name of the second server')  
             .setRequired(true)),
 
     async execute(_, interaction) {
@@ -83,7 +83,7 @@ const command: TrackerCommand = {
         const server1Name = interaction.options.getString('server1', true);
         const server2Name = interaction.options.getString('server2', true);
 
-        await interaction.reply("🔄 در حال مقایسه سرور ها...");
+        await interaction.reply("🔄 Comparing servers...");
 
         const [server1, server2] = await Promise.all([
             getServer(server1Name),
@@ -96,7 +96,7 @@ const command: TrackerCommand = {
                 embeds: [
                     new EmbedBuilder()
                         .setColor("Red")
-                        .setTitle('❌ یکی از سرور های وارد شده وجود نداره!')
+                        .setTitle('❌ One of the entered servers does not exist!')
                 ]
             });
         }
