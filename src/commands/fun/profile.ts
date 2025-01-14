@@ -4,20 +4,38 @@ import { bannerUrl } from '../../config.json';
 import { checkChannelPermission } from '../../services/messagingService';
 import { getHypixelProfile } from '../../services/hypixelService';
 
-const command: TrackerCommand = {
+function formatRatio(a, b) {
+    return b === 0 ? `${a}` : (a / b).toFixed(2);
+}
+
+function formatDate(timestamp) {
+    return timestamp ? `<t:${Math.floor(timestamp.getTime() / 1000)}:R>` : 'Unknown';
+}
+
+function generateAccountBadges(profile) {
+    return [
+        profile.isLegacy ? '👑 Legacy Account' : '',
+        profile.isDemoAccount ? '🎮 Demo Account' : '',
+        profile.textures.cape ? '🦸 Has Cape' : '',
+        profile.textures.skin ? '🎨 Custom Skin' : '⚪ Default Skin',
+        profile.textures.skin?.slim ? '💃 Slim Model' : '🧍 Classic Model'
+    ].filter(Boolean).join(' | ');
+}
+
+const command = {
     data: new SlashCommandBuilder()
         .setName('profile')
-        .setDescription('🔥 دریافت اطلاعات حساب ماینکرفت شما')
-        .addStringOption(option => option.setName('username').setDescription('یوزرنیم پلیر').setRequired(true)),
+        .setDescription('🔥 Recive your Minecraft Account Information')
+        .addStringOption(option => option.setName('username').setDescription(`Player's username`).setRequired(true)),
 
-    async execute(_, interaction: ChatInputCommandInteraction) {
+    async execute(_, interaction) {
         if (!await checkChannelPermission(interaction, 'profile')) return;
 
-        const userName: string = interaction.options.getString('username', true);
+        const userName = interaction.options.getString('username', true);
         await interaction.reply({
-            content: `در حال جستجوی پروفایل ${userName}...`,
+            content: `Searching for ${userName}'s profile...`,
             embeds: [new EmbedBuilder()
-                .setDescription('🔄 لطفا صبر کنید...')
+                .setDescription('🔄 a moment...')
                 .setColor('#FFA500')]
         });
 
@@ -27,7 +45,7 @@ const command: TrackerCommand = {
             return await interaction.editReply({
                 content: '',
                 embeds: [new EmbedBuilder()
-                    .setDescription('❌ پلیر مورد نظر پیدا نشد!')
+                    .setDescription('❌ I cannot find the given player.')
                     .setColor('#FF0000')]
             });
         }
@@ -42,61 +60,50 @@ const command: TrackerCommand = {
             return await interaction.editReply({
                 content: '',
                 embeds: [new EmbedBuilder()
-                    .setDescription('⚠️ خطا در دریافت اطلاعات پروفایل')
+                    .setDescription('⚠️ Fatal Error occurred when I was trying to recive the information.')
                     .setColor('#FF0000')]
             });
         }
 
         const namemcLink = hyperlink('NameMC', minecraftProfile.profileUrl || '');
         const skinViewerLink = hyperlink('Skin Viewer', `https://namemc.com/skin/${uuid}`);
-        
+
         const historyFormatted = minecraftProfile.history
             .map((entry, index) => {
-                const date = entry.changedAt ? 
-                    `(${new Date(entry.changedAt).toLocaleDateString()})` : 
-                    '';
+                const date = entry.changedAt ? `(${new Date(entry.changedAt).toLocaleDateString()})` : '';
                 return `${index + 1}. ${entry.username} ${date}`;
             })
             .join('\n');
 
-        const accountBadges = [
-            minecraftProfile.isLegacy ? '👑 Legacy Account' : '',
-            minecraftProfile.isDemoAccount ? '🎮 Demo Account' : '',
-            minecraftProfile.textures.cape ? '🦸 Has Cape' : '',
-            minecraftProfile.textures.skin ? '🎨 Custom Skin' : '⚪ Default Skin',
-            minecraftProfile.textures.skin?.slim ? '💃 Slim Model' : '🧍 Classic Model'
-        ].filter(badge => badge).join(' | ');
+        const accountBadges = generateAccountBadges(minecraftProfile);
 
-		const embed = new EmbedBuilder()
-			.setTitle(`🎮 پروفایل ${minecraftProfile.username}`)
-			.setColor("#00FF00")
-			.setDescription(accountBadges)
-			.setTimestamp(Date.now())
-			.setThumbnail('attachment://profile.png')
-			.setImage('attachment://banner.png')
-			.setFooter({ text: 'Tracked by IRMCTracker', iconURL: 'attachment://profile.png' })
-			.addFields([
-			{ 
-				name: '📋 اطلاعات اصلی', 
-				value: [
-				`🔹 نام: \`${minecraftProfile.username}\``,
-				`🔹 UUID: \`${minecraftProfile.uuid}\``,
-				`🔹 تاریخ ساخت: ${minecraftProfile.createdAt ? `<t:${Math.floor(new Date(minecraftProfile.createdAt).getTime() / 1000)}:R>` : 'مخفی'}`,
-				`🔹 لینک‌ها: ${namemcLink} | ${skinViewerLink}`
-				].join('\n'),
-				inline: false 
-			},
-			{ 
-				name: '📝 تاریخچه نام‌ ها', 
-				value: `\`\`\`${historyFormatted}\`\`\``, 
-				inline: false 
-			}
-			]);
+        const embed = new EmbedBuilder()
+            .setTitle(`🎮 ${minecraftProfile.username}'s Profile`)
+            .setColor("#00FF00")
+            .setDescription(accountBadges)
+            .setTimestamp(Date.now())
+            .setThumbnail('attachment://profile.png')
+            .setImage('attachment://banner.png')
+            .setFooter({ text: 'Tracked by IRMCTracker', iconURL: 'attachment://profile.png' })
+            .addFields([
+                {
+                    name: '📋 Main Information',
+                    value: [
+                        `🔹 Username: \`${minecraftProfile.username}\``,
+                        `🔹 UUID: \`${minecraftProfile.uuid}\``,
+                        `🔹 Date of creation: ${formatDate(new Date(minecraftProfile.createdAt))}`,
+                        `🔹 Links: ${namemcLink} | ${skinViewerLink}`
+                    ].join('\n'),
+                    inline: false
+                },
+                {
+                    name: '📝 Name history',
+                    value: `\`\`\`${historyFormatted}\`\`\``,
+                    inline: false
+                }
+            ]);
 
-        // Add Hypixel stats if available
         if (hypixelProfile) {
-            const formatRatio = (a: number, b: number) => (b === 0 ? a : (a / b).toFixed(2));
-            
             embed.addFields([
                 {
                     name: '🌟 Hypixel Stats',
@@ -106,8 +113,8 @@ const command: TrackerCommand = {
                         `📊 Network Level: ${hypixelProfile.level.toFixed(2)}`,
                         `✨ Karma: ${hypixelProfile.karma.toLocaleString()}`,
                         `🏆 Achievement Points: ${hypixelProfile.achievementPoints.toLocaleString()}`,
-                        `📅 First Login: ${hypixelProfile.firstLogin.getTime() > 0 ? `<t:${Math.floor(hypixelProfile.firstLogin.getTime() / 1000)}:R>` : '-'}`,
-                        `📅 Last Login: ${hypixelProfile.lastLogin.getTime() > 0 ? `<t:${Math.floor(hypixelProfile.lastLogin.getTime() / 1000)}:R>` : '-'}`
+                        `📅 First Login: ${formatDate(hypixelProfile.firstLogin)}`,
+                        `📅 Last Login: ${formatDate(hypixelProfile.lastLogin)}`
                     ].join('\n'),
                     inline: false
                 }
