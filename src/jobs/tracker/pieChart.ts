@@ -18,7 +18,7 @@ const job: TrackerJob = {
                     .setURL('https://mctracker.ir')
                     .setImage('attachment://' + chartFilePath.split(/[/\\]/).pop())
                     .setFooter({ 
-                        text: 'IRMCTracker Chart System • هر دقیقه بروز میشود',
+                        text: 'IRMCTracker Chart System • Every minute',
                         iconURL: logoUrl 
                     })
                     .setTimestamp();
