@@ -4,17 +4,17 @@ import { userNameToUUID } from '../../services/playerService';
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()
 		.setName('head')
-		.setDescription('🤌🏻 دریافت تصویری از کله شما')
-		.addStringOption(option => option.setName('name').setDescription('نام اسکین شما').setRequired(true)),
+		.setDescription('🤌🏻 Get an image of your head')
+		.addStringOption(option => option.setName('name').setDescription('Your skin name').setRequired(true)),
 	async execute(client, interaction) {
 		const userName: string = interaction.options.getString('name', true).toLowerCase();
 
-		await interaction.reply('دارم کلتو پیدا میکنم... 🤔');
+		await interaction.reply('Finding your head... 🤔');
 
 		const uuid = await userNameToUUID(userName);
 
 		if (uuid == null) {
-			return await interaction.editReply('☹️ فکر کنم اشتباه نوشتی اسم اسکین رو چون نمیتونم پیداش کنم');
+			return await interaction.editReply('☹️ I think you entered the wrong skin name because I can\'t find it.');
 		}
 
 		const embed = new EmbedBuilder()
@@ -23,7 +23,7 @@ const command: TrackerCommand = {
 
 		await interaction.editReply({
 			embeds: [embed],
-			content: 'پیداش کردم 😍\n',
+			content: 'I found it 😍\n',
 			files: [
 				{
 					attachment: `https://crafatar.com/renders/head/${uuid}?size=512&default=MHF_Steve&overlay`,
@@ -34,4 +34,4 @@ const command: TrackerCommand = {
 	},
 };
 
-export default command
+export default command;
