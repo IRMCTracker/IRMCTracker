@@ -7,30 +7,30 @@ const getAlertEmbed = (server: Server, alertType: AlertType, data: any = {}) => 
     const alerts = {
         went_online: {
             color: Colors.Green,
-            title: '🟢 سرور آنلاین شد',
-            description: `سرور **${server.name}** آنلاین شده است! ✨`
+            title: '🟢 Server is Online',
+            description: `Server **${server.name}** is now online! ✨`
         },
         went_offline: {
             color: Colors.Red,
-            title: '🔴 سرور آفلاین شد',
-            description: `سرور **${server.name}** آفلاین شده است! ⚡`
+            title: '🔴 Server is Offline',
+            description: `Server **${server.name}** is now offline. ⚡`
         },
         new_record: {
             color: Colors.Yellow,
-            title: '🏆 رکورد جدید',
-            description: `سرور **${server.name}** رکورد جدیدی از تعداد بازیکنان را ثبت کرده است: **${data.record}** بازیکن!`
+            title: '🏆 New record!',
+            description: `Server **${server.name}** registered a record of **${data.record}** player(s)!`
         },
         high_latency: {
             color: Colors.Orange,
-            title: '⚠️ هشدار پینگ بالا',
-            description: `سرور **${server.name}** پینگ بالایی را تجربه می‌کند (\`${data.latency}ms\`)\nاحتمال حمله DDoS یا مشکلات شبکه وجود دارد`
+            title: '⚠️ High latency warning',
+            description: `Server **${server.name}** is currently experincing high latency. \nProbably DDoS or network problems.`
         },
         player_spike: {
             color: Colors.Purple,
-            title: '📈 افزایش ناگهانی بازیکنان',
-            description: `سرور **${server.name}** افزایش ناگهانی در تعداد بازیکنان داشته است\n` +
-                `قبلی: ${data.previous} ← فعلی: ${data.current} بازیکن\n` +
-                `این ممکن است نشان‌دهنده حمله ربات باشد`
+            title: '📈 High player spike!',
+            description: `Server **${server.name}** got a high player spike!\n` +
+                `Before: ${data.previous} ← Current: ${data.current} player(s)\n` +
+                `This might be a sign of botting or fake memberships.`
         }
     };
 
@@ -67,7 +67,7 @@ const job: TrackerJob = {
                     const alertData = {
                         record: server.players.record,
                         latency: server.latency,
-                        previous: previousState?.lastPlayerCount, // Use previous state before update
+                        previous: previousState?.lastPlayerCount,
                         current: server.players.online
                     };
 
