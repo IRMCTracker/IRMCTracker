@@ -4,8 +4,8 @@ import { StatsResponse, getStats } from '../../services/trackerService';
 const activities = [
     "💎 Visit MCTracker.iR",
     "📋 You can vote to servers on our site!",
-    "😎 Bishtar az %track_count% track",
-    "🙄 Darhale track kardan %server_count% server"
+    "😎 More than %track_count% track(s)",
+    "🙄 Tracking %server_count% server(s)"
 ];
 
 const job: TrackerJob = {
