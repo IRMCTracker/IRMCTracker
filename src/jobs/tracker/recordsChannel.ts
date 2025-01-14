@@ -33,8 +33,8 @@ const job: TrackerJob = {
 
             const embed = new EmbedBuilder()
                 .setColor('#673AB7')
-                .setTitle('💎 Top Records | رکورد سرور های ایرانی')
-                .setDescription('لیست بالا ترین رکورد سرور های ایرانی بر اساس تعداد پلیر\n\n' + recordsList)
+                .setTitle('💎 Top Records')
+                .setDescription('A list of the most played Iranian Minecraft Servers\n\n' + recordsList)
                 .setThumbnail(logoUrl)
                 .setTimestamp()
                 .setFooter({ text: 'Tracked by IRMCTracker • هردقیقه بروزرسانی میشود' });
