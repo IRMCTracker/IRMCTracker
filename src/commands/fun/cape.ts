@@ -17,10 +17,10 @@ const getCapeOrigin = (url: string): string => {
 const command: TrackerCommand = {
     data: new SlashCommandBuilder()
         .setName('cape')
-        .setDescription('🦸 دریافت تصویری از کیپ شما')
+        .setDescription('🦸 Get an image of your cape')
         .addStringOption(option => 
             option.setName('name')
-                .setDescription('نام اسکین شما')
+                .setDescription('Your skin name')
                 .setRequired(true)
         ),
     async execute(_, interaction) {
@@ -28,30 +28,30 @@ const command: TrackerCommand = {
 
         const userName: string = interaction.options.getString('name', true);
         
-        await interaction.reply('دارم کیپت رو پیدا میکنم... 🤔');
+        await interaction.reply('Finding your cape... 🤔');
         
         const uuid = await userNameToUUID(userName);
 
         if (!uuid) {
-            return await interaction.editReply('☹️ فکر کنم اشتباه نوشتی اسم اسکین رو چون نمیتونم پیداش کنم');
+            return await interaction.editReply('☹️ I think you entered the wrong skin name because I can\'t find it.');
         }
 
         const profile = await getMinecraftProfile(uuid);
 
         if (!profile?.textures.cape) {
-            return await interaction.editReply('😔 این پلیر کیپ نداره!');
+            return await interaction.editReply('😔 This player doesn\'t have a cape!');
         }
 
         const capeOrigin = getCapeOrigin(profile.textures.cape.url);
 
         const embed = new EmbedBuilder()
             .setTitle(`🦸 Cape ${userName}`)
-            .setDescription(`نوع: ${capeOrigin}`)
+            .setDescription(`Type: ${capeOrigin}`)
             .setImage('attachment://cape.png');
         
         await interaction.editReply({
             embeds: [embed],
-            content: 'پیداش کردم 😍\n',
+            content: 'I found it 😍\n',
             files: [
                 {
                     name: 'cape.png',
