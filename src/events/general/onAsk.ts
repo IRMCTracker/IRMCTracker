@@ -1,5 +1,5 @@
 import { EmbedBuilder, Events, Message } from 'discord.js';
-import { channels } from '../../config.json';
+import { channels, aiAnswerEnabled } from '../../config.json';
 import { ask } from '../../services/trackerService';
 
 const event: TrackerEvent<Events.MessageCreate> = {
@@ -7,6 +7,7 @@ const event: TrackerEvent<Events.MessageCreate> = {
 	async execute(_, message: Message) {
 		// Check if the message is from a bot or not in a guild
 		if (message.author.bot || !message.guild || message.channel.id != channels.aiChat) return;
+		if (!aiAnswerEnabled) return;
 
 		if (message.content.length < 5 || message.content.length > 100) {
 			return message.reply({
