@@ -1,5 +1,37 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axiosRetry from 'axios-retry';
 import { trackerUrl, trackerApiKey } from '../config.json';
+
+// Dedicated client for the tracker site. The bot<->site link is shaky, so each
+// attempt is bounded by a short timeout and transient failures are retried.
+const tracker = axios.create({
+    baseURL: trackerUrl,
+    timeout: 4000,
+    headers: { 'Accept-Encoding': 'gzip' },
+});
+
+axiosRetry(tracker, {
+    retries: 2,
+    // Give every attempt a fresh timeout instead of sharing one clock.
+    shouldResetTimeout: true,
+    retryCondition: (error: AxiosError) => {
+        // Timeout or no response at all -> the request likely never landed.
+        if (error.code === 'ECONNABORTED' || error.code === 'ETIMEDOUT') return true;
+        if (axiosRetry.isNetworkError(error)) return true;
+        const status = error.response?.status;
+        return status !== undefined && (status >= 500 || status === 429);
+    },
+    retryDelay: (retryCount: number) => {
+        // ~1s then ~2s, with jitter to avoid synchronised retries across jobs.
+        const base = 1000 * Math.pow(2, retryCount - 1);
+        return base + Math.random() * 300;
+    },
+    onRetry: (retryCount: number, error: AxiosError, requestConfig: AxiosRequestConfig) => {
+        const target = `${requestConfig.method?.toUpperCase()} ${requestConfig.url}`;
+        const cause = error.code ?? error.response?.status ?? error.message;
+        console.warn(`[tracker] retry ${retryCount}/2 for ${target} - ${cause}`);
+    },
+});
 
 export interface Server {
     name: string;
@@ -45,12 +77,12 @@ export interface StatsResponse {
 export async function getStats(): Promise<StatsResponse> {
     try {
         // Make the GET request using Axios
-        const response: AxiosResponse<{data: StatsResponse}> = await axios.get(`${trackerUrl}/api/stats`);
+        const response: AxiosResponse<{data: StatsResponse}> = await tracker.get('/api/stats');
 
         // Return the response data
         return response.data.data;
     } catch (error) {
-        // Handle any errors
+        // Handle any errors (retries already exhausted at this point)
         console.error('Error fetching stats:', error);
         throw error;
     }
@@ -58,12 +90,12 @@ export async function getStats(): Promise<StatsResponse> {
 
 export async function getServers(): Promise<Server[] | null> {
     try {
-        const response: AxiosResponse<{ data: Server[] }> = await axios.get(`${trackerUrl}/api/servers`);
+        const response: AxiosResponse<{ data: Server[] }> = await tracker.get('/api/servers');
         const serverData: Server[] = response.data.data;
 
         return serverData;
     } catch (error: any) {
-        console.warn('Error fetching servers data:', error.message);
+        console.error('Error fetching servers data:', error.message);
         return null;
     }
 }
@@ -71,24 +103,34 @@ export async function getServers(): Promise<Server[] | null> {
 
 export async function getServer(name: String): Promise<Server | null> {
     try {
-        const response: AxiosResponse<{ data: Server }> = await axios.get(`${trackerUrl}/api/servers/${name}`);
+        const response: AxiosResponse<{ data: Server }> = await tracker.get(`/api/servers/${name}`);
         const serverData: Server = response.data.data;
 
         return serverData;
     } catch (error: any) {
-        console.warn('Error fetching server data:', error.message);
+        console.error('Error fetching server data:', error.message);
         return null;
     }
 }
 
 export async function ask(question: String): Promise<string | null> {
     try {
-        const response: AxiosResponse<{ answer: string }> = await axios.post(`${trackerUrl}/api/ask`, {question: question}, {headers: {'x-api-key': trackerApiKey}});
+        // AI generation is slow and non-idempotent, so give it a longer timeout
+        // but never retry - a lost response could bill a duplicate generation.
+        const response: AxiosResponse<{ answer: string }> = await tracker.post(
+            '/api/ask',
+            { question: question },
+            {
+                headers: { 'x-api-key': trackerApiKey },
+                timeout: 30000,
+                'axios-retry': { retries: 0 },
+            }
+        );
         const answer: string = response.data.answer;
 
         return answer;
     } catch (error: any) {
-        console.warn('Error asking ai:', error.message);
+        console.error('Error asking ai:', error.message);
         return null;
     }
 }
