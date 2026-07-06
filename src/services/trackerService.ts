@@ -101,6 +101,13 @@ export async function getServers(): Promise<Server[] | null> {
 }
 
 
+export class TrackerUnavailableError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'TrackerUnavailableError';
+    }
+}
+
 export async function getServer(name: String): Promise<Server | null> {
     try {
         const response: AxiosResponse<{ data: Server }> = await tracker.get(`/api/servers/${name}`);
@@ -108,8 +115,12 @@ export async function getServer(name: String): Promise<Server | null> {
 
         return serverData;
     } catch (error: any) {
+        if (error?.response?.status === 404) {
+            return null;
+        }
+
         console.error('Error fetching server data:', error.message);
-        return null;
+        throw new TrackerUnavailableError(error.message);
     }
 }
 

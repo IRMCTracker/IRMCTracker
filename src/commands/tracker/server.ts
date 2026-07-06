@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { getServer } from '../../services/trackerService';
-import { getServerMessage, checkChannelPermission } from '../../services/messagingService';
+import { getServer, TrackerUnavailableError } from '../../services/trackerService';
+import { getServerMessage, getServerUnavailableMessage, checkChannelPermission } from '../../services/messagingService';
 
 
 const command: TrackerCommand = {
@@ -15,7 +15,15 @@ const command: TrackerCommand = {
 
 		await interaction.reply("🤔 چند لحظه صبر کن...");
 
-		const server = await getServer(serverName);
+		let server;
+		try {
+			server = await getServer(serverName);
+		} catch (error) {
+			if (error instanceof TrackerUnavailableError) {
+				return await interaction.editReply(getServerUnavailableMessage(serverName));
+			}
+			throw error;
+		}
 
 		if (server == null) {
 			return await interaction.editReply({

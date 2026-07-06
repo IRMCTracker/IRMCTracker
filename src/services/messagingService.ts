@@ -98,6 +98,36 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
     };
 }
 
+export function getServerUnavailableMessage(serverName: string): InteractionEditReplyOptions {
+    const serverUrl = `${trackerUrl}/servers/${serverName}`;
+
+    const embed = new EmbedBuilder()
+        .setColor('Orange')
+        .setTitle('⚠️ اختلال در دریافت اطلاعات')
+        .setDescription(
+            `بدلیل اختلالات موجود نتونستیم اطلاعات سرور شما رو اینجا ارسال کنیم، اما میتونید از سایت اطلاعات رو مشاهده کنید:`
+        )
+        .setThumbnail('attachment://favicon.png')
+        .setTimestamp(Date.now())
+        .setFooter({ text: 'Tracked by IRMCTracker' });
+
+    const openTrackerButton = new ButtonBuilder()
+        .setLabel('مشاهده در سایت')
+        .setURL(serverUrl)
+        .setEmoji('🌐')
+        .setStyle(ButtonStyle.Link);
+
+    const row = new ActionRowBuilder<ButtonBuilder>()
+        .addComponents(openTrackerButton);
+
+    return {
+        content: '',
+        embeds: [embed],
+        files: [{ name: 'favicon.png', attachment: logoUrl }],
+        components: [row],
+    };
+}
+
 export function formatNumber(number: number, decPlaces: number = 0): string {
     // 2 decimal places => 100, 3 => 1000, etc
     decPlaces = Math.pow(10, decPlaces)
