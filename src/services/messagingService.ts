@@ -98,8 +98,8 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
     };
 }
 
-export function getServerUnavailableMessage(serverName: string): InteractionEditReplyOptions {
-    const serverUrl = `${trackerUrl}/servers/${serverName}`;
+export function getServerUnavailableMessage(serverName?: string): InteractionEditReplyOptions {
+    const serverUrl = serverName ? `${trackerUrl}/servers/${serverName}` : trackerUrl;
 
     const embed = new EmbedBuilder()
         .setColor('Orange')

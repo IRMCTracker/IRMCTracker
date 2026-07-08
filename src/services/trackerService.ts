@@ -10,8 +10,10 @@ const tracker = axios.create({
     headers: { 'Accept-Encoding': 'gzip' },
 });
 
+const TRACKER_RETRIES = 5;
+
 axiosRetry(tracker, {
-    retries: 2,
+    retries: TRACKER_RETRIES,
     // Give every attempt a fresh timeout instead of sharing one clock.
     shouldResetTimeout: true,
     retryCondition: (error: AxiosError) => {
@@ -22,14 +24,13 @@ axiosRetry(tracker, {
         return status !== undefined && (status >= 500 || status === 429);
     },
     retryDelay: (retryCount: number) => {
-        // ~1s then ~2s, with jitter to avoid synchronised retries across jobs.
-        const base = 1000 * Math.pow(2, retryCount - 1);
+        const base = Math.min(1000 * Math.pow(2, retryCount - 1), 8000);
         return base + Math.random() * 300;
     },
     onRetry: (retryCount: number, error: AxiosError, requestConfig: AxiosRequestConfig) => {
         const target = `${requestConfig.method?.toUpperCase()} ${requestConfig.url}`;
         const cause = error.code ?? error.response?.status ?? error.message;
-        console.warn(`[tracker] retry ${retryCount}/2 for ${target} - ${cause}`);
+        console.warn(`[tracker] retry ${retryCount}/${TRACKER_RETRIES} for ${target} - ${cause}`);
     },
 });
 

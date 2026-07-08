@@ -1,4 +1,6 @@
-import { Events, Interaction, CacheType } from 'discord.js';
+import { Events, Interaction, CacheType, InteractionReplyOptions } from 'discord.js';
+import { TrackerUnavailableError } from '../../services/trackerService';
+import { getServerUnavailableMessage } from '../../services/messagingService';
 
 const event: TrackerEvent<Events.InteractionCreate> = {
 	type: Events.InteractionCreate,
@@ -17,13 +19,20 @@ const event: TrackerEvent<Events.InteractionCreate> = {
         }
         catch (error) {
             console.error(error);
+
+            // tracker outages hit every command that calls getServer/getServers;
+            // catch once here instead of a try/catch per command.
+            const reply: InteractionReplyOptions = error instanceof TrackerUnavailableError
+                ? { ...getServerUnavailableMessage(), ephemeral: true } as InteractionReplyOptions
+                : { content: 'There was an error while executing this command!', ephemeral: true };
+
             if (interaction.replied || interaction.deferred) {
-                await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+                await interaction.editReply(reply);
             }
             else {
-                await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+                await interaction.reply(reply);
             }
-        }    
+        }
 	},
 };
 
