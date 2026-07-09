@@ -36,9 +36,11 @@ axiosRetry(tracker, {
 
 export interface Server {
     name: string;
+    type: 'java' | 'bedrock';
     description: string;
     favicon: string | null;
     motd: string | null;
+    motd_text: string | null;
     address: string;
     ip: string | null;
     country_code: string | null;
@@ -89,9 +91,10 @@ export async function getStats(): Promise<StatsResponse> {
     }
 }
 
-export async function getServers(): Promise<Server[] | null> {
+export async function getServers(type?: 'java' | 'bedrock'): Promise<Server[] | null> {
     try {
-        const response: AxiosResponse<{ data: Server[] }> = await tracker.get('/api/servers');
+        const url = type ? `/api/servers?type=${type}` : '/api/servers';
+        const response: AxiosResponse<{ data: Server[] }> = await tracker.get(url);
         const serverData: Server[] = response.data.data;
 
         return serverData;

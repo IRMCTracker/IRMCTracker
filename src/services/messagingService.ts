@@ -26,6 +26,7 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
             .setImage('attachment://motd.png')
             .addFields(
             { name: '「🌐」Address »', value: server.ip ? `${server.address} (**${server.ip}**)` : server.address, inline: false },
+            { name: '「🧱」Edition »', value: server.type === 'bedrock' ? 'Bedrock' : 'Java', inline: false },
             { name: '「👥」Online Players »', value: `${server.players.online}`, inline: true },
             { name: '「🥇」Top Record »', value: server.players.record.toString(), inline: true },
             { name: '「📈」Uptime »', value: `${server.uptime}`, inline: false },

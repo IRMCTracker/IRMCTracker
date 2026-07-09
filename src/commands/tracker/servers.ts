@@ -6,13 +6,21 @@ import { getMedal, checkChannelPermission } from '../../services/messagingServic
 const command: TrackerCommand = {
     data: new SlashCommandBuilder()
         .setName('servers')
-        .setDescription('💻 دریافت لیستی از تمام سرور های موجود'),
+        .setDescription('💻 دریافت لیستی از تمام سرور های موجود')
+        .addStringOption(option =>
+            option.setName('type')
+                .setDescription('نسخه سرور ها (پیش‌ فرض: جاوا)')
+                .addChoices(
+                    { name: 'Java', value: 'java' },
+                    { name: 'Bedrock', value: 'bedrock' },
+                )),
     async execute(_, interaction) {
         if (!await checkChannelPermission(interaction, 'track')) return;
-        
+
         await interaction.reply("🤔 چند لحظه صبر کن...");
 
-        const servers: Server[] | null = await getServers();
+        const type = (interaction.options.getString('type') as 'java' | 'bedrock') ?? 'java';
+        const servers: Server[] | null = await getServers(type);
 
         if (servers === null) {
             return await interaction.editReply('🔴 مشکلی در دریافت سرور ها بوجود آمده.');
