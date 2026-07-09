@@ -1,4 +1,4 @@
-import { ActionRowBuilder, AttachmentPayload, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Client, EmbedBuilder, Emoji, InteractionEditReplyOptions, MessagePayload, TextChannel } from 'discord.js';
+import { ActionRowBuilder, AttachmentPayload, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Client, EmbedBuilder, Emoji, InteractionEditReplyOptions, MessageCreateOptions, MessagePayload, TextChannel } from 'discord.js';
 import { Server } from './trackerService';
 import { trackerUrl, bannerUrl, logoUrl, trackerGuildId, channels } from '../config.json';
 
@@ -186,13 +186,14 @@ export async function updateStatsChannel(client: Client, channelId: string, serv
         channel.setName(`${server.up_from > 0 ? getMedal(index) : '❌'}・${server.name}「${server.up_from > 0 ? server.players.online : '-'}👥」`)
 
         if (channel) {
-            const lastMessage = await channel.messages.fetch({ limit: 1 });
-            if (lastMessage.size > 0) {
-                const lastEmbed = lastMessage.first()?.embeds[0];
-                if (lastEmbed) {
-                    const message = getServerMessage(client, server);
-                    await lastMessage.first()?.edit(message);
-                }
+            const message = getServerMessage(client, server);
+            const lastMessage = (await channel.messages.fetch({ limit: 1 })).first();
+
+            // The bot can only edit its own messages; seed one the first time.
+            if (lastMessage && lastMessage.author.id === client.user?.id && lastMessage.embeds.length > 0) {
+                await lastMessage.edit(message);
+            } else {
+                await channel.send(message as MessageCreateOptions);
             }
         }
     } catch (error) {
