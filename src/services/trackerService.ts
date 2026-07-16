@@ -1,12 +1,12 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import axiosRetry from 'axios-retry';
-import { trackerUrl, trackerApiKey } from '../config.json';
+import { trackerApiUrl, trackerApiKey } from '../config.json';
 
 // Dedicated client for the tracker site. The bot<->site link is shaky, so each
 // attempt is bounded by a short timeout and transient failures are retried.
 const tracker = axios.create({
-    baseURL: trackerUrl,
-    timeout: 4000,
+    baseURL: trackerApiUrl,
+    timeout: 5000,
     headers: { 'Accept-Encoding': 'gzip' },
 });
 
