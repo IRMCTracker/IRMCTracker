@@ -6,7 +6,7 @@ import { trackerApiUrl, trackerApiKey } from '../config.json';
 // attempt is bounded by a short timeout and transient failures are retried.
 const tracker = axios.create({
     baseURL: trackerApiUrl,
-    timeout: 5000,
+    timeout: 10_000,
     headers: { 'Accept-Encoding': 'gzip' },
 });
 
