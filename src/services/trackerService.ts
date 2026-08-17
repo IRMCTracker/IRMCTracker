@@ -4,35 +4,19 @@ import { trackerApiUrl, trackerApiKey } from '../config.json';
 
 // Dedicated client for the tracker site. The bot<->site link is shaky, so each
 // attempt is bounded by a short timeout and transient failures are retried.
-const PER_ATTEMPT_TIMEOUT = 3_000;
-const TRACKER_RETRIES = 8;
-const TOTAL_BUDGET = 25_000;
-
 const tracker = axios.create({
     baseURL: trackerApiUrl,
-    timeout: PER_ATTEMPT_TIMEOUT,
+    timeout: 10_000,
     headers: { 'Accept-Encoding': 'gzip' },
 });
 
-type BudgetedConfig = AxiosRequestConfig & { trackerDeadline?: number };
-
-tracker.interceptors.request.use((config) => {
-    const budgeted = config as BudgetedConfig;
-    if (budgeted.trackerDeadline === undefined) {
-        budgeted.trackerDeadline = Date.now() + TOTAL_BUDGET;
-    }
-    return config;
-});
+const TRACKER_RETRIES = 5;
 
 axiosRetry(tracker, {
     retries: TRACKER_RETRIES,
     // Give every attempt a fresh timeout instead of sharing one clock.
     shouldResetTimeout: true,
     retryCondition: (error: AxiosError) => {
-        const deadline = (error.config as BudgetedConfig | undefined)?.trackerDeadline;
-        // Out of budget -> stop even if attempts remain.
-        if (deadline !== undefined && Date.now() >= deadline) return false;
-
         // Timeout or no response at all -> the request likely never landed.
         if (error.code === 'ECONNABORTED' || error.code === 'ETIMEDOUT') return true;
         if (axiosRetry.isNetworkError(error)) return true;
@@ -40,8 +24,8 @@ axiosRetry(tracker, {
         return status !== undefined && (status >= 500 || status === 429);
     },
     retryDelay: (retryCount: number) => {
-        const base = Math.min(300 * Math.pow(2, retryCount - 1), 2000);
-        return base + Math.random() * 200;
+        const base = Math.min(1000 * Math.pow(2, retryCount - 1), 8000);
+        return base + Math.random() * 300;
     },
     onRetry: (retryCount: number, error: AxiosError, requestConfig: AxiosRequestConfig) => {
         const target = `${requestConfig.method?.toUpperCase()} ${requestConfig.url}`;

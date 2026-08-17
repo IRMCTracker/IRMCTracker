@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { userNameToUUID } from '../../services/playerService';
+import { userNameToUUID, skinRenderUrl } from '../../services/playerService';
 
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()
@@ -26,7 +26,7 @@ const command: TrackerCommand = {
 			content: 'پیداش کردم 😍\n',
 			files: [
 				{
-					attachment: `https://crafatar.com/renders/head/${uuid}?size=512&default=MHF_Steve&overlay`,
+					attachment: skinRenderUrl(uuid, 'head'),
 					name: 'head.png'
 				}
 			]

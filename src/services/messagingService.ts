@@ -1,6 +1,15 @@
 import { ActionRowBuilder, AttachmentPayload, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Client, EmbedBuilder, Emoji, InteractionEditReplyOptions, MessageCreateOptions, MessagePayload, TextChannel } from 'discord.js';
 import { Server } from './trackerService';
 import { trackerUrl, bannerUrl, logoUrl, trackerGuildId, channels } from '../config.json';
+import { skinRenderUrl } from './playerService';
+
+export function getSkinMessage(userName: string, uuid: string): InteractionEditReplyOptions {
+    return {
+        content: 'پیداش کردم 😍',
+        embeds: [new EmbedBuilder().setTitle(`💎 Skin ${userName}`).setImage('attachment://skin.png')],
+        files: [{ name: 'skin.png', attachment: skinRenderUrl(uuid) }],
+    };
+}
 
 export function getServerMessage(client: Client, server: Server): MessagePayload | InteractionEditReplyOptions {
     let embed: EmbedBuilder;

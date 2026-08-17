@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction, hyperlink } from 'discord.js';
-import { getMinecraftProfile, userNameToUUID } from '../../services/playerService';
+import { getMinecraftProfile, userNameToUUID, skinRenderUrl } from '../../services/playerService';
 import { bannerUrl } from '../../config.json';
 import { checkChannelPermission } from '../../services/messagingService';
 import { getHypixelProfile } from '../../services/hypixelService';
@@ -147,7 +147,7 @@ const command: TrackerCommand = {
             files: [
                 {
                     name: 'profile.png',
-                    attachment: `https://crafatar.com/renders/head/${uuid}?size=512&default=MHF_Steve&overlay`
+                    attachment: skinRenderUrl(uuid, 'head')
                 },
                 {
                     name: 'banner.png',

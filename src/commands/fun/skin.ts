@@ -1,6 +1,6 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder } from 'discord.js';
 import { userNameToUUID } from '../../services/playerService';
-import { checkChannelPermission } from '../../services/messagingService';
+import { checkChannelPermission, getSkinMessage } from '../../services/messagingService';
 
 const command: TrackerCommand = {
 	data: new SlashCommandBuilder()
@@ -20,20 +20,7 @@ const command: TrackerCommand = {
 			return await interaction.editReply('☹️ فکر کنم اشتباه نوشتی اسم اسکین رو چون نمیتونم پیداش کنم');
 		}
 
-		const embed = new EmbedBuilder()
-			.setTitle(`💎 Skin ${userName}`)
-			.setImage('attachment://skin.png');
-		
-		await interaction.editReply({
-			embeds: [embed],
-			content: 'پیداش کردم 😍\n',
-			files: [
-				{
-					name: 'skin.png',
-					attachment: `https://crafatar.com/renders/body/${uuid}?size=512&default=MHF_Steve&overlay`
-				}
-			]
-		});
+		await interaction.editReply(getSkinMessage(userName, uuid));
 	},
 
 };

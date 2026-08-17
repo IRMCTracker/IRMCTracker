@@ -30,6 +30,10 @@ interface MinecraftProfile {
     };
 }
 
+export function skinRenderUrl(uuid: string, part: 'body' | 'head' = 'body'): string {
+    return `https://mc-heads.net/${part}/${uuid}/512`;
+}
+
 export async function userNameToUUID(userName: string): Promise<string | undefined> {
     const cachedUUID = uuidCache.get(userName.toLowerCase());
     if (cachedUUID) return cachedUUID;
