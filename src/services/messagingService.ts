@@ -155,9 +155,13 @@ export function getServerCardMessage(server: Server, card: Buffer): InteractionE
         );
     }
 
+    const embed = new EmbedBuilder()
+        .setColor(server.up_from < 0 ? 'Red' : 'Green')
+        .setImage('attachment://card.png');
+
     return {
         content: '',
-        embeds: [],
+        embeds: [embed],
         files: [{ name: 'card.png', attachment: card }],
         components,
     };
