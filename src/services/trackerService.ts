@@ -128,6 +128,27 @@ export async function getServer(name: String): Promise<Server | null> {
     }
 }
 
+export async function getServerCard(name: String): Promise<Buffer> {
+    try {
+        const response: AxiosResponse<ArrayBuffer> = await tracker.get(`/api/servers/${name}/card`, {
+            headers: { 'x-api-key': trackerApiKey },
+            responseType: 'arraybuffer',
+            timeout: 10000,
+            'axios-retry': {
+                retryCondition: (error: AxiosError) =>
+                    error.code === 'ECONNABORTED'
+                    || error.code === 'ETIMEDOUT'
+                    || axiosRetry.isNetworkError(error),
+            },
+        });
+
+        return Buffer.from(response.data);
+    } catch (error: any) {
+        console.error('Error fetching server card:', error.message);
+        throw new TrackerUnavailableError(error.message);
+    }
+}
+
 export async function ask(question: String): Promise<string | null> {
     try {
         // AI generation is slow and non-idempotent, so give it a longer timeout

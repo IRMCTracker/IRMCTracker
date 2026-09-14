@@ -108,6 +108,61 @@ export function getServerMessage(client: Client, server: Server): MessagePayload
     };
 }
 
+function socialUrl(link: string): string | null {
+    if (!link) return null;
+
+    const url = /^https?:\/\//i.test(link) ? link : `https://${link}`;
+
+    try {
+        new URL(url);
+        return url;
+    } catch {
+        return null;
+    }
+}
+
+export function getServerCardMessage(server: Server, card: Buffer): InteractionEditReplyOptions {
+    const components = [
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+            new ButtonBuilder()
+                .setLabel('Open on MCTracker.iR')
+                .setURL(`${trackerUrl}/server/${server.name}`)
+                .setEmoji('🌐')
+                .setStyle(ButtonStyle.Link),
+            new ButtonBuilder()
+                .setLabel(`Vote for ${server.name}`)
+                .setURL(`${trackerUrl}/server/${server.name}/vote`)
+                .setEmoji('👍🏻')
+                .setStyle(ButtonStyle.Link),
+        ),
+    ];
+
+    const socials = Object.entries(server.socials ?? {})
+        .map(([platform, link]) => ({ platform, url: socialUrl(link) }))
+        .filter(social => social.url !== null)
+        .slice(0, 5);
+
+    if (socials.length > 0) {
+        components.push(
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+                socials.map(({ platform, url }) =>
+                    new ButtonBuilder()
+                        .setLabel(platform.charAt(0).toUpperCase() + platform.slice(1))
+                        .setURL(url!)
+                        .setStyle(ButtonStyle.Link)
+                )
+            )
+        );
+    }
+
+    return {
+        content: '',
+        embeds: [],
+        files: [{ name: 'card.png', attachment: card }],
+        components,
+    };
+}
+
 export function getServerUnavailableMessage(serverName?: string): InteractionEditReplyOptions {
     const serverUrl = serverName ? `${trackerUrl}/servers/${serverName}` : trackerUrl;
 

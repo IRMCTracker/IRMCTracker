@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { getServer, TrackerUnavailableError } from '../../services/trackerService';
-import { getServerMessage, getServerUnavailableMessage, checkChannelPermission } from '../../services/messagingService';
+import { getServer, getServerCard, TrackerUnavailableError } from '../../services/trackerService';
+import { getServerCardMessage, getServerUnavailableMessage, checkChannelPermission } from '../../services/messagingService';
 
 
 const command: TrackerCommand = {
@@ -15,9 +15,22 @@ const command: TrackerCommand = {
 
 		await interaction.reply("🤔 چند لحظه صبر کن...");
 
-		let server;
+		let server, card;
 		try {
 			server = await getServer(serverName);
+
+			if (server == null) {
+				return await interaction.editReply({
+					content: '',
+					embeds: [
+						new EmbedBuilder()
+							.setColor("Red")
+							.setTitle('🔴 سرور وارد شده وجود نداره!')
+					]
+				});
+			}
+
+			card = await getServerCard(serverName);
 		} catch (error) {
 			if (error instanceof TrackerUnavailableError) {
 				return await interaction.editReply(getServerUnavailableMessage(serverName));
@@ -25,20 +38,7 @@ const command: TrackerCommand = {
 			throw error;
 		}
 
-		if (server == null) {
-			return await interaction.editReply({
-				content: '',
-				embeds: [
-					new EmbedBuilder()
-						.setColor("Red")
-						.setTitle('🔴 سرور وارد شده وجود نداره!')
-				]
-			});
-		}
-
-		const message = getServerMessage(client, server);
-
-		await interaction.editReply(message);
+		await interaction.editReply(getServerCardMessage(server, card));
 	},
 
 };
