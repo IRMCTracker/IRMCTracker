@@ -1,6 +1,6 @@
 import { ChannelType, EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder, TextChannel } from 'discord.js';
 import { getServers } from '../../services/trackerService';
-import { getLiveEmbed } from '../../services/messagingService';
+import { getLiveEmbed, syncNickname } from '../../services/messagingService';
 import { saveConfig } from '../../services/guildConfigService';
 
 const command: TrackerCommand = {
@@ -47,14 +47,18 @@ const command: TrackerCommand = {
 			return await interaction.editReply({ embeds: [errorEmbed(`توی ${channel} دسترسی ارسال پیام یا Embed ندارم!`)] });
 		}
 
+		const nicknameEnabled = interaction.options.getBoolean('nickname') ?? false;
+
 		const message = await channel.send(getLiveEmbed(server));
 
 		await saveConfig(interaction.guild.id, {
 			server: server.name,
 			channel_id: channel.id,
 			message_id: message.id,
-			nickname_enabled: interaction.options.getBoolean('nickname') ?? false,
+			nickname_enabled: nicknameEnabled,
 		});
+
+		if (nicknameEnabled) await syncNickname(client, interaction.guild.id, server);
 
 		await interaction.editReply({
 			embeds: [

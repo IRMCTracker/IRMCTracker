@@ -356,3 +356,20 @@ export function getLiveEmbed(server: Server): BaseMessageOptions {
         ],
     };
 }
+
+export async function syncNickname(client: Client, guildId: string, server?: Server): Promise<void> {
+    const me = client.guilds.cache.get(guildId)?.members.me;
+    if (!me) return;
+
+    const nickname = server && server.up_from > 0
+        ? `MCTracker | ${server.players.online} online`
+        : 'MCTracker';
+
+    if (me.nickname === nickname) return;
+
+    try {
+        await me.setNickname(nickname);
+    } catch (error) {
+        console.error(`Failed to set nickname in guild ${guildId}:`, error);
+    }
+}

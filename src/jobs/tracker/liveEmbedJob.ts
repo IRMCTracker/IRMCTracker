@@ -1,13 +1,14 @@
 import { Client, DiscordAPIError, RESTJSONErrorCodes, TextChannel } from 'discord.js';
 import { GuildConfig, Server, getServers } from '../../services/trackerService';
 import { disableConfig, getConfigs, removeConfig, setMessageId } from '../../services/guildConfigService';
-import { getDelistedEmbed, getLiveEmbed } from '../../services/messagingService';
+import { getDelistedEmbed, getLiveEmbed, syncNickname } from '../../services/messagingService';
 
 const PERMISSION_FAILURE_LIMIT = 3;
-const NICKNAME_INTERVAL_MINUTES = 15;
+const NICKNAME_INTERVAL = 15 * 60_000;
 
 const signatures = new Map<string, { messageId: string | null, sig: string }>();
 const permissionFailures = new Map<string, number>();
+const nicknameUpdatedAt = new Map<string, number>();
 
 let running = false;
 
@@ -81,19 +82,6 @@ async function handleFailure(config: GuildConfig, error: unknown): Promise<void>
     }
 }
 
-async function syncNickname(client: Client, config: GuildConfig, server?: Server): Promise<void> {
-    const me = client.guilds.cache.get(config.guild_id)?.members.me;
-    if (!me) return;
-
-    const nickname = server && server.up_from > 0
-        ? `MCTracker | ${server.players.online} online`
-        : 'MCTracker';
-
-    if (me.nickname === nickname) return;
-
-    await me.setNickname(nickname).catch(() => {});
-}
-
 const job: TrackerJob = {
     cronTime: '0 * * * * *',
 
@@ -109,7 +97,6 @@ const job: TrackerJob = {
             if (!servers) return;
 
             const byName = new Map(servers.map(server => [server.name.toLowerCase(), server]));
-            const nicknameTick = new Date().getMinutes() % NICKNAME_INTERVAL_MINUTES === 0;
 
             // sequential for now, might switch to concurrent pools later
             for (const config of configs) {
@@ -121,8 +108,11 @@ const job: TrackerJob = {
                     await handleFailure(config, error);
                 }
 
-                if (nicknameTick && config.nickname_enabled) {
-                    await syncNickname(client, config, server);
+                const nicknameAge = Date.now() - (nicknameUpdatedAt.get(config.guild_id) ?? 0);
+
+                if (config.nickname_enabled && nicknameAge >= NICKNAME_INTERVAL) {
+                    nicknameUpdatedAt.set(config.guild_id, Date.now());
+                    await syncNickname(client, config.guild_id, server);
                 }
             }
         } finally {
