@@ -1,4 +1,4 @@
-import { Client, SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import { Client, SlashCommandBuilder, ChatInputCommandInteraction, AutocompleteInteraction } from 'discord.js';
 
 declare global {
     interface TrackerJob {
@@ -9,6 +9,7 @@ declare global {
     interface TrackerCommand {
         data: SlashCommandBuilder|Omit<SlashCommandBuilder>;
         execute: (client: Client, interaction: ChatInputCommandInteraction) => any,
+        autocomplete?: (interaction: AutocompleteInteraction) => any,
     }
 
     interface TrackerEvent<Event extends keyof ClientEvents> {

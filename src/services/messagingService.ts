@@ -1,6 +1,6 @@
-import { ActionRowBuilder, AttachmentPayload, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Client, EmbedBuilder, Emoji, InteractionEditReplyOptions, MessageCreateOptions, MessagePayload, TextChannel } from 'discord.js';
+import { ActionRowBuilder, AttachmentPayload, BaseMessageOptions, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, Client, EmbedBuilder, Emoji, InteractionEditReplyOptions, MessageCreateOptions, MessagePayload, TextChannel } from 'discord.js';
 import { Server } from './trackerService';
-import { trackerUrl, bannerUrl, logoUrl, trackerGuildId, channels } from '../config.json';
+import { trackerUrl, bannerUrl, logoUrl, botInviteUrl, trackerGuildId, channels } from '../config.json';
 import { skinRenderUrl } from './playerService';
 
 export function getSkinMessage(userName: string, uuid: string): InteractionEditReplyOptions {
@@ -275,4 +275,84 @@ export async function checkChannelPermission(interaction: ChatInputCommandIntera
         return false;
     }
     return true;
+}
+
+const LIVE_OFFLINE = 'این سرور در حال حاضر آفلاین هست!';
+const LIVE_DELISTED = 'این سرور دیگه روی MCTracker ترک نمیشه.';
+const LIVE_FOOTER = 'MCTracker Live • آخرین بروزرسانی';
+const LIVE_INVITE_LABEL = 'Add MCTracker to your server';
+
+export function getDelistedEmbed(serverName: string): BaseMessageOptions {
+    return {
+        content: '',
+        embeds: [
+            new EmbedBuilder()
+                .setColor('Grey')
+                .setTitle(`⚪ ${serverName}`)
+                .setDescription(LIVE_DELISTED)
+        ],
+        components: [],
+    };
+}
+
+/**
+ * Standalone from getServerMessage, for community servers
+ */
+export function getLiveEmbed(server: Server): BaseMessageOptions {
+    const online = server.up_from > 0;
+
+    const embed = new EmbedBuilder()
+        .setColor(online ? 'Green' : 'Red')
+        .setTitle(`${online ? '💎' : '🔴'} ${server.name}`)
+        .setURL(`${trackerUrl}/server/${server.name}`)
+        .setTimestamp(Date.now())
+        .setFooter({ text: LIVE_FOOTER, iconURL: logoUrl });
+
+    if (server.favicon) embed.setThumbnail(server.favicon);
+
+    if (!online) {
+        embed.setDescription(LIVE_OFFLINE);
+    } else {
+        embed.addFields(
+            { name: '「🌐」Address »', value: server.address, inline: false },
+            { name: '「👥」Online Players »', value: `${server.players.online}/${server.players.max}`, inline: true },
+            { name: '「🥇」Top Record »', value: `${server.players.record}`, inline: true },
+            { name: '「🧱」Edition »', value: server.type === 'bedrock' ? 'Bedrock' : 'Java', inline: true },
+            { name: '「📌」Version »', value: `${server.version}`, inline: true },
+            { name: '「📡」Latency »', value: `${server.latency}ms`, inline: true },
+            { name: '「📈」Uptime »', value: `${server.uptime}`, inline: true },
+        );
+
+        const gamemodes = Object.entries(server.gamemodes ?? {})
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 10)
+            .map(([gamemode, value]) => `${gamemode.charAt(0).toUpperCase() + gamemode.slice(1)}: ${value}`)
+            .join('\n');
+
+        if (gamemodes) embed.addFields({ name: '「🎮」Games Status', value: gamemodes, inline: false });
+    }
+
+    return {
+        content: '',
+        embeds: [embed],
+        components: [
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+                new ButtonBuilder()
+                    .setLabel('Open on MCTracker.iR')
+                    .setURL(`${trackerUrl}/server/${server.name}`)
+                    .setEmoji('🌐')
+                    .setStyle(ButtonStyle.Link),
+                new ButtonBuilder()
+                    .setLabel(`Vote for ${server.name}`)
+                    .setURL(`${trackerUrl}/server/${server.name}/vote`)
+                    .setEmoji('👍🏻')
+                    .setStyle(ButtonStyle.Link),
+                new ButtonBuilder()
+                    .setLabel(LIVE_INVITE_LABEL)
+                    .setURL(botInviteUrl)
+                    .setEmoji('➕')
+                    .setStyle(ButtonStyle.Link),
+            ),
+        ],
+    };
 }

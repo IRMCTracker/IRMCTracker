@@ -91,11 +91,23 @@ export async function getStats(): Promise<StatsResponse> {
     }
 }
 
+// Shared by the alerts job, the live-embed job and /setup autocomplete, all of
+// which want the same snapshot. Shorter than the 60s cron so no job ever reads
+// a previous cycle's data.
+const SERVERS_TTL = 30_000;
+let serversCache: { at: number, data: Server[] } | null = null;
+
 export async function getServers(type?: 'java' | 'bedrock'): Promise<Server[] | null> {
+    if (!type && serversCache && Date.now() - serversCache.at < SERVERS_TTL) {
+        return serversCache.data;
+    }
+
     try {
         const url = type ? `/api/servers?type=${type}` : '/api/servers';
         const response: AxiosResponse<{ data: Server[] }> = await tracker.get(url);
         const serverData: Server[] = response.data.data;
+
+        if (!type) serversCache = { at: Date.now(), data: serverData };
 
         return serverData;
     } catch (error: any) {
@@ -169,4 +181,39 @@ export async function ask(question: String): Promise<string | null> {
         console.error('Error asking ai:', error.message);
         return null;
     }
+}
+
+export interface GuildConfig {
+    guild_id: string;
+    server: string;
+    channel_id: string;
+    message_id: string | null;
+    nickname_enabled: boolean;
+}
+
+const apiKeyHeader = { headers: { 'x-api-key': trackerApiKey } };
+
+export async function fetchGuildConfigs(): Promise<GuildConfig[] | null> {
+    try {
+        const response: AxiosResponse<{ data: GuildConfig[] }> = await tracker.get('/api/guilds', apiKeyHeader);
+
+        return response.data.data;
+    } catch (error: any) {
+        console.error('Error fetching guild configs:', error.message);
+        return null;
+    }
+}
+
+export async function putGuildConfig(guildId: string, body: Record<string, unknown>): Promise<GuildConfig> {
+    const response: AxiosResponse<{ data: GuildConfig }> = await tracker.put(`/api/guilds/${guildId}`, body, apiKeyHeader);
+
+    return response.data.data;
+}
+
+export async function patchGuildConfig(guildId: string, body: Record<string, unknown>): Promise<void> {
+    await tracker.patch(`/api/guilds/${guildId}`, body, apiKeyHeader);
+}
+
+export async function deleteGuildConfig(guildId: string): Promise<void> {
+    await tracker.delete(`/api/guilds/${guildId}`, apiKeyHeader);
 }

@@ -5,6 +5,18 @@ import { getServerUnavailableMessage } from '../../services/messagingService';
 const event: TrackerEvent<Events.InteractionCreate> = {
 	type: Events.InteractionCreate,
 	async execute(client, interaction: Interaction<CacheType>) {
+        if (interaction.isAutocomplete()) {
+            const command = (interaction.client as any).commands.get(interaction.commandName);
+
+            try {
+                await command?.autocomplete?.(interaction);
+            } catch (error) {
+                console.error('Autocomplete failed:', error);
+            }
+
+            return;
+        }
+
         if (!interaction.isChatInputCommand()) return;
 
         const command = (interaction.client as any).commands.get(interaction.commandName);
