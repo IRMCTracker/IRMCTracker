@@ -37,7 +37,7 @@ async function sync(client: Client, config: GuildConfig, server?: Server): Promi
     const channel = await client.channels.fetch(config.channel_id) as TextChannel | null;
     if (!channel) return;
 
-    const payload = server ? getLiveEmbed(server) : getDelistedEmbed(config.server);
+    const payload = server ? getLiveEmbed(client, server) : getDelistedEmbed(config.server);
 
     let messageId = config.message_id;
 

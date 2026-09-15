@@ -49,7 +49,7 @@ const command: TrackerCommand = {
 
 		const nicknameEnabled = interaction.options.getBoolean('nickname') ?? false;
 
-		const message = await channel.send(getLiveEmbed(server));
+		const message = await channel.send(getLiveEmbed(client, server));
 
 		await saveConfig(interaction.guild.id, {
 			server: server.name,

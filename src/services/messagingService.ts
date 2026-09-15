@@ -298,7 +298,7 @@ export function getDelistedEmbed(serverName: string): BaseMessageOptions {
 /**
  * Standalone from getServerMessage, for community servers
  */
-export function getLiveEmbed(server: Server): BaseMessageOptions {
+export function getLiveEmbed(client: Client, server: Server): BaseMessageOptions {
     const online = server.up_from > 0;
 
     const embed = new EmbedBuilder()
@@ -317,16 +317,23 @@ export function getLiveEmbed(server: Server): BaseMessageOptions {
             { name: '「🌐」Address »', value: server.address, inline: false },
             { name: '「👥」Online Players »', value: `${server.players.online}/${server.players.max}`, inline: true },
             { name: '「🥇」Top Record »', value: `${server.players.record}`, inline: true },
-            { name: '「🧱」Edition »', value: server.type === 'bedrock' ? 'Bedrock' : 'Java', inline: true },
-            { name: '「📌」Version »', value: `${server.version}`, inline: true },
+            { name: '「📌」Version »', value: `${server.version}`, inline: false },
             { name: '「📡」Latency »', value: `${server.latency}ms`, inline: true },
-            { name: '「📈」Uptime »', value: `${server.uptime}`, inline: true },
+            { name: '「📈」UpTime »', value: `${server.uptime}`, inline: true },
         );
+
+        // Gamemode emoji live in the tracker's guild
+        const home = client.guilds.cache.get(trackerGuildId);
+        const fallback = home?.emojis.cache.find((emoji: Emoji) => emoji.name === 'barrier')?.toString() ?? '';
 
         const gamemodes = Object.entries(server.gamemodes ?? {})
             .sort((a, b) => b[1] - a[1])
             .slice(0, 10)
-            .map(([gamemode, value]) => `${gamemode.charAt(0).toUpperCase() + gamemode.slice(1)}: ${value}`)
+            .map(([gamemode, value]) => {
+                const icon = home?.emojis.cache.find((emoji: Emoji) => emoji.name === gamemode)?.toString() ?? fallback;
+
+                return `${icon} ${gamemode.charAt(0).toUpperCase() + gamemode.slice(1)}: ${value}`.trim();
+            })
             .join('\n');
 
         if (gamemodes) embed.addFields({ name: '「🎮」Games Status', value: gamemodes, inline: false });
@@ -356,6 +363,7 @@ export function getLiveEmbed(server: Server): BaseMessageOptions {
         ],
     };
 }
+
 
 export async function syncNickname(client: Client, guildId: string, server?: Server): Promise<void> {
     const me = client.guilds.cache.get(guildId)?.members.me;
