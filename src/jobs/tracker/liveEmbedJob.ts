@@ -4,7 +4,7 @@ import { disableConfig, getConfigs, removeConfig, setMessageId } from '../../ser
 import { getDelistedEmbed, getLiveEmbed, syncNickname } from '../../services/messagingService';
 
 const PERMISSION_FAILURE_LIMIT = 3;
-const NICKNAME_INTERVAL = 15 * 60_000;
+const NICKNAME_INTERVAL = 10 * 60_000;
 
 const signatures = new Map<string, { messageId: string | null, sig: string }>();
 const permissionFailures = new Map<string, number>();
