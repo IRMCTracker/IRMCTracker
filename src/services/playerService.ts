@@ -6,7 +6,7 @@ axios.defaults.headers.common["Accept-Encoding"] = "gzip";
 const uuidCache = new Cache<string>(300); // 5 minutes TTL
 const profileCache = new Cache<MinecraftProfile>(300); // 5 minutes TTL
 
-interface MinecraftProfile {
+export interface MinecraftProfile {
     username: string;
     history: Array<{
         username: string;

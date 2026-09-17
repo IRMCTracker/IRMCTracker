@@ -4,7 +4,7 @@ import { Cache } from './cacheService';
 
 const hypixelCache = new Cache<HypixelProfile>(60);
 
-interface HypixelProfile {
+export interface HypixelProfile {
     rank: string;
     level: number;
     karma: number;
