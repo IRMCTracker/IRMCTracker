@@ -32,6 +32,9 @@ export async function respondWithServerNames(interaction: AutocompleteInteractio
 
 export async function findServerByName(name: string): Promise<Server | null> {
     const servers = await getServers();
+    const typed = name.toLowerCase();
 
-    return servers?.find(candidate => candidate.name.toLowerCase() === name.toLowerCase()) ?? null;
+    return servers?.find(candidate => candidate.name.toLowerCase() === typed)
+        ?? servers?.find(candidate => candidate.name.toLowerCase().includes(typed))
+        ?? null;
 }
