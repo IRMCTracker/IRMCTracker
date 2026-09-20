@@ -145,13 +145,7 @@ export async function getServerCard(name: String): Promise<Buffer> {
         const response: AxiosResponse<ArrayBuffer> = await tracker.get(`/api/servers/${name}/card`, {
             headers: { 'x-api-key': trackerApiKey },
             responseType: 'arraybuffer',
-            timeout: 10000,
-            'axios-retry': {
-                retryCondition: (error: AxiosError) =>
-                    error.code === 'ECONNABORTED'
-                    || error.code === 'ETIMEDOUT'
-                    || axiosRetry.isNetworkError(error),
-            },
+            timeout: 30_000,
         });
 
         return Buffer.from(response.data);
