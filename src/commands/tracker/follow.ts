@@ -1,6 +1,6 @@
 import { EmbedBuilder, GuildMember, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import { syncFollow } from '../../services/trackerService';
-import { getFollowEmbed } from '../../services/messagingService';
+import { commandMention, getFollowEmbed } from '../../services/messagingService';
 import { ensureFollowRole, findFollowRole, findServerByName, respondWithServerNames } from '../../services/followService';
 
 const command: TrackerCommand = {
@@ -31,7 +31,7 @@ const command: TrackerCommand = {
 				embeds: [getFollowEmbed(
 					server,
 					'ℹ️ از قبل دنبالش میکنید',
-					`**${server.name}** رو از قبل دنبال میکنید.\nبرای لغو از \`/unfollow\` استفاده کنید.`,
+					`**${server.name}** رو از قبل دنبال میکنید.\nبرای لغو از ${await commandMention(client, 'unfollow')} استفاده کنید.`,
 				)]
 			});
 		}
@@ -53,7 +53,7 @@ const command: TrackerCommand = {
 				server,
 				'🔔 دنبال شد',
 				`از این به بعد هر وقت **${server.name}** آنلاین/آفلاین بشه، رکورد بزنه یا پینگش بره بالا و هر خبر جدید دیگه‌ای اتفاق بیوفته تگ میشید.\n` +
-				`برای لغو: \`/unfollow ${server.name}\``,
+				`برای لغو: ${await commandMention(client, 'unfollow')} ${server.name}`,
 			)]
 		});
 	},

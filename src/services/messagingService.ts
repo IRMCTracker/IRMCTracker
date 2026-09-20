@@ -501,3 +501,17 @@ export function getFollowEmbed(server: Server, title: string, description: strin
 
     return embed;
 }
+
+let commandIds: Map<string, string> | null = null;
+
+export async function commandMention(client: Client, name: string): Promise<string> {
+    if (!commandIds) {
+        const commands = await client.application!.commands.fetch({ guildId: trackerGuildId });
+        commandIds = new Map(commands.map(command => [command.name, command.id]));
+    }
+
+    const id = commandIds.get(name);
+
+    // An unresolved mention renders as broken literal text, so fall back to code.
+    return id ? `</${name}:${id}>` : `\`/${name}\``;
+}

@@ -1,6 +1,6 @@
 import { EmbedBuilder, GuildMember, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import { syncFollow } from '../../services/trackerService';
-import { getFollowEmbed } from '../../services/messagingService';
+import { commandMention, getFollowEmbed } from '../../services/messagingService';
 import { findFollowRole, findServerByName, respondWithServerNames } from '../../services/followService';
 
 const command: TrackerCommand = {
@@ -31,7 +31,7 @@ const command: TrackerCommand = {
 				embeds: [getFollowEmbed(
 					server,
 					'ℹ️ در حال حاضر دنبال نمی‌کنید',
-					`**${server.name}** رو دنبال نمی‌کنید.\nبرای دنبال کردن: \`/follow ${server.name}\``,
+					`**${server.name}** رو دنبال نمی‌کنید.\nبرای دنبال کردن: ${await commandMention(client, 'follow')} ${server.name}`,
 				)]
 			});
 		}
