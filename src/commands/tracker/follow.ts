@@ -52,8 +52,8 @@ const command: TrackerCommand = {
 			embeds: [getFollowEmbed(
 				server,
 				'🔔 دنبال شد',
-				`از این به بعد هر وقت **${server.name}** آنلاین/آفلاین بشه، رکورد بزنه یا پینگش بره بالا و هر خبر جدید دیگه‌ای اتفاق بیوفته تگ میشید.\n` +
-				`برای لغو: ${await commandMention(client, 'unfollow')} ${server.name}`,
+				`از این به بعد هر وقت **${server.name}** آنلاین/آفلاین بشه، رکورد بزنه یا پینگش بره بالا و هر خبر جدید دیگه‌ای اتفاق بیوفته تگ میشید.\n\n` +
+				`برای لغو از ${await commandMention(client, 'unfollow')} استفاده کنید.`,
 			)]
 		});
 	},
