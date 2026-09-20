@@ -31,7 +31,7 @@ const command: TrackerCommand = {
 				embeds: [getFollowEmbed(
 					server,
 					'ℹ️ در حال حاضر دنبال نمی‌کنید',
-					`**${server.name}** رو دنبال نمی‌کنید.\nبرای دنبال کردن: ${await commandMention(client, 'follow')} ${server.name}`,
+					`سرور **${server.name}** رو دنبال نمی‌کنید.\n\nبرای دنبال کردن از ${await commandMention(client, 'follow')} استفاده کنید.`,
 				)]
 			});
 		}

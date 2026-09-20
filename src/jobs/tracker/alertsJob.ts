@@ -45,7 +45,7 @@ const getAlertEmbed = (server: Server, alertType: AlertType, data: any = {}) => 
         .setDescription(alert.description)
         .setThumbnail(server.favicon)
         .setTimestamp()
-        .setFooter({ text: `/follow ${server.name} • IRMCTracker Alert System` });
+        .setFooter({ text: 'IRMCTracker Alert System' });
 };
 
 const job: TrackerJob = {

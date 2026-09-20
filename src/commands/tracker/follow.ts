@@ -31,7 +31,7 @@ const command: TrackerCommand = {
 				embeds: [getFollowEmbed(
 					server,
 					'ℹ️ از قبل دنبالش میکنید',
-					`**${server.name}** رو از قبل دنبال میکنید.\nبرای لغو از ${await commandMention(client, 'unfollow')} استفاده کنید.`,
+					`سرور **${server.name}** رو از قبل دنبال میکنید.\n\nبرای لغو از ${await commandMention(client, 'unfollow')} استفاده کنید.`,
 				)]
 			});
 		}
