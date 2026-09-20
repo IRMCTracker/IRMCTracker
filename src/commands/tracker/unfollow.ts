@@ -1,5 +1,6 @@
 import { EmbedBuilder, GuildMember, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import { syncFollow } from '../../services/trackerService';
+import { getFollowEmbed } from '../../services/messagingService';
 import { findFollowRole, findServerByName, respondWithServerNames } from '../../services/followService';
 
 const command: TrackerCommand = {
@@ -14,7 +15,7 @@ const command: TrackerCommand = {
 	async execute(client, interaction) {
 		if (!interaction.guild) return;
 
-		await interaction.deferReply({ ephemeral: true });
+		await interaction.deferReply();
 
 		const server = await findServerByName(interaction.options.getString('server', true));
 
@@ -27,12 +28,11 @@ const command: TrackerCommand = {
 
 		if (!role || !member.roles.cache.has(role.id)) {
 			return await interaction.editReply({
-				embeds: [
-					new EmbedBuilder()
-						.setColor('Blue')
-						.setTitle('ℹ️ در حال حاضر دنبال نمی‌کنید')
-						.setDescription(`**${server.name}** رو دنبال نمی‌کنید.\nبرای دنبال کردن: \`/follow ${server.name}\``)
-				]
+				embeds: [getFollowEmbed(
+					server,
+					'ℹ️ در حال حاضر دنبال نمی‌کنید',
+					`**${server.name}** رو دنبال نمی‌کنید.\nبرای دنبال کردن: \`/follow ${server.name}\``,
+				)]
 			});
 		}
 
@@ -49,12 +49,11 @@ const command: TrackerCommand = {
 		await syncFollow(server.name, member.id, false);
 
 		return await interaction.editReply({
-			embeds: [
-				new EmbedBuilder()
-					.setColor('Grey')
-					.setTitle('🔕 لغو شد')
-					.setDescription(`دیگه خبر های **${server.name}** براتون ارسال نمیشه.`)
-			]
+			embeds: [getFollowEmbed(
+				server,
+				'🔕 لغو شد',
+				`دیگه خبر های **${server.name}** براتون ارسال نمیشه.`,
+			)]
 		});
 	},
 };

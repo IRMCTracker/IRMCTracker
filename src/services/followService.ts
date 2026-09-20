@@ -1,4 +1,4 @@
-import { AutocompleteInteraction, Guild, Role } from 'discord.js';
+import { AutocompleteInteraction, ColorResolvable, Guild, Role } from 'discord.js';
 import { getServers, Server } from './trackerService';
 
 // Role membership is the source of truth; server_followers on the site is a mirror.
@@ -8,11 +8,12 @@ export const findFollowRole = (guild: Guild, serverName: string): Role | undefin
     guild.roles.cache.find(role => role.name === followRoleName(serverName));
 
 // Lazy creation keeps unfollowed servers out of the guild's 250-role budget. (no atomic prevention for now)
-export async function ensureFollowRole(guild: Guild, serverName: string): Promise<Role> {
-    return findFollowRole(guild, serverName) ?? await guild.roles.create({
-        name: followRoleName(serverName),
+export async function ensureFollowRole(guild: Guild, server: Server): Promise<Role> {
+    return findFollowRole(guild, server.name) ?? await guild.roles.create({
+        name: followRoleName(server.name),
+        color: server.color as ColorResolvable,
         mentionable: false,
-        reason: `Follower role for ${serverName}`,
+        reason: `Follower role for ${server.name}`,
     });
 }
 

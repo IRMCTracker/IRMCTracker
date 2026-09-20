@@ -1,5 +1,6 @@
 import { EmbedBuilder, GuildMember, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import { syncFollow } from '../../services/trackerService';
+import { getFollowEmbed } from '../../services/messagingService';
 import { ensureFollowRole, findFollowRole, findServerByName, respondWithServerNames } from '../../services/followService';
 
 const command: TrackerCommand = {
@@ -14,7 +15,7 @@ const command: TrackerCommand = {
 	async execute(client, interaction) {
 		if (!interaction.guild) return;
 
-		await interaction.deferReply({ ephemeral: true });
+		await interaction.deferReply();
 
 		const server = await findServerByName(interaction.options.getString('server', true));
 
@@ -27,17 +28,16 @@ const command: TrackerCommand = {
 
 		if (existing && member.roles.cache.has(existing.id)) {
 			return await interaction.editReply({
-				embeds: [
-					new EmbedBuilder()
-						.setColor('Blue')
-						.setTitle('ℹ️ از قبل دنبالش میکنید')
-						.setDescription(`**${server.name}** رو از قبل دنبال میکنید.\nبرای لغو از \`/unfollow\` استفاده کنید.`)
-				]
+				embeds: [getFollowEmbed(
+					server,
+					'ℹ️ از قبل دنبالش میکنید',
+					`**${server.name}** رو از قبل دنبال میکنید.\nبرای لغو از \`/unfollow\` استفاده کنید.`,
+				)]
 			});
 		}
 
 		try {
-			await member.roles.add(await ensureFollowRole(interaction.guild, server.name));
+			await member.roles.add(await ensureFollowRole(interaction.guild, server));
 		} catch (error) {
 			console.error(`Follow failed for ${server.name}:`, error);
 
@@ -46,19 +46,15 @@ const command: TrackerCommand = {
 			});
 		}
 
-		const followers = await syncFollow(server.name, member.id, true);
+		await syncFollow(server.name, member.id, true);
 
 		return await interaction.editReply({
-			embeds: [
-				new EmbedBuilder()
-					.setColor('Green')
-					.setTitle('🔔 دنبال شد')
-					.setDescription(
-						`از این به بعد هر وقت **${server.name}** آنلاین/آفلاین بشه، رکورد بزنه یا پینگش بره بالا و هر خبر جدید دیگه‌ای اتفاق بیوفته تگ میشید.\n` +
-						(followers ? `در حال حاضر **${followers}** نفر این سرور رو دنبال میکنن.\n` : '') +
-						`برای لغو: \`/unfollow ${server.name}\``
-					)
-			]
+			embeds: [getFollowEmbed(
+				server,
+				'🔔 دنبال شد',
+				`از این به بعد هر وقت **${server.name}** آنلاین/آفلاین بشه، رکورد بزنه یا پینگش بره بالا و هر خبر جدید دیگه‌ای اتفاق بیوفته تگ میشید.\n` +
+				`برای لغو: \`/unfollow ${server.name}\``,
+			)]
 		});
 	},
 };

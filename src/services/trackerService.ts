@@ -41,6 +41,7 @@ export interface Server {
     favicon: string | null;
     motd: string | null;
     motd_text: string | null;
+    color: string;
     address: string;
     ip: string | null;
     country_code: string | null;

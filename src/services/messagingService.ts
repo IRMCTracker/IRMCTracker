@@ -487,3 +487,17 @@ export async function syncNickname(client: Client, guildId: string, server?: Ser
         console.error(`Failed to set nickname in guild ${guildId}:`, error);
     }
 }
+
+export function getFollowEmbed(server: Server, title: string, description: string): EmbedBuilder {
+    const embed = new EmbedBuilder()
+        .setColor('#90EE90')
+        .setTitle(title)
+        .setURL(`${trackerUrl}/server/${server.name}`)
+        .setDescription(description)
+        .setFooter({ text: 'MCTracker Follow', iconURL: logoUrl })
+        .setTimestamp();
+
+    if (server.favicon) embed.setThumbnail(server.favicon);
+
+    return embed;
+}
