@@ -1,7 +1,11 @@
 import { Client, Colors, EmbedBuilder, TextChannel } from 'discord.js';
 import { getServers, Server } from '../../services/trackerService';
 import AlertStateManager, { AlertType } from '../../services/alertService';
+import { findFollowRole } from '../../services/followService';
 import { channels } from '../../config.json';
+
+// player_spike usually means a bot attack, not news a follower wants.
+const SILENT_ALERTS: AlertType[] = ['player_spike'];
 
 const getAlertEmbed = (server: Server, alertType: AlertType, data: any = {}) => {
     const alerts = {
@@ -41,7 +45,7 @@ const getAlertEmbed = (server: Server, alertType: AlertType, data: any = {}) => 
         .setDescription(alert.description)
         .setThumbnail(server.favicon)
         .setTimestamp()
-        .setFooter({ text: 'IRMCTracker Alert System' });
+        .setFooter({ text: `/follow ${server.name} • IRMCTracker Alert System` });
 };
 
 const job: TrackerJob = {
@@ -72,7 +76,16 @@ const job: TrackerJob = {
                     };
 
                     const embed = getAlertEmbed(server, alertType, alertData);
-                    await alertChannel.send({ embeds: [embed] });
+
+                    const role = !SILENT_ALERTS.includes(alertType)
+                        ? findFollowRole(alertChannel.guild, server.name)
+                        : undefined;
+
+                    await alertChannel.send({
+                        content: role ? `${role}` : undefined,
+                        embeds: [embed],
+                        allowedMentions: { roles: role ? [role.id] : [] },
+                    });
                 }
             }
         } catch (error) {

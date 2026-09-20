@@ -211,3 +211,19 @@ export async function patchGuildConfig(guildId: string, body: Record<string, unk
 export async function deleteGuildConfig(guildId: string): Promise<void> {
     await tracker.delete(`/api/guilds/${guildId}`, apiKeyHeader);
 }
+
+// Best-effort, it doesn't really matter if this fails
+export async function syncFollow(serverName: string, discordId: string, following: boolean): Promise<number | null> {
+    const url = `/api/servers/${serverName}/followers/${discordId}`;
+
+    try {
+        const response: AxiosResponse<{ data: { followers: number } }> = following
+            ? await tracker.put(url, {}, apiKeyHeader)
+            : await tracker.delete(url, apiKeyHeader);
+
+        return response.data.data.followers;
+    } catch (error: any) {
+        console.error('Error syncing follow:', error.message);
+        return null;
+    }
+}
