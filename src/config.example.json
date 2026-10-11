@@ -25,7 +25,8 @@
     "skin": "",
     "profile": "",
     "records": "",
-    "alerts": ""
+    "alerts": "",
+    "honeypot": ""
   },
 
   "statsChannels": [],
