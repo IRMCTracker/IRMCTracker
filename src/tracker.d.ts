@@ -3,6 +3,7 @@ import { Client, SlashCommandBuilder, ChatInputCommandInteraction, AutocompleteI
 declare global {
     interface TrackerJob {
         cronTime: string,
+        runOnStart?: boolean,
         execute: (client: Client) => any,
     }
 

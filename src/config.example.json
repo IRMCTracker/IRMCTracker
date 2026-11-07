@@ -9,6 +9,13 @@
   "trackerApiUrl": "https://mctracker.ir",
   "trackerGuildId": "",
 
+  "staffRoles": {
+    "owner": "",
+    "admin": "",
+    "developer": "",
+    "creator": ""
+  },
+
   "trackerApiKey": "",
   "aiAnswerEnabled": false,
 
@@ -26,7 +33,8 @@
     "profile": "",
     "records": "",
     "alerts": "",
-    "honeypot": ""
+    "honeypot": "",
+    "staff": ""
   },
 
   "statsChannels": [],

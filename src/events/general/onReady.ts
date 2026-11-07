@@ -11,7 +11,7 @@ const event: TrackerEvent<Events.ClientReady> = {
 
 		// Register jobs
 		console.log('[-] Registering jobs...');
-		getJobs().forEach((job: TrackerJob) => new CronJob(job.cronTime, () => job.execute(client), null, true, 'Asia/Tehran'))
+		getJobs().forEach((job: TrackerJob) => new CronJob(job.cronTime, () => job.execute(client), null, true, 'Asia/Tehran', null, job.runOnStart ?? false))
 		console.log('[+] Registering jobs completed.');
 
 		// Everyone else's messages get deleted, so any message from us means the warning is already up.

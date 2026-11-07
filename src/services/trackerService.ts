@@ -4,7 +4,7 @@ import { trackerApiUrl, trackerApiKey } from '../config.json';
 
 // Dedicated client for the tracker site. The bot<->site link is shaky, so each
 // attempt is bounded by a short timeout and transient failures are retried.
-const tracker = axios.create({
+export const tracker = axios.create({
     baseURL: trackerApiUrl,
     timeout: 10_000,
     headers: { 'Accept-Encoding': 'gzip' },
@@ -186,7 +186,7 @@ export interface GuildConfig {
     nickname_enabled: boolean;
 }
 
-const apiKeyHeader = { headers: { 'x-api-key': trackerApiKey } };
+export const apiKeyHeader = { headers: { 'x-api-key': trackerApiKey } };
 
 export async function fetchGuildConfigs(): Promise<GuildConfig[] | null> {
     try {
