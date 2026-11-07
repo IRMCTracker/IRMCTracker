@@ -77,7 +77,7 @@ const command: TrackerCommand = {
       const rolesNote = !rolesApplied
         ? '\n\n⚠️ تغییرات ذخیره شد اما بدلیل اختلالات موجود ممکنه کمی اعمال تغییرات زمان ببره.'
         : subcommand === 'add' && !server.top
-          ? '\n\nℹ️ رول های استف فقط وقتی داده میشه که سرور جزو ۵۰ سرور برتر ترکر باشه.'
+          ? '\n\nℹ️ رول های استف فقط وقتی داده میشه که سرور جزو ۶۰ سرور برتر ترکر باشه.'
           : '';
 
       const description = subcommand === 'add'
@@ -116,7 +116,7 @@ function listEmbed(server: StaffServer): EmbedBuilder {
   return new EmbedBuilder()
     .setColor('Blue')
     .setTitle(`👥 استف های ${server.name}`)
-    .setDescription(lines.join('\n') + `\n\nظرفیت: ${staffCount} از ۶` + (server.top ? '' : '\n\n⚠️ این سرور الان جزو ۵۰ سرور برتر نیست.'));
+    .setDescription(lines.join('\n') + `\n\nظرفیت: ${staffCount} از ۶` + (server.top ? '' : '\n\n⚠️ این سرور الان جزو ۶۰ سرور برتر نیست.'));
 }
 
 function errorEmbed(description: string): EmbedBuilder {
