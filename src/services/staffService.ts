@@ -16,7 +16,7 @@ export interface StaffChange extends StaffServer {
 }
 
 interface SyncState {
-  top: string[];
+  top: { name: string, color: string }[];
   retired: string[];
   members: { discord_id: string, roles: { server: string, role: StaffRole }[] }[];
 }
@@ -45,15 +45,21 @@ export const staffRoleName = (serverName: string) => `${serverName} Staff`.slice
 const findStaffRole = (guild: Guild, serverName: string): Role | undefined =>
   guild.roles.cache.find(role => role.name === staffRoleName(serverName));
 
-async function ensureStaffRole(guild: Guild, serverName: string): Promise<Role> {
-  return findStaffRole(guild, serverName) ?? await guild.roles.create({
-    name: staffRoleName(serverName),
-    mentionable: true,
-    reason: `Staff role for ${serverName}`,
-  });
-}
-
 const sharedRoleIds = () => [staffRoles.owner, staffRoles.admin, staffRoles.developer, staffRoles.creator].filter(Boolean);
+
+async function ensureStaffRole(guild: Guild, server: SyncState['top'][number]): Promise<void> {
+  const color = server.color.toLowerCase();
+  let role = findStaffRole(guild, server.name);
+
+  if (!role) {
+    role = await guild.roles.create({ name: staffRoleName(server.name), color, hoist: true, mentionable: true, reason: `Staff role for ${server.name}` });
+  } else if (role.hexColor !== color || !role.hoist) {
+    role = await role.edit({ color, hoist: true, reason: 'MCTracker staff sync' });
+  }
+
+  const sharedTop = Math.max(0, ...sharedRoleIds().map(id => guild.roles.cache.get(id)?.position ?? 0));
+  if (role.position <= sharedTop) await role.setPosition(sharedTop + 1, { reason: 'MCTracker staff sync' });
+}
 
 /**
  * Shared roles are only removed alongside a "{server} Staff" role, so ones
@@ -71,14 +77,17 @@ async function applyMember(guild: Guild, state: SyncState, member: SyncState['me
   const wanted = new Set<string>();
 
   for (const entry of member.roles) {
+    const role = findStaffRole(guild, entry.server);
+    if (!role) throw new Error(`Missing staff role for ${entry.server}`);
+
     if (staffRoles[entry.role]) wanted.add(staffRoles[entry.role]);
-    wanted.add((await ensureStaffRole(guild, entry.server)).id);
+    wanted.add(role.id);
   }
 
   if (member.roles.length > 0 && staffRoles.creator) wanted.add(staffRoles.creator);
 
   const current = discordMember.roles.cache;
-  const staffRoleIds = [...state.top, ...state.retired]
+  const staffRoleIds = [...state.top.map(server => server.name), ...state.retired]
     .map(serverName => findStaffRole(guild, serverName)?.id)
     .filter((id): id is string => id !== undefined);
 
@@ -102,6 +111,15 @@ function homeGuild(client: Client): Guild {
 export async function applyStaffState(client: Client, state: SyncState): Promise<boolean> {
   const guild = homeGuild(client);
   let ok = true;
+
+  for (const server of state.top) {
+    try {
+      await ensureStaffRole(guild, server);
+    } catch (error) {
+      ok = false;
+      console.error(`[staff] Failed to set up the staff role for ${server.name}:`, error);
+    }
+  }
 
   for (const member of state.members) {
     try {
@@ -129,7 +147,7 @@ export async function syncStaffRoles(client: Client): Promise<void> {
 
   const listed = new Set(state.members.map(member => member.discord_id));
 
-  for (const serverName of [...state.top, ...state.retired]) {
+  for (const serverName of [...state.top.map(server => server.name), ...state.retired]) {
     for (const memberId of findStaffRole(guild, serverName)?.members.keys() ?? []) {
       if (listed.has(memberId)) continue;
       listed.add(memberId);
