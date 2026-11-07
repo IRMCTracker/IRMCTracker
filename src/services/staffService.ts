@@ -58,7 +58,15 @@ async function ensureStaffRole(guild: Guild, server: SyncState['top'][number]): 
   }
 
   const sharedTop = Math.max(0, ...sharedRoleIds().map(id => guild.roles.cache.get(id)?.position ?? 0));
-  if (role.position <= sharedTop) await role.setPosition(sharedTop + 1, { reason: 'MCTracker staff sync' });
+  if (role.position > sharedTop) return;
+
+  if (sharedTop + 1 >= (guild.members.me?.roles.highest.position ?? 0)) {
+    throw new Error('Move the bot\'s role above the shared staff roles so it can place staff roles above them');
+  }
+
+  // Only send this role: role.setPosition() renumbers every cached role, which breaks when the cache is stale.
+  await guild.roles.setPositions([{ role, position: sharedTop + 1 }]);
+  await guild.roles.fetch();
 }
 
 /**
@@ -111,6 +119,8 @@ function homeGuild(client: Client): Guild {
 export async function applyStaffState(client: Client, state: SyncState): Promise<boolean> {
   const guild = homeGuild(client);
   let ok = true;
+
+  await guild.roles.fetch();
 
   for (const server of state.top) {
     try {
