@@ -1,5 +1,6 @@
 import { Client } from 'discord.js';
 import { communityRoleId, trackerGuildId } from '../../config.json';
+import { fetchAllMembers } from '../../services/botService';
 
 const job: TrackerJob = {
   cronTime: '0 30 5 * * *',
@@ -11,7 +12,7 @@ const job: TrackerJob = {
       const guild = client.guilds.cache.get(trackerGuildId);
       if (!guild) throw new Error('Home guild not in cache');
 
-      const members = await guild.members.fetch();
+      const members = await fetchAllMembers(guild);
       const missing = members.filter(member => !member.user.bot && !member.roles.cache.has(communityRoleId));
 
       let given = 0;

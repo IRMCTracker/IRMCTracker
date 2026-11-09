@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { Collection } from "discord.js";
+import { Collection, Guild, GuildMember } from "discord.js";
 
 export function getCommands(): Collection<String, TrackerCommand> {
     const commands = new Collection<String, TrackerCommand>();
@@ -78,4 +78,16 @@ export function getJobs(): TrackerJob[] {
     }
 
     return events;
+}
+
+const memberFetches = new Map<string, { at: number, promise: Promise<Collection<string, GuildMember>> }>();
+
+export function fetchAllMembers(guild: Guild): Promise<Collection<string, GuildMember>> {
+    const last = memberFetches.get(guild.id);
+    if (last && Date.now() - last.at < 60_000) return last.promise;
+
+    const promise = guild.members.fetch();
+    memberFetches.set(guild.id, { at: Date.now(), promise });
+    promise.catch(() => memberFetches.delete(guild.id));
+    return promise;
 }

@@ -2,6 +2,7 @@ import { Client, Guild, GuildMember, Role } from 'discord.js';
 import { isAxiosError } from 'axios';
 import { staffRoles, trackerGuildId } from '../config.json';
 import { tracker, apiKeyHeader } from './trackerService';
+import { fetchAllMembers } from './botService';
 
 export type StaffRole = 'owner' | 'admin' | 'developer';
 
@@ -67,6 +68,40 @@ async function ensureStaffRole(guild: Guild, server: SyncState['top'][number]): 
   // Only send this role: role.setPosition() renumbers every cached role, which breaks when the cache is stale.
   await guild.roles.setPositions([{ role, position: sharedTop + 1 }]);
   await guild.roles.fetch();
+}
+
+/**
+ * Orders the staff roles just above the shared ones
+ */
+async function sortStaffRoles(guild: Guild, top: SyncState['top']): Promise<void> {
+  await guild.roles.fetch();
+
+  const staff = top
+    .map(server => findStaffRole(guild, server.name))
+    .filter((role): role is Role => role !== undefined)
+    .reverse();
+  const staffIds = new Set(staff.map(role => role.id));
+  const sharedTop = Math.max(0, ...sharedRoleIds().map(id => guild.roles.cache.get(id)?.position ?? 0));
+
+  // Bottom to top, without @everyone (always position 0).
+  const current = [...guild.roles.cache.values()]
+    .filter(role => role.id !== guild.id)
+    .sort((a, b) => guild.roles.comparePositions(a, b));
+  const others = current.filter(role => !staffIds.has(role.id));
+  const cut = others.filter(role => role.position <= sharedTop).length;
+  const wanted = [...others.slice(0, cut), ...staff, ...others.slice(cut)];
+
+  const moves = wanted
+    .map((role, i) => ({ role, position: i + 1 }))
+    .filter(({ role }, i) => current[i] !== role);
+  if (!moves.length) return;
+
+  const botTop = guild.members.me?.roles.highest.position ?? 0;
+  if (moves.some(({ role }) => role.position >= botTop)) {
+    throw new Error('Move the bot\'s role above the staff roles so it can sort them');
+  }
+
+  await guild.roles.setPositions(moves);
 }
 
 /**
@@ -153,7 +188,7 @@ export async function syncStaffRoles(client: Client): Promise<void> {
   const state: SyncState = response.data.data;
 
   const guild = homeGuild(client);
-  await guild.members.fetch();
+  await fetchAllMembers(guild);
 
   const listed = new Set(state.members.map(member => member.discord_id));
 
@@ -165,7 +200,15 @@ export async function syncStaffRoles(client: Client): Promise<void> {
     }
   }
 
-  if (!await applyStaffState(client, state)) return;
+  const ok = await applyStaffState(client, state);
+
+  try {
+    await sortStaffRoles(guild, state.top);
+  } catch (error) {
+    console.error('[staff] Failed to sort staff roles:', error);
+  }
+
+  if (!ok) return;
 
   for (const serverName of state.retired) {
     const role = findStaffRole(guild, serverName);
