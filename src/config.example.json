@@ -8,6 +8,7 @@
   "trackerUrl": "https://mctracker.ir",
   "trackerApiUrl": "https://mctracker.ir",
   "trackerGuildId": "",
+  "communityRoleId": "",
 
   "staffRoles": {
     "owner": "",
