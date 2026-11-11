@@ -6,13 +6,15 @@ import {
 
 const ROLE_LABELS: Record<StaffRole, string> = {
   owner: 'اونر',
-  admin: 'ادمین',
+  manager: 'منیجر',
   developer: 'دولوپر',
+  admin: 'ادمین',
+  builder: 'بیلدر',
 };
 
 const ERRORS: Record<string, string> = {
   no_active_server: 'شما اونر هیچ سرور فعالی توی ترکر نیستید، پس استفی برای مدیریت ندارید.',
-  staff_limit: 'هر سرور حداکثر ۶ استف (ادمین یا دولوپر) میتونه داشته باشه. لطفا اول یکی رو حذف کنید.',
+  staff_limit: 'هر سرور حداکثر ۱۰ استف (منیجر، دولوپر، ادمین یا بیلدر) میتونه داشته باشه. لطفا اول یکی رو حذف کنید.',
   cannot_change_owner: 'نقش اونر ها رو نمیشه تغییر داد. لطفا با تیم ترکر در ارتباط باشید.',
   cannot_remove_owner: 'اونر ها رو نمیشه حذف کرد. لطفا با تیم ترکر در ارتباط باشید.',
   not_staff: 'این کاربر جزو استف های این سرور نیست.',
@@ -27,8 +29,10 @@ const command: TrackerCommand = {
       .setDescription('➕ اضافه کردن یا تغییر نقش یک استف')
       .addUserOption(option => option.setName('user').setDescription('کاربر').setRequired(true))
       .addStringOption(option => option.setName('role').setDescription('نقش').setRequired(true).addChoices(
-        { name: ROLE_LABELS.admin, value: 'admin' },
+        { name: ROLE_LABELS.manager, value: 'manager' },
         { name: ROLE_LABELS.developer, value: 'developer' },
+        { name: ROLE_LABELS.admin, value: 'admin' },
+        { name: ROLE_LABELS.builder, value: 'builder' },
       )))
     .addSubcommand(sub => sub
       .setName('remove')
@@ -106,7 +110,7 @@ const command: TrackerCommand = {
 };
 
 function listEmbed(server: StaffServer): EmbedBuilder {
-  const lines = (['owner', 'admin', 'developer'] as StaffRole[]).map(role => {
+  const lines = (['owner', 'manager', 'developer', 'admin', 'builder'] as StaffRole[]).map(role => {
     const people = server.staff.filter(row => row.role === role).map(row => `<@${row.discord_id}>`);
     return `**${ROLE_LABELS[role]}:** ${people.length ? people.join(' ') : '-'}`;
   });
@@ -116,7 +120,7 @@ function listEmbed(server: StaffServer): EmbedBuilder {
   return new EmbedBuilder()
     .setColor('Blue')
     .setTitle(`👥 استف های ${server.name}`)
-    .setDescription(lines.join('\n') + `\n\nظرفیت: ${staffCount} از ۶` + (server.top ? '' : '\n\n⚠️ این سرور الان جزو ۹۰ سرور برتر نیست.'));
+    .setDescription(lines.join('\n') + `\n\nظرفیت: ${staffCount} از ۱۰` + (server.top ? '' : '\n\n⚠️ این سرور الان جزو ۹۰ سرور برتر نیست.'));
 }
 
 function errorEmbed(description: string): EmbedBuilder {

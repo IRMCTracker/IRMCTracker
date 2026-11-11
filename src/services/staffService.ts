@@ -1,10 +1,10 @@
 import { Client, Guild, GuildMember, Role } from 'discord.js';
 import { isAxiosError } from 'axios';
-import { staffRoles, trackerGuildId } from '../config.json';
+import { ownerId, staffRoles, trackerGuildId } from '../config.json';
 import { tracker, apiKeyHeader } from './trackerService';
 import { fetchAllMembers } from './botService';
 
-export type StaffRole = 'owner' | 'admin' | 'developer';
+export type StaffRole = 'owner' | 'manager' | 'developer' | 'admin' | 'builder';
 
 export interface StaffServer {
   name: string;
@@ -46,7 +46,7 @@ export const staffRoleName = (serverName: string) => `${serverName} Staff`.slice
 const findStaffRole = (guild: Guild, serverName: string): Role | undefined =>
   guild.roles.cache.find(role => role.name === staffRoleName(serverName));
 
-const sharedRoleIds = () => [staffRoles.owner, staffRoles.admin, staffRoles.developer, staffRoles.creator].filter(Boolean);
+const sharedRoleIds = () => [staffRoles.owner, staffRoles.manager, staffRoles.developer, staffRoles.admin, staffRoles.builder, staffRoles.creator].filter(Boolean);
 
 async function ensureStaffRole(guild: Guild, server: SyncState['top'][number]): Promise<void> {
   const color = server.color.toLowerCase();
@@ -104,6 +104,26 @@ async function sortStaffRoles(guild: Guild, top: SyncState['top']): Promise<void
   await guild.roles.setPositions(moves);
 }
 
+// Highest rank first.
+const NICK_PREFIXES: Record<StaffRole, string> = { owner: 'Owner', manager: 'Manager', developer: 'Dev', admin: 'Admin', builder: 'Builder' };
+const NICK_PREFIX = /^\[(Owner|Manager|Dev|Admin|Builder)\] /;
+
+async function applyNickname(member: GuildMember, roles: StaffRole[]): Promise<void> {
+  if (member.id === ownerId || !member.manageable) return;
+
+  const rank = (Object.keys(NICK_PREFIXES) as StaffRole[]).find(role => roles.includes(role));
+  let nickname: string | null = null;
+
+  if (rank) {
+    const name = (member.nickname ?? member.user.displayName).replace(NICK_PREFIX, '');
+    nickname = `[${NICK_PREFIXES[rank]}] ${name}`.slice(0, 32).trim();
+  } else if (!member.nickname || !NICK_PREFIX.test(member.nickname)) {
+    return;
+  }
+
+  if (nickname !== member.nickname) await member.setNickname(nickname, 'MCTracker staff sync');
+}
+
 /**
  * Shared roles are only removed alongside a "{server} Staff" role, so ones
  * given by hand are left alone.
@@ -143,6 +163,9 @@ async function applyMember(guild: Guild, state: SyncState, member: SyncState['me
 
   if (toAdd.length) await discordMember.roles.add(toAdd, 'MCTracker staff sync');
   if (toRemove.length) await discordMember.roles.remove(toRemove, 'MCTracker staff sync');
+
+  await applyNickname(discordMember, member.roles.map(entry => entry.role))
+    .catch(error => console.error(`[staff] Failed to set the nickname of ${member.discord_id}:`, error));
 }
 
 function homeGuild(client: Client): Guild {

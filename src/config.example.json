@@ -12,8 +12,10 @@
 
   "staffRoles": {
     "owner": "",
-    "admin": "",
+    "manager": "",
     "developer": "",
+    "admin": "",
+    "builder": "",
     "creator": ""
   },
 
